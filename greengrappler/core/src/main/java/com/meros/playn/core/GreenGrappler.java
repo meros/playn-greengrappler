@@ -4,14 +4,22 @@ import static playn.core.PlayN.*;
 
 import playn.core.Game;
 import playn.core.Image;
+import playn.core.CanvasImage;
+import playn.core.Canvas;
 import playn.core.ImageLayer;
 
 public class GreenGrappler implements Game {
-  @Override
+	Canvas canvas;
+	int frame = 0;
+	
+	Animation animation = new Animation("images/coin.bmp", 4);
+	
+	@Override
   public void init() {
     // create and add background image layer
-    Image bgImage = assets().getImage("images/bg.png");
-    ImageLayer bgLayer = graphics().createImageLayer(bgImage);
+    CanvasImage canvasImage = graphics().createImage(50,50);
+    canvas = canvasImage.canvas(); 
+    ImageLayer bgLayer = graphics().createImageLayer(canvasImage);
     graphics().rootLayer().add(bgLayer);
   }
 
@@ -22,6 +30,7 @@ public class GreenGrappler implements Game {
 
   @Override
   public void update(float delta) {
+	 animation.drawFrame(canvas, frame++, 0, 0);
   }
 
   @Override
