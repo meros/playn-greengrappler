@@ -29,6 +29,12 @@ public class Animation {
 	public Animation(String aFilename)
 	{
 		Image allFrames = assets().getImage(aFilename);
+		
+		while (allFrames.isReady())
+		{
+			
+		}
+		
 		myFrameWidth = myFrameHeight = (int)allFrames.height();
 		int count = (int)allFrames.width() / myFrameWidth;
 
@@ -38,6 +44,12 @@ public class Animation {
 	public Animation(String aFilename, int aNumberOfFrames)
 	{
 		Image allFrames = assets().getImage(aFilename);
+		
+		while (allFrames.isReady())
+		{
+			
+		}
+		
 		myFrameWidth =  (int)allFrames.width() / aNumberOfFrames;
 		myFrameHeight = (int)allFrames.height();
 		int count = aNumberOfFrames;
