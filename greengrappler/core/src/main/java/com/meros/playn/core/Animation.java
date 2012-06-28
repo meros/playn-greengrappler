@@ -30,9 +30,14 @@ public class Animation {
 	{
 		Image allFrames = assets().getImage(aFilename);
 		
-		while (allFrames.isReady())
+		while (!allFrames.isReady())
 		{
-			
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		myFrameWidth = myFrameHeight = (int)allFrames.height();
@@ -45,10 +50,16 @@ public class Animation {
 	{
 		Image allFrames = assets().getImage(aFilename);
 		
-		while (allFrames.isReady())
+		while (!allFrames.isReady())
 		{
-			
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
+		
 		
 		myFrameWidth =  (int)allFrames.width() / aNumberOfFrames;
 		myFrameHeight = (int)allFrames.height();

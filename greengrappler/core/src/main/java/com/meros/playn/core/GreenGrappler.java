@@ -25,12 +25,12 @@ public class GreenGrappler implements Game {
 
 	@Override
 	public void paint(float alpha) {
+		animation.drawFrame(canvas, frame++/10, 0, 0);
 		// the background automatically paints itself, so no need to do anything here!
 	}
 
 	@Override
 	public void update(float delta) {
-		animation.drawFrame(canvas, frame++/10, 0, 0);
 	}
 
 	@Override
