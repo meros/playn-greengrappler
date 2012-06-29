@@ -15,11 +15,6 @@ public class Animation {
 	//	int getFrameCount() const;
 	//	int getFrameWidth() const;
 	//	int getFrameHeight() const;
-	//	void drawFrame(BITMAP *aBuffer, int aFrame, int aX, int aY, bool aHFlip = false, bool aVFlip = false, Blending aBlending = Blending_None) const;
-	void drawFrame(Canvas aBuffer, int aFrame, int aX, int aY)
-	{
-		aBuffer.drawImage(getFrame(aFrame), aX, aY);
-	}
 	
 	//	//void drawFrame(BITMAP *dest, int frame, int x, int y, bool aHFlip, int aFillColor) const;
 	//	void drawRotatedFrame(BITMAP *aBuffer, int aFrame, int aX, int aY, int aAngle, bool aVFlip = false) const;
@@ -77,4 +72,11 @@ public class Animation {
 	public int getFrameHeight() {
 		return myFrameHeight;
 	}
+	
+	//	void drawFrame(BITMAP *aBuffer, int aFrame, int aX, int aY, bool aHFlip = false, bool aVFlip = false, Blending aBlending = Blending_None) const;
+	void drawFrame(Canvas aBuffer, int aFrame, int aX, int aY)
+	{
+		aBuffer.drawImage(getFrame(aFrame), aX, aY);
+	}
 }
+

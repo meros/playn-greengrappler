@@ -33,17 +33,7 @@ public class Resource {
 		if (!mBitmaps.containsKey(key))
 		{	
 			Image image = assets().getImage(filename);
-
-			while (!image.isReady())
-			{
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
+			//TODO: image loading is asynchronous! We need to preload all images... fix this...
 			CanvasImage bitmap = graphics().createImage(image.width(), image.height());
 
 

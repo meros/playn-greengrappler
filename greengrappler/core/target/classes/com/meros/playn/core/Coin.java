@@ -4,36 +4,36 @@ import static com.meros.playn.core.Constants.*;
 import playn.core.Canvas;
 
 public class Coin extends Entity {
-	
+
 	int mLifeTime = 0;
 	enum Type { Type_Static, Type_Dynamic }
 	Type mType = Type.Type_Static;
 	boolean mTemporary = false;
+
+
 	int mFrame = 0;
-	Animation mAminationCoin;
-	
+	Animation mAnimationCoin;
+
 	Hero hero = new Hero(); //TODO: should not be initialized like this
-	
-//		Coin();
+	//		Coin();
 	public Coin()
 	{
-		mAminationCoin = Resource.getAnimation("data/images/coin.bmp", 4);
+		mAnimationCoin = Resource.getAnimation("data/images/coin.bmp", 4);
 		setSize(new float2(12,12));
 	}
-//
-//		virtual void setLifeTime(int aLifeTime);
+
+	//		virtual void setLifeTime(int aLifeTime);
 	public void setLifeTime(int aLifeTime)
 	{
 		mLifeTime = aLifeTime;
 		mType = Type.Type_Dynamic;
 		mTemporary = aLifeTime != 0;
 	}
-//
-//		static void SpawnDeathCoins( int aNumberOfCoins, float2 aCenterPosition, int aLifeTime, Room* aRoom);
-//
-//		virtual int getLayer(){return 0;}
-//
-//		virtual void update();
+
+	//	static void SpawnDeathCoins( int aNumberOfCoins, float2 aCenterPosition, int aLifeTime, Room* aRoom);
+	
+	//
+	//		virtual void update();
 	public void update() 
 	{
 		//Hero* hero = mRoom->getHero();
@@ -67,7 +67,7 @@ public class Coin extends Entity {
 				mLifeTime--;
 			}
 		}
-		
+
 		if (Collides(hero.getCollisionRect(), getCollisionRect()))
 		{
 			if (hero.gotCoin())
@@ -80,14 +80,15 @@ public class Coin extends Entity {
 
 		mFrame++;
 	}
-//		virtual void draw(BITMAP *buffer, int offsetX, int offsetY, int layer);
+	//		virtual void draw(BITMAP *buffer, int offsetX, int offsetY, int layer);
 	public void draw(Canvas buffer, int offsetX, int offsetY, int layer)
 	{
 		float2 pos = getPosition();
 		pos = pos.subtract(
 				new float2(
-						mAminationCoin.getFrameWidth(),
-						mAminationCoin.getFrameHeight()).divide(2));
+						mAnimationCoin.getFrameWidth(),
+						mAnimationCoin.getFrameHeight()).divide(2));
+		
 		pos = pos.add(new float2(offsetX, offsetY));
 
 		if (!mTemporary || (mLifeTime/10)%2 == 0 )
@@ -97,11 +98,11 @@ public class Coin extends Entity {
 				mFrame = 0;
 			}
 
-			mAminationCoin.drawFrame(buffer, (mFrame < 5*4)?mFrame/5:0, (int)pos.x, (int)pos.y);
+			mAnimationCoin.drawFrame(buffer, (mFrame < 5*4)?mFrame/5:0, (int)pos.x, (int)pos.y);
 		}
 	}
-	
-//		virtual void onRespawn();
+
+	//		virtual void onRespawn();
 	@Override
 	public int getLayer() {
 		// TODO Auto-generated method stub
