@@ -1,0 +1,30 @@
+#surefire
+#Fri Jun 29 20:02:02 CEST 2012
+testClassesDirectory=/Users/meros/Documents/development/playn-greengrappler/greengrappler/core/target/test-classes
+classPathUrl.4=/Users/meros/.m2/repository/junit/junit/4.8.1/junit-4.8.1.jar
+classPathUrl.3=/Users/meros/.m2/repository/com/samskivert/pythagoras/1.2/pythagoras-1.2.jar
+classPathUrl.2=/Users/meros/.m2/repository/com/googlecode/playn/playn-core/1.3.1/playn-core-1.3.1.jar
+useManifestOnlyJar=true
+classPathUrl.1=/Users/meros/Documents/development/playn-greengrappler/greengrappler/core/target/classes
+reportsDirectory=/Users/meros/Documents/development/playn-greengrappler/greengrappler/core/target/surefire-reports
+classPathUrl.0=/Users/meros/Documents/development/playn-greengrappler/greengrappler/core/target/test-classes
+dirscanner.0=directoryScannerOptions
+providerConfiguration=org.apache.maven.surefire.junit4.JUnit4Provider
+testSuiteDefinitionTestSourceDirectory=/Users/meros/Documents/development/playn-greengrappler/greengrappler/core/src/test/java
+surefireClassPathUrl.1=/Users/meros/.m2/repository/org/apache/maven/surefire/surefire-api/2.7.2/surefire-api-2.7.2.jar
+surefireClassPathUrl.0=/Users/meros/.m2/repository/org/apache/maven/surefire/surefire-junit4/2.7.2/surefire-junit4-2.7.2.jar
+runOrder=filesystem
+report.2=org.apache.maven.surefire.report.XMLReporter
+useSystemClassLoader=true
+report.1=org.apache.maven.surefire.report.BriefFileReporter
+report.0=org.apache.maven.surefire.report.ForkingConsoleReporter
+excludes0=**/*$*
+isTrimStackTrace=true
+dirscanner.0.params=/Users/meros/Documents/development/playn-greengrappler/greengrappler/core/target/test-classes|[**/Test*.java, **/*Test.java, **/*TestCase.java]|[**/*$*]
+enableAssertions=true
+includes2=**/*TestCase.java
+failIfNoTests=false
+includes1=**/*Test.java
+dirscanner.0.types=java.io.File|java.util.ArrayList|java.util.ArrayList
+includes0=**/Test*.java
+childDelegation=false
