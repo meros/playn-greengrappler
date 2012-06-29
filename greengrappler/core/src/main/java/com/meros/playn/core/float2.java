@@ -18,4 +18,24 @@ public class float2 {
 		return copy;
 	}
 
+	public float2 subtract(float2 other) {
+		float2 copy = (float2)clone();
+		copy.x -= other.x;
+		copy.y -= other.y;
+		return copy;
+	}
+	
+	public float2 add(float2 other) {
+		float2 copy = (float2)clone();
+		copy.x += other.x;
+		copy.y += other.y;
+		return copy;
+	}
+
+	public float2 divide(float divider) {
+		float2 copy = (float2)clone();
+		copy.x /= divider;
+		copy.y /= divider;
+		return copy;
+	}
 }

@@ -17,12 +17,22 @@ class TestEntity extends Entity
 		mSize.y = 10;
 		mPosition.x = 50;
 		mPosition.y = 40;
+		mVelocity.x = 0.5f;
+		mVelocity.y = 5.0f;
 	}
 	
 	@Override
 	public int getLayer() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+	
+	@Override
+	public void update()
+	{
+		super.update();
+		
+		mPosition = mPosition.add(mVelocity.divide(Time.TicksPerSecond));
 	}
 	
 }
@@ -48,6 +58,7 @@ public class GreenGrappler implements Game {
 	@Override
 	public void paint(float alpha) 
 	{
+		canvas.clear();
 		entity.draw(canvas, 0, 0, 0);
 		//animation.drawFrame(canvas, frame++/10, 0, 0);
 		// the background automatically paints itself, so no need to do anything here!
@@ -60,6 +71,6 @@ public class GreenGrappler implements Game {
 
 	@Override
 	public int updateRate() {
-		return 25;
+		return 1000/Time.TicksPerSecond;
 	}
 }
