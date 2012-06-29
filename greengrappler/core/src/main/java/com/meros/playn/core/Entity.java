@@ -113,7 +113,9 @@ public abstract class Entity {
 	//		virtual unsigned int moveWithCollision(float2 delta);
 	public int moveWithCollision(float2 delta)
 	{
+		mPosition = mPosition.add(delta);
 		return 0;
+		
 		//FIXME: implement
 //		int substeps = (int)ceil((abs(delta.x) + abs(delta.y)) * 0.2);
 //		delta /= substeps;

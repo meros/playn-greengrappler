@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import playn.core.Canvas;
 import playn.core.Image;
 
-import static playn.core.PlayN.*;
-
 public class Animation {
 	//  C++ interface	
 	//	Animation(const std::string& aFilename);
@@ -18,6 +16,11 @@ public class Animation {
 	//	int getFrameWidth() const;
 	//	int getFrameHeight() const;
 	//	void drawFrame(BITMAP *aBuffer, int aFrame, int aX, int aY, bool aHFlip = false, bool aVFlip = false, Blending aBlending = Blending_None) const;
+	void drawFrame(Canvas aBuffer, int aFrame, int aX, int aY)
+	{
+		aBuffer.drawImage(getFrame(aFrame), aX, aY);
+	}
+	
 	//	//void drawFrame(BITMAP *dest, int frame, int x, int y, bool aHFlip, int aFillColor) const;
 	//	void drawRotatedFrame(BITMAP *aBuffer, int aFrame, int aX, int aY, int aAngle, bool aVFlip = false) const;
 
@@ -28,18 +31,8 @@ public class Animation {
 
 	public Animation(String aFilename)
 	{
-		Image allFrames = assets().getImage(aFilename);
-		
-		while (!allFrames.isReady())
-		{
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
+		Image allFrames = Resource.getBitmap(aFilename);
+
 		myFrameWidth = myFrameHeight = (int)allFrames.height();
 		int count = (int)allFrames.width() / myFrameWidth;
 
@@ -48,19 +41,10 @@ public class Animation {
 
 	public Animation(String aFilename, int aNumberOfFrames)
 	{
-		Image allFrames = assets().getImage(aFilename);
-		
-		while (!allFrames.isReady())
-		{
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		
+		Image allFrames = Resource.getBitmap(aFilename);
+
+		myFrameWidth = myFrameHeight = (int)allFrames.height();
+
 		myFrameWidth =  (int)allFrames.width() / aNumberOfFrames;
 		myFrameHeight = (int)allFrames.height();
 		int count = aNumberOfFrames;
@@ -80,14 +64,17 @@ public class Animation {
 			myFrames.add(subImage);
 		}
 	}
-	
+
 	Image getFrame(int aFrame)
 	{
 		return myFrames.get(aFrame % myFrames.size());
 	}
+
+	public int getFrameWidth() {
+		return myFrameWidth;
+	}
 	
-	void drawFrame(Canvas aBuffer, int aFrame, int aX, int aY)
-	{
-		aBuffer.drawImage(getFrame(aFrame), aX, aY);
+	public int getFrameHeight() {
+		return myFrameHeight;
 	}
 }

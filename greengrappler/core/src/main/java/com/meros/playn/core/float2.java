@@ -4,6 +4,14 @@ public class float2 {
 	public float x = 0;
 	public float y = 0;
 	
+	public float2(int aX, int aY) {
+		x = aX;
+		y = aY;
+	}
+
+	public float2() {
+	}
+
 	public Object clone() {
 	    float2 copy = new float2();
 	    copy.x = x;

@@ -41,9 +41,7 @@ public class GreenGrappler implements Game {
 	Canvas canvas;
 	int frame = 0;
 
-	Animation animation = new Animation("images/coin.bmp", 4);
-	
-	Entity entity = new TestEntity();
+	Coin entity = new Coin();
 
 	@Override
 	public void init() {
@@ -53,6 +51,9 @@ public class GreenGrappler implements Game {
 		canvas = canvasImage.canvas(); 
 		ImageLayer bgLayer = graphics().createImageLayer(canvasImage);
 		graphics().rootLayer().add(bgLayer);
+		
+		entity.setPosition(new float2(10,10));
+		entity.setLifeTime(10000);
 	}
 
 	@Override
@@ -60,7 +61,6 @@ public class GreenGrappler implements Game {
 	{
 		canvas.clear();
 		entity.draw(canvas, 0, 0, 0);
-		//animation.drawFrame(canvas, frame++/10, 0, 0);
 		// the background automatically paints itself, so no need to do anything here!
 	}
 
