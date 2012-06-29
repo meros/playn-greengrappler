@@ -1,3 +1,0 @@
-D This is the reactor.
-D It contains the evil nuclear power.
-D Destroy it and take the core!
