@@ -1,3 +1,0 @@
-D Hello! Doctor Green here.
-D Move with you ARROW KEYS.
-D Use your grappler with CTRL.
