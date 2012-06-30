@@ -14,7 +14,6 @@ public class Coin extends Entity {
 	int mFrame = 0;
 	Animation mAnimationCoin;
 
-	Hero hero = new Hero(); //TODO: should not be initialized like this
 	//		Coin();
 	public Coin()
 	{
@@ -36,7 +35,7 @@ public class Coin extends Entity {
 	//		virtual void update();
 	public void update() 
 	{
-		//Hero* hero = mRoom->getHero();
+		Hero hero = mRoom.getHero();
 
 		if (mType == Type.Type_Dynamic)
 		{
@@ -50,14 +49,14 @@ public class Coin extends Entity {
 
 				int bumps = moveWithCollision();
 
-				if ((bumps & (Direction_Left | Direction_Right)) != 0) {
+				if ((bumps & (Direction.Left.value | Direction.Right.value)) != 0) {
 					if (Math.abs(mVelocity.x) > 10){
 						Sound.playSample("data/sounds/coin");
 					}
 					mVelocity.x *= -0.5;
 				}
 
-				if ((bumps & (Direction_Up | Direction_Down)) != 0) {
+				if ((bumps & (Direction.Up.value | Direction.Down.value)) != 0) {
 					if (Math.abs(mVelocity.y) > 10){
 						Sound.playSample("data/sounds/coin");
 					}
@@ -98,7 +97,7 @@ public class Coin extends Entity {
 				mFrame = 0;
 			}
 
-			mAnimationCoin.drawFrame(buffer, (mFrame < 5*4)?mFrame/5:0, (int)pos.x, (int)pos.y);
+			mAnimationCoin.drawFrame(buffer, (mFrame < 5*4)?mFrame/5:0, (int)pos.x, (int)pos.y, false, false);
 		}
 	}
 

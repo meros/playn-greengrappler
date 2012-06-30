@@ -1,9 +1,17 @@
 package com.meros.playn.core;
 
 public class Constants {
-	public static int Direction_None = 0;
-	public static int Direction_Left = 1;
-	public static int Direction_Right = 2;
-	public static int Direction_Up = 4;
-	public static int Direction_Down = 8;
+	enum Direction
+	{
+		None(0),
+		Left(1),
+		Right(2),
+		Up(4),
+		Down(8);
+		
+		public int value;
+		Direction(int value){
+			this.value = value;
+		}
+	}
 }

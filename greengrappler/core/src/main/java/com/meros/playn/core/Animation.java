@@ -74,9 +74,14 @@ public class Animation {
 	}
 	
 	//	void drawFrame(BITMAP *aBuffer, int aFrame, int aX, int aY, bool aHFlip = false, bool aVFlip = false, Blending aBlending = Blending_None) const;
-	void drawFrame(Canvas aBuffer, int aFrame, int aX, int aY)
+	void drawFrame(Canvas aBuffer, int aFrame, int aX, int aY, boolean aHFlip, boolean aVFlip)
 	{
+		//TODO: dummy
 		aBuffer.drawImage(getFrame(aFrame), aX, aY);
+	}
+
+	public void drawFrame(Canvas aBuffer, int aFrame, int aX, int aY) {
+		drawFrame(aBuffer, aFrame, aX, aY, false, false);
 	}
 }
 

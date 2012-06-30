@@ -4,7 +4,7 @@ public class float2 {
 	public float x = 0;
 	public float y = 0;
 	
-	public float2(int aX, int aY) {
+	public float2(float aX, float aY) {
 		x = aX;
 		y = aY;
 	}
@@ -45,5 +45,9 @@ public class float2 {
 		copy.x /= divider;
 		copy.y /= divider;
 		return copy;
+	}
+
+	public float length() {
+		return (float) Math.sqrt(x*x+y*y);
 	}
 }

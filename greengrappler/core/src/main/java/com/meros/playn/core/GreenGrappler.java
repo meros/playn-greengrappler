@@ -15,10 +15,15 @@ public class GreenGrappler implements Game {
 	Canvas canvas;
 	int frame = 0;
 
-	Coin entity = new Coin();
+	Room room = new Room();
+	Coin coin = new Coin();
+	Hero hero = new Hero();
 
 	@Override
 	public void init() {
+		
+		room.addEntity(coin);
+		room.addEntity(hero);
 		
 		TMXReader reader = new TMXReader();
 		
@@ -29,21 +34,25 @@ public class GreenGrappler implements Game {
 		ImageLayer bgLayer = graphics().createImageLayer(canvasImage);
 		graphics().rootLayer().add(bgLayer);
 
-		entity.setPosition(new float2(10,10));
-		entity.setLifeTime(10000);
+		coin.setPosition(new float2(10,10));
+		coin.setLifeTime(10000);
+		
+		hero.setPosition(new float2(10, 70));
 	}
 
 	@Override
 	public void paint(float alpha) 
 	{
 		canvas.clear();
-		entity.draw(canvas, 0, 0, 0);
+		coin.draw(canvas, 0, 0, 0);
+		hero.draw(canvas, 0, 0, 3);
 		// the background automatically paints itself, so no need to do anything here!
 	}
 
 	@Override
 	public void update(float delta) {
-		entity.update();
+		coin.update();
+		hero.update();
 	}
 
 	@Override
