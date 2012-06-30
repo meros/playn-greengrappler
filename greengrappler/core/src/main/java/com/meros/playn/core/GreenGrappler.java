@@ -9,7 +9,7 @@ import playn.core.ImageLayer;
 
 public class GreenGrappler implements Game {
 
-	Canvas canvas;
+	Canvas canvas = null;
 	int frame = 0;
 
 	Room room;
@@ -20,6 +20,13 @@ public class GreenGrappler implements Game {
 
 	@Override
 	public void init() {
+		// create and add background image layer
+		//graphics().setSize(320, 240);
+		CanvasImage canvasImage = graphics().createImage(320, 240);
+		canvas = canvasImage.canvas();
+		ImageLayer bgLayer = graphics().createImageLayer(canvasImage);
+		graphics().rootLayer().add(bgLayer);
+		
 		Resource.preLoad("data/images/boss.bmp");
 		Resource.preLoad("data/images/breakinghooktile.bmp");
 		Resource.preLoad("data/images/button.bmp");
@@ -81,6 +88,7 @@ public class GreenGrappler implements Game {
 		if (myReadyForUpdates) {
 			postPreloadUpdate();
 		} else if (Resource.isDonePreloading()) {
+			Sound.playSample("data/sounds/alarm");
 			postPreloadInit();
 			myReadyForUpdates = true;
 		}
@@ -93,13 +101,6 @@ public class GreenGrappler implements Game {
 
 		room.addEntity(coin);
 		room.addEntity(hero);
-
-		// create and add background image layer
-		graphics().setSize(320, 240);
-		CanvasImage canvasImage = graphics().createImage(320, 240);
-		canvas = canvasImage.canvas();
-		ImageLayer bgLayer = graphics().createImageLayer(canvasImage);
-		graphics().rootLayer().add(bgLayer);
 
 		coin.setPosition(new float2(10, 10));
 		coin.setLifeTime(10000);

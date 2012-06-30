@@ -76,7 +76,7 @@ public class Resource {
 	
 	public static boolean isDonePreloading()
 	{
-		return assets().isDone();
+		return assets().getPendingRequestCount() == 0;
 	}
 	
 	static Animation getAnimation(String filename, int aFrames)
