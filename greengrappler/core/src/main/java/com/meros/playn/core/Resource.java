@@ -12,6 +12,7 @@ import playn.core.Image;
 
 public class Resource {
 
+	static Map<String, Image> mPreloaded = new HashMap<String, Image>();
 	static Map<String, Image> mBitmaps = new HashMap<String, Image>();
 	static Map<String, Animation> myAnimations = new HashMap<String, Animation>();
 
@@ -25,17 +26,15 @@ public class Resource {
 		return getBitmap(filename, Color.rgb(255, 255, 255));
 	}
 	
-	//	    static void destroy();
 	public static Image getBitmap(String filename, int color)
 	{
 		String key = filename + color;
 
 		if (!mBitmaps.containsKey(key))
 		{	
-			Image image = assets().getImage(filename);
-			//TODO: image loading is asynchronous! We need to preload all images... fix this...
-			CanvasImage bitmap = graphics().createImage(image.width(), image.height());
+			Image image = mPreloaded.get(filename);
 
+			CanvasImage bitmap = graphics().createImage(image.width(), image.height());
 
 			int colorR = getr(color);
 			int colorG = getg(color);
@@ -68,6 +67,16 @@ public class Resource {
 		}
 
 		return mBitmaps.get(key);
+	}
+	
+	public static void preLoad(String filename)
+	{
+		mPreloaded.put(filename, assets().getImage(filename));
+	}
+	
+	public static boolean isDonePreloading()
+	{
+		return assets().isDone();
 	}
 	
 	static Animation getAnimation(String filename, int aFrames)
