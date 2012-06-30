@@ -8,6 +8,7 @@ import playn.core.Game;
 import playn.core.CanvasImage;
 import playn.core.Canvas;
 import playn.core.ImageLayer;
+import tiled.simple.reader.TMXReader;
 
 public class GreenGrappler implements Game {
 
@@ -18,6 +19,9 @@ public class GreenGrappler implements Game {
 
 	@Override
 	public void init() {
+		
+		TMXReader reader = new TMXReader();
+		
 		// create and add background image layer
 		graphics().setSize(320, 240);
 		CanvasImage canvasImage = graphics().createImage(320,240);
