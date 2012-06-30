@@ -23,6 +23,11 @@ public class Room {
 		// TODO Auto-generated method stub
 		return y > 10;
 	}
+	
+	public boolean isHookable(int tileX, int tileY) {
+		// TODO Auto-generated method stub
+		return tileY == 0;
+	}
 
 	public Hero getHero() {
 		return mHero;
@@ -43,6 +48,16 @@ public class Room {
 
 		if (aEntity.isHookable())
 			mHookableEntities.add(aEntity);
+	}
+
+	public boolean damageDone(int i, int j) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public Entity findHookableEntity(float2 mRopePosition) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

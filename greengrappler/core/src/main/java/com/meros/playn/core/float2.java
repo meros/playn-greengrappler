@@ -3,6 +3,7 @@ package com.meros.playn.core;
 public class float2 {
 	public float x = 0;
 	public float y = 0;
+	float EPSILON = 0.0000001f;
 	
 	public float2(float aX, float aY) {
 		x = aX;
@@ -17,6 +18,16 @@ public class float2 {
 	    copy.x = x;
 	    copy.y = y;
 		return copy;
+	}
+	
+	public boolean isZero()
+	{
+		return length() < EPSILON;
+	}
+	
+	public float2 normalize()
+	{
+		return this.divide(this.length());
 	}
 
 	public float2 multiply(float factor) {
@@ -49,5 +60,9 @@ public class float2 {
 
 	public float length() {
 		return (float) Math.sqrt(x*x+y*y);
+	}
+
+	public float lengthCompare(float aCompareLength) {
+		return (x*x+y*y) - (aCompareLength*aCompareLength);
 	}
 }

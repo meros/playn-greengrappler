@@ -2,10 +2,30 @@ package com.meros.playn.core;
 
 import playn.core.Canvas;
 
+import com.meros.playn.core.Constants.Buttons;
 import com.meros.playn.core.Constants.Direction;
 
 public class Hero extends Entity {
 
+	static float GROUND_ACCELERATION	= 6.5f;
+	static float GROUND_DRAG			= 0.97f;
+	static float GROUND_STOP_VELOCITY	= 4.5f;
+	static float AIR_ACCELERATION		= 4.5f;
+	static float AIR_DRAG				= 0.98f;
+	static float JUMP_GRAVITY			= 3.0f;
+	static float GRAVITY				= 6.0f;
+	static float JUMP_VELOCITY		= 160.0f;
+	static float ROPE_SPEED			= 700.0f;
+	static float ROPE_REST_LENGTH		= 45.0f;
+	static float ROPE_MAX_ACCELERATION= 12.0f;
+	static float ROPE_SPRING_CONSTANT = 0.6f;
+	static int   ROPE_DISSAPPEAR_TICKS= 6;
+	static int   BLINKING_TICKS		= 100;
+	static float KILL_VELOCITY		= 200.0f;
+	static int   MIN_DEATH_COIN_LIFETIME	= 300;
+	static int   MAX_DEATH_COIN_LIFETIME	= 500;
+	
+	
 	int	 mBlinkingTicksLeft = 0;
 	boolean mOnGround = false;
 	boolean mJumpHeld = false;
@@ -21,8 +41,6 @@ public class Hero extends Entity {
 	float2 mRopePosition;
 	float2 mRopeVelocity;
 	
-	
-	Entity mHookedEntity;
 	Direction mFacingDirection = Direction.Right;
 	int mRopeDissapearCounter = 0;
 	Animation mAnimationRun = new Animation("data/images/hero_run.bmp", 4);
@@ -31,6 +49,7 @@ public class Hero extends Entity {
 	Animation mAnimationRope = new Animation("data/images/rope.bmp", 1);
 	Animation mAnimationHook = new Animation("data/images/hook.bmp", 1);
 	Animation mAnimationHurt = new Animation("data/images/hero_hurt.bmp", 1);
+	Animation mAnimationHookParticle = new Animation("data/images/particles.bmp");
 	float2 mSpawnPoint = new float2(-200,-200);
 	int mRopeMaxLenghth = 180;
 	boolean myIsDead = false;
@@ -46,16 +65,288 @@ public class Hero extends Entity {
 	}
 
 	MovementState mMovementState = MovementState.Still;
+	
+	Entity mHookedEntity = null;
+	float2 mHookedEntityOffset = new float2();
 
 	public Hero()
 	{
 		mSize = new float2(10.0f, 15.0f);
-		//TODO mAnimationHookParticle = Resource::getAnimation("data/images/particles.bmp");
 	}
 
 	@Override
 	public int getLayer() {
 		return 2;
+	}
+	
+	@Override
+	public void update()
+	{
+		if (myIsDead)
+			return;
+
+		super.update();
+
+		if (mSpawnPoint.x < -100 && mSpawnPoint.y < -100)
+		{
+			mSpawnPoint = getPosition();
+		}
+
+		if (mRopeState == RopeState.Dissapearing) {
+			mRopeDissapearCounter++;
+			if (mRopeDissapearCounter >= ROPE_DISSAPPEAR_TICKS) {
+				mRopeState = RopeState.Retracted;
+			}
+		}
+
+		float acceleration = mOnGround ? GROUND_ACCELERATION : AIR_ACCELERATION;
+		boolean airRunning = false;
+
+		if (Input.isHeld(Buttons.Left)) {
+			mVelocity.x -= acceleration;
+
+			if (mRopeState == RopeState.Attached && !mOnGround) {
+				mFacingDirection = Direction.Left;
+				airRunning = true;
+				mMovementState = MovementState.AirRun;
+			}
+		}
+
+		if (Input.isHeld(Buttons.Right)) {
+			mVelocity.x += acceleration;
+
+			if (mRopeState == RopeState.Attached && !mOnGround) {
+				mFacingDirection = Direction.Right;
+				airRunning = true;
+				mMovementState = MovementState.AirRun;
+			}
+		}
+
+		if (Input.isPressed(Buttons.Jump)) {
+			if (!mJumpPrepressed && mOnGround)
+				Sound.playSample("data/sounds/jump");
+			mJumpPrepressed = true;
+		}
+
+		if (mOnGround && mJumpPrepressed) {
+			mVelocity.y = -JUMP_VELOCITY;
+			if (mRopeState != RopeState.Attached) {
+				mJumpHeld = true;
+			}
+			mJumpPrepressed = false;
+		}
+
+		if (Input.isReleased(Buttons.Jump)) {
+			if (mJumpHeld && mVelocity.y < 0) {
+				mVelocity.y *= 0.5f;
+			}
+
+			mJumpHeld = false;
+			mJumpPrepressed = false;
+		}
+
+		if (Input.isReleased(Buttons.Fire)) {
+			detachHook();
+		}
+
+		if (mVelocity.y >= 0) {
+			mJumpHeld = false;
+		}
+
+		if (!airRunning) {
+			mMovementState = MovementState.Still;
+		}
+
+		if (mOnGround) {
+			if (mVelocity.x > 0) {
+				mFacingDirection = Direction.Right;
+			} else if (mVelocity.x < 0) {
+				mFacingDirection = Direction.Left;
+			}
+
+			if (Math.abs(mVelocity.x) > GROUND_STOP_VELOCITY)
+			{
+				mMovementState = MovementState.Run;
+			}
+		}
+		else if (!airRunning)
+		{
+			if (mVelocity.y > 0)
+				mMovementState = MovementState.Jump;
+			else
+				mMovementState = MovementState.Fall;
+		}
+
+		if (mMovementState == MovementState.Still)
+		{
+			mVelocity.x = 0;
+		}
+
+		if (Input.isPressed(Buttons.Fire)) {
+			Sound.playSample("data/sounds/rope");
+			mRopeState = RopeState.Moving;
+			mRopePosition = mPosition;
+			mRopeVelocity = new float2();
+
+			if (Input.isHeld(Buttons.Left)) {
+				mRopeVelocity.x -= 1;
+			}
+
+			if (Input.isHeld(Buttons.Right)) {
+				mRopeVelocity.x += 1;
+			}
+
+			if (Input.isHeld(Buttons.Up)) {
+				mRopeVelocity.y -= 1;
+			}
+
+			if (Input.isHeld(Buttons.Down)) {
+				mRopeVelocity.y += 1;
+			}
+
+			if (mRopeVelocity.isZero()) {
+				mRopeVelocity.x = (mFacingDirection == Direction.Left ? -1 : 1);
+			}
+
+			mRopeVelocity = adjustRopeDirection((mVelocity.add(mRopeVelocity.normalize().multiply(ROPE_SPEED))).normalize()).multiply(ROPE_SPEED);
+
+			if (mRopeVelocity.x < 0) {
+				mFacingDirection = Direction.Left;
+			} else if (mRopeVelocity.x > 0) {
+				mFacingDirection = Direction.Right;
+			}
+		}
+
+		if (mRopeState == RopeState.Moving) {
+			int substeps = 25;
+			for (int i = 0; i < substeps; i++) {
+				mRopePosition = mRopePosition.add(mRopeVelocity.divide(substeps * Time.TicksPerSecond));
+				int tileX = (int)(mRopePosition.x / mRoom.getTileWidth());
+				int tileY = (int)(mRopePosition.y / mRoom.getTileHeight());
+				if (mRoom.isHookable(tileX, tileY)) {
+					//Sound::stopSample("data/sounds/rope");
+					Sound.playSample("data/sounds/hook");
+					mRopeState = RopeState.Attached;
+					mJumpHeld = false;
+
+					//TODO: particles!
+//					ParticleSystem* particleSystem = new ParticleSystem(
+//						mAnimationHookParticle,
+//						2,
+//						30,
+//						10,
+//						1,
+//						50,
+//						10,
+//						-normalize(mRopeVelocity)*10,
+//						1.0);
+
+					//particleSystem->setPosition(mRopePosition);
+
+					//mRoom->addEntity(particleSystem);
+
+					break;
+				}
+
+				if (mRopePosition.subtract(mPosition).length() > mRopeMaxLenghth)
+				{
+					detachHook();
+					Sound.playSample("data/sounds/no_hook");
+					break;
+				}
+
+				if (mRoom.isCollidable(tileX, tileY)) {
+					detachHook();
+					Sound.playSample("data/sounds/no_hook");
+					break;
+				}
+
+				if (mRoom.damageDone((int)(mRopePosition.x), (int)(mRopePosition.y))) {
+					detachHook();
+					break;
+				}
+
+				mHookedEntity = mRoom.findHookableEntity(mRopePosition);
+				if (mHookedEntity != null) {
+					Sound.playSample("data/sounds/hook");
+					mRopeState = RopeState.Attached;
+					mJumpHeld = false;
+					mHookedEntityOffset = mRopePosition.subtract(mHookedEntity.getPosition());
+					mHookedEntityOffset.x = (float) Math.floor(mHookedEntityOffset.x);
+					mHookedEntityOffset.y = (float) Math.floor(mHookedEntityOffset.y);
+				}
+			}
+		}
+
+		if (mRopeState == RopeState.Attached) {
+			if (mHookedEntity != null) {
+				mRopePosition = mHookedEntity.getPosition().add(mHookedEntityOffset);
+			}
+
+			float2 ropeToHero = mPosition.subtract(mRopePosition);
+			if (ropeToHero.lengthCompare(ROPE_REST_LENGTH) > 0) {
+				float2 ropeRestPoint = mRopePosition.add(ropeToHero.normalize().multiply(ROPE_REST_LENGTH));
+				float2 heroToRestPoint = ropeRestPoint.subtract(mPosition);
+				float2 ropeAcceleration = heroToRestPoint.multiply(ROPE_SPRING_CONSTANT);
+				if (ropeAcceleration.lengthCompare(ROPE_MAX_ACCELERATION) > 0) {
+					ropeAcceleration = ropeAcceleration.normalize().multiply(ROPE_MAX_ACCELERATION);
+				}
+				mVelocity = mVelocity.add(ropeAcceleration);
+			}
+
+			if (Input.isHeld(Buttons.Up)) {
+				mVelocity.y -= acceleration;
+			}
+
+			if (Input.isHeld(Buttons.Down)) {
+				mVelocity.y += acceleration;
+			}
+
+			int ropeTileX = (int)(mRopePosition.x / mRoom.getTileWidth());
+			int ropeTileY = (int)(mRopePosition.y / mRoom.getTileWidth());
+			if (mHookedEntity == null && !mRoom.isHookable(ropeTileX, ropeTileY)) {
+				detachHook();
+			}
+		}
+
+		int bumps = moveWithCollision();
+		
+		if ((bumps & (Direction.Left.value | Direction.Right.value)) != 0) {
+			mVelocity.x = 0;
+		}
+
+		if ((bumps & (Direction.Up.value | Direction.Down.value)) != 0) {
+			mVelocity.y = 0;
+		}
+
+		float gravity = mJumpHeld ? JUMP_GRAVITY : GRAVITY;
+		mVelocity.y += gravity;
+		boolean ground = ((bumps & Direction.Down.value) != 0);
+		if (ground && !mOnGround && mRopeState != RopeState.Attached)
+		{
+			Sound.playSample("data/sounds/land");
+		}
+		mOnGround = ground;
+
+		float drag = mOnGround ? GROUND_DRAG : AIR_DRAG;
+		mVelocity = mVelocity.multiply(drag);
+
+		mFrame ++;
+		
+		if (mBlinkingTicksLeft > 0)
+		{
+			mBlinkingTicksLeft --;
+		}
+	}
+
+	private float2 adjustRopeDirection(float2 normalize) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private void detachHook() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override

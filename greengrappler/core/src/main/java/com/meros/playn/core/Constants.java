@@ -14,4 +14,20 @@ public class Constants {
 			this.value = value;
 		}
 	}
+	
+	enum Buttons
+	{
+		ToggleFullscreen,
+		ToggleSlowMotion,
+		ToggleVSync,
+		ToggleWideScreen,
+		Exit,
+		Jump,
+		Fire,
+		Left,
+		Right,
+		Up,
+		Down,
+		ForceQuit
+	};
 }

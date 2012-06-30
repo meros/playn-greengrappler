@@ -72,7 +72,7 @@ public class Coin extends Entity {
 			if (hero.gotCoin())
 			{
 				PlayerSkill.playerDidSomethingClever(0.3f, 0.05f);
-				Sound.playSample("data/sounds/coin.wav");
+				Sound.playSample("data/sounds/coin");
 				remove();
 			}
 		}
