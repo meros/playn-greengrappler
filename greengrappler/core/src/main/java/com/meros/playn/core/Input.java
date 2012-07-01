@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.meros.playn.core.Constants.Buttons;
 
+import playn.core.Key;
 import playn.core.Keyboard;
 import playn.core.Keyboard.Event;
 import playn.core.Keyboard.TypedEvent;
@@ -13,6 +14,10 @@ public class Input implements Keyboard.Listener {
 
 	static HashMap<Buttons, Integer> mIsHeld = new HashMap<Buttons, Integer>();
 	static HashSet<Buttons> mIsPressed = new HashSet<Buttons>();
+	
+	public static void init()
+	{
+	}
 	
 	public static void update()
 	{
@@ -26,7 +31,7 @@ public class Input implements Keyboard.Listener {
 
 	public static boolean isPressed(Buttons aButton) {
 		// TODO Auto-generated method stub
-		return false;
+		return mIsPressed.contains(aButton);
 	}
 
 	public static boolean isReleased(Buttons aButton) {
@@ -36,7 +41,7 @@ public class Input implements Keyboard.Listener {
 	
 	public static void onButtonDown(Buttons aButton)
 	{
-		
+		mIsPressed.add(aButton);
 	}
 	
 	public static void onButtonUp(Buttons aButton)
@@ -46,8 +51,10 @@ public class Input implements Keyboard.Listener {
 
 	@Override
 	public void onKeyDown(Event event) {
-		// TODO Auto-generated method stub
-		
+		if (event.key() == Key.DOWN)
+		{
+			onButtonDown(Buttons.Down);
+		}
 	}
 
 	@Override

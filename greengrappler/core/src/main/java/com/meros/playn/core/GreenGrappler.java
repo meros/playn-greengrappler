@@ -68,6 +68,8 @@ public class GreenGrappler implements Game {
 		Resource.preLoad("data/images/unselected_level_background.bmp");
 		Resource.preLoad("data/images/wall.bmp");
 		Resource.preLoad("data/images/z_coin.bmp");
+		
+		Input.init();
 	}
 
 	@Override
@@ -88,6 +90,8 @@ public class GreenGrappler implements Game {
 			postPreloadInit();
 			myReadyForUpdates = true;
 		}
+		
+		Input.update();
 	}
 
 	void postPreloadInit() {
