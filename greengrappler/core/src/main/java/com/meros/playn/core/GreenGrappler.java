@@ -8,14 +8,10 @@ import playn.core.Canvas;
 import playn.core.ImageLayer;
 
 public class GreenGrappler implements Game {
-
+ 
 	Canvas canvas = null;
 	int frame = 0;
-
-	Room room;
-	Coin coin;
-	Hero hero;
-
+	
 	boolean myReadyForUpdates = false;
 
 	@Override
@@ -77,10 +73,7 @@ public class GreenGrappler implements Game {
 			return;
 
 		canvas.clear();
-		coin.draw(canvas, 0, 0, 0);
-		hero.draw(canvas, 0, 0, 3);
-		// the background automatically paints itself, so no need to do anything
-		// here!
+		ScreenManager.draw(canvas);
 	}
 
 	@Override
@@ -95,22 +88,11 @@ public class GreenGrappler implements Game {
 	}
 
 	void postPreloadInit() {
-		room = new Room();
-		coin = new Coin();
-		hero = new Hero();
-
-		room.addEntity(coin);
-		room.addEntity(hero);
-
-		coin.setPosition(new float2(10, 10));
-		coin.setLifeTime(10000);
-
-		hero.setPosition(new float2(10, 70));
+		ScreenManager.add(new SplashScreen());	
 	}
 
 	void postPreloadUpdate() {
-		coin.update();
-		hero.update();
+		ScreenManager.onLogic();
 	}
 
 	@Override
