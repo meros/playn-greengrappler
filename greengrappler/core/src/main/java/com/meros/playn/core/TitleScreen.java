@@ -61,7 +61,7 @@ public class TitleScreen extends Screen {
 		{
 			if (myFrameCounter > 100)
 			{
-				//TODO: ScreenManager.add(new LevelSelect());
+				ScreenManager.add(new LevelSelectScreen());
 				if (mySelected == 0)
 				{
 					//TODO: ScreenManager.add(new Level(LevelDesc("tutorial", "data/rooms/tutorial.tmx", 0, "data/music/olof9.xm")));
@@ -98,7 +98,7 @@ public class TitleScreen extends Screen {
 				myFrameCounter = 0;
 				Music.stop();
 				Sound.playSample("data/sounds/start");
-				//TODO: GameState.clear();
+				GameState.clear();
 			}
 			if (mySelected == 1 && myContinue)
 			{
@@ -122,7 +122,7 @@ public class TitleScreen extends Screen {
 		myGameStart = false;
 		Music.playSong("data/music/intro2");
 
-		if (false /*TODO: GameState.isSavePresent()*/)
+		if (GameState.isSavePresent())
 			myContinue = true;
 		else
 			myContinue = false;

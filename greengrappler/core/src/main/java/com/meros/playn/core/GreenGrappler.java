@@ -94,6 +94,7 @@ public class GreenGrappler implements Game {
 	}
 
 	void postPreloadInit() {
+		//ScreenManager.add(new EndScreen());
 		ScreenManager.add(new TitleScreen());
 		//TODO: ScreenManager.add(new SplashScreen());	
 	}
