@@ -15,6 +15,7 @@ public class Resource {
 	static Map<String, Image> mPreloaded = new HashMap<String, Image>();
 	static Map<String, Image> mBitmaps = new HashMap<String, Image>();
 	static Map<String, Animation> myAnimations = new HashMap<String, Animation>();
+	static Map<String, Font> myFonts = new HashMap<String, Font>();
 
 	//	    static void init();
 	public static void init()
@@ -94,6 +95,23 @@ public class Resource {
 		}
 
 		return myAnimations.get(key);
+	}
+	
+	static public Font getFont( String filename ) {
+		return getFont(filename, Color.rgb(255, 255, 255));
+	}
+
+	static public Font getFont( String filename, int textColor )
+	{
+		String key = filename + textColor;
+		if (!myFonts.containsKey(key))
+		{
+			Font font = new Font(getBitmap(filename, textColor), ' ', 'z');
+
+			myFonts.put(key, font);
+		}
+
+		return myFonts.get(key);
 	}
 
 	private static int getb(int color) {

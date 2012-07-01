@@ -86,7 +86,6 @@ public class GreenGrappler implements Game {
 		if (myReadyForUpdates) {
 			postPreloadUpdate();
 		} else if (Resource.isDonePreloading()) {
-			Sound.playSample("data/sounds/alarm");
 			postPreloadInit();
 			myReadyForUpdates = true;
 		}
@@ -96,7 +95,7 @@ public class GreenGrappler implements Game {
 
 	void postPreloadInit() {
 		ScreenManager.add(new TitleScreen());
-		ScreenManager.add(new SplashScreen());	
+		//TODO: ScreenManager.add(new SplashScreen());	
 	}
 
 	void postPreloadUpdate() {

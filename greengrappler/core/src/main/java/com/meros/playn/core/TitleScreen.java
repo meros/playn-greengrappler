@@ -26,7 +26,7 @@ public class TitleScreen extends Screen {
 
 	Animation myTitle = Resource.getAnimation("data/images/title.bmp", 1);
 	Animation myHand = Resource.getAnimation("data/images/hand.bmp", 1);
-	//Font myFont = Resource.getFont("data/images/font.bmp");	
+	Font myFont = Resource.getFont("data/images/font.bmp");	
 
 	@Override
 	public void onDraw(Canvas aBuffer) {
@@ -35,22 +35,22 @@ public class TitleScreen extends Screen {
 		if (!myGameStart)
 			myHand.drawFrame(aBuffer, 0, 115, 150 + mySelected * 10);
 
-		//if (!myGameStart || (mySelected != 0 || myFrameCounter % 10 < 5))
-		//TODO:	myFont->draw(aBuffer, "NEW GAME", 126, 150);
+		if (!myGameStart || (mySelected !=  0 || myFrameCounter % 10 < 5))
+			myFont.draw(aBuffer, "NEW GAME", 126, 150);
 
 		if (myContinue)
 		{
-			//			if (!myGameStart || (mySelected != 1 || myFrameCounter % 10 < 5))
-			//				myFont->draw(aBuffer, "CONTINUE", 126, 160);
-			//			myFont->draw(aBuffer, "EXIT GAME", 126, 170);
+			if (!myGameStart || (mySelected != 1 || myFrameCounter % 10 < 5))
+				myFont.draw(aBuffer, "CONTINUE", 126, 160);
+			myFont.draw(aBuffer, "EXIT GAME", 126, 170);
 		}
 		else
 		{
-			//			myFont->draw(aBuffer, "EXIT GAME", 126, 160);
+			myFont.draw(aBuffer, "EXIT GAME", 126, 160);
 		}
 
-		//		myFont->draw(aBuffer, "DARKBITS", 130, 215);
-		//		myFont->draw(aBuffer, "SPEEDHACK 2011", 113, 225);
+		myFont.draw(aBuffer, "DARKBITS", 130, 215);
+		myFont.draw(aBuffer, "SPEEDHACK 2011", 113, 225);
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class TitleScreen extends Screen {
 			else if (mySelected > 2)
 				mySelected = 2;
 			else
-				Sound.playSample("data/sounds/select.wav");
+				Sound.playSample("data/sounds/select");
 		}
 
 		if (Input.isPressed(Buttons.Up))
@@ -87,7 +87,7 @@ public class TitleScreen extends Screen {
 			if (mySelected < 0)
 				mySelected = 0;
 			else
-				Sound.playSample("data/sounds/select.wav");
+				Sound.playSample("data/sounds/select");
 		}
 
 		if (Input.isPressed(Buttons.Fire))
@@ -96,16 +96,16 @@ public class TitleScreen extends Screen {
 			{
 				myGameStart = true;
 				myFrameCounter = 0;
-				//TODO: Music::stop();
-				Sound.playSample("data/sounds/start.wav");
+				Music.stop();
+				Sound.playSample("data/sounds/start");
 				//TODO: GameState.clear();
 			}
 			if (mySelected == 1 && myContinue)
 			{
 				myGameStart = true;
 				myFrameCounter = 0;
-				//TODO: Music::stop();
-				Sound.playSample("data/sounds/start.wav");
+				Music.stop();
+				Sound.playSample("data/sounds/start");
 				//TODO: GameState.loadFromFile();
 			}
 
@@ -115,12 +115,12 @@ public class TitleScreen extends Screen {
 				exit();
 		}
 	}
-	
+
 	@Override
 	public void onEntered()
 	{
 		myGameStart = false;
-		//TODO: Music.playSong("data/music/intro2.xm");
+		Music.playSong("data/music/intro2");
 
 		if (false /*TODO: GameState.isSavePresent()*/)
 			myContinue = true;
