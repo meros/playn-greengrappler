@@ -33,6 +33,9 @@ public class Resource {
 		if (!mBitmaps.containsKey(key))
 		{	
 			Image image = mPreloaded.get(filename);
+			
+			log().debug("Fixing " + filename + ", is ready: " + image.isReady());
+
 
 			CanvasImage bitmap = graphics().createImage(image.width(), image.height());
 
@@ -48,6 +51,8 @@ public class Resource {
 					image.getRgb(x, y, 1, 1, rgb, 0, 1);
 					int c = rgb[0];
 					if(c != magicPink) {
+
+						
 						int r = getr(c);
 						int g = getg(c);
 						int b = getb(c);
@@ -57,13 +62,14 @@ public class Resource {
 						b = (colorB * b) / 255;
 						c = Color.rgb(r, g, b);
 
-						bitmap.canvas().setStrokeColor(c);
-						bitmap.canvas().drawPoint(x, y);
+						bitmap.canvas().setFillColor(c);
+						bitmap.canvas().fillRect(x, y, 1, 1);
 					}
 				}
 			}
 
 			mBitmaps.put(key, bitmap);
+			return bitmap;
 		}
 
 		return mBitmaps.get(key);

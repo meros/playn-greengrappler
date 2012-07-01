@@ -10,15 +10,18 @@ import playn.core.ImageLayer;
 public class GreenGrappler implements Game {
  
 	Canvas canvas = null;
+	CanvasImage canvasImage = null;
 	int frame = 0;
 	
 	boolean myReadyForUpdates = false;
 
 	@Override
 	public void init() {
+		log().debug("Green Grappler init");
+		
 		// create and add background image layer
 		//graphics().setSize(320, 240);
-		CanvasImage canvasImage = graphics().createImage(320, 240);
+		canvasImage = graphics().createImage(320, 240);
 		canvas = canvasImage.canvas();
 		ImageLayer bgLayer = graphics().createImageLayer(canvasImage);
 		graphics().rootLayer().add(bgLayer);
