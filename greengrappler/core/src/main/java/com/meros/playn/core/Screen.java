@@ -40,7 +40,6 @@ public abstract class Screen {
 		return ScreenManager.getTop() == this;
 	}
 
-
 	//void exit();
 	public void exit()
 	{

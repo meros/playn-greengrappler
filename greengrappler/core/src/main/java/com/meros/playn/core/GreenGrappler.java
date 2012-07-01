@@ -22,7 +22,7 @@ public class GreenGrappler implements Game {
 		canvas = canvasImage.canvas();
 		ImageLayer bgLayer = graphics().createImageLayer(canvasImage);
 		graphics().rootLayer().add(bgLayer);
-		
+
 		Resource.preLoad("data/images/boss.bmp");
 		Resource.preLoad("data/images/breakinghooktile.bmp");
 		Resource.preLoad("data/images/button.bmp");
@@ -88,6 +88,7 @@ public class GreenGrappler implements Game {
 	}
 
 	void postPreloadInit() {
+		ScreenManager.add(new TitleScreen());
 		ScreenManager.add(new SplashScreen());	
 	}
 
