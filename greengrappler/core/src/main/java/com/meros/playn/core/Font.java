@@ -68,19 +68,19 @@ public class Font {
 					int y1 = scanLine;
 					while ((y1 < glyphImage.height())
 							&& getpixel(glyphImage, x, y1) != separatingColor) // find
-																				// bottom
-																				// of
-																				// glyph
+						// bottom
+						// of
+						// glyph
 					{
 						y1++;
 					}
 					int x1 = x;
 					while ((x1 < glyphImage.width())
 							&& getpixel(glyphImage, x1, scanLine) != separatingColor) // find
-																						// right
-																						// edge
-																						// of
-																						// glyph
+						// right
+						// edge
+						// of
+						// glyph
 					{
 						x1++;
 					}
@@ -104,11 +104,11 @@ public class Font {
 		if (!myGlyphToBitmap.containsKey("" + '\n')
 				&& myGlyphToBitmap.containsKey("" + ' '))
 			myGlyphToBitmap.put("" + '\n', myGlyphToBitmap.get("" + ' ')); // have
-																			// something
-																			// to
-																			// draw
-																			// when
-																			// newline
+		// something
+		// to
+		// draw
+		// when
+		// newline
 
 		myHeight = lastRowHeight;
 	}
@@ -178,5 +178,75 @@ public class Font {
 
 		}
 		return width;
+	}
+
+	public void drawWrap(Canvas aBuffer, String aText, int aX, int aY, int aMaxWidth,
+			int aNumberOfCharacters) {
+		int x = aX;
+		int y = aY;
+		int glyphBitmapMaxHeight = 0;
+
+		String text = aText;
+
+		int totChar = 0;
+		while (text.length() > 0)
+		{
+			String word = "";
+			if (text.contains(" "))
+			{
+				word = text.substring(0, text.indexOf(" "));
+				text = text.substring(text.indexOf(" ") + 1);
+			}
+			else
+			{
+				word = text;
+				text = "";
+			}
+
+			if(aMaxWidth != -1 && x + getWidth(word) > (int)aMaxWidth)
+			{
+				x = aX;
+				y += glyphBitmapMaxHeight;
+				glyphBitmapMaxHeight = 0;
+			}
+			else
+			{
+				if(totChar != 0) 
+				{
+					word = " " + word;
+				}
+			}
+
+			for(int j = 0; j < word.length(); j++)
+			{
+				if(aNumberOfCharacters != -1 && totChar >= aNumberOfCharacters)
+				{
+					return;
+				}
+				char currChar = word.charAt(j);
+
+				Image glyphBitmap = getBitmapForGlyph(currChar);
+
+				glyphBitmapMaxHeight = (int) Math.max(glyphBitmapMaxHeight, glyphBitmap.height());
+
+				drawGlyph(aBuffer, currChar, x, y);
+
+				int glyphWidth = (int) glyphBitmap.width();
+
+				x += glyphWidth;
+				if(currChar == '\n')
+				{
+					x = aX;
+					y += glyphBitmapMaxHeight;
+					glyphBitmapMaxHeight = 0;
+				}
+				totChar++;
+			}
+		}
+	}
+
+	private void drawGlyph(Canvas aBuffer, char aChar, int aX, int aY) {
+		Image glyphBitmap = getBitmapForGlyph(aChar);
+		aBuffer.drawImage(glyphBitmap, aX, aY);
 	}
 }

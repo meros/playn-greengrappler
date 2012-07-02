@@ -69,6 +69,23 @@ public class GreenGrappler implements Game {
 		Resource.preLoad("data/images/wall.bmp");
 		Resource.preLoad("data/images/z_coin.bmp");
 		
+		Resource.preLoadText("data/rooms/breaktilelevel.tmx");
+		Resource.preLoadText("data/rooms/level1.tmx");
+		Resource.preLoadText("data/rooms/levellava.tmx");
+		Resource.preLoadText("data/rooms/olof.tmx");
+		Resource.preLoadText("data/rooms/olof2.tmx");
+		Resource.preLoadText("data/rooms/per1.tmx");
+		Resource.preLoadText("data/rooms/per2.tmx");
+		Resource.preLoadText("data/rooms/per3.tmx");
+		Resource.preLoadText("data/rooms/per4.tmx");
+		Resource.preLoadText("data/rooms/smalltestroom.tmx");
+		Resource.preLoadText("data/rooms/test.tmx");
+		Resource.preLoadText("data/rooms/tutorial.tmx");
+		Resource.preLoadText("data/dialogues/1-tutorial1.txt");
+		Resource.preLoadText("data/dialogues/2-tutorial2.txt");
+		Resource.preLoadText("data/dialogues/boss_unlocked.txt");
+		Resource.preLoadText("data/dialogues/level_select.txt");
+		
 		Input.init();
 	}
 

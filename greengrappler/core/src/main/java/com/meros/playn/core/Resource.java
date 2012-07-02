@@ -9,13 +9,17 @@ import java.util.Map;
 import playn.core.CanvasImage;
 import playn.core.Color;
 import playn.core.Image;
+import playn.core.ResourceCallback;
 
 public class Resource {
 
-	static Map<String, Image> mPreloaded = new HashMap<String, Image>();
+	static Map<String, Image> mPreloadedImages = new HashMap<String, Image>();
+		
 	static Map<String, Image> mBitmaps = new HashMap<String, Image>();
 	static Map<String, Animation> myAnimations = new HashMap<String, Animation>();
 	static Map<String, Font> myFonts = new HashMap<String, Font>();
+
+	static Map<String, String> mPreloadedTexts = new HashMap<String, String>();
 
 	//	    static void init();
 	public static void init()
@@ -33,7 +37,7 @@ public class Resource {
 
 		if (!mBitmaps.containsKey(key))
 		{	
-			Image image = mPreloaded.get(filename);
+			Image image = mPreloadedImages.get(filename);
 			
 			log().debug("Fixing " + filename + ", is ready: " + image.isReady());
 
@@ -78,9 +82,29 @@ public class Resource {
 	
 	public static void preLoad(String filename)
 	{
-		mPreloaded.put(filename, assets().getImage(filename));
+		mPreloadedImages.put(filename, assets().getImage(filename));
 	}
 	
+	public static void preLoadText(final String filename)
+	{
+		assets().getText(filename, new ResourceCallback<String>() {
+
+			@Override
+			public void done(String resource) {
+				Resource.injectText(filename, resource);
+			}
+
+			@Override
+			public void error(Throwable err) {
+			}
+			
+		});
+	}
+	
+	protected static void injectText(String filename, String resource) {
+		mPreloadedTexts.put(filename, resource);
+	}
+
 	public static boolean isDonePreloading()
 	{
 		return assets().getPendingRequestCount() == 0;
@@ -124,6 +148,20 @@ public class Resource {
 
 	private static int getr(int color) {
 		return (color >> 16) & 0xFF;
+	}
+
+	public static String getText(String aFilename) {
+		return mPreloadedTexts.get(aFilename);
+	}
+
+	public static Animation getAnimation(String filename) {
+		String key = filename;
+		if(!myAnimations.containsKey(key)) {
+			Animation animation = new Animation(filename);
+			myAnimations.put(key, animation);
+		}
+
+		return myAnimations.get(key);
 	}
 
 	//	    static BITMAP* getBitmap(const std::string& filename, unsigned int color);

@@ -15,8 +15,8 @@ public class LevelSelectScreen extends Screen {
 	Animation myUnselectedLevelBackground = Resource.getAnimation("data/images/unselected_level_background.bmp", 1);
 	Animation myIcons = Resource.getAnimation("data/images/icons.bmp", 9);
 	Animation myCompletedIconBackground = Resource.getAnimation("data/images/completed_level.bmp", 1);
-	//Dialogue* myFirstDialogue;
-	//Dialogue* myBossUnlockedDialogue;
+	Dialogue myFirstDialogue;
+	Dialogue myBossUnlockedDialogue;
 
 	LevelDescription[] myLevelDescs = new LevelDescription[9];	
 	int mySelectedX = 0;
@@ -28,7 +28,7 @@ public class LevelSelectScreen extends Screen {
 	boolean myBossLevelUnlocked = false;
 	boolean  myRunFirstDialogue = false;
 	boolean myRunBossUnlockedDialogue = false;
-	boolean myBossLevelCompleted = false;
+	static boolean myBossLevelCompleted = false;
 
 	class Particle
 	{
@@ -66,11 +66,11 @@ public class LevelSelectScreen extends Screen {
 		PrivSetLevelDesc(1, 2, new LevelDescription("WALL OF DEATH", "data/rooms/per3.tmx", 6, "data/music/olof2-rmx.xm"));
 		PrivSetLevelDesc(2, 2, new LevelDescription("LAVA LAND", "data/rooms/levellava.tmx", 8, "data/music/olof2-rmx.xm"));
 
-		//myFirstDialogue = new Dialogue("data/dialogues/level_select.txt");
-		//myFirstDialogue->setRunWithoutHero();
+		myFirstDialogue = new Dialogue("data/dialogues/level_select.txt");
+		myFirstDialogue.setRunWithoutHero();
 
-		//myBossUnlockedDialogue = new Dialogue("data/dialogues/boss_unlocked.txt");
-		//	myBossUnlockedDialogue->setRunWithoutHero();
+		myBossUnlockedDialogue = new Dialogue("data/dialogues/boss_unlocked.txt");
+		myBossUnlockedDialogue.setRunWithoutHero();
 	}
 	private void PrivSetLevelDesc(int aX, int aY,
 			LevelDescription aLevelDesc) {
@@ -254,11 +254,11 @@ public class LevelSelectScreen extends Screen {
 			}
 		}
 
-		//TODO: if (myRunFirstDialogue)
-		//	myFirstDialogue->draw(aBuffer, 0, 0, 0);
+		if (myRunFirstDialogue)
+			myFirstDialogue.draw(aBuffer, 0, 0, 0);
 
-		//if (myRunBossUnlockedDialogue)
-		//	myBossUnlockedDialogue->draw(aBuffer, 0, 0, 0);
+		if (myRunBossUnlockedDialogue)
+			myBossUnlockedDialogue.draw(aBuffer, 0, 0, 0);
 	}
 
 	@Override
@@ -343,11 +343,11 @@ public class LevelSelectScreen extends Screen {
 			}
 		}
 
-		//TODO: if (myRunFirstDialogue)
-		//myFirstDialogue->update();
+		if (myRunFirstDialogue)
+			myFirstDialogue.update();
 
-		//if (myRunBossUnlockedDialogue)
-		//myBossUnlockedDialogue->update();	
+		if (myRunBossUnlockedDialogue)
+			myBossUnlockedDialogue.update();	
 	}
 
 	@Override

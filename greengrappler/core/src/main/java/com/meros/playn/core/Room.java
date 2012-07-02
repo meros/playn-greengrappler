@@ -2,6 +2,8 @@ package com.meros.playn.core;
 
 import java.util.ArrayList;
 
+import playn.core.Canvas;
+
 public class Room {
 
 	Hero mHero;
@@ -58,6 +60,21 @@ public class Room {
 	public Entity findHookableEntity(float2 mRopePosition) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void onDraw(Canvas aBuffer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean isCompleted() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void onLogic() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
