@@ -1,10 +1,16 @@
 package com.meros.playn.core;
 
+import playn.core.PlayN;
+
 public class GameState {
 
 	public static boolean isSavePresent() {
-		//TODO:return playn.core.PlayN.storage().getItem("save_present") == "yes";
-		return true;
+		return getInt("save_present") == 1;
+	}
+	
+	public static void setSavePresent()
+	{
+		put("save_present", 1);
 	}
 
 	public static void clear() {
@@ -12,18 +18,19 @@ public class GameState {
 	}
 
 	public static void saveToFile() {
-		// TODO Auto-generated method stub
-		
+		setSavePresent();
 	}
 
 	public static int getInt(String aKey) {
-		// TODO Auto-generated method stub
-		return 0;
+		String item = PlayN.storage().getItem(aKey);
+		if (item == null)
+			return 0;
+		
+		return Integer.parseInt(item);
 	}
 
 	public static void put(String aKey, int aInt) {
-		// TODO Auto-generated method stub
-		
+		PlayN.storage().setItem(aKey, "" + aInt);
 	}
 
 }
