@@ -77,7 +77,14 @@ public class Animation {
 	void drawFrame(Canvas aBuffer, int aFrame, int aX, int aY, boolean aHFlip, boolean aVFlip)
 	{
 		//TODO: dummy
+		aBuffer.save();
+		if (aHFlip)
+			aBuffer.transform(-1, 0, 0, 1, getFrameWidth()+aX*2, 0);
+		if (aVFlip)
+			aBuffer.transform(1, 0, 0, -1, 0, getFrameHeight()+aY*2);
+			
 		aBuffer.drawImage(getFrame(aFrame), aX, aY);
+		aBuffer.restore();
 	}
 
 	public void drawFrame(Canvas aBuffer, int aFrame, int aX, int aY) {

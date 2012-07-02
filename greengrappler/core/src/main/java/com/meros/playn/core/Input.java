@@ -27,7 +27,9 @@ public class Input implements Keyboard.Listener {
 		mKeyMap.put(Key.LEFT, Buttons.Left);
 		mKeyMap.put(Key.RIGHT, Buttons.Right);
 		mKeyMap.put(Key.ENTER, Buttons.Fire);
+		mKeyMap.put(Key.CONTROL, Buttons.Fire);
 		mKeyMap.put(Key.ESCAPE, Buttons.Exit);
+		mKeyMap.put(Key.SHIFT, Buttons.Jump);
 	}
 
 	public static void update()
@@ -48,7 +50,7 @@ public class Input implements Keyboard.Listener {
 	}
 
 	public static boolean isReleased(Buttons aButton) {
-		return mIsPressed.contains(aButton);
+		return mIsReleased.contains(aButton);
 	}
 
 	public static void onButtonDown(Buttons aButton)
@@ -94,5 +96,15 @@ public class Input implements Keyboard.Listener {
 		{
 			onButtonUp(mKeyMap.get(event.key()));
 		}
+	}
+
+	public static void enable() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public static void disable() {
+		// TODO Auto-generated method stub
+		
 	}
 }

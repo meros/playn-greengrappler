@@ -20,8 +20,7 @@ public class LevelScreen extends Screen {
 		myLevelDesc = aLevelDescription;
 		Music.playSong(myLevelDesc.myMusicFile);
 		
-		//TODO: tmeporary
-		myRoom = new Room();
+		myRoom = RoomLoader.LoadRoom(aLevelDescription.myLevelFile);
 	}
 
 	@Override

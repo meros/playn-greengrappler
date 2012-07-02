@@ -17,7 +17,7 @@ public abstract class Entity {
 	float2 mSize = new float2();
 	boolean mRemoved = false;
 	int mFrameCounter = 0;
-	Room mRoom = new Room(); //TODO: should not be created like this!
+	Room mRoom = null;
 
 	//
 	//	public:

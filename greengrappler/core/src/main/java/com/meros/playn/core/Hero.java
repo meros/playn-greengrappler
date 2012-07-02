@@ -38,8 +38,8 @@ public class Hero extends Entity {
 		Dissapearing,
 	}
 	RopeState mRopeState = RopeState.Retracted;
-	float2 mRopePosition;
-	float2 mRopeVelocity;
+	float2 mRopePosition = new float2();
+	float2 mRopeVelocity = new float2();
 	
 	Direction mFacingDirection = Direction.Right;
 	int mRopeDissapearCounter = 0;
@@ -339,14 +339,17 @@ public class Hero extends Entity {
 		}
 	}
 
-	private float2 adjustRopeDirection(float2 normalize) {
+	private float2 adjustRopeDirection(float2 aRopeDirection) {
 		// TODO Auto-generated method stub
-		return null;
+		return aRopeDirection;
 	}
 
 	private void detachHook() {
-		// TODO Auto-generated method stub
-		
+		if (mRopeState != RopeState.Retracted && mRopeState != RopeState.Dissapearing) {
+			mRopeState = RopeState.Dissapearing;
+			mRopeDissapearCounter = 0;
+		}
+		mHookedEntity = null;
 	}
 
 	@Override
@@ -462,6 +465,21 @@ public class Hero extends Entity {
 		}
 
 		return false;
+	}
+
+	public boolean isDead() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void imortal() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void respawn() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
