@@ -7,12 +7,17 @@ import com.meros.playn.core.Constants.Buttons;
 import playn.core.Game;
 import playn.core.CanvasImage;
 import playn.core.Canvas;
-import playn.core.ImageLayer;
 import playn.core.ImmediateLayer;
 import playn.core.ImmediateLayer.Renderer;
 import playn.core.Surface;
 
 public class GreenGrappler implements Game, Renderer {
+	
+	
+	public interface ExitCallback
+	{
+		public abstract void exit();
+	}
  
 	Canvas canvas = null;
 	CanvasImage canvasImage = null;
@@ -22,10 +27,12 @@ public class GreenGrappler implements Game, Renderer {
 	int frame = 0;
 	
 	boolean myReadyForUpdates = false;
+	ExitCallback myExitCallback;
 	
-	public GreenGrappler(boolean aFullScreen)
+	public GreenGrappler(boolean aFullScreen, ExitCallback exitCallback)
 	{
 		myFullScreen = aFullScreen;
+		myExitCallback = exitCallback;
 	}
 
 	@Override
@@ -125,7 +132,7 @@ public class GreenGrappler implements Game, Renderer {
 		
 		if (Input.isPressed(Buttons.ForceQuit) || ScreenManager.isEmpty())
 		{
-			System.exit(0);
+			myExitCallback.exit();
 		}
 		
 		Input.update();
