@@ -126,9 +126,58 @@ public class Room {
 		}
 	}
 
-	private void privDrawLayer(Canvas aBuffer, Layer myForegroundLayer2) {
-		// TODO Auto-generated method stub
+	private void privDrawLayer(Canvas aBuffer, Layer aLayer) {
 
+		float2 clampTopLeft = new float2(
+			-getCamera().getOffset().x/getTileWidth(),
+			-getCamera().getOffset().y/getTileHeight());
+
+		if (clampTopLeft.x < 0)
+		{
+			clampTopLeft.x = 0;
+		}
+		if (clampTopLeft.y < 0)
+		{
+			clampTopLeft.y = 0;
+		}
+
+		float2 clampBottomRight = new float2(
+			(aBuffer.width()-getCamera().getOffset().x)/getTileWidth(), 
+			(aBuffer.height()-getCamera().getOffset().y)/getTileHeight());
+
+		if (clampBottomRight.x > aLayer.getWidth())
+		{
+			clampBottomRight.x = aLayer.getWidth();
+		}
+		if (clampBottomRight.y > aLayer.getHeight())
+		{
+			clampBottomRight.y = aLayer.getHeight();
+		}
+
+		int offsetx = (int) getCamera().getOffset().x;
+		int offsety = (int) getCamera().getOffset().y;
+
+		for (int x = (int) clampTopLeft.x; x < clampBottomRight.x; ++x) 
+		{
+			for (int y = (int) clampTopLeft.y; y < clampBottomRight.y; ++y) 
+			{		
+				privDrawTile(
+					aBuffer,
+					offsetx,
+					offsety, 
+					aLayer.getTile(x, y),
+					x, 
+					y);
+			}
+		}
+	}
+
+	private void privDrawTile(Canvas aBuffer, int aOffsetX, int aOffsetY,
+			Tile aTile, int aTileX, int aTileY) {
+		if (aTile == null)
+			return;
+		
+		aTile.onDraw(aBuffer, aOffsetX + aTileX*aTile.getWidth(), aOffsetY + aTileY*aTile.getHeight());
 	}
 
 	public boolean isCompleted() {

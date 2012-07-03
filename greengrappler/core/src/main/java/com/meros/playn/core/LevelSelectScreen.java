@@ -56,15 +56,15 @@ public class LevelSelectScreen extends Screen {
 			myParticles.add(new Particle((float)Math.random() * 320, (float)Math.random()* 240, (float)Math.random()* 3 + 1));
 		}
 
-		PrivSetLevelDesc(0, 0, new LevelDescription("GRAPPLIN' HEAVEN", "data/rooms/olof2.tmx", 0, "data/music/olof9.xm"));
-		PrivSetLevelDesc(1, 0, new LevelDescription("CAVERNOUS", "data/rooms/per4.tmx", 1, "data/music/olof8.xm"));
-		PrivSetLevelDesc(2, 0, new LevelDescription("HARRY U.P.", "data/rooms/level1.tmx", 7, "data/music/olof2-rmx.xm"));
-		PrivSetLevelDesc(0, 1, new LevelDescription("GLIDER", "data/rooms/per1.tmx", 3, "data/music/olof12.xm"));
-		PrivSetLevelDesc(1, 1, new LevelDescription("FINAL CORE", "data/rooms/olof.tmx", 5, "data/music/spooky.xm"));
-		PrivSetLevelDesc(2, 1, new LevelDescription("UNSTABLE", "data/rooms/breaktilelevel.tmx", 4, "data/music/olof8.xm"));
-		PrivSetLevelDesc(0, 2, new LevelDescription("THE TOWER", "data/rooms/per2.tmx", 2, "data/music/olof12.xm"));
-		PrivSetLevelDesc(1, 2, new LevelDescription("WALL OF DEATH", "data/rooms/per3.tmx", 6, "data/music/olof2-rmx.xm"));
-		PrivSetLevelDesc(2, 2, new LevelDescription("LAVA LAND", "data/rooms/levellava.tmx", 8, "data/music/olof2-rmx.xm"));
+		PrivSetLevelDesc(0, 0, new LevelDescription("GRAPPLIN' HEAVEN", "data/rooms/olof2.txt", 0, "data/music/olof9.xm"));
+		PrivSetLevelDesc(1, 0, new LevelDescription("CAVERNOUS", "data/rooms/per4.txt", 1, "data/music/olof8.xm"));
+		PrivSetLevelDesc(2, 0, new LevelDescription("HARRY U.P.", "data/rooms/level1.txt", 7, "data/music/olof2-rmx.xm"));
+		PrivSetLevelDesc(0, 1, new LevelDescription("GLIDER", "data/rooms/per1.txt", 3, "data/music/olof12.xm"));
+		PrivSetLevelDesc(1, 1, new LevelDescription("FINAL CORE", "data/rooms/olof.txt", 5, "data/music/spooky.xm"));
+		PrivSetLevelDesc(2, 1, new LevelDescription("UNSTABLE", "data/rooms/breaktilelevel.txt", 4, "data/music/olof8.xm"));
+		PrivSetLevelDesc(0, 2, new LevelDescription("THE TOWER", "data/rooms/per2.txt", 2, "data/music/olof12.xm"));
+		PrivSetLevelDesc(1, 2, new LevelDescription("WALL OF DEATH", "data/rooms/per3.txt", 6, "data/music/olof2-rmx.xm"));
+		PrivSetLevelDesc(2, 2, new LevelDescription("LAVA LAND", "data/rooms/levellava.txt", 8, "data/music/olof2-rmx.xm"));
 
 		myFirstDialogue = new Dialogue("data/dialogues/level_select.txt");
 		myFirstDialogue.setRunWithoutHero();

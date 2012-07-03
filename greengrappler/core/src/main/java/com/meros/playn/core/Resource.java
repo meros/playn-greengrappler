@@ -14,7 +14,7 @@ import playn.core.ResourceCallback;
 public class Resource {
 
 	static Map<String, Image> mPreloadedImages = new HashMap<String, Image>();
-		
+
 	static Map<String, Image> mBitmaps = new HashMap<String, Image>();
 	static Map<String, Animation> myAnimations = new HashMap<String, Animation>();
 	static Map<String, Font> myFonts = new HashMap<String, Font>();
@@ -30,7 +30,7 @@ public class Resource {
 	{
 		return getBitmap(filename, Color.rgb(255, 255, 255));
 	}
-	
+
 	public static Image getBitmap(String filename, int color)
 	{
 		String key = filename + color;
@@ -38,7 +38,7 @@ public class Resource {
 		if (!mBitmaps.containsKey(key))
 		{	
 			Image image = mPreloadedImages.get(filename);
-			
+
 			log().debug("Fixing " + filename + ", is ready: " + image.isReady());
 
 
@@ -48,7 +48,7 @@ public class Resource {
 			int colorG = getg(color);
 			int colorB = getb(color);
 			int magicPink = Color.rgb(255, 0, 255);
-			
+
 			int rgb[] = new int[1];
 
 			for(int y = 0; y < bitmap.height(); ++y) {
@@ -57,7 +57,7 @@ public class Resource {
 					int c = rgb[0];
 					if(c != magicPink) {
 
-						
+
 						int r = getr(c);
 						int g = getg(c);
 						int b = getb(c);
@@ -79,12 +79,12 @@ public class Resource {
 
 		return mBitmaps.get(key);
 	}
-	
+
 	public static void preLoad(String filename)
 	{
 		mPreloadedImages.put(filename, assets().getImage(filename));
 	}
-	
+
 	public static void preLoadText(final String filename)
 	{
 		assets().getText(filename, new ResourceCallback<String>() {
@@ -97,10 +97,10 @@ public class Resource {
 			@Override
 			public void error(Throwable err) {
 			}
-			
+
 		});
 	}
-	
+
 	protected static void injectText(String filename, String resource) {
 		mPreloadedTexts.put(filename, resource);
 	}
@@ -109,7 +109,7 @@ public class Resource {
 	{
 		return assets().getPendingRequestCount() == 0;
 	}
-	
+
 	static Animation getAnimation(String filename, int aFrames)
 	{
 		String key = filename + aFrames;
@@ -120,7 +120,7 @@ public class Resource {
 
 		return myAnimations.get(key);
 	}
-	
+
 	static public Font getFont( String filename ) {
 		return getFont(filename, Color.rgb(255, 255, 255));
 	}
