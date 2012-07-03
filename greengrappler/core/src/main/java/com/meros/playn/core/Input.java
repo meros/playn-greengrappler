@@ -27,9 +27,9 @@ public class Input implements Keyboard.Listener {
 		mKeyMap.put(Key.LEFT, Buttons.Left);
 		mKeyMap.put(Key.RIGHT, Buttons.Right);
 		mKeyMap.put(Key.ENTER, Buttons.Fire);
-		mKeyMap.put(Key.CONTROL, Buttons.Fire);
-		mKeyMap.put(Key.ESCAPE, Buttons.Exit);
-		mKeyMap.put(Key.SHIFT, Buttons.Jump);
+		mKeyMap.put(Key.Z, Buttons.Fire);
+		mKeyMap.put(Key.ESCAPE, Buttons.ForceQuit);
+		mKeyMap.put(Key.X, Buttons.Jump);
 	}
 
 	public static void update()

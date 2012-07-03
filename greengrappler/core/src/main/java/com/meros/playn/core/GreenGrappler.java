@@ -2,6 +2,8 @@ package com.meros.playn.core;
 
 import static playn.core.PlayN.*;
 
+import com.meros.playn.core.Constants.Buttons;
+
 import playn.core.Game;
 import playn.core.CanvasImage;
 import playn.core.Canvas;
@@ -105,6 +107,11 @@ public class GreenGrappler implements Game {
 		} else if (Resource.isDonePreloading()) {
 			postPreloadInit();
 			myReadyForUpdates = true;
+		}
+		
+		if (Input.isPressed(Buttons.ForceQuit) || ScreenManager.isEmpty())
+		{
+			System.exit(0);
 		}
 		
 		Input.update();
