@@ -84,7 +84,7 @@ public class RoomLoader {
 			}
 		}
 
-		Room room = new Room(middleLayer, middleLayer, middleLayer);
+		Room room = new Room(backgroundLayer, middleLayer, foregroundLayer);
 		room.setCamera(new Camera());
 		room.addEntity(new Hero());
 
