@@ -10,6 +10,6 @@ public class GreenGrapplerActivity extends GameActivity {
   @Override
   public void main(){
     platform().assets().setPathPrefix("com/meros/playn/resources");
-    PlayN.run(new GreenGrappler());
+    PlayN.run(new GreenGrappler(true));
   }
 }

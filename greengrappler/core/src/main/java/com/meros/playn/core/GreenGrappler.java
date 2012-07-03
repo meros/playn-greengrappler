@@ -8,14 +8,25 @@ import playn.core.Game;
 import playn.core.CanvasImage;
 import playn.core.Canvas;
 import playn.core.ImageLayer;
+import playn.core.ImmediateLayer;
+import playn.core.ImmediateLayer.Renderer;
+import playn.core.Surface;
 
-public class GreenGrappler implements Game {
+public class GreenGrappler implements Game, Renderer {
  
 	Canvas canvas = null;
 	CanvasImage canvasImage = null;
+	
+	boolean myFullScreen = false;
+	
 	int frame = 0;
 	
 	boolean myReadyForUpdates = false;
+	
+	public GreenGrappler(boolean aFullScreen)
+	{
+		myFullScreen = aFullScreen;
+	}
 
 	@Override
 	public void init() {
@@ -25,8 +36,11 @@ public class GreenGrappler implements Game {
 		//graphics().setSize(320, 240);
 		canvasImage = graphics().createImage(320, 240);
 		canvas = canvasImage.canvas();
-		ImageLayer bgLayer = graphics().createImageLayer(canvasImage);
-		graphics().rootLayer().add(bgLayer);
+		ImmediateLayer imLayer = graphics().createImmediateLayer(this);
+		graphics().rootLayer().add(imLayer);
+		
+		if (myFullScreen)
+			graphics().setSize(graphics().screenWidth(),graphics().screenHeight());
 
 		Resource.preLoad("data/images/boss.bmp");
 		Resource.preLoad("data/images/breakinghooktile.bmp");
@@ -130,5 +144,30 @@ public class GreenGrappler implements Game {
 	@Override
 	public int updateRate() {
 		return 1000 / Time.TicksPerSecond;
+	}
+
+	@Override
+	public void render(Surface surface) {
+		surface.save();
+		
+		float w = surface.width();
+		float h = surface.height();
+		
+		float targetAspect = 320/240;
+		float aspect = w/h;
+		
+		if (aspect < targetAspect)
+		{
+			float scaleFactor = surface.width()/320;
+			surface.scale(scaleFactor, scaleFactor);	
+		}
+		else
+		{
+			float scaleFactor = surface.height()/240;
+			surface.scale(scaleFactor, scaleFactor);				
+		}
+		
+		surface.drawImage(canvasImage, 0, 0);
+		surface.restore();
 	}
 }

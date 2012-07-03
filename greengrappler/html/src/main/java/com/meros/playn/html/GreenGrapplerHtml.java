@@ -12,6 +12,6 @@ public class GreenGrapplerHtml extends HtmlGame {
   public void start() {
     HtmlPlatform platform = HtmlPlatform.register();
     platform.assets().setPathPrefix("greengrappler/");
-    PlayN.run(new GreenGrappler());
+    PlayN.run(new GreenGrappler(true));
   }
 }
