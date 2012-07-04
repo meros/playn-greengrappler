@@ -4,6 +4,7 @@ import static playn.core.PlayN.*;
 
 import com.meros.playn.core.Constants.Buttons;
 
+import playn.core.Color;
 import playn.core.Game;
 import playn.core.CanvasImage;
 import playn.core.Canvas;
@@ -195,5 +196,8 @@ public class GreenGrappler implements Game, Renderer {
 
 		surface.drawImage(canvasImage, 0, 0);
 		surface.restore();
+		
+		surface.setFillColor(Color.rgb(255, 0, 0));
+		surface.fillRect(Input.lastTouchX-50, Input.lastTouchY-50, 100, 100);
 	}
 }

@@ -10,8 +10,9 @@ import playn.core.Keyboard;
 import playn.core.Keyboard.Event;
 import playn.core.Keyboard.TypedEvent;
 import playn.core.PlayN;
+import playn.core.Touch;
 
-public class Input implements Keyboard.Listener {
+public class Input implements Keyboard.Listener, Touch.Listener {
 
 	static HashSet<Buttons> mIsHeld = new HashSet<Buttons>();
 	static HashSet<Buttons> mIsPressed = new HashSet<Buttons>();
@@ -22,6 +23,7 @@ public class Input implements Keyboard.Listener {
 	public static void init()
 	{
 		PlayN.keyboard().setListener(new Input());
+		PlayN.touch().setListener(new Input());
 
 		mKeyMap.put(Key.DOWN, Buttons.Down);
 		mKeyMap.put(Key.UP, Buttons.Up);
@@ -98,5 +100,29 @@ public class Input implements Keyboard.Listener {
 	public static void disable() {
 		// TODO Auto-generated method stub
 
+	}
+	
+	//TODO: temp!
+	public static int lastTouchX = 0;
+	public static int lastTouchY = 0;
+
+	@Override
+	public void onTouchStart(playn.core.Touch.Event[] touches) {
+		lastTouchX = (int) touches[0].x();
+		lastTouchY = (int) touches[0].y();
+		
+		onButtonDown(Buttons.Fire);
+	}
+
+	@Override
+	public void onTouchMove(playn.core.Touch.Event[] touches) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTouchEnd(playn.core.Touch.Event[] touches) {
+		// TODO Auto-generated method stub
+		onButtonUp(Buttons.Fire);
 	}
 }
