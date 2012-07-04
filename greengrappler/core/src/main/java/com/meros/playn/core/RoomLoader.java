@@ -1,12 +1,8 @@
 package com.meros.playn.core;
 
-import playn.core.PlayN;
-
 public class RoomLoader {
 
 	public static Room LoadRoom(String myLevelFile) {
-		RoomLoader loader = new RoomLoader();
-
 		String roomData = Resource.getText(myLevelFile);
 
 		String[] data = roomData.split("\n");
