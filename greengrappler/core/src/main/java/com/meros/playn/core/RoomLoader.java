@@ -9,10 +9,6 @@ public class RoomLoader {
 
 		int curri = 0;
 
-		//Read width and height
-		int width = Integer.parseInt(data[curri++]);
-		int height = Integer.parseInt(data[curri++]);
-
 		//Tile info
 		int numTileTypes = Integer.parseInt(data[curri++]);
 
@@ -37,6 +33,9 @@ public class RoomLoader {
 		}
 
 		//Layer bg
+		//Read width and height
+		int width = Integer.parseInt(data[curri++]);
+		int height = Integer.parseInt(data[curri++]);
 		Layer backgroundLayer = new Layer(width, height);
 
 		for (int x = 0; x < width; x++)
@@ -52,6 +51,8 @@ public class RoomLoader {
 		}
 
 		//Layer mid
+		width = Integer.parseInt(data[curri++]);
+		height = Integer.parseInt(data[curri++]);
 		Layer middleLayer = new Layer(width, height);
 
 		for (int x = 0; x < width; x++)
@@ -71,6 +72,8 @@ public class RoomLoader {
 		}
 
 		//Layer fg
+		width = Integer.parseInt(data[curri++]);
+		height = Integer.parseInt(data[curri++]);
 		Layer foregroundLayer = new Layer(width, height);
 
 		for (int x = 0; x < width; x++)
@@ -87,11 +90,33 @@ public class RoomLoader {
 
 		Room room = new Room(backgroundLayer, middleLayer, foregroundLayer);
 		room.setCamera(new Camera());
-		Hero hero = new Hero();
-		hero.setPosition(new float2(30,30));
-		room.addEntity(hero);
-		
-		room.setCameraRect(new float2(0,0), new float2(width*10, height*10));
+		room.setCameraRect(new float2(0,0), new float2(middleLayer.getWidth()*10, middleLayer.getWidth()*10));
+
+		//Entities
+		width = Integer.parseInt(data[curri++]);
+		height = Integer.parseInt(data[curri++]);
+		for (int x = 0; x < width; x++)
+		{
+			for (int y = 0; y < height; y++)
+			{
+				int entityId = Integer.parseInt(data[curri++]);
+				if (entityId != -1)
+				{
+					Entity entity = EntityFactory.create(entityId);
+
+					if (entity == null)
+					{
+						continue;
+					}
+
+					float2 pos = new float2(10 * x + 10 / 2, 10 * (y + 1));
+					pos.y -= entity.getHalfSize().y;
+
+					entity.setPosition(pos);
+					room.addEntity(entity);
+				}
+			}
+		}
 
 		return room;
 	}

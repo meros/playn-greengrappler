@@ -21,6 +21,11 @@ public class Layer {
 
 	public Tile getTile(int aX, int aY)
 	{
+		if (aX > getWidth())
+			return null;
+		if (aY > getHeight())
+			return null;
+		
 		return myTiles[aX][aY];
 	}
 	
