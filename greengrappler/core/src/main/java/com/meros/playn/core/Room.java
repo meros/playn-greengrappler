@@ -48,13 +48,11 @@ public class Room {
 	}
 
 	public boolean isCollidable(int x, int y) {
-		// TODO Auto-generated method stub
-		return y > 10;
+		return myMiddleLayer.getTile(x, y).getCollide();
 	}
 
-	public boolean isHookable(int tileX, int tileY) {
-		// TODO Auto-generated method stub
-		return tileY == 0;
+	public boolean isHookable(int x, int y) {
+		return myMiddleLayer.getTile(x, y).getHook();
 	}
 
 	public Hero getHero() {

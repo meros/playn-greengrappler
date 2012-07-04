@@ -23,6 +23,9 @@ public class Tile {
 		myW = aW;
 	}
 
+	public Tile() {
+	}
+
 	public void onDraw(
 		Canvas 	aBuffer,
 		int		aX,

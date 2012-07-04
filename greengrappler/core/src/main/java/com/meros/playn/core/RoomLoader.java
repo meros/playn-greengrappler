@@ -21,6 +21,7 @@ public class RoomLoader {
 		int numTileTypes = Integer.parseInt(data[curri++]);
 
 		Tile[] tiles = new Tile[numTileTypes];
+		Tile emptyTile = new Tile();
 
 		for (int i = 0; i < numTileTypes; i++)
 		{
@@ -66,6 +67,10 @@ public class RoomLoader {
 				{
 					middleLayer.setTile(x, y, tiles[tileType]);
 				}
+				else
+				{
+					middleLayer.setTile(x, y, emptyTile);
+				}
 			}
 		}
 
@@ -86,7 +91,11 @@ public class RoomLoader {
 
 		Room room = new Room(backgroundLayer, middleLayer, foregroundLayer);
 		room.setCamera(new Camera());
-		room.addEntity(new Hero());
+		Hero hero = new Hero();
+		hero.setPosition(new float2(30,30));
+		room.addEntity(hero);
+		
+		room.setCameraRect(new float2(0,0), new float2(width*10, height*10));
 
 		return room;
 	}
