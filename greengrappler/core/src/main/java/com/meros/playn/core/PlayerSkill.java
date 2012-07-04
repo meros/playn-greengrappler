@@ -12,4 +12,9 @@ public class PlayerSkill {
 		return 1.0f;
 	}
 
+	public static void playerDidSomethingStupid(float f, float g) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

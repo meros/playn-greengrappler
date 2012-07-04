@@ -378,7 +378,7 @@ public class Room {
 	}
 
 	public boolean rayCast(float2 origin, float2 direction, boolean cullBeyondDirection,
-			Integer tileXOut, Integer tileYOut) {
+			float2 out) {
 		if (direction.isZero())
 		{
 			return false;
@@ -433,8 +433,8 @@ public class Room {
 			}
 		}
 		if ( hit ) {
-			tileXOut = ix;
-			tileYOut = iy;
+			out.x = ix;
+			out.y = iy;
 			float2 tileCenter = new float2(ix * getTileWidth() + getTileWidth() / 2, iy * getTileHeight() + getTileHeight() / 2);
 			if ( cullBeyondDirection && origin.subtract(tileCenter).lengthCompare(direction) > 0 ) {
 				return false;

@@ -62,7 +62,7 @@ public class Animation {
 
 	Image getFrame(int aFrame)
 	{
-		return myFrames.get(aFrame % myFrames.size());
+		return myFrames.get(Math.abs(aFrame % myFrames.size()));
 	}
 
 	public int getFrameWidth() {

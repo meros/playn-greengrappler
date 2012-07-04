@@ -30,7 +30,7 @@ public class Coin extends Entity {
 	}
 
 	//	static void SpawnDeathCoins( int aNumberOfCoins, float2 aCenterPosition, int aLifeTime, Room* aRoom);
-	
+
 	//
 	//		virtual void update();
 	public void update() 
@@ -87,7 +87,7 @@ public class Coin extends Entity {
 				new float2(
 						mAnimationCoin.getFrameWidth(),
 						mAnimationCoin.getFrameHeight()).divide(2));
-		
+
 		pos = pos.add(new float2(offsetX, offsetY));
 
 		if (!mTemporary || (mLifeTime/10)%2 == 0 )
@@ -104,7 +104,24 @@ public class Coin extends Entity {
 	//		virtual void onRespawn();
 	@Override
 	public int getLayer() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 3;
+	}
+
+	public static void SpawnDeathCoins(int aNumberOfCoins, float2 aCenterPosition,
+			int aLifeTime, Room aRoom) {
+		for (int i = 0; i < aNumberOfCoins; i++)
+		{
+
+			float2 velocity = UtilMethods.sincos(3.1415 * (i+1)/(aNumberOfCoins+1));
+			velocity.x *= 100;
+			velocity.y *= -200;
+
+			Coin coin = new Coin();
+			coin.setLifeTime(aLifeTime);
+			coin.setPosition(aCenterPosition);
+			coin.setVelocity(velocity);
+			aRoom.addEntity(coin);
+			Sound.playSample("data/sounds/coin");
+		}
 	}
 }

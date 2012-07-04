@@ -11,8 +11,8 @@ public class EntityFactory {
 			//	return new Reactor();
 		case 2:
 			return new Coin();
-			//		case 3:
-			//			return new Spike();
+		case 3:
+			return new Spike();
 			//		case 4:
 			//			return new SpawnPoint();
 			//		case 5:

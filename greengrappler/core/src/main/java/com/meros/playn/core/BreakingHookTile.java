@@ -48,7 +48,7 @@ public class BreakingHookTile extends Entity {
 
 		if (mBreaking) {
 			mBreakCounter++;
-			int breakFrames = lerp(MAX_BREAK_FRAMES, MIN_BREAK_FRAMES, PlayerSkill.get());
+			int breakFrames = UtilMethods.lerp(MAX_BREAK_FRAMES, MIN_BREAK_FRAMES, PlayerSkill.get());
 
 			if (mRoom.getHero().getRopeState() != Hero.RopeState.Attached) {
 				breakFrames = -1;
@@ -59,9 +59,12 @@ public class BreakingHookTile extends Entity {
 				mRoom.setHookable(mTileX, mTileY, false);
 				mRoom.setCollidable(mTileX, mTileY, false);
 
-				//TODO: ParticleSystem* ps = new ParticleSystem(Resource::getAnimation("data/images/debris.bmp", 4), 10, 50, 20, 1, 50, 2, -float2(0.0f, 30.0f), 2.0f);
-				//ps.setPosition(getPosition(), 2.0f);
-				//mRoom->addEntity(ps);
+				ParticleSystem ps = 
+						new ParticleSystem(
+								Resource.getAnimation("data/images/debris.bmp", 4), 
+								10, 50, 20, 1, 50, 2, new float2(0.0f, -30.0f), 2.0f);
+				ps.setPosition(getPosition(), 2.0f, false);
+				mRoom.addEntity(ps);
 
 			}
 		}
@@ -92,14 +95,6 @@ public class BreakingHookTile extends Entity {
 		if (!mBreaking || (mBreakCounter & 1) == 0) {
 			mSprite.drawFrame(aBuffer, 0, x, y);
 		}
-	}
-
-	private int lerp(int aMin, int aMax, float aRatio) {
-		if (aRatio < 0.0f)
-			return aMin;
-		if (aRatio > 1.0f)
-			return aMax;
-		return (int) (aMin+(aMax-aMin)*aRatio);
 	}
 
 	@Override

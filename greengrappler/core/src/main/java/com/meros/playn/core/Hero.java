@@ -232,21 +232,18 @@ public class Hero extends Entity {
 					mRopeState = RopeState.Attached;
 					mJumpHeld = false;
 
-					//TODO: particles!
-					//					ParticleSystem* particleSystem = new ParticleSystem(
-					//						mAnimationHookParticle,
-					//						2,
-					//						30,
-					//						10,
-					//						1,
-					//						50,
-					//						10,
-					//						-normalize(mRopeVelocity)*10,
-					//						1.0);
-
-					//particleSystem->setPosition(mRopePosition);
-
-					//mRoom->addEntity(particleSystem);
+					ParticleSystem particleSystem = new ParticleSystem(
+							mAnimationHookParticle,
+							2,
+							30,
+							10,
+							1,
+							50,
+							10,
+							mRopeVelocity.normalize().multiply(-10),
+							(float) 1.0);
+					particleSystem.setPosition(mRopePosition);
+					mRoom.addEntity(particleSystem);
 
 					break;
 				}
@@ -356,10 +353,9 @@ public class Hero extends Entity {
 
 					if (score > bestScore) {
 						float2 direction = tilePos.subtract(mPosition);
-						Integer rcX = new Integer(0); //TODO: tror inte ut funkar!
-						Integer rcY = new Integer(0);
-						boolean rcHit = mRoom.rayCast(mPosition, direction, false, rcX, rcY);
-						if (rcHit && rcX == x && rcY == y) {
+						float2 rc = new float2();
+						boolean rcHit = mRoom.rayCast(mPosition, direction, false, rc);
+						if (rcHit && (int)rc.x == x && (int)rc.y == y) {
 							bestScore = score;
 							bestDirection = direction;
 						}
@@ -371,10 +367,10 @@ public class Hero extends Entity {
 		ArrayList<Entity> damagableEntities = mRoom.getDamagableEntities();
 		ArrayList<Entity> hookableEntities = mRoom.getHookableEntities();
 		ArrayList<Entity> entities = new ArrayList<Entity>();
-		
+
 		entities.addAll(damagableEntities);
 		entities.addAll(hookableEntities);
-		
+
 		for (int i = 0; i < (int)entities.size(); i++) {
 			Entity e = entities.get(i);
 			float2 entityPos = e.getPosition();
@@ -382,9 +378,9 @@ public class Hero extends Entity {
 
 			if (score > bestScore) {
 				float2 direction = entityPos.subtract(mPosition);
-				int rcX = 0, rcY = 0;
-				boolean rcHit = mRoom.rayCast(mPosition, direction, false, rcX, rcY);
-				float2 rcTilePos= new float2(rcX * mRoom.getTileWidth() + mRoom.getTileWidth() / 2, rcY * mRoom.getTileHeight() + mRoom.getTileHeight() / 2);
+				float2 rc = new float2();
+				boolean rcHit = mRoom.rayCast(mPosition, direction, false, rc);
+				float2 rcTilePos= new float2(rc.x * mRoom.getTileWidth() + mRoom.getTileWidth() / 2, rc.y * mRoom.getTileHeight() + mRoom.getTileHeight() / 2);
 
 				if (!rcHit || aRopeDirection.lengthCompare(rcTilePos) < 0) {
 					bestScore = score;
@@ -526,7 +522,7 @@ public class Hero extends Entity {
 	public boolean gotCoin() {
 		if (mBlinkingTicksLeft == 0)
 		{
-			//TODO: GameState::put("coins", GameState::getInt("coins") + 1);
+			GameState.put("coins", GameState.getInt("coins") + 1);
 			return true;
 		}
 
@@ -534,17 +530,27 @@ public class Hero extends Entity {
 	}
 
 	public boolean isDead() {
-		// TODO Auto-generated method stub
-		return false;
+		return myIsDead;
 	}
 
 	public void imortal() {
-		// TODO Auto-generated method stub
-
+		myImortal = true;
 	}
 
 	public void respawn() {
-		// TODO Auto-generated method stub
+		setPosition(mSpawnPoint);
+		setVelocity(new float2(0,0));
+		myIsDead = false;
+		GameState.put("coins", 0);
+		mOnGround = false;
+		mJumpHeld= false;
+		mJumpPrepressed = false;
+		mFrame = 0;
+		mRopeState = RopeState.Retracted;
+		mHookedEntity = null;
+		mFacingDirection = Direction.Right;
+		mBlinkingTicksLeft = 0;
+		mRopeDissapearCounter = 0;
 
 	}
 
@@ -556,4 +562,40 @@ public class Hero extends Entity {
 		return mRopePosition;
 	}
 
+	public void kill() {
+		if (myImortal)
+			return;
+
+		if (mBlinkingTicksLeft == 0)
+		{
+			PlayerSkill.playerDidSomethingStupid(0.0f, 0.1f);
+			detachHook();
+
+			int coins = GameState.getInt("coins");
+			GameState.put("coins", 0);
+
+			if (coins > 0)
+			{
+				coins /= 2;
+				coins = Math.min(20, Math.max(0, coins));
+				int lifetime = UtilMethods.lerp(MAX_DEATH_COIN_LIFETIME, MIN_DEATH_COIN_LIFETIME, PlayerSkill.get());
+				Coin.SpawnDeathCoins(coins, getPosition(), lifetime, mRoom);
+				mBlinkingTicksLeft = BLINKING_TICKS;
+				mVelocity = mVelocity.normalize().multiply(-KILL_VELOCITY);
+				Sound.playSample("data/sounds/hurt");
+			}
+			else
+			{
+				PlayerSkill.playerDidSomethingStupid(0.0f, 0.25f);
+				die();
+			}
+		}
+	}
+
+	private void die() {
+		mRopeState = RopeState.Retracted;
+		mHookedEntity = null;
+		myIsDead = true;
+		Sound.playSample("data/sounds/start");
+	}
 }
