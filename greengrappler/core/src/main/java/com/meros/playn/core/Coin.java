@@ -6,8 +6,8 @@ import playn.core.Canvas;
 public class Coin extends Entity {
 
 	int mLifeTime = 0;
-	enum Type { Type_Static, Type_Dynamic }
-	Type mType = Type.Type_Static;
+	enum Type { STATIC, DYNAMIC }
+	Type mType = Type.STATIC;
 	boolean mTemporary = false;
 
 
@@ -25,7 +25,7 @@ public class Coin extends Entity {
 	public void setLifeTime(int aLifeTime)
 	{
 		mLifeTime = aLifeTime;
-		mType = Type.Type_Dynamic;
+		mType = Type.DYNAMIC;
 		mTemporary = aLifeTime != 0;
 	}
 
@@ -37,7 +37,7 @@ public class Coin extends Entity {
 	{
 		Hero hero = mRoom.getHero();
 
-		if (mType == Type.Type_Dynamic)
+		if (mType == Type.DYNAMIC)
 		{
 			if (mTemporary && mLifeTime == 0)
 			{
@@ -102,6 +102,13 @@ public class Coin extends Entity {
 	}
 
 	//		virtual void onRespawn();
+	@Override
+	public void onRespawn()
+	{
+		if (mType == Type.DYNAMIC)
+			remove();
+	}
+	
 	@Override
 	public int getLayer() {
 		return 3;

@@ -12,23 +12,23 @@ import playn.core.ImmediateLayer.Renderer;
 import playn.core.Surface;
 
 public class GreenGrappler implements Game, Renderer {
-	
-	
+
+
 	public interface ExitCallback
 	{
 		public abstract void exit();
 	}
- 
+
 	Canvas canvas = null;
 	CanvasImage canvasImage = null;
-	
+
 	boolean myFullScreen = false;
-	
+
 	int frame = 0;
-	
+
 	boolean myReadyForUpdates = false;
 	ExitCallback myExitCallback;
-	
+
 	public GreenGrappler(boolean aFullScreen, ExitCallback exitCallback)
 	{
 		myFullScreen = aFullScreen;
@@ -38,14 +38,14 @@ public class GreenGrappler implements Game, Renderer {
 	@Override
 	public void init() {
 		log().debug("Green Grappler init");
-		
+
 		// create and add background image layer
 		//graphics().setSize(320, 240);
 		canvasImage = graphics().createImage(320, 240);
 		canvas = canvasImage.canvas();
 		ImmediateLayer imLayer = graphics().createImmediateLayer(this);
 		graphics().rootLayer().add(imLayer);
-		
+
 		if (myFullScreen)
 			graphics().setSize(graphics().screenWidth(),graphics().screenHeight());
 
@@ -91,7 +91,7 @@ public class GreenGrappler implements Game, Renderer {
 		Resource.preLoad("data/images/unselected_level_background.bmp");
 		Resource.preLoad("data/images/wall.bmp");
 		Resource.preLoad("data/images/z_coin.bmp");
-		
+
 		Resource.preLoadText("data/rooms/breaktilelevel.txt");
 		Resource.preLoadText("data/rooms/level1.txt");
 		Resource.preLoadText("data/rooms/levellava.txt");
@@ -108,7 +108,26 @@ public class GreenGrappler implements Game, Renderer {
 		Resource.preLoadText("data/dialogues/2-tutorial2.txt");
 		Resource.preLoadText("data/dialogues/boss_unlocked.txt");
 		Resource.preLoadText("data/dialogues/level_select.txt");
-		
+
+		Resource.preLoadSound("data/sounds/alarm.mp3");
+		Resource.preLoadSound("data/sounds/beep.mp3");
+		Resource.preLoadSound("data/sounds/boot.mp3");
+		Resource.preLoadSound("data/sounds/boss_saw.mp3");
+		Resource.preLoadSound("data/sounds/coin.mp3");
+		Resource.preLoadSound("data/sounds/damage.mp3");
+		Resource.preLoadSound("data/sounds/green_peace.mp3");
+		Resource.preLoadSound("data/sounds/hook.mp3");
+		Resource.preLoadSound("data/sounds/hurt.mp3");
+		Resource.preLoadSound("data/sounds/jump.mp3");
+		Resource.preLoadSound("data/sounds/land.mp3");
+		Resource.preLoadSound("data/sounds/no_hook.mp3");
+		Resource.preLoadSound("data/sounds/reactor_explosion.mp3");
+		Resource.preLoadSound("data/sounds/rope.mp3");
+		Resource.preLoadSound("data/sounds/select.mp3");
+		Resource.preLoadSound("data/sounds/start.mp3");
+		Resource.preLoadSound("data/sounds/time.mp3");
+		Resource.preLoadSound("data/sounds/timeout.mp3");
+
 		Input.init();
 	}
 
@@ -129,12 +148,12 @@ public class GreenGrappler implements Game, Renderer {
 			postPreloadInit();
 			myReadyForUpdates = true;
 		}
-		
+
 		if (Input.isPressed(Buttons.ForceQuit) || ScreenManager.isEmpty())
 		{
 			myExitCallback.exit();
 		}
-		
+
 		Input.update();
 	}
 
@@ -156,13 +175,13 @@ public class GreenGrappler implements Game, Renderer {
 	@Override
 	public void render(Surface surface) {
 		surface.save();
-		
+
 		float w = surface.width();
 		float h = surface.height();
-		
+
 		float targetAspect = 320/240;
 		float aspect = w/h;
-		
+
 		if (aspect < targetAspect)
 		{
 			float scaleFactor = surface.width()/320;
@@ -173,7 +192,7 @@ public class GreenGrappler implements Game, Renderer {
 			float scaleFactor = surface.height()/240;
 			surface.scale(scaleFactor, scaleFactor);				
 		}
-		
+
 		surface.drawImage(canvasImage, 0, 0);
 		surface.restore();
 	}

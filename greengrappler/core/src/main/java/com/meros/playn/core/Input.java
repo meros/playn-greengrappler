@@ -9,10 +9,11 @@ import playn.core.Key;
 import playn.core.Keyboard;
 import playn.core.Keyboard.Event;
 import playn.core.Keyboard.TypedEvent;
+import playn.core.PlayN;
 
 public class Input implements Keyboard.Listener {
 
-	static HashMap<Buttons, Integer> mIsHeld = new HashMap<Buttons, Integer>();
+	static HashSet<Buttons> mIsHeld = new HashSet<Buttons>();
 	static HashSet<Buttons> mIsPressed = new HashSet<Buttons>();
 	static HashSet<Buttons> mIsReleased = new HashSet<Buttons>();
 
@@ -20,7 +21,7 @@ public class Input implements Keyboard.Listener {
 
 	public static void init()
 	{
-		playn.core.PlayN.keyboard().setListener(new Input());
+		PlayN.keyboard().setListener(new Input());
 
 		mKeyMap.put(Key.DOWN, Buttons.Down);
 		mKeyMap.put(Key.UP, Buttons.Up);
@@ -39,10 +40,7 @@ public class Input implements Keyboard.Listener {
 	}
 
 	public static boolean isHeld(Buttons aButton) {
-		if (!mIsHeld.containsKey(aButton))
-			return false;
-
-		return (mIsHeld.get(aButton) != 0);
+		return mIsHeld.contains(aButton);
 	}
 
 	public static boolean isPressed(Buttons aButton) {
@@ -56,31 +54,24 @@ public class Input implements Keyboard.Listener {
 	public static void onButtonDown(Buttons aButton)
 	{
 		mIsPressed.add(aButton);
-		if (!mIsHeld.containsKey(aButton))
-		{
-			mIsHeld.put(aButton, 0);
-		}
-
-		mIsHeld.put(aButton, mIsHeld.get(aButton) + 1);
+		mIsHeld.add(aButton);
 	}
 
 	public static void onButtonUp(Buttons aButton)
 	{
-		if (mIsHeld.containsKey(aButton))
-		{
-			mIsHeld.put(aButton, mIsHeld.get(aButton) - 1);
-			if (mIsHeld.get(aButton) == 0)
-			{
-				mIsReleased.add(aButton);
-			}
-		}
+		mIsHeld.remove(aButton);
+		mIsReleased.add(aButton);
 	}
 
 	@Override
 	public void onKeyDown(Event event) {
 		if (mKeyMap.containsKey(event.key()))
 		{
-			onButtonDown(mKeyMap.get(event.key()));
+			if (!mIsHeld.contains(mKeyMap.get(event.key())))
+			{
+				event.setPreventDefault(true);
+				onButtonDown(mKeyMap.get(event.key()));
+			}
 		}
 	}
 
@@ -94,17 +85,18 @@ public class Input implements Keyboard.Listener {
 	public void onKeyUp(Event event) {
 		if (mKeyMap.containsKey(event.key()))
 		{
+			event.setPreventDefault(true);
 			onButtonUp(mKeyMap.get(event.key()));
 		}
 	}
 
 	public static void enable() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public static void disable() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

@@ -164,6 +164,11 @@ public class Resource {
 		return myAnimations.get(key);
 	}
 
+	public static void preLoadSound(String string) {
+		assets().getSound(string);
+		
+	}
+
 	//	    static BITMAP* getBitmap(const std::string& filename, unsigned int color);
 	//		static BITMAP* getBitmap(const std::string& filename);
 	//		static Animation* getAnimation(const std::string& filename, int aFrames);
