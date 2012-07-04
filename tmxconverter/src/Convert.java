@@ -1,10 +1,5 @@
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Properties;
@@ -28,31 +23,14 @@ public class Convert {
 	public static void main(String[] args) throws FileNotFoundException {
 		String inFile = "/Users/meros/Documents/development/playn-greengrappler/greengrappler/core/src/main/java/com/meros/playn/resources/data/rooms/breaktilelevel.tmx";
 		PrintStream ps = new PrintStream(new FileOutputStream(inFile.replace(".tmx", ".txt")));
-		
+
 
 		// TODO Auto-generated method stub
 		try {
 			Map map = reader.readMap(inFile);
 			Vector<MapLayer> layers = map.getLayers();
-
-			int width = 0;
-			int height = 0;
-
-			for(int i = 0; i < layers.size(); i++)
-			{
-				MapLayer layer = layers.get(i);
-				if (layer.getName().compareTo("middle") == 0)
-				{
-					width = layer.getWidth();
-					height = layer.getHeight();
-				}
-			}
-
-			//Write width and height
-			ps.println(width);
-			ps.println(height);
-
 			HashMap<Integer, Integer> gidtoidMap = new HashMap<Integer, Integer>();
+			HashMap<Integer, Integer> gidtoEntIdMap = new HashMap<Integer, Integer>();
 
 			Vector<TileSet> sets = map.getTileSets();
 
@@ -102,13 +80,19 @@ public class Convert {
 					ps.println(hook?1:0);
 
 					gidtoidMap.put(tile.getGid(), id++);
+
+					if (sets.get(i).getName().compareTo("entities") == 0)
+					{
+						gidtoEntIdMap.put(tile.getGid(), gidtoEntIdMap.size());
+					}
 				}
 			}
 
-			printLayer("background", layers, gidtoidMap, ps, width, height);
-			printLayer("middle", layers, gidtoidMap, ps, width, height);
-			printLayer("foreground", layers, gidtoidMap, ps, width, height);
+			printLayer("background", layers, gidtoidMap, ps);
+			printLayer("middle", layers, gidtoidMap, ps);
+			printLayer("foreground", layers, gidtoidMap, ps);
 
+			printLayer("entities", layers, gidtoEntIdMap, ps);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -117,13 +101,15 @@ public class Convert {
 
 
 	}
-	private static void printLayer(String aLayerName, Vector<MapLayer> aLayers, HashMap<Integer, Integer> aGidToIdMap, PrintStream aPs, int aWidth, int aHeight) {
+	private static void printLayer(String aLayerName, Vector<MapLayer> aLayers, HashMap<Integer, Integer> aGidToIdMap, PrintStream aPs) {
 		boolean found = false;
 		for(int i = 0; i < aLayers.size(); i++)
 		{
 			MapLayer layer = aLayers.get(i);
 			if (layer.getName().compareTo(aLayerName) == 0)
 			{
+				aPs.println(layer.getWidth());
+				aPs.println(layer.getHeight());
 				found = true;
 				if (layer instanceof TileLayer)
 				{
@@ -136,7 +122,10 @@ public class Convert {
 							Tile tile = tLayer.getTileAt(x, y);
 
 							if (tile != null)
-								aPs.println(aGidToIdMap.get(tile.getGid()));
+							{
+								int id = aGidToIdMap.get(tile.getGid());
+								aPs.println(id);
+							}
 							else
 								aPs.println(-1);
 						}
@@ -148,13 +137,8 @@ public class Convert {
 
 		if (!found)
 		{
-			for(int x = 0; x < aWidth; x++)
-			{
-				for (int y = 0; y < aWidth; y++)
-				{
-					aPs.println(-1);
-				}
-			}
+			aPs.println(0);
+			aPs.println(0);
 		}
 
 	}
