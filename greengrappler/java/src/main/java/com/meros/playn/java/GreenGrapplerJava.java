@@ -16,9 +16,11 @@ public class GreenGrapplerJava {
 
 							@Override
 							public void exit() {
-								// TODO Auto-generated method stub
+								System.exit(0);
 
 							}
-						}));
+						}
+						)
+				);
 	}
 }

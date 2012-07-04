@@ -28,8 +28,8 @@ public class EntityFactory {
 			//		case 10:
 			//			return new LavaSea();
 			//
-			//		case 32:
-			//			return new BreakingHookTile();
+		case 32:
+			return new BreakingHookTile();
 			//		case 33:
 			//			return new Coin();
 			//		case 34:

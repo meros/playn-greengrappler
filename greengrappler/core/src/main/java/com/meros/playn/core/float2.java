@@ -65,4 +65,13 @@ public class float2 {
 	public float lengthCompare(float aCompareLength) {
 		return (x*x+y*y) - (aCompareLength*aCompareLength);
 	}
+
+	public float lengthCompare(float2 aOther) {
+		return (x*x+y*y) - (aOther.x*aOther.x*aOther.y*aOther.y);
+	}
+
+	public float dot(float2 aOther) {
+		// TODO Auto-generated method stub
+		return x*aOther.x + y*aOther.y;
+	}
 }

@@ -45,7 +45,7 @@ public class RoomLoader {
 				int tileType = Integer.parseInt(data[curri++]);
 				if (tileType != -1)
 				{
-					backgroundLayer.setTile(x, y, tiles[tileType]);
+					backgroundLayer.setTile(x, y, tiles[tileType].clone());
 				}
 			}
 		}
@@ -62,11 +62,11 @@ public class RoomLoader {
 				int tileType = Integer.parseInt(data[curri++]);
 				if (tileType != -1)
 				{
-					middleLayer.setTile(x, y, tiles[tileType]);
+					middleLayer.setTile(x, y, tiles[tileType].clone());
 				}
 				else
 				{
-					middleLayer.setTile(x, y, emptyTile);
+					middleLayer.setTile(x, y, emptyTile.clone());
 				}
 			}
 		}
@@ -83,7 +83,7 @@ public class RoomLoader {
 				int tileType = Integer.parseInt(data[curri++]);
 				if (tileType != -1)
 				{
-					foregroundLayer.setTile(x, y, tiles[tileType]);
+					foregroundLayer.setTile(x, y, tiles[tileType].clone());
 				}
 			}
 		}

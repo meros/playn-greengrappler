@@ -328,11 +328,11 @@ public class Room {
 		getCamera().onLogic(getHero(), mCameraTopLeft, mCameraBottomRight);
 	}
 
-	private float getHeightInTiles() {
+	public float getHeightInTiles() {
 		return myMiddleLayer.getHeight();
 	}
 
-	private float getWidthInTiles() {
+	public float getWidthInTiles() {
 		return myMiddleLayer.getWidth();
 	}
 
@@ -366,6 +366,83 @@ public class Room {
 	{
 		for (int i = 0; i < mEntities.size(); i++)
 			mEntities.get(i).onStartWallOfDeath();
+	}
+
+	public void setHookable(int aX, int aY, boolean aHook) {
+		myMiddleLayer.getTile(aX, aY).setHook(aHook);
+		
+	}
+
+	public void setCollidable(int aX, int aY, boolean aCollide) {
+		myMiddleLayer.getTile(aX, aY).setCollide(aCollide);
+	}
+
+	public boolean rayCast(float2 origin, float2 direction, boolean cullBeyondDirection,
+			Integer tileXOut, Integer tileYOut) {
+		if (direction.isZero())
+		{
+			return false;
+		}
+
+		int ix = (int) ((int)Math.floor(origin.x) / getTileWidth());
+		int iy = (int) ((int)Math.floor(origin.y) / getTileHeight());
+		float dx = (origin.x / getTileWidth() - ix);
+		float dy = (origin.y / getTileHeight() - iy);
+		float tx = direction.x > 0 ? 1 : 0;
+		float ty = direction.y > 0 ? 1 : 0;
+
+		int minX = 0;
+		int maxX = (int) getWidthInTiles();
+		int minY = 0;
+		int maxY = (int) getHeightInTiles();
+		if ( cullBeyondDirection ) {
+			minX = Math.max(minX, ix + (int)(Math.min(0.0f, direction.x) / getTileWidth() - 1.0f));
+			maxX = Math.min(maxX, ix + (int)(Math.max(0.0f, direction.x) / getTileWidth() + 2.0f));
+			minY = Math.max(minY, iy + (int)(Math.min(0.0f, direction.y) / getTileHeight() - 1.0f));
+			maxY = Math.min(maxY, iy + (int)(Math.max(0.0f, direction.y) / getTileHeight() + 2.0f));
+		}
+		boolean hit = false;
+		while (ix >= minX && ix < maxX && iy >= minY && iy < maxY )
+		{
+			if ( isCollidable(ix, iy) ) {
+				hit = true;
+				break;
+			}
+
+			if ( direction.y == 0 || (direction.x != 0 && ((tx-dx)/direction.x < (ty-dy) / direction.y)) )
+			{
+				dy += direction.y * (tx - dx) / direction.x;
+				if ( direction.x > 0 )
+				{
+					ix++;
+					dx = 0;
+				} else {
+					ix--;
+					dx = 1;
+				}
+			} else {
+				dx += direction.x * (ty - dy) / direction.y;
+				if ( direction.y > 0 )
+				{
+					iy++;
+					dy = 0;
+				} else {
+					iy--;
+					dy = 1;
+				}
+			}
+		}
+		if ( hit ) {
+			tileXOut = ix;
+			tileYOut = iy;
+			float2 tileCenter = new float2(ix * getTileWidth() + getTileWidth() / 2, iy * getTileHeight() + getTileHeight() / 2);
+			if ( cullBeyondDirection && origin.subtract(tileCenter).lengthCompare(direction) > 0 ) {
+				return false;
+			}
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }

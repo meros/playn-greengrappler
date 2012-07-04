@@ -7,4 +7,9 @@ public class PlayerSkill {
 		
 	}
 
+	public static float get() {
+		// TODO Auto-generated method stub
+		return 1.0f;
+	}
+
 }

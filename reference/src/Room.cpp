@@ -154,7 +154,7 @@ void Room::setHookable(int aX, int aY, bool aHookable)
 
 void Room::setCollidable(int aX, int aY, bool aCollide)
 {
-	mMiddleLayer->getTile(aX, aY).setCollide(aCollide);
+	mMiddleLayer->getTile(aX, aY).setCollide(raycaasaCollide);
 }
 
 bool Room::destroyTile(int aX, int aY)

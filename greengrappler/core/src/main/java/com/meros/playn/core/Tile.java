@@ -14,6 +14,15 @@ public class Tile {
 	boolean myCollide = false;
 	boolean myHook = false;
 	
+	public Tile clone()
+	{
+		Tile tile = new Tile(myTileImage, myX, myY, myW, myH);
+		tile.setCollide(myCollide);
+		tile.setHook(myHook);
+		
+		return tile;
+	}
+	
 	public Tile(Image aTilemap, int aX, int aY, int aW, int aH)
 	{
 		myTileImage = aTilemap;

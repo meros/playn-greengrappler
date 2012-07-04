@@ -1,9 +1,12 @@
 package com.meros.playn.core;
 
+import java.util.ArrayList;
+
 import playn.core.Canvas;
 
 import com.meros.playn.core.Constants.Buttons;
 import com.meros.playn.core.Constants.Direction;
+import com.meros.playn.core.Hero.RopeState;
 
 public class Hero extends Entity {
 
@@ -24,8 +27,8 @@ public class Hero extends Entity {
 	static float KILL_VELOCITY		= 200.0f;
 	static int   MIN_DEATH_COIN_LIFETIME	= 300;
 	static int   MAX_DEATH_COIN_LIFETIME	= 500;
-	
-	
+
+
 	int	 mBlinkingTicksLeft = 0;
 	boolean mOnGround = false;
 	boolean mJumpHeld = false;
@@ -40,7 +43,7 @@ public class Hero extends Entity {
 	RopeState mRopeState = RopeState.Retracted;
 	float2 mRopePosition = new float2();
 	float2 mRopeVelocity = new float2();
-	
+
 	Direction mFacingDirection = Direction.Right;
 	int mRopeDissapearCounter = 0;
 	Animation mAnimationRun = new Animation("data/images/hero_run.bmp", 4);
@@ -65,7 +68,7 @@ public class Hero extends Entity {
 	}
 
 	MovementState mMovementState = MovementState.Still;
-	
+
 	Entity mHookedEntity = null;
 	float2 mHookedEntityOffset = new float2();
 
@@ -78,7 +81,7 @@ public class Hero extends Entity {
 	public int getLayer() {
 		return 2;
 	}
-	
+
 	@Override
 	public void update()
 	{
@@ -230,16 +233,16 @@ public class Hero extends Entity {
 					mJumpHeld = false;
 
 					//TODO: particles!
-//					ParticleSystem* particleSystem = new ParticleSystem(
-//						mAnimationHookParticle,
-//						2,
-//						30,
-//						10,
-//						1,
-//						50,
-//						10,
-//						-normalize(mRopeVelocity)*10,
-//						1.0);
+					//					ParticleSystem* particleSystem = new ParticleSystem(
+					//						mAnimationHookParticle,
+					//						2,
+					//						30,
+					//						10,
+					//						1,
+					//						50,
+					//						10,
+					//						-normalize(mRopeVelocity)*10,
+					//						1.0);
 
 					//particleSystem->setPosition(mRopePosition);
 
@@ -310,7 +313,7 @@ public class Hero extends Entity {
 		}
 
 		int bumps = moveWithCollision();
-		
+
 		if ((bumps & (Direction.Left.value | Direction.Right.value)) != 0) {
 			mVelocity.x = 0;
 		}
@@ -332,7 +335,7 @@ public class Hero extends Entity {
 		mVelocity = mVelocity.multiply(drag);
 
 		mFrame ++;
-		
+
 		if (mBlinkingTicksLeft > 0)
 		{
 			mBlinkingTicksLeft --;
@@ -340,8 +343,71 @@ public class Hero extends Entity {
 	}
 
 	private float2 adjustRopeDirection(float2 aRopeDirection) {
-		// TODO Auto-generated method stub
-		return aRopeDirection;
+		float bestScore = 0;
+		float2 bestDirection = aRopeDirection;
+
+		for (int y = 0; y < mRoom.getHeightInTiles(); y++) {
+			for (int x = 0; x < mRoom.getWidthInTiles(); x++) {
+				if (mRoom.isHookable(x, y)) {
+					float pixelX = x * mRoom.getTileWidth() + mRoom.getTileWidth() / 2;
+					float pixelY = y * mRoom.getTileHeight() + mRoom.getTileHeight() / 2;
+					float2 tilePos = new float2(pixelX, pixelY);
+					float score = getAutoAimScore(aRopeDirection, tilePos);
+
+					if (score > bestScore) {
+						float2 direction = tilePos.subtract(mPosition);
+						Integer rcX = new Integer(0); //TODO: tror inte ut funkar!
+						Integer rcY = new Integer(0);
+						boolean rcHit = mRoom.rayCast(mPosition, direction, false, rcX, rcY);
+						if (rcHit && rcX == x && rcY == y) {
+							bestScore = score;
+							bestDirection = direction;
+						}
+					}
+				}
+			}
+		}
+
+		ArrayList<Entity> damagableEntities = mRoom.getDamagableEntities();
+		ArrayList<Entity> hookableEntities = mRoom.getHookableEntities();
+		ArrayList<Entity> entities = new ArrayList<Entity>();
+		
+		entities.addAll(damagableEntities);
+		entities.addAll(hookableEntities);
+		
+		for (int i = 0; i < (int)entities.size(); i++) {
+			Entity e = entities.get(i);
+			float2 entityPos = e.getPosition();
+			float score = getAutoAimScore(aRopeDirection, entityPos);
+
+			if (score > bestScore) {
+				float2 direction = entityPos.subtract(mPosition);
+				int rcX = 0, rcY = 0;
+				boolean rcHit = mRoom.rayCast(mPosition, direction, false, rcX, rcY);
+				float2 rcTilePos= new float2(rcX * mRoom.getTileWidth() + mRoom.getTileWidth() / 2, rcY * mRoom.getTileHeight() + mRoom.getTileHeight() / 2);
+
+				if (!rcHit || aRopeDirection.lengthCompare(rcTilePos) < 0) {
+					bestScore = score;
+					bestDirection = direction;
+				}
+			}
+		}
+
+		return bestDirection.normalize();
+	}
+
+	private float getAutoAimScore(float2 aRopeDirection, float2 aAutoAimPos) {
+		float2 playerToTile = aAutoAimPos.subtract(mPosition);
+		float dotValue = aRopeDirection.dot(playerToTile);
+		if (dotValue < 0) {
+			return -1;
+		}
+		float distance = playerToTile.length();
+		dotValue /= distance;
+		if (dotValue < 0.80) {
+			return -1;
+		}
+		return (float) (Math.pow(dotValue, 10.0f) / distance);
 	}
 
 	private void detachHook() {
@@ -474,12 +540,20 @@ public class Hero extends Entity {
 
 	public void imortal() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void respawn() {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public RopeState getRopeState() {
+		return mRopeState;
+	}
+
+	public float2 getRopePosition() {
+		return mRopePosition;
 	}
 
 }
