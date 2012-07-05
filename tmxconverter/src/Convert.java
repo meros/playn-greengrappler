@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
@@ -21,13 +22,23 @@ public class Convert {
 	 * @throws FileNotFoundException 
 	 */
 	public static void main(String[] args) throws FileNotFoundException {
-		String inFile = "/Users/meros/Documents/development/playn-greengrappler/greengrappler/core/src/main/java/com/meros/playn/resources/data/rooms/breaktilelevel.tmx";
-		PrintStream ps = new PrintStream(new FileOutputStream(inFile.replace(".tmx", ".txt")));
+		String directory = "/Users/meros/Documents/development/playn-greengrappler/greengrappler/core/src/main/java/com/meros/playn/resources/data/rooms/";
+		File dir = new File(directory);
 
 
+		for (String file : dir.list())
+		{
+			if (file.endsWith(".tmx"))
+				convertFile(directory + file);
+		}
+	}
+
+	public static void convertFile(String filename) throws FileNotFoundException
+	{
+		PrintStream ps = new PrintStream(new FileOutputStream(filename.replace(".tmx", ".txt")));
 		// TODO Auto-generated method stub
 		try {
-			Map map = reader.readMap(inFile);
+			Map map = reader.readMap(filename);
 			Vector<MapLayer> layers = map.getLayers();
 			HashMap<Integer, Integer> gidtoidMap = new HashMap<Integer, Integer>();
 			HashMap<Integer, Integer> gidtoEntIdMap = new HashMap<Integer, Integer>();
@@ -96,11 +107,9 @@ public class Convert {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-
-
-
+		}	
 	}
+
 	private static void printLayer(String aLayerName, Vector<MapLayer> aLayers, HashMap<Integer, Integer> aGidToIdMap, PrintStream aPs) {
 		boolean found = false;
 		for(int i = 0; i < aLayers.size(); i++)
