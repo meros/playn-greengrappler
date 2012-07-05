@@ -1,6 +1,8 @@
 package com.meros.playn.core;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import playn.core.Canvas;
 import playn.core.Color;
@@ -26,9 +28,9 @@ public class Room {
 
 	Font myFont = Resource.getFont("data/images/font.bmp");
 
-	ArrayList<Entity> mEntities = new ArrayList<Entity>();
-	ArrayList<Entity> mDamagableEntities = new ArrayList<Entity>();
-	ArrayList<Entity> mHookableEntities = new ArrayList<Entity>();
+	Set<Entity> mEntities = new HashSet<Entity>();
+	Set<Entity> mDamagableEntities = new HashSet<Entity>();
+	Set<Entity> mHookableEntities = new HashSet<Entity>();
 
 	public Room(Layer aBackgroundLayer,		  
 			Layer aMiddleLayer,		   
@@ -76,8 +78,21 @@ public class Room {
 			mHookableEntities.add(aEntity);
 	}
 
-	public boolean damageDone(int i, int j) {
-		// TODO Auto-generated method stub
+	public boolean damageDone(int aX, int aY) {
+		for (Entity entity : mDamagableEntities)
+		{
+			Entity.CollisionRect rect = entity.new CollisionRect();
+			rect.myTopLeft = new float2(aX, aY);
+			rect.myBottomRight = new float2(aX+1, aY+1);
+
+
+			if (Entity.Collides(rect, entity.getCollisionRect()))
+			{
+				entity.onDamage();
+				return true;
+			}
+		}
+
 		return false;
 	}
 
@@ -107,12 +122,12 @@ public class Room {
 
 		for (int layer  = 0; layer < 5; layer++)
 		{
-			for (int i = 0; i < (int)mEntities.size(); i++)
+			for (Entity entity : mEntities)
 			{
-				if (mEntities.get(i).getLayer() != layer)
+				if (entity.getLayer() != layer)
 					continue;
 
-				mEntities.get(i).draw(aBuffer, (int)mCamera.getOffset().x, (int)mCamera.getOffset().y, 0);
+				entity.draw(aBuffer, (int)mCamera.getOffset().x, (int)mCamera.getOffset().y, 0);
 			}
 		}
 
@@ -127,8 +142,8 @@ public class Room {
 	private void privDrawLayer(Canvas aBuffer, Layer aLayer) {
 
 		float2 clampTopLeft = new float2(
-			-getCamera().getOffset().x/getTileWidth(),
-			-getCamera().getOffset().y/getTileHeight());
+				-getCamera().getOffset().x/getTileWidth(),
+				-getCamera().getOffset().y/getTileHeight());
 
 		if (clampTopLeft.x < 0)
 		{
@@ -140,8 +155,8 @@ public class Room {
 		}
 
 		float2 clampBottomRight = new float2(
-			(aBuffer.width()-getCamera().getOffset().x)/getTileWidth(), 
-			(aBuffer.height()-getCamera().getOffset().y)/getTileHeight());
+				(aBuffer.width()-getCamera().getOffset().x)/getTileWidth(), 
+				(aBuffer.height()-getCamera().getOffset().y)/getTileHeight());
 
 		if (clampBottomRight.x > aLayer.getWidth())
 		{
@@ -160,12 +175,12 @@ public class Room {
 			for (int y = (int) clampTopLeft.y; y < clampBottomRight.y; ++y) 
 			{		
 				privDrawTile(
-					aBuffer,
-					offsetx,
-					offsety, 
-					aLayer.getTile(x, y),
-					x, 
-					y);
+						aBuffer,
+						offsetx,
+						offsety, 
+						aLayer.getTile(x, y),
+						x, 
+						y);
 			}
 		}
 	}
@@ -174,7 +189,7 @@ public class Room {
 			Tile aTile, int aTileX, int aTileY) {
 		if (aTile == null)
 			return;
-		
+
 		aTile.onDraw(aBuffer, aOffsetX + aTileX*aTile.getWidth(), aOffsetY + aTileY*aTile.getHeight());
 	}
 
@@ -191,8 +206,10 @@ public class Room {
 
 	public void setCompleted()
 	{
-		for (int i = 0; i < mEntities.size(); i++)
-			mEntities.get(i).onLevelComplete();
+		for (Entity entity : mEntities)
+		{
+			entity.onLevelComplete();
+		}
 
 		myFrameCounter = 0;
 		myIsCompleted = true;
@@ -219,20 +236,26 @@ public class Room {
 
 	public void broadcastBoosFloorActivate()
 	{
-		for (int i = 0; i < mEntities.size(); i++)
-			mEntities.get(i).onBossFloorActivate();
+		for (Entity entity : mEntities)
+		{
+			entity.onBossFloorActivate();
+		}
 	}
 
 	public void broadcastBoosWallActivate()
 	{
-		for (int i = 0; i < mEntities.size(); i++)
-			mEntities.get(i).onBossWallActivate();
+		for (Entity entity : mEntities)
+		{
+			entity.onBossWallActivate();
+		}
 	}
 
 	public void broadcastBoosWallDectivate()
 	{
-		for (int i = 0; i < mEntities.size(); i++)
-			mEntities.get(i).onBossWallDeactivate();
+		for (Entity entity : mEntities)
+		{
+			entity.onBossWallDeactivate();
+		}
 	}
 
 
@@ -252,9 +275,11 @@ public class Room {
 		if (mHero.isDead() && myFrameCounter > 120)
 		{
 			mHero.respawn();
-			for (int i = 0; i < mEntities.size(); i++)
+
+			Iterator<Entity> it = mEntities.iterator();
+			while (it.hasNext())
 			{
-				mEntities.get(i).onRespawn();
+				it.next().onRespawn();
 			}
 
 			getCamera().centerToHero(mHero);
@@ -268,53 +293,42 @@ public class Room {
 			return;
 		}
 
-		for (int i = 0; i < (int)mEntities.size(); i++)
+		Set<Entity> entitiesToRemove = new HashSet<Entity>();
+
+		for (Entity entity : mEntities)
 		{
-			if (mEntities.get(i).isRemoved())
+			if (entity.isRemoved())
 			{
-				if (mEntities.get(i).isDamagable())
+				if (entity.isDamagable())
 				{
-					for (int j = 0; j < mDamagableEntities.size(); j++)
-					{
-						if (mDamagableEntities.get(j) == mEntities.get(j))
-						{
-							mDamagableEntities.remove(j);
-							break;
-						}
-					}
+					mDamagableEntities.remove(entity);
 				}
 
-				if (mEntities.get(i).isHookable())
+				if (entity.isHookable())
 				{
-					for (int j = 0; j < mHookableEntities.size(); j++)
-					{
-						if (mHookableEntities.get(j) == mEntities.get(i))
-						{
-							mHookableEntities.remove(j);
-							break;
-						}
-					}
+					mHookableEntities.remove(entity);
 				}
 
-				mEntities.remove(i);
-				i--;
+				entitiesToRemove.add(entity);
 			}
 		}
+		
+		mEntities.removeAll(entitiesToRemove);
 
-		for (int i = 0; i < (int)mEntities.size(); i++)
-		{
+		Set<Entity> entToUpdate = new HashSet<Entity>(mEntities);
+		for(Entity entity : entToUpdate)
+		{	
 			if (mHero.isDead())
 				break;
 
-			if (mEntities.get(i) != mHero)
-				mEntities.get(i).update();
+			if (entity != mHero)
+				entity.update();
 		}
 
 		mHero.update();
 
-		for (int i = 0; i < (int)mEntities.size(); i++)
+		for (Entity entity : mEntities)
 		{
-			Entity entity = mEntities.get(i);
 			if (entity.getPosition().x - entity.getHalfSize().x > getWidthInTiles()*getTileWidth() ||
 					entity.getPosition().y - entity.getHalfSize().y > getHeightInTiles()*getTileHeight() ||
 					entity.getPosition().x + entity.getHalfSize().x < 0 ||
@@ -352,25 +366,25 @@ public class Room {
 		mCameraBottomRight = aBottomRight;
 	}
 
-	public ArrayList<Entity> getDamagableEntities()
+	public Set<Entity> getDamagableEntities()
 	{
 		return mDamagableEntities;
 	}
 
-	public ArrayList<Entity> getHookableEntities()
+	public Set<Entity> getHookableEntities()
 	{
 		return mHookableEntities;
 	}
 
 	public void broadcastStartWallOfDeath()
 	{
-		for (int i = 0; i < mEntities.size(); i++)
-			mEntities.get(i).onStartWallOfDeath();
+		for (Entity entity : mEntities)
+			entity.onStartWallOfDeath();
 	}
 
 	public void setHookable(int aX, int aY, boolean aHook) {
 		myMiddleLayer.getTile(aX, aY).setHook(aHook);
-		
+
 	}
 
 	public void setCollidable(int aX, int aY, boolean aCollide) {

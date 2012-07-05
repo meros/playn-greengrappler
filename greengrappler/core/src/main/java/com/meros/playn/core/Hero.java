@@ -1,6 +1,8 @@
 package com.meros.playn.core;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import playn.core.Canvas;
 
@@ -364,15 +366,14 @@ public class Hero extends Entity {
 			}
 		}
 
-		ArrayList<Entity> damagableEntities = mRoom.getDamagableEntities();
-		ArrayList<Entity> hookableEntities = mRoom.getHookableEntities();
-		ArrayList<Entity> entities = new ArrayList<Entity>();
+		Set<Entity> damagableEntities = mRoom.getDamagableEntities();
+		Set<Entity> hookableEntities = mRoom.getHookableEntities();
+		Set<Entity> entities = new HashSet<Entity>();
 
 		entities.addAll(damagableEntities);
 		entities.addAll(hookableEntities);
 
-		for (int i = 0; i < (int)entities.size(); i++) {
-			Entity e = entities.get(i);
+		for (Entity e : entities) {
 			float2 entityPos = e.getPosition();
 			float score = getAutoAimScore(aRopeDirection, entityPos);
 
