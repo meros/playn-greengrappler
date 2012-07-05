@@ -37,7 +37,7 @@ public class Camera {
 		boolean foundRect = false;
 		float2 desiredOffset = new float2();
 
-		//		for (int i = 0; i < myRects.size(); i++)
+		//TODO:		for (int i = 0; i < myRects.size(); i++)
 		//		{
 		//			float2 topleft = myRects.get(i).first;
 		//			float2 bottomright = myRects.get(i).second;

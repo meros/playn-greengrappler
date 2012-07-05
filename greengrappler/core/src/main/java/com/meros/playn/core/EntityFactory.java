@@ -7,8 +7,8 @@ public class EntityFactory {
 		{
 		case 0:
 			return new Hero();
-			//case 1:
-			//	return new Reactor();
+		case 1:
+			return new Reactor();
 		case 2:
 			return new Coin();
 		case 3:

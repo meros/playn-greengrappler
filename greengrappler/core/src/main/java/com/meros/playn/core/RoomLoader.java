@@ -90,7 +90,7 @@ public class RoomLoader {
 
 		Room room = new Room(backgroundLayer, middleLayer, foregroundLayer);
 		room.setCamera(new Camera());
-		room.setCameraRect(new float2(0,0), new float2(middleLayer.getWidth()*10, middleLayer.getWidth()*10));
+		room.setCameraRect(new float2(0,0), new float2(middleLayer.getWidth()*10, middleLayer.getHeight()*10));
 
 		//Entities
 		width = Integer.parseInt(data[curri++]);

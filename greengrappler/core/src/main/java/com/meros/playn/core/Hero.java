@@ -1,6 +1,5 @@
 package com.meros.playn.core;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +8,6 @@ import playn.core.Canvas;
 
 import com.meros.playn.core.Constants.Buttons;
 import com.meros.playn.core.Constants.Direction;
-import com.meros.playn.core.Hero.RopeState;
 
 public class Hero extends Entity {
 
@@ -83,6 +81,12 @@ public class Hero extends Entity {
 	@Override
 	public int getLayer() {
 		return 2;
+	}
+
+	@Override
+	public void remove()
+	{
+		die();
 	}
 
 	@Override
@@ -599,5 +603,15 @@ public class Hero extends Entity {
 		mHookedEntity = null;
 		myIsDead = true;
 		Sound.playSample("data/sounds/start");
+	}
+
+	public boolean gotCore() {
+		if (mBlinkingTicksLeft == 0)
+		{
+			GameState.put("coins", GameState.getInt("coins") + 1);
+			return true;
+		}
+
+		return false;
 	}
 }

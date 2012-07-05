@@ -23,13 +23,13 @@ public class Layer {
 	{
 		
 		if (aX < 0)
-			return null;
+			return new Tile();
 		if (aY < 0)
-			return null;
-		if (aX > getWidth())
-			return null;
-		if (aY > getHeight())
-			return null;
+			return new Tile();
+		if (aX >= getWidth())
+			return new Tile();
+		if (aY >= getHeight())
+			return new Tile();
 		
 		return myTiles[aX][aY];
 	}
