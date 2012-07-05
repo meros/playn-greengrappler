@@ -3,7 +3,7 @@ package com.meros.playn.core;
 import java.util.HashMap;
 import java.util.Map;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 import playn.core.Image;
 
 public class Font {
@@ -119,7 +119,7 @@ public class Font {
 		return rgb[0];
 	}
 
-	public void draw(Canvas aBuffer, String aText, int aX, int aY) {
+	public void draw(Surface aBuffer, String aText, int aX, int aY) {
 		int x = aX;
 		int y = aY;
 
@@ -154,7 +154,7 @@ public class Font {
 		return bitmap;
 	}
 
-	public void drawCenter(Canvas aBuffer, String aText, int aX, int aY,
+	public void drawCenter(Surface aBuffer, String aText, int aX, int aY,
 			int aWidth, int aHeight) {
 		int x = aX + aWidth / 2 - getWidth(aText) / 2;
 		int y = aY + aHeight / 2 - getHeight() / 2;
@@ -180,7 +180,7 @@ public class Font {
 		return width;
 	}
 
-	public void drawWrap(Canvas aBuffer, String aText, int aX, int aY, int aMaxWidth,
+	public void drawWrap(Surface aBuffer, String aText, int aX, int aY, int aMaxWidth,
 			int aNumberOfCharacters) {
 		int x = aX;
 		int y = aY;
@@ -245,7 +245,7 @@ public class Font {
 		}
 	}
 
-	private void drawGlyph(Canvas aBuffer, char aChar, int aX, int aY) {
+	private void drawGlyph(Surface aBuffer, char aChar, int aX, int aY) {
 		Image glyphBitmap = getBitmapForGlyph(aChar);
 		aBuffer.drawImage(glyphBitmap, aX, aY);
 	}

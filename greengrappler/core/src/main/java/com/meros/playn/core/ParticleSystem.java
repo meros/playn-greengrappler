@@ -3,7 +3,7 @@ package com.meros.playn.core;
 import java.util.ArrayList;
 import java.util.Random;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 
 public class ParticleSystem extends Entity {
 
@@ -99,7 +99,7 @@ public class ParticleSystem extends Entity {
 	}
 
 	@Override
-	public void draw(Canvas aBuffer, int aOffsetX, int aOffsetY, int aLayer)
+	public void draw(Surface aBuffer, int aOffsetX, int aOffsetY, int aLayer)
 	{
 		if (myLifeTimeTicks  < myBlinkTimeTicks  && myLifeTimeTicks % 2 == 0)
 			return;

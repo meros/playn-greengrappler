@@ -1,6 +1,6 @@
 package com.meros.playn.core;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 import playn.core.Image;
 
 public class Tile {
@@ -36,7 +36,7 @@ public class Tile {
 	}
 
 	public void onDraw(
-		Canvas 	aBuffer,
+		Surface 	aBuffer,
 		int		aX,
 		int		aY)
 	{

@@ -1,6 +1,6 @@
 package com.meros.playn.core;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 import playn.core.Color;
 
 public class SplashScreen extends Screen {
@@ -10,7 +10,7 @@ public class SplashScreen extends Screen {
 
 	
 	@Override
-	public void onDraw(Canvas aBuffer) {
+	public void onDraw(Surface aBuffer) {
 		int yOffset = - 160 + mFrameCounter;
 
 		if (yOffset == 0)

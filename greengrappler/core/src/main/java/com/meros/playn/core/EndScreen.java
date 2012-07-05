@@ -2,7 +2,7 @@ package com.meros.playn.core;
 
 import com.meros.playn.core.Constants.Buttons;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 import playn.core.Color;
 
 public class EndScreen extends Screen {
@@ -14,7 +14,7 @@ public class EndScreen extends Screen {
 	int myCreditsOffset = 240;
 
 	@Override
-	public void onDraw(Canvas aBuffer) {
+	public void onDraw(Surface aBuffer) {
 		aBuffer.setFillColor(Color.rgb(57,56,41));
 		aBuffer.fillRect(0, 0, 320, 240);
 

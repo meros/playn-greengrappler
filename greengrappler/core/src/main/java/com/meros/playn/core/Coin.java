@@ -4,7 +4,7 @@ import static com.meros.playn.core.Constants.*;
 
 import java.util.EnumSet;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 
 public class Coin extends Entity {
 
@@ -83,7 +83,7 @@ public class Coin extends Entity {
 		mFrame++;
 	}
 	//		virtual void draw(BITMAP *buffer, int offsetX, int offsetY, int layer);
-	public void draw(Canvas buffer, int offsetX, int offsetY, int layer)
+	public void draw(Surface buffer, int offsetX, int offsetY, int layer)
 	{
 		float2 pos = getPosition();
 		pos = pos.subtract(

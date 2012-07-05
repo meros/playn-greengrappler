@@ -4,7 +4,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 
 import com.meros.playn.core.Constants.Buttons;
 import com.meros.playn.core.Constants.Direction;
@@ -421,14 +421,14 @@ public class Hero extends Entity {
 	}
 
 	@Override
-	public void draw(Canvas buffer, int offsetX, int offsetY, int layer)
+	public void draw(Surface aBuffer, int offsetX, int offsetY, int layer)
 	{
 		int x = getDrawPositionX();
 		int y = getDrawPositionY();
 
 		if (myIsDead)
 		{
-			mAnimationHurt.drawFrame(buffer,
+			mAnimationHurt.drawFrame(aBuffer,
 					0, 
 					offsetX + x - mAnimationHurt.getFrameWidth()/2, 
 					(int) (offsetY + y+getHalfSize().y-mAnimationHurt.getFrameHeight()),
@@ -464,7 +464,7 @@ public class Hero extends Entity {
 			frame = 1;
 			break;
 		default:
-			super.draw(buffer, offsetX, offsetY, layer);
+			super.draw(aBuffer, offsetX, offsetY, layer);
 		}
 
 		if (mRopeState != RopeState.Retracted && (mRopeState != RopeState.Dissapearing || (mRopeDissapearCounter & 1) != 0)) {
@@ -493,7 +493,7 @@ public class Hero extends Entity {
 					wave = new float2(line.y, -line.x).multiply(value);
 				}
 
-				mAnimationRope.drawFrame(buffer,
+				mAnimationRope.drawFrame(aBuffer,
 						frame, 
 						(int) (rx + wave.x - mAnimationRope.getFrameWidth()/2), 
 						(int) (ry + wave.y - mAnimationRope.getFrameHeight()/2));
@@ -502,7 +502,7 @@ public class Hero extends Entity {
 				ry += line.y;
 			}
 
-			mAnimationHook.drawFrame(buffer,
+			mAnimationHook.drawFrame(aBuffer,
 					frame, 
 					x1 - mAnimationHook.getFrameWidth()/2, 
 					y1 - mAnimationHook.getFrameHeight()/2);
@@ -516,7 +516,7 @@ public class Hero extends Entity {
 
 		if ((mBlinkingTicksLeft/6)%2 == 0)
 		{
-			animation.drawFrame(buffer,
+			animation.drawFrame(aBuffer,
 					frame, 
 					offsetX + x - animation.getFrameWidth()/2, 
 					(int)(offsetY + y+getHalfSize().y-animation.getFrameHeight()),

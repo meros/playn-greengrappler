@@ -1,6 +1,6 @@
 package com.meros.playn.core;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 
 public class BreakingHookTile extends Entity {
 
@@ -83,7 +83,7 @@ public class BreakingHookTile extends Entity {
 	}
 
 	@Override
-	public void draw(Canvas aBuffer, int aOffsetX, int aOffsetY, int aLayer)
+	public void draw(Surface aBuffer, int aOffsetX, int aOffsetY, int aLayer)
 	{
 		if (mDestroyed) {
 			return;

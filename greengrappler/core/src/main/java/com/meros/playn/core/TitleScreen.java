@@ -2,7 +2,7 @@ package com.meros.playn.core;
 
 import com.meros.playn.core.Constants.Buttons;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 
 public class TitleScreen extends Screen {
 
@@ -29,7 +29,7 @@ public class TitleScreen extends Screen {
 	Font myFont = Resource.getFont("data/images/font.bmp");	
 
 	@Override
-	public void onDraw(Canvas aBuffer) {
+	public void onDraw(Surface aBuffer) {
 		myTitle.drawFrame(aBuffer, 0, 0, 0);
 
 		if (!myGameStart)

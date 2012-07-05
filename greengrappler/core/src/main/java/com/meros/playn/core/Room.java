@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 import playn.core.Color;
 
 public class Room {
@@ -101,7 +101,7 @@ public class Room {
 		return null;
 	}
 
-	public void onDraw(Canvas aBuffer) {
+	public void onDraw(Surface aBuffer) {
 		if (mHero.isDead())
 		{
 			if (myFrameCounter == 0 || myFrameCounter == 5 || myFrameCounter == 10)
@@ -139,7 +139,7 @@ public class Room {
 		}
 	}
 
-	private void privDrawLayer(Canvas aBuffer, Layer aLayer) {
+	private void privDrawLayer(Surface aBuffer, Layer aLayer) {
 
 		float2 clampTopLeft = new float2(
 				-getCamera().getOffset().x/getTileWidth(),
@@ -185,7 +185,7 @@ public class Room {
 		}
 	}
 
-	private void privDrawTile(Canvas aBuffer, int aOffsetX, int aOffsetY,
+	private void privDrawTile(Surface aBuffer, int aOffsetX, int aOffsetY,
 			Tile aTile, int aTileX, int aTileY) {
 		if (aTile == null)
 			return;

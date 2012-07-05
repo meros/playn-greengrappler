@@ -35,6 +35,7 @@ public class Camera {
 			float2 aBottomRight) {
 		boolean foundRect = false;
 		float2 desiredOffset = new float2();
+		
 
 		//float2 heroRealPos = aHero.getPosition();
 		//TODO:		for (int i = 0; i < myRects.size(); i++)

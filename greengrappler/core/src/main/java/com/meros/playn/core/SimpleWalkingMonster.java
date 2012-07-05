@@ -2,7 +2,7 @@ package com.meros.playn.core;
 
 import java.util.EnumSet;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 
 import com.meros.playn.core.Constants.Direction;
 
@@ -127,7 +127,7 @@ public class SimpleWalkingMonster extends Entity {
 	}
 	
 	@Override
-	public void draw(Canvas buffer, int offsetX, int offsetY, int layer)
+	public void draw(Surface buffer, int offsetX, int offsetY, int layer)
 	{
 		float2 pos = getPosition().subtract(
 				new float2(

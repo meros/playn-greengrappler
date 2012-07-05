@@ -6,8 +6,6 @@ import com.meros.playn.core.Constants.Buttons;
 
 import playn.core.Color;
 import playn.core.Game;
-import playn.core.CanvasImage;
-import playn.core.Canvas;
 import playn.core.ImmediateLayer;
 import playn.core.ImmediateLayer.Renderer;
 import playn.core.Surface;
@@ -19,9 +17,6 @@ public class GreenGrappler implements Game, Renderer {
 	{
 		public abstract void exit();
 	}
-
-	Canvas canvas = null;
-	CanvasImage canvasImage = null;
 
 	boolean myFullScreen = false;
 
@@ -42,8 +37,6 @@ public class GreenGrappler implements Game, Renderer {
 
 		// create and add background image layer
 		//graphics().setSize(320, 240);
-		canvasImage = graphics().createImage(320, 240);
-		canvas = canvasImage.canvas();
 		ImmediateLayer imLayer = graphics().createImmediateLayer(this);
 		graphics().rootLayer().add(imLayer);
 
@@ -131,14 +124,13 @@ public class GreenGrappler implements Game, Renderer {
 
 		Input.init();
 	}
+	
+	long startTimeMillis = System.currentTimeMillis();
+	float fps = 0.0f;
 
 	@Override
 	public void paint(float alpha) {
-		if (!myReadyForUpdates)
-			return;
-
-		canvas.clear();
-		ScreenManager.draw(canvas);
+		
 	}
 
 	@Override
@@ -161,6 +153,7 @@ public class GreenGrappler implements Game, Renderer {
 	void postPreloadInit() {
 		//ScreenManager.add(new EndScreen());
 		ScreenManager.add(new TitleScreen());
+		myFont = Resource.getFont("data/images/font.bmp");
 		//TODO: ScreenManager.add(new SplashScreen());	
 	}
 
@@ -173,6 +166,8 @@ public class GreenGrappler implements Game, Renderer {
 		return 1000 / Time.TicksPerSecond;
 	}
 
+	Font myFont = null;
+	
 	@Override
 	public void render(Surface surface) {
 		surface.save();
@@ -193,8 +188,21 @@ public class GreenGrappler implements Game, Renderer {
 			float scaleFactor = surface.height()/240;
 			surface.scale(scaleFactor, scaleFactor);				
 		}
+		
+		if (!myReadyForUpdates)
+			return;
 
-		surface.drawImage(canvasImage, 0, 0);
+		surface.clear();
+		ScreenManager.draw(surface);
+		
+		long elapsedTimeMillis = System.currentTimeMillis()-startTimeMillis;
+		float newFps = 1000f/elapsedTimeMillis;
+
+		fps = fps*0.99f + newFps*0.01f;
+
+		myFont.draw(surface, "fps: " + fps, 10, 10);
+
+		startTimeMillis = System.currentTimeMillis();
 		surface.restore();
 		
 		surface.setFillColor(Color.rgb(255, 0, 0));

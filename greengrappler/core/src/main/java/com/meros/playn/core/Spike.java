@@ -1,6 +1,6 @@
 package com.meros.playn.core;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 
 public class Spike extends Entity {
 	
@@ -28,7 +28,7 @@ public class Spike extends Entity {
 	}
 	
 	@Override
-	public void draw(Canvas buffer, int offsetX, int offsetY, int layer)
+	public void draw(Surface buffer, int offsetX, int offsetY, int layer)
 	{
 		float2 pos = getPosition().subtract(getHalfSize());
 		mySpikeTile.onDraw(buffer, (int)(offsetX+pos.x), (int)(offsetY+pos.y));

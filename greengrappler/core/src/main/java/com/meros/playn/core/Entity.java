@@ -4,7 +4,8 @@ import java.util.EnumSet;
 
 import com.meros.playn.core.Constants.Direction;
 
-import playn.core.Canvas;
+import playn.core.Surface;
+import playn.core.Surface;
 
 public abstract class Entity {
 	//C++interface
@@ -205,7 +206,7 @@ public abstract class Entity {
 	}
 
 	//		virtual void draw(BITMAP *buffer, int offsetX, int offsetY, int layer);
-	public void draw(Canvas buffer, int offsetX, int offsetY, int layer)
+	public void draw(Surface buffer, int offsetX, int offsetY, int layer)
 	{
 		int x = getDrawPositionX() + offsetX;
 		int y = getDrawPositionY() + offsetY;
@@ -213,9 +214,9 @@ public abstract class Entity {
 		int y1 = (int)(y - getHalfSize().y);
 		int x2 = (int)(x + getHalfSize().x);
 		int y2 = (int)(y + getHalfSize().y);
-		buffer.strokeRect(x1, y1, x2-x1, y2-y1);
-		buffer.drawLine(x - 3, y, x + 3, y);
-		buffer.drawLine(x, y - 3, x, y + 3);
+		//buffer.strokeRect(x1, y1, x2-x1, y2-y1);
+		//buffer.drawLine(x - 3, y, x + 3, y);
+		//buffer.drawLine(x, y - 3, x, y + 3);
 	}
 
 	//
