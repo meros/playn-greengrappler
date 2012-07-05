@@ -23,8 +23,8 @@ public class EntityFactory {
 			//			return new GroundWalkingMonster(GroundWalkingMonster::Type_LeftWall);
 			//		case 8:
 			//			return new GroundWalkingMonster(GroundWalkingMonster::Type_RightWall);
-			//		case 9:
-			//			return new SimpleWalkingMonster();
+		case 9:
+			return new SimpleWalkingMonster();
 			//		case 10:
 			//			return new LavaSea();
 			//
