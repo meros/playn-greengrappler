@@ -43,6 +43,7 @@ public class Tile {
 		if (myTileImage == null)
 			return;
 		
+		//TODO: this causes artifa
 		aBuffer.drawImage(myTileImage, aX, aY, myW, myH, myX, myY, myW, myH);
 	}
 
