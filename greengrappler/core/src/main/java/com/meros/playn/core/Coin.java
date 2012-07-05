@@ -1,6 +1,9 @@
 package com.meros.playn.core;
 
 import static com.meros.playn.core.Constants.*;
+
+import java.util.EnumSet;
+
 import playn.core.Canvas;
 
 public class Coin extends Entity {
@@ -47,16 +50,16 @@ public class Coin extends Entity {
 			{
 				mVelocity.y += 6.0;
 
-				int bumps = moveWithCollision();
+				EnumSet<Direction> bumps = moveWithCollision();
 
-				if ((bumps & (Direction.Left.value | Direction.Right.value)) != 0) {
+				if (bumps.contains(Direction.LEFT) || bumps.contains(Direction.RIGHT)) {
 					if (Math.abs(mVelocity.x) > 10){
 						Sound.playSample("data/sounds/coin");
 					}
 					mVelocity.x *= -0.5;
 				}
 
-				if ((bumps & (Direction.Up.value | Direction.Down.value)) != 0) {
+				if (bumps.contains(Direction.UP) || bumps.contains(Direction.DOWN)) {
 					if (Math.abs(mVelocity.y) > 10){
 						Sound.playSample("data/sounds/coin");
 					}

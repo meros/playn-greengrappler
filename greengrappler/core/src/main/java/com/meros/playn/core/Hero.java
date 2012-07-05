@@ -1,6 +1,7 @@
 package com.meros.playn.core;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,7 +47,7 @@ public class Hero extends Entity {
 	float2 mRopePosition = new float2();
 	float2 mRopeVelocity = new float2();
 
-	Direction mFacingDirection = Direction.Right;
+	Direction mFacingDirection = Direction.RIGHT;
 	int mRopeDissapearCounter = 0;
 	Animation mAnimationRun = new Animation("data/images/hero_run.bmp", 4);
 	Animation mAnimationJump = new Animation("data/images/hero_jump.bmp", 1);
@@ -111,7 +112,7 @@ public class Hero extends Entity {
 			mVelocity.x -= acceleration;
 
 			if (mRopeState == RopeState.Attached && !mOnGround) {
-				mFacingDirection = Direction.Left;
+				mFacingDirection = Direction.LEFT;
 				airRunning = true;
 				mMovementState = MovementState.AirRun;
 			}
@@ -121,7 +122,7 @@ public class Hero extends Entity {
 			mVelocity.x += acceleration;
 
 			if (mRopeState == RopeState.Attached && !mOnGround) {
-				mFacingDirection = Direction.Right;
+				mFacingDirection = Direction.RIGHT;
 				airRunning = true;
 				mMovementState = MovementState.AirRun;
 			}
@@ -164,9 +165,9 @@ public class Hero extends Entity {
 
 		if (mOnGround) {
 			if (mVelocity.x > 0) {
-				mFacingDirection = Direction.Right;
+				mFacingDirection = Direction.RIGHT;
 			} else if (mVelocity.x < 0) {
-				mFacingDirection = Direction.Left;
+				mFacingDirection = Direction.LEFT;
 			}
 
 			if (Math.abs(mVelocity.x) > GROUND_STOP_VELOCITY)
@@ -210,15 +211,15 @@ public class Hero extends Entity {
 			}
 
 			if (mRopeVelocity.isZero()) {
-				mRopeVelocity.x = (mFacingDirection == Direction.Left ? -1 : 1);
+				mRopeVelocity.x = (mFacingDirection == Direction.LEFT ? -1 : 1);
 			}
 
 			mRopeVelocity = adjustRopeDirection((mVelocity.add(mRopeVelocity.normalize().multiply(ROPE_SPEED))).normalize()).multiply(ROPE_SPEED);
 
 			if (mRopeVelocity.x < 0) {
-				mFacingDirection = Direction.Left;
+				mFacingDirection = Direction.LEFT;
 			} else if (mRopeVelocity.x > 0) {
-				mFacingDirection = Direction.Right;
+				mFacingDirection = Direction.RIGHT;
 			}
 		}
 
@@ -311,19 +312,19 @@ public class Hero extends Entity {
 			}
 		}
 
-		int bumps = moveWithCollision();
+		EnumSet<Direction> bumps = moveWithCollision();
 
-		if ((bumps & (Direction.Left.value | Direction.Right.value)) != 0) {
+		if (bumps.contains(Direction.LEFT) || bumps.contains(Direction.RIGHT)) {
 			mVelocity.x = 0;
 		}
 
-		if ((bumps & (Direction.Up.value | Direction.Down.value)) != 0) {
+		if (bumps.contains(Direction.UP) || bumps.contains(Direction.DOWN)) {
 			mVelocity.y = 0;
 		}
 
 		float gravity = mJumpHeld ? JUMP_GRAVITY : GRAVITY;
 		mVelocity.y += gravity;
-		boolean ground = ((bumps & Direction.Down.value) != 0);
+		boolean ground = bumps.contains(Direction.DOWN);
 		if (ground && !mOnGround && mRopeState != RopeState.Attached)
 		{
 			Sound.playSample("data/sounds/land");
@@ -427,7 +428,7 @@ public class Hero extends Entity {
 					0, 
 					offsetX + x - mAnimationHurt.getFrameWidth()/2, 
 					(int) (offsetY + y+getHalfSize().y-mAnimationHurt.getFrameHeight()),
-					mFacingDirection == Direction.Left, false);
+					mFacingDirection == Direction.LEFT, false);
 			return;
 		}
 
@@ -515,7 +516,7 @@ public class Hero extends Entity {
 					frame, 
 					offsetX + x - animation.getFrameWidth()/2, 
 					(int)(offsetY + y+getHalfSize().y-animation.getFrameHeight()),
-					mFacingDirection == Direction.Left,
+					mFacingDirection == Direction.LEFT,
 					false);
 		}	
 	}
@@ -549,7 +550,7 @@ public class Hero extends Entity {
 		mFrame = 0;
 		mRopeState = RopeState.Retracted;
 		mHookedEntity = null;
-		mFacingDirection = Direction.Right;
+		mFacingDirection = Direction.RIGHT;
 		mBlinkingTicksLeft = 0;
 		mRopeDissapearCounter = 0;
 

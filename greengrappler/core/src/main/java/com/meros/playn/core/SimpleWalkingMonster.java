@@ -1,5 +1,7 @@
 package com.meros.playn.core;
 
+import java.util.EnumSet;
+
 import playn.core.Canvas;
 
 import com.meros.playn.core.Constants.Direction;
@@ -46,19 +48,19 @@ public class SimpleWalkingMonster extends Entity {
 			mVelocity.x = 20.0f * ((myFacing==Facing.LEFT)?-1:1);
 
 			setVelocity(mVelocity);
-			int bumps = moveWithCollision();
+			EnumSet<Direction> bumps = moveWithCollision();
 
-			if ((bumps & (Direction.Up.value | Direction.Down.value)) != 0) 
+			if (bumps.contains(Direction.UP) || bumps.contains(Direction.DOWN)) 
 			{
 				mVelocity.y = 0;
 			}
 
-			if ((bumps & (Direction.Left.value)) != 0)
+			if (bumps.contains(Direction.LEFT))
 			{
 				myFacing = Facing.RIGHT;
 			}
 
-			if ((bumps & (Direction.Right.value)) != 0)
+			if (bumps.contains(Direction.RIGHT))
 			{
 				myFacing = Facing.LEFT;
 			}

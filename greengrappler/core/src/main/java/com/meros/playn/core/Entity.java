@@ -1,5 +1,9 @@
 package com.meros.playn.core;
 
+import java.util.EnumSet;
+
+import com.meros.playn.core.Constants.Direction;
+
 import playn.core.Canvas;
 
 public abstract class Entity {
@@ -124,14 +128,12 @@ public abstract class Entity {
 		return mRoom;
 	}
 
-	//
-	//		virtual unsigned int moveWithCollision(float2 delta);
-	public int moveWithCollision(float2 delta)
+	public EnumSet<Direction> moveWithCollision(float2 delta)
 	{
 		//FIXME: implement
 		int substeps = (int)Math.ceil((Math.abs(delta.x) + Math.abs(delta.y)) * 0.2);
 		delta = delta.divide(substeps);
-		int result = Constants.Direction.None.value;
+		EnumSet<Direction> result = EnumSet.noneOf(Direction.class);
 		float2 halfSize = getHalfSize();
 
 		for (int i = 0; i < substeps; i++) {
@@ -145,7 +147,7 @@ public abstract class Entity {
 				for (int y = y1n; y <= y2n; y++) {
 					if (mRoom.isCollidable(x2, y)) {
 						delta.x = 0;
-						result |= Constants.Direction.Right.value;
+						result.add(Direction.RIGHT);
 						mPosition.x = x2 * mRoom.getTileWidth() - halfSize.x;
 						break;
 					}
@@ -154,7 +156,7 @@ public abstract class Entity {
 				for (int y = y1n; y <= y2n; y++) {
 					if (mRoom.isCollidable(x1, y)) {
 						delta.x = 0;
-						result |= Constants.Direction.Left.value;
+						result.add(Direction.LEFT);
 						mPosition.x = (x1 + 1) * mRoom.getTileWidth() + halfSize.x;
 						break;
 					}
@@ -171,7 +173,7 @@ public abstract class Entity {
 				for (int x = x1n; x <= x2n; x++) {
 					if (mRoom.isCollidable(x, y2)) {
 						delta.y = 0;
-						result |= Constants.Direction.Down.value;
+						result.add(Direction.DOWN);
 						mPosition.y = y2 * mRoom.getTileHeight() - halfSize.y;
 						break;
 					}
@@ -180,7 +182,7 @@ public abstract class Entity {
 				for (int x = x1n; x <= x2n; x++) {
 					if (mRoom.isCollidable(x, y1)) {
 						delta.y = 0;
-						result |= Constants.Direction.Up.value;
+						result.add(Direction.UP);
 						mPosition.y = (y1 + 1) * mRoom.getTileHeight() + halfSize.y;
 					}
 				}
@@ -191,7 +193,7 @@ public abstract class Entity {
 	}
 
 	//		virtual unsigned int moveWithCollision();
-	public int moveWithCollision()
+	public EnumSet<Direction> moveWithCollision()
 	{
 		return moveWithCollision(mVelocity.divide((float)Time.TicksPerSecond));
 	}
