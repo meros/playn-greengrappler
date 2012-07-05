@@ -33,27 +33,18 @@ public class Dialogue extends Entity {
 	public Dialogue(String aFilename) {
 		String dialogueFileString = Resource.getText(aFilename);
 
-		ArrayList<String> lines = new ArrayList<String>(); 
+		String[] lines = dialogueFileString.split("\n");
 
-		while (dialogueFileString.contains("\n"))
+		for(String line : lines)
 		{
-			String before = dialogueFileString.substring(0, dialogueFileString.indexOf("\n"));
-			String after = dialogueFileString.substring(dialogueFileString.indexOf("\n") + 1);
-			lines.add(before);
-			dialogueFileString = after;
-		}
-
-		for (int i = 0; i < lines.size(); i++)
-		{
-			char character = lines.get(i).charAt(0);
+			char character = line.charAt(0);
 			CharacterPortrait portrait = null;
 			if (character == 'D')
 				portrait = CharacterPortrait.DoctorGreen;
 			else if (character == 'T')
 				portrait = CharacterPortrait.Ted;
 
-			String line = lines.get(i).substring(2, lines.get(i).length());
-			addLine(portrait, line);
+			addLine(portrait, line.substring(1));
 		}
 
 		setSize(new float2(10, 10 * 200));

@@ -33,4 +33,9 @@ public class GameState {
 		PlayN.storage().setItem(aKey, "" + aInt);
 	}
 
+	public static void loadFromFile() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

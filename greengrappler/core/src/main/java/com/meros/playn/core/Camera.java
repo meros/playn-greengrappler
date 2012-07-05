@@ -33,10 +33,10 @@ public class Camera {
 
 	public void onLogic(Hero aHero, float2 aTopLeft,
 			float2 aBottomRight) {
-		float2 heroRealPos = aHero.getPosition();
 		boolean foundRect = false;
 		float2 desiredOffset = new float2();
 
+		//float2 heroRealPos = aHero.getPosition();
 		//TODO:		for (int i = 0; i < myRects.size(); i++)
 		//		{
 		//			float2 topleft = myRects.get(i).first;

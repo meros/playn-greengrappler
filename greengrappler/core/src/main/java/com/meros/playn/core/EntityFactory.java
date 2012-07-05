@@ -30,8 +30,8 @@ public class EntityFactory {
 			//
 		case 32:
 			return new BreakingHookTile();
-			//		case 33:
-			//			return new Coin();
+		case 33:
+			return new Coin();
 			//		case 34:
 			//			return new MovingHookTile();
 			//		case 64:
@@ -44,10 +44,10 @@ public class EntityFactory {
 			//		case 97:
 			//			return new WallOfDeathStarter();
 			//
-			//		case 128:
-			//			return new Dialogue("data/dialogues/1-tutorial1.txt");
-			//		case 129:
-			//			return new Dialogue("data/dialogues/2-tutorial2.txt");
+		case 128:
+			return new Dialogue("data/dialogues/1-tutorial1.txt");
+		case 129:
+			return new Dialogue("data/dialogues/2-tutorial2.txt");
 			//
 			//		case 160:
 			//			return new BossFloor();
