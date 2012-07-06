@@ -33,7 +33,7 @@ public class SpawnPoint extends Entity {
 	{
 	 	Hero hero = mRoom.getHero();
 		
-		if (Collides(hero.getCollisionRect(), getCollisionRect()))
+		if (hero.getCollisionRect().Collides(getCollisionRect()))
 		{
 			if (myState == State.UNCHECKED) {
 				PlayerSkill.playerDidSomethingClever(0.7f, 0.5f);

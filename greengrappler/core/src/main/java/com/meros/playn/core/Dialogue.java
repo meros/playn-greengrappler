@@ -102,7 +102,7 @@ public class Dialogue extends Entity {
 			return;
 
 		if (!myRunWithoutHero) {
-			if (Collides(mRoom.getHero().getCollisionRect(), getCollisionRect())) {
+			if (mRoom.getHero().getCollisionRect().Collides(getCollisionRect())) {
 				myRunning = true;
 			}
 		}

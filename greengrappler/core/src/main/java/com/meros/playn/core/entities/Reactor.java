@@ -5,6 +5,7 @@ import java.util.Random;
 import playn.core.Canvas;
 
 import com.meros.playn.core.Animation;
+import com.meros.playn.core.CollisionRect;
 import com.meros.playn.core.Entity;
 import com.meros.playn.core.Resource;
 import com.meros.playn.core.Room;
@@ -42,7 +43,7 @@ public class Reactor extends Entity {
 	}
 
 	@Override
-	public Entity.CollisionRect getCollisionRect() {
+	public CollisionRect getCollisionRect() {
 		CollisionRect rect = new CollisionRect();
 		rect.myTopLeft = getPosition().subtract(getHalfSize()).subtract(
 				new float2(2, 2));

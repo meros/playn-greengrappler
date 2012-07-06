@@ -139,7 +139,7 @@ public class SimpleWalkingMonster extends Entity {
 		}
 
 		Hero hero = mRoom.getHero();
-		if (Collides(hero.getCollisionRect(), getCollisionRect())) {
+		if (hero.getCollisionRect().Collides(getCollisionRect())) {
 			hero.kill();
 		}
 

@@ -15,28 +15,6 @@ public abstract class Entity {
 
 	protected float2 mSize = new float2();
 
-	
-	public class CollisionRect {
-		public float2 myBottomRight;
-		public float2 myTopLeft;
-	}
-
-	protected static boolean Collides(CollisionRect aRect1, CollisionRect aRect2) {
-		if (aRect1.myBottomRight.x <= aRect2.myTopLeft.x)
-			return false;
-
-		if (aRect1.myTopLeft.x >= aRect2.myBottomRight.x)
-			return false;
-
-		if (aRect1.myBottomRight.y <= aRect2.myTopLeft.y)
-			return false;
-
-		if (aRect1.myTopLeft.y >= aRect2.myBottomRight.y)
-			return false;
-
-		return true;
-	}
-
 	protected float2 mVelocity = new float2();
 
 	// virtual void draw(BITMAP *buffer, int offsetX, int offsetY, int layer);

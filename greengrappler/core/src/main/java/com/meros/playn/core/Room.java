@@ -4,10 +4,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.meros.playn.core.entities.Hero;
-
 import playn.core.Canvas;
 import playn.core.Color;
+
+import com.meros.playn.core.entities.Hero;
 
 public class Room {
 
@@ -88,11 +88,11 @@ public class Room {
 
 	public boolean damageDone(int aX, int aY) {
 		for (Entity entity : mDamagableEntities) {
-			Entity.CollisionRect rect = entity.new CollisionRect();
+			CollisionRect rect = new CollisionRect();
 			rect.myTopLeft = new float2(aX, aY);
 			rect.myBottomRight = new float2(aX + 1, aY + 1);
 
-			if (Entity.Collides(rect, entity.getCollisionRect())) {
+			if (rect.Collides(entity.getCollisionRect())) {
 				entity.onDamage();
 				return true;
 			}
