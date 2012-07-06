@@ -31,6 +31,6 @@ public class Spike extends Entity {
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer)
 	{
 		float2 pos = getPosition().subtract(getHalfSize());
-		mySpikeTile.onDraw(buffer, (int)(offsetX+pos.x), (int)(offsetY+pos.y));
+		//TODO: mySpikeTile.onDraw(buffer, (int)(offsetX+pos.x), (int)(offsetY+pos.y));
 	}
 }

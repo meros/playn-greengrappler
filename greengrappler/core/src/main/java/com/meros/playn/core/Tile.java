@@ -1,5 +1,6 @@
 package com.meros.playn.core;
 
+import playn.core.Canvas;
 import playn.core.Surface;
 import playn.core.Image;
 
@@ -36,14 +37,14 @@ public class Tile {
 	}
 
 	public void onDraw(
-		Surface 	aBuffer,
+		Canvas 	aBuffer,
 		int		aX,
 		int		aY)
 	{
 		if (myTileImage == null)
 			return;
 		
-		//TODO: this causes artifa
+		//TODO: this causes artifacts
 		aBuffer.drawImage(myTileImage, aX, aY, myW, myH, myX, myY, myW, myH);
 	}
 

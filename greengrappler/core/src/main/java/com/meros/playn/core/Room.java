@@ -117,8 +117,8 @@ public class Room {
 		}
 
 
-		privDrawLayer(aBuffer, myBackgroundLayer);
-		privDrawLayer(aBuffer, myMiddleLayer);
+		myBackgroundLayer.draw(aBuffer, (int)mCamera.getOffset().x, (int)mCamera.getOffset().y);
+		myMiddleLayer.draw(aBuffer, (int)mCamera.getOffset().x, (int)mCamera.getOffset().y);
 
 		for (int layer  = 0; layer < 5; layer++)
 		{
@@ -131,66 +131,12 @@ public class Room {
 			}
 		}
 
-		privDrawLayer(aBuffer, myForegroundLayer);
+		myForegroundLayer.draw(aBuffer, (int)mCamera.getOffset().x, (int)mCamera.getOffset().y);
 
 		if (myIsCompleted)
 		{
 			myFont.drawCenter(aBuffer, "LEVEL COMPLETED!", 0, 0, 320, 240);
 		}
-	}
-
-	private void privDrawLayer(Surface aBuffer, Layer aLayer) {
-
-		float2 clampTopLeft = new float2(
-				-getCamera().getOffset().x/getTileWidth(),
-				-getCamera().getOffset().y/getTileHeight());
-
-		if (clampTopLeft.x < 0)
-		{
-			clampTopLeft.x = 0;
-		}
-		if (clampTopLeft.y < 0)
-		{
-			clampTopLeft.y = 0;
-		}
-
-		float2 clampBottomRight = new float2(
-				(aBuffer.width()-getCamera().getOffset().x)/getTileWidth(), 
-				(aBuffer.height()-getCamera().getOffset().y)/getTileHeight());
-
-		if (clampBottomRight.x > aLayer.getWidth())
-		{
-			clampBottomRight.x = aLayer.getWidth();
-		}
-		if (clampBottomRight.y > aLayer.getHeight())
-		{
-			clampBottomRight.y = aLayer.getHeight();
-		}
-
-		int offsetx = (int) getCamera().getOffset().x;
-		int offsety = (int) getCamera().getOffset().y;
-
-		for (int x = (int) clampTopLeft.x; x < clampBottomRight.x; ++x) 
-		{
-			for (int y = (int) clampTopLeft.y; y < clampBottomRight.y; ++y) 
-			{		
-				privDrawTile(
-						aBuffer,
-						offsetx,
-						offsety, 
-						aLayer.getTile(x, y),
-						x, 
-						y);
-			}
-		}
-	}
-
-	private void privDrawTile(Surface aBuffer, int aOffsetX, int aOffsetY,
-			Tile aTile, int aTileX, int aTileY) {
-		if (aTile == null)
-			return;
-
-		aTile.onDraw(aBuffer, aOffsetX + aTileX*aTile.getWidth(), aOffsetY + aTileY*aTile.getHeight());
 	}
 
 	public boolean isCompleted() {
@@ -312,7 +258,7 @@ public class Room {
 				entitiesToRemove.add(entity);
 			}
 		}
-		
+
 		mEntities.removeAll(entitiesToRemove);
 
 		Set<Entity> entToUpdate = new HashSet<Entity>(mEntities);

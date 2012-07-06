@@ -198,7 +198,7 @@ public class GreenGrappler implements Game, Renderer {
 		long elapsedTimeMillis = System.currentTimeMillis()-startTimeMillis;
 		float newFps = 1000f/elapsedTimeMillis;
 
-		fps = fps*0.99f + newFps*0.01f;
+		fps = fps*0.8f + newFps*0.2f;
 
 		myFont.draw(surface, "fps: " + fps, 10, 10);
 
