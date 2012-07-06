@@ -20,7 +20,6 @@ public class float2 {
 		return copy;
 	}
 
-	@Override
 	public Object clone() {
 		float2 copy = new float2();
 		copy.x = x;

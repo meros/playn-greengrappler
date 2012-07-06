@@ -151,8 +151,29 @@ public class GreenGrappler implements Game, Renderer {
 		ScreenManager.onLogic();
 	}
 
+	int fpsCount = 0;
+	int lastFpsCount = 0;
+	
 	@Override
 	public void render(Surface surface) {
+		if (!myReadyForUpdates)
+			return;
+
+		ScreenManager.draw(buffer.canvas());
+
+		long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
+		if (elapsedTimeMillis > 1000)
+		{
+			startTimeMillis += 1000;
+			lastFpsCount = fpsCount;
+			fpsCount = 0;
+		}
+		else
+		{
+			fpsCount ++;
+		}
+		myFont.draw(buffer.canvas(), "fps: " + lastFpsCount, 10, 10);
+		
 		surface.save();
 
 		float w = surface.width();
@@ -168,27 +189,9 @@ public class GreenGrappler implements Game, Renderer {
 			float scaleFactor = surface.height() / 240;
 			surface.scale(scaleFactor, scaleFactor);
 		}
-
-		if (!myReadyForUpdates)
-			return;
-
-		surface.clear();
-
-		ScreenManager.draw(buffer.canvas());
+		
 		surface.drawImage(buffer, 0, 0);
-
-		long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
-		float newFps = 1000f / elapsedTimeMillis;
-
-		fps = fps * 0.8f + newFps * 0.2f;
-
-		myFont.draw(buffer.canvas(), "fps: " + fps, 10, 10);
-
-		startTimeMillis = System.currentTimeMillis();
 		surface.restore();
-
-		surface.setFillColor(Color.rgb(255, 0, 0));
-		surface.fillRect(Input.lastTouchX - 50, Input.lastTouchY - 50, 100, 100);
 	}
 
 	@Override

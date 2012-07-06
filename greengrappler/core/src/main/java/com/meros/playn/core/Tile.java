@@ -25,7 +25,6 @@ public class Tile {
 		myW = aW;
 	}
 
-	@Override
 	public Tile clone() {
 		Tile tile = new Tile(myTileImage, myX, myY, myW, myH);
 		tile.setCollide(myCollide);

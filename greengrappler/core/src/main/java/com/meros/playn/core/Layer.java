@@ -29,8 +29,9 @@ public class Layer {
 			myBufferIsDirty = false;
 		}
 
-		aBuffer.drawImage(myBuffer, 0, 0, 320, 240, -aOffsetX, -aOffsetY, 320,
-				240);
+		aBuffer.drawImage(myBuffer, aOffsetX, aOffsetY);
+		//aBuffer.drawImage(myBuffer, 0, 0, 320, 240, -aOffsetX, -aOffsetY, 320,
+			//	240);
 	}
 
 	public float getHeight() {
