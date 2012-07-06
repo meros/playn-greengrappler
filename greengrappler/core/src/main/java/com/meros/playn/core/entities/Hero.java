@@ -73,7 +73,7 @@ public class Hero extends Entity {
 
 	float2 mRopeVelocity = new float2();
 
-	float2 mSpawnPoint = new float2(-200, -200);
+	float2 mySpawnPoint = new float2(-200, -200);
 
 	boolean myImortal = false;
 	boolean myIsDead = false;
@@ -343,7 +343,7 @@ public class Hero extends Entity {
 	}
 
 	public void respawn() {
-		setPosition(mSpawnPoint);
+		setPosition(mySpawnPoint);
 		setVelocity(new float2(0, 0));
 		myIsDead = false;
 		GameState.put("coins", 0);
@@ -366,8 +366,8 @@ public class Hero extends Entity {
 
 		super.update();
 
-		if (mSpawnPoint.x < -100 && mSpawnPoint.y < -100) {
-			mSpawnPoint = getPosition();
+		if (mySpawnPoint.x < -100 && mySpawnPoint.y < -100) {
+			mySpawnPoint = getPosition();
 		}
 
 		if (mRopeState == RopeState.Dissapearing) {
@@ -611,5 +611,9 @@ public class Hero extends Entity {
 		if (mBlinkingTicksLeft > 0) {
 			mBlinkingTicksLeft--;
 		}
+	}
+
+	public void setLastSpawnPoint(float2 aSpawnPoint) {
+		mySpawnPoint = aSpawnPoint;
 	}
 }
