@@ -3,7 +3,7 @@ package com.meros.playn.core;
 import java.util.HashMap;
 import java.util.Map;
 
-import playn.core.Surface;
+import playn.core.Canvas;
 import playn.core.Image;
 
 public class Font {
@@ -48,6 +48,133 @@ public class Font {
 	//
 	// };
 
+	public void draw(Canvas aBuffer, String aText, int aX, int aY) {
+		int x = aX;
+		int y = aY;
+
+		// TODO: blending?? bool addBlend = aBlending == Blending_Add;
+		// setBlending(aBlending);
+
+		for (int i = 0; i < aText.length(); i++) {
+			Image bitmap = getBitmapForGlyph(aText.charAt(i));
+			// TODO: no blending implemented!
+			// if (aBlending == Blending_None)
+			// {
+			aBuffer.drawImage(bitmap, x, y);
+			// }
+			// else if (addBlend)
+			// {
+			// draw_trans_sprite(aBuffer, bitmap, x, y);
+			// }
+			// else
+			// {
+			// draw_lit_sprite(aBuffer, bitmap, x, y, 0);
+			// }
+			x += bitmap.width();
+		}
+	}
+
+	public void drawCenter(Canvas aBuffer, String aText, int aX, int aY,
+			int aWidth, int aHeight) {
+		int x = aX + aWidth / 2 - getWidth(aText) / 2;
+		int y = aY + aHeight / 2 - getHeight() / 2;
+
+		for (int i = 0; i < aText.length(); i++) {
+			Image bitmap = getBitmapForGlyph(aText.charAt(i));
+			aBuffer.drawImage(bitmap, x, y);
+			x += bitmap.width();
+		}
+	}
+
+	private void drawGlyph(Canvas aBuffer, char aChar, int aX, int aY) {
+		Image glyphBitmap = getBitmapForGlyph(aChar);
+		aBuffer.drawImage(glyphBitmap, aX, aY);
+	}
+
+	public void drawWrap(Canvas aBuffer, String aText, int aX, int aY,
+			int aMaxWidth, int aNumberOfCharacters) {
+		int x = aX;
+		int y = aY;
+		int glyphBitmapMaxHeight = 0;
+
+		String text = aText;
+
+		int totChar = 0;
+		while (text.length() > 0) {
+			String word = "";
+			if (text.contains(" ")) {
+				word = text.substring(0, text.indexOf(" "));
+				text = text.substring(text.indexOf(" ") + 1);
+			} else {
+				word = text;
+				text = "";
+			}
+
+			if (aMaxWidth != -1 && x + getWidth(word) > aMaxWidth) {
+				x = aX;
+				y += glyphBitmapMaxHeight;
+				glyphBitmapMaxHeight = 0;
+			} else {
+				if (totChar != 0) {
+					word = " " + word;
+				}
+			}
+
+			for (int j = 0; j < word.length(); j++) {
+				if (aNumberOfCharacters != -1 && totChar >= aNumberOfCharacters) {
+					return;
+				}
+				char currChar = word.charAt(j);
+
+				Image glyphBitmap = getBitmapForGlyph(currChar);
+
+				glyphBitmapMaxHeight = (int) Math.max(glyphBitmapMaxHeight,
+						glyphBitmap.height());
+
+				drawGlyph(aBuffer, currChar, x, y);
+
+				int glyphWidth = (int) glyphBitmap.width();
+
+				x += glyphWidth;
+				if (currChar == '\n') {
+					x = aX;
+					y += glyphBitmapMaxHeight;
+					glyphBitmapMaxHeight = 0;
+				}
+				totChar++;
+			}
+		}
+	}
+
+	private Image getBitmapForGlyph(char glyph) {
+		Image defaultBitmap = myGlyphToBitmap.get("" + ' '); // TODO make bitmap
+		Image bitmap = defaultBitmap;
+		if (myGlyphToBitmap.containsKey("" + glyph)) {
+			bitmap = myGlyphToBitmap.get("" + glyph);
+		}
+		return bitmap;
+	}
+
+	private int getHeight() {
+		return myHeight;
+	}
+
+	private int getpixel(Image glyphImage, int x, int y) {
+		int rgb[] = new int[1];
+		glyphImage.getRgb(x, y, 1, 1, rgb, 0, 1);
+		return rgb[0];
+	}
+
+	private int getWidth(String aText) {
+		int width = 0;
+		for (int i = 0; i < aText.length(); i++) {
+			Image bitmap = getBitmapForGlyph(aText.charAt(i));
+			width += bitmap.width();
+
+		}
+		return width;
+	}
+
 	void privInit(Image aGlyphImage, String aGlyphs) {
 		Image glyphImage = aGlyphImage;
 		int separatingColor = getpixel(glyphImage, 0, 0);
@@ -68,19 +195,19 @@ public class Font {
 					int y1 = scanLine;
 					while ((y1 < glyphImage.height())
 							&& getpixel(glyphImage, x, y1) != separatingColor) // find
-						// bottom
-						// of
-						// glyph
+					// bottom
+					// of
+					// glyph
 					{
 						y1++;
 					}
 					int x1 = x;
 					while ((x1 < glyphImage.width())
 							&& getpixel(glyphImage, x1, scanLine) != separatingColor) // find
-						// right
-						// edge
-						// of
-						// glyph
+					// right
+					// edge
+					// of
+					// glyph
 					{
 						x1++;
 					}
@@ -111,142 +238,5 @@ public class Font {
 		// newline
 
 		myHeight = lastRowHeight;
-	}
-
-	private int getpixel(Image glyphImage, int x, int y) {
-		int rgb[] = new int[1];
-		glyphImage.getRgb(x, y, 1, 1, rgb, 0, 1);
-		return rgb[0];
-	}
-
-	public void draw(Surface aBuffer, String aText, int aX, int aY) {
-		int x = aX;
-		int y = aY;
-
-		// TODO: blending?? bool addBlend = aBlending == Blending_Add;
-		// setBlending(aBlending);
-
-		for (int i = 0; i < aText.length(); i++) {
-			Image bitmap = getBitmapForGlyph(aText.charAt(i));
-			// TODO: no blending implemented!
-			// if (aBlending == Blending_None)
-			// {
-			aBuffer.drawImage(bitmap, x, y);
-			// }
-			// else if (addBlend)
-			// {
-			// draw_trans_sprite(aBuffer, bitmap, x, y);
-			// }
-			// else
-			// {
-			// draw_lit_sprite(aBuffer, bitmap, x, y, 0);
-			// }
-			x += bitmap.width();
-		}
-	}
-
-	private Image getBitmapForGlyph(char glyph) {
-		Image defaultBitmap = myGlyphToBitmap.get("" + ' '); // TODO make bitmap
-		Image bitmap = defaultBitmap;
-		if (myGlyphToBitmap.containsKey("" + glyph)) {
-			bitmap = myGlyphToBitmap.get("" + glyph);
-		}
-		return bitmap;
-	}
-
-	public void drawCenter(Surface aBuffer, String aText, int aX, int aY,
-			int aWidth, int aHeight) {
-		int x = aX + aWidth / 2 - getWidth(aText) / 2;
-		int y = aY + aHeight / 2 - getHeight() / 2;
-
-		for (int i = 0; i < aText.length(); i++) {
-			Image bitmap = getBitmapForGlyph(aText.charAt(i));
-			aBuffer.drawImage(bitmap, x, y);
-			x += bitmap.width();
-		}
-	}
-
-	private int getHeight() {
-		return myHeight;
-	}
-
-	private int getWidth(String aText) {
-		int width = 0;
-		for (int i = 0; i < aText.length(); i++) {
-			Image bitmap = getBitmapForGlyph(aText.charAt(i));
-			width += bitmap.width();
-
-		}
-		return width;
-	}
-
-	public void drawWrap(Surface aBuffer, String aText, int aX, int aY, int aMaxWidth,
-			int aNumberOfCharacters) {
-		int x = aX;
-		int y = aY;
-		int glyphBitmapMaxHeight = 0;
-
-		String text = aText;
-
-		int totChar = 0;
-		while (text.length() > 0)
-		{
-			String word = "";
-			if (text.contains(" "))
-			{
-				word = text.substring(0, text.indexOf(" "));
-				text = text.substring(text.indexOf(" ") + 1);
-			}
-			else
-			{
-				word = text;
-				text = "";
-			}
-
-			if(aMaxWidth != -1 && x + getWidth(word) > (int)aMaxWidth)
-			{
-				x = aX;
-				y += glyphBitmapMaxHeight;
-				glyphBitmapMaxHeight = 0;
-			}
-			else
-			{
-				if(totChar != 0) 
-				{
-					word = " " + word;
-				}
-			}
-
-			for(int j = 0; j < word.length(); j++)
-			{
-				if(aNumberOfCharacters != -1 && totChar >= aNumberOfCharacters)
-				{
-					return;
-				}
-				char currChar = word.charAt(j);
-
-				Image glyphBitmap = getBitmapForGlyph(currChar);
-
-				glyphBitmapMaxHeight = (int) Math.max(glyphBitmapMaxHeight, glyphBitmap.height());
-
-				drawGlyph(aBuffer, currChar, x, y);
-
-				int glyphWidth = (int) glyphBitmap.width();
-
-				x += glyphWidth;
-				if(currChar == '\n')
-				{
-					x = aX;
-					y += glyphBitmapMaxHeight;
-					glyphBitmapMaxHeight = 0;
-				}
-				totChar++;
-			}
-		}
-	}
-
-	private void drawGlyph(Surface aBuffer, char aChar, int aX, int aY) {
-		Image glyphBitmap = getBitmapForGlyph(aChar);
-		aBuffer.drawImage(glyphBitmap, aX, aY);
 	}
 }

@@ -2,41 +2,44 @@ package com.meros.playn.core;
 
 import java.util.ArrayList;
 
-import playn.core.Surface;
+import playn.core.Canvas;
 
 public class Dialogue extends Entity {
 
-	Font myFont = Resource.getFont("data/images/font.bmp");
-	Animation myBackground = Resource.getAnimation("data/images/dialogue.bmp", 1);
-	Animation myDoctorGreenPortrait = Resource.getAnimation("data/images/doctor_green_portrait.bmp", 1);
-	Animation myTedPortrait = Resource.getAnimation("data/images/ted_portrait.bmp", 1);
-	class Line
-	{
-		CharacterPortrait myPortrait;
+	enum CharacterPortrait {
+		DoctorGreen, Ted
+	}
+
+	class Line {
 		public String myLine;
-	};
-	ArrayList<Line> myLines = new ArrayList<Line>();
-	int myCurrentLine;
+		CharacterPortrait myPortrait;
+	}
+
+	Animation myBackground = Resource.getAnimation("data/images/dialogue.bmp",
+			1);
 	int myCurrentCharacter;
-	int myFrameCounter;
-	String myFile;
+
+	int myCurrentLine;;
+
+	Animation myDoctorGreenPortrait = Resource.getAnimation(
+			"data/images/doctor_green_portrait.bmp", 1);
 	boolean myDone = false;
+	String myFile;
+	Font myFont = Resource.getFont("data/images/font.bmp");
+	int myFrameCounter;
+	ArrayList<Line> myLines = new ArrayList<Line>();
 	boolean myRunning = false;
 	boolean myRunWithoutHero = false;
 
-	enum CharacterPortrait
-	{
-		DoctorGreen,
-		Ted
-	}
+	Animation myTedPortrait = Resource.getAnimation(
+			"data/images/ted_portrait.bmp", 1);
 
 	public Dialogue(String aFilename) {
 		String dialogueFileString = Resource.getText(aFilename);
 
 		String[] lines = dialogueFileString.split("\n");
 
-		for(String line : lines)
-		{
+		for (String line : lines) {
 			char character = line.charAt(0);
 			CharacterPortrait portrait = null;
 			if (character == 'D')
@@ -57,13 +60,9 @@ public class Dialogue extends Entity {
 		myLines.add(line);
 	}
 
-	public void setRunWithoutHero() {
-		myRunWithoutHero = true;
-		myRunning = true;
-	}
-
-	public void draw(Surface aBuffer, int offsetX, int offsetY, int layer) {
-		//Entity::draw(buffer, offsetX, offsetY, layer);
+	@Override
+	public void draw(Canvas aBuffer, int offsetX, int offsetY, int layer) {
+		// Entity::draw(buffer, offsetX, offsetY, layer);
 
 		if (myDone)
 			return;
@@ -71,7 +70,8 @@ public class Dialogue extends Entity {
 		if (!myRunning)
 			return;
 
-		myBackground.drawFrame(aBuffer, 0, 0, 240 - myBackground.getFrameHeight());
+		myBackground.drawFrame(aBuffer, 0, 0,
+				240 - myBackground.getFrameHeight());
 		CharacterPortrait portrait = myLines.get(myCurrentLine).myPortrait;
 		String line = myLines.get(myCurrentLine).myLine;
 
@@ -86,15 +86,23 @@ public class Dialogue extends Entity {
 	}
 
 	@Override
-	public void update()
-	{
+	public int getLayer() {
+		// TODO Auto-generated method stub
+		return 3;
+	}
+
+	public void setRunWithoutHero() {
+		myRunWithoutHero = true;
+		myRunning = true;
+	}
+
+	@Override
+	public void update() {
 		if (myDone)
 			return;
 
-		if (!myRunWithoutHero)
-		{
-			if (Collides(mRoom.getHero().getCollisionRect(), getCollisionRect()))
-			{
+		if (!myRunWithoutHero) {
+			if (Collides(mRoom.getHero().getCollisionRect(), getCollisionRect())) {
 				myRunning = true;
 			}
 		}
@@ -106,23 +114,18 @@ public class Dialogue extends Entity {
 
 		Line line = myLines.get(myCurrentLine);
 
-		if (myFrameCounter > 2
-				&& myCurrentCharacter < (int)line.myLine.length())
-		{
+		if (myFrameCounter > 2 && myCurrentCharacter < line.myLine.length()) {
 			myCurrentCharacter++;
 			myFrameCounter = 0;
 			Sound.playSample("data/sounds/beep");
 		}
 
-		if (myFrameCounter > 90
-				&& (int)myLines.size() > myCurrentLine)
-		{
+		if (myFrameCounter > 90 && myLines.size() > myCurrentLine) {
 			myCurrentLine++;
 			myCurrentCharacter = 0;
 			myFrameCounter = 0;
 
-			if (myLines.size() == myCurrentLine)
-			{
+			if (myLines.size() == myCurrentLine) {
 				myLines.clear(); // We are done!
 				String key = "dialogue_";
 				key += myFile;
@@ -132,12 +135,6 @@ public class Dialogue extends Entity {
 					remove();
 			}
 		}
-	}
-
-	@Override
-	public int getLayer() {
-		// TODO Auto-generated method stub
-		return 3;
 	}
 
 }

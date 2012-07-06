@@ -6,10 +6,10 @@ public class UtilMethods {
 			return aMin;
 		if (aRatio > 1.0f)
 			return aMax;
-		return (int) (aMin+(aMax-aMin)*aRatio);
+		return (int) (aMin + (aMax - aMin) * aRatio);
 	}
 
 	public static float2 sincos(double d) {
-		return new float2((float)Math.cos(d), (float)Math.sin(d));
+		return new float2((float) Math.cos(d), (float) Math.sin(d));
 	}
 }

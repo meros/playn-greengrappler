@@ -1,28 +1,11 @@
 package com.meros.playn.core;
 
 public class Constants {
-	enum Direction
-	{
-		NONE,
-		LEFT,
-		RIGHT,
-		UP,
-		DOWN
+	public enum Buttons {
+		Down, Exit, Fire, ForceQuit, Jump, Left, Right, ToggleFullscreen, ToggleSlowMotion, ToggleVSync, ToggleWideScreen, Up
 	}
-	
-	enum Buttons
-	{
-		ToggleFullscreen,
-		ToggleSlowMotion,
-		ToggleVSync,
-		ToggleWideScreen,
-		Exit,
-		Jump,
-		Fire,
-		Left,
-		Right,
-		Up,
-		Down,
-		ForceQuit
+
+	public enum Direction {
+		DOWN, LEFT, NONE, RIGHT, UP
 	};
 }

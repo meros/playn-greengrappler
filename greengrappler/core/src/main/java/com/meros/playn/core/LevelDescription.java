@@ -1,15 +1,16 @@
 package com.meros.playn.core;
 
 public class LevelDescription {
-	public String myName = "";
-	public String myLevelFile = "";
 	public int myFrameIndex = 0;
+	public String myLevelFile = "";
 	public String myMusicFile = "";
+	public String myName = "";
 
-	public LevelDescription()
-	{}
+	public LevelDescription() {
+	}
 
-	public LevelDescription(String aName, String aLevelFile, int aFrameIndex, String aMusicFile)
+	public LevelDescription(String aName, String aLevelFile, int aFrameIndex,
+			String aMusicFile)
 
 	{
 		myName = aName;
