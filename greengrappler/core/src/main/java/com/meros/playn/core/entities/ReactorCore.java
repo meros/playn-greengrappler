@@ -48,7 +48,7 @@ public class ReactorCore extends Entity {
 			mVelocity = new float2(mVelocity.x, mVelocity.y*0.8f);
 		}
 
-		if (hero.getCollisionRect().Collides(getCollisionRect())) {
+		if (hero.Collides(this)) {
 			if (hero.gotCore()) {
 				PlayerSkill.playerDidSomethingClever(1.0f, 0.75f);
 				mRoom.setCompleted();

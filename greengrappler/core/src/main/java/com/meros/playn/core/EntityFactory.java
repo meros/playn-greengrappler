@@ -4,6 +4,7 @@ import com.meros.playn.core.entities.BreakingHookTile;
 import com.meros.playn.core.entities.Coin;
 import com.meros.playn.core.entities.GroundWalkingMonster;
 import com.meros.playn.core.entities.Hero;
+import com.meros.playn.core.entities.LavaSea;
 import com.meros.playn.core.entities.Reactor;
 import com.meros.playn.core.entities.SimpleWalkingMonster;
 import com.meros.playn.core.entities.SpawnPoint;
@@ -36,9 +37,8 @@ public class EntityFactory {
 					GroundWalkingMonster(GroundWalkingMonster.Type.RIGHT_WALL);
 		case 9:
 			return new SimpleWalkingMonster();
-			// case 10:
-			// return new LavaSea();
-			//
+		case 10:
+			return new LavaSea();
 		case 32:
 			return new BreakingHookTile();
 		case 33:

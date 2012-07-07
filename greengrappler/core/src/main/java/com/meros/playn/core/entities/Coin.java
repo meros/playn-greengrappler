@@ -123,7 +123,7 @@ public class Coin extends Entity {
 			}
 		}
 
-		if (hero.getCollisionRect().Collides(getCollisionRect())) {
+		if (hero.Collides(this)) {
 			if (hero.gotCoin()) {
 				PlayerSkill.playerDidSomethingClever(0.3f, 0.05f);
 				Sound.playSample("data/sounds/coin");

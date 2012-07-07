@@ -30,12 +30,20 @@ public abstract class Entity {
 		// buffer.drawLine(x, y - 3, x, y + 3);
 	}
 
+	public boolean Collides(Entity aOther)
+	{
+		CollisionRect a = getCollisionRect();
+		CollisionRect b = aOther.getCollisionRect();
+		return a.Collides(b);
+	}
+
 	//
 	// virtual CollisionRect getCollisionRect();
 	public CollisionRect getCollisionRect() {
+
 		CollisionRect collisionRect = new CollisionRect();
-		collisionRect.myTopLeft = getPosition().subtract(getHalfSize());
-		collisionRect.myBottomRight = getPosition().add(getHalfSize());
+		collisionRect.myTopLeft = new float2(mPosition.x-mSize.x/2, mPosition.y-mSize.y/2);
+		collisionRect.myBottomRight = new float2(mPosition.x+mSize.x/2, mPosition.y+mSize.y/2);
 
 		return collisionRect;
 	}

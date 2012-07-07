@@ -32,7 +32,7 @@ public class Spike extends Entity {
 	public void update() {
 		Hero hero = mRoom.getHero();
 
-		if (hero.getCollisionRect().Collides(getCollisionRect())) {
+		if (hero.Collides(this)) {
 			hero.kill();
 		}
 	}

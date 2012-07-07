@@ -115,7 +115,7 @@ public class GroundWalkingMonster extends Entity {
 			}
 		}
 
-		if (hero.getCollisionRect().Collides(getCollisionRect())) {
+		if (hero.Collides(this)) {
 			hero.kill();
 		}
 
