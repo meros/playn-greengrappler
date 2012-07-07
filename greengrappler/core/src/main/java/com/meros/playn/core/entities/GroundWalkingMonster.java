@@ -2,7 +2,7 @@ package com.meros.playn.core.entities;
 
 import java.util.EnumSet;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 
 import com.meros.playn.core.Animation;
 import com.meros.playn.core.Constants.Direction;
@@ -40,7 +40,7 @@ public class GroundWalkingMonster extends Entity {
 	}
 
 	@Override
-	public void draw(Canvas buffer, int offsetX, int offsetY, int layer) {
+	public void draw(Surface buffer, int offsetX, int offsetY, int layer) {
 		float2 pos = getPosition();
 		pos = pos.subtract(new float2(myAnimation.getFrameWidth(), myAnimation
 				.getFrameHeight()).divide(2));

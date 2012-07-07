@@ -2,7 +2,7 @@ package com.meros.playn.core.entities;
 
 import java.util.Random;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 
 import com.meros.playn.core.Animation;
 import com.meros.playn.core.CollisionRect;
@@ -30,7 +30,7 @@ public class Reactor extends Entity {
 	}
 
 	@Override
-	public void draw(Canvas buffer, int offsetX, int offsetY, int layer) {
+	public void draw(Surface buffer, int offsetX, int offsetY, int layer) {
 		int x = getDrawPositionX() + offsetX;
 		int y = getDrawPositionY() + offsetY;
 

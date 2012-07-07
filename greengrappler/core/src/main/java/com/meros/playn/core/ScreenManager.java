@@ -2,7 +2,7 @@ package com.meros.playn.core;
 
 import java.util.ArrayList;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 
 public class ScreenManager {
 	static Screen myScreenToEnter = null;
@@ -21,7 +21,7 @@ public class ScreenManager {
 	}
 
 	// static void draw(BITMAP* buffer);
-	public static void draw(Canvas buffer) {
+	public static void draw(Surface buffer) {
 		if (myScreenToExit == null && myScreenToEnter == null) {
 			Screen screen = getTop();
 			if (screen != null)

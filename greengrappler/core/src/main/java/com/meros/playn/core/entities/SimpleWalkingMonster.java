@@ -2,7 +2,7 @@ package com.meros.playn.core.entities;
 
 import java.util.EnumSet;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 
 import com.meros.playn.core.Animation;
 import com.meros.playn.core.Constants.Direction;
@@ -52,7 +52,7 @@ public class SimpleWalkingMonster extends Entity {
 	}
 
 	@Override
-	public void draw(Canvas buffer, int offsetX, int offsetY, int layer) {
+	public void draw(Surface buffer, int offsetX, int offsetY, int layer) {
 		float2 pos = getPosition().subtract(
 				new float2(myAnimation.getFrameWidth(), myAnimation
 						.getFrameHeight()).divide(2)).add(
@@ -83,14 +83,16 @@ public class SimpleWalkingMonster extends Entity {
 	public void update() {
 		switch (myState) {
 		case WALKING: {
-			mVelocity.y += 6.0f;
-			mVelocity.x = 20.0f * ((myFacing == Facing.LEFT) ? -1 : 1);
+			
+			mVelocity = new float2(
+					20.0f * ((myFacing == Facing.LEFT) ? -1 : 1),
+					mVelocity.y + 6.0f);
 
 			setVelocity(mVelocity);
 			EnumSet<Direction> bumps = moveWithCollision();
 
 			if (bumps.contains(Direction.UP) || bumps.contains(Direction.DOWN)) {
-				mVelocity.y = 0;
+				mVelocity = new float2(mVelocity.x, 0);
 			}
 
 			if (bumps.contains(Direction.LEFT)) {

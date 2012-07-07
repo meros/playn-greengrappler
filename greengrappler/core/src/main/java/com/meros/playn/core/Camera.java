@@ -58,27 +58,28 @@ public class Camera {
 		myShakeTime--;
 
 		if (myShakeTime > 0) {
-			myShakeOffset.x = (float) (myShakeAmount * (Math.random() - 0.5f));
-			myShakeOffset.y = (float) (myShakeAmount * (Math.random() - 0.5f));
+			myShakeOffset = new float2(
+					(float) (myShakeAmount * (Math.random() - 0.5f)),
+					(float) (myShakeAmount * (Math.random() - 0.5f)));
 		}
 		if (myShakeTime < 0) {
 			myShakeOffset = new float2();
 		}
 
 		if (myOffset.x + aTopLeft.x > 0) {
-			myOffset.x = -aTopLeft.x;
+			myOffset = new float2(-aTopLeft.x, myOffset.y);
 		}
 
 		if (myOffset.y + aTopLeft.y > 10) {
-			myOffset.y = 10 - aTopLeft.y;
+			myOffset = new float2(myOffset.x, 10 - aTopLeft.y);
 		}
 
 		if (myOffset.x + aBottomRight.x < 320) {
-			myOffset.x = 320 - aBottomRight.x;
+			myOffset = new float2(320 - aBottomRight.x, myOffset.y);
 		}
 
 		if (myOffset.y + aBottomRight.y < 240) {
-			myOffset.y = 240 - aBottomRight.y;
+			myOffset = new float2(myOffset.x, 240 - aBottomRight.y);
 		}
 	}
 

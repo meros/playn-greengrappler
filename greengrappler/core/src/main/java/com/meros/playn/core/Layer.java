@@ -2,7 +2,9 @@ package com.meros.playn.core;
 
 import playn.core.Canvas;
 import playn.core.CanvasImage;
+import playn.core.CanvasSurface;
 import playn.core.PlayN;
+import playn.core.Surface;
 
 public class Layer {
 
@@ -25,7 +27,7 @@ public class Layer {
 		myTiles = new Tile[aWidth][aHeight];
 	}
 
-	public void draw(Canvas aBuffer, int aOffsetX, int aOffsetY) {
+	public void draw(Surface aBuffer, int aOffsetX, int aOffsetY) {
 		if (myBufferIsDirty) {
 			privUpdateBuffer(myBuffer.canvas());
 			myBufferIsDirty = false;
@@ -56,7 +58,7 @@ public class Layer {
 				Tile tile = getTile(x, y);
 
 				if (tile != null) {
-					tile.onDraw(aBuffer, x * tile.getWidth(),
+					tile.onDraw(new CanvasSurface(aBuffer), x * tile.getWidth(),
 							y * tile.getHeight());
 				}
 			}

@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 import playn.core.Color;
 
 import com.meros.playn.core.entities.Hero;
@@ -160,7 +160,7 @@ public class Room {
 		return myMiddleLayer.getTile(x, y).getHook();
 	}
 
-	public void onDraw(Canvas aBuffer) {
+	public void onDraw(Surface aBuffer) {
 		if (mHero.isDead()) {
 			if (myFrameCounter == 0 || myFrameCounter == 5
 					|| myFrameCounter == 10)
@@ -279,9 +279,14 @@ public class Room {
 
 		getCamera().update(getHero(), mCameraTopLeft, mCameraBottomRight);
 	}
+	
+	public class OutInt
+	{
+		public int myInt;
+	}
 
 	public boolean rayCast(float2 origin, float2 direction,
-			boolean cullBeyondDirection, float2 out) {
+			boolean cullBeyondDirection, OutInt aOutX, OutInt aOutY) {
 		if (direction.isZero()) {
 			return false;
 		}
@@ -345,8 +350,8 @@ public class Room {
 			}
 		}
 		if (hit) {
-			out.x = ix;
-			out.y = iy;
+			aOutX.myInt = ix;
+			aOutY.myInt = iy;
 			float2 tileCenter = new float2(ix * getTileWidth() + getTileWidth()
 					/ 2, iy * getTileHeight() + getTileHeight() / 2);
 			if (cullBeyondDirection

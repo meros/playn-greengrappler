@@ -93,8 +93,10 @@ public class RoomLoader {
 						continue;
 					}
 
-					float2 pos = new float2(10 * x + 10 / 2, 10 * (y + 1));
-					pos.y -= entity.getHalfSize().y;
+					float2 pos = 
+							new float2(
+									10 * x + 10 / 2, 
+									(10 * (y + 1))-entity.getHalfSize().y);
 
 					entity.setPosition(pos);
 					room.addEntity(entity);

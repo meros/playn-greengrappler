@@ -1,6 +1,6 @@
 package com.meros.playn.core;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 
 public abstract class Screen {
 
@@ -20,10 +20,10 @@ public abstract class Screen {
 	}
 
 	// virtual void onDraw(BITMAP* aBuffer) = 0;
-	public abstract void onDraw(Canvas buffer);
+	public abstract void onDraw(Surface buffer);
 
 	// virtual bool onEnter(BITMAP* aBuffer) { return true; }
-	public boolean onEnter(Canvas buffer) {
+	public boolean onEnter(Surface buffer) {
 		return true;
 	}
 
@@ -33,7 +33,7 @@ public abstract class Screen {
 	}
 
 	// virtual bool onExit(BITMAP* aBuffer) { return true; }
-	public boolean onExit(Canvas buffer) {
+	public boolean onExit(Surface buffer) {
 		return true;
 	}
 

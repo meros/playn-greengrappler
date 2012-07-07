@@ -5,7 +5,7 @@ import com.meros.playn.core.Resource;
 import com.meros.playn.core.Screen;
 import com.meros.playn.core.Sound;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 import playn.core.Color;
 
 public class SplashScreen extends Screen {
@@ -14,7 +14,7 @@ public class SplashScreen extends Screen {
 	Animation mLogo = Resource.getAnimation("data/images/logo.bmp", 1);
 
 	@Override
-	public void onDraw(Canvas aBuffer) {
+	public void onDraw(Surface aBuffer) {
 		int yOffset = -160 + mFrameCounter;
 
 		if (yOffset == 0)

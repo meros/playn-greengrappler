@@ -2,7 +2,7 @@ package com.meros.playn.core;
 
 import java.util.ArrayList;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 
 public class Dialogue extends Entity {
 
@@ -61,7 +61,7 @@ public class Dialogue extends Entity {
 	}
 
 	@Override
-	public void draw(Canvas aBuffer, int offsetX, int offsetY, int layer) {
+	public void draw(Surface aBuffer, int offsetX, int offsetY, int layer) {
 		// Entity::draw(buffer, offsetX, offsetY, layer);
 
 		if (myDone)

@@ -2,12 +2,12 @@ package com.meros.playn.core;
 
 import java.util.EnumSet;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 
 import com.meros.playn.core.Constants.Direction;
 
 public abstract class Entity {
-	
+
 	protected int mFrameCounter = 0;
 	protected float2 mPosition = new float2();
 	protected boolean mRemoved = false;
@@ -16,9 +16,9 @@ public abstract class Entity {
 	protected float2 mSize = new float2();
 
 	protected float2 mVelocity = new float2();
-	
+
 	// virtual void draw(BITMAP *buffer, int offsetX, int offsetY, int layer);
-	public void draw(Canvas aBuffer, int offsetX, int offsetY, int layer) {
+	public void draw(Surface aBuffer, int offsetX, int offsetY, int layer) {
 		int x = getDrawPositionX() + offsetX;
 		int y = getDrawPositionY() + offsetY;
 		int x1 = (int) (x - getHalfSize().x);
@@ -107,7 +107,7 @@ public abstract class Entity {
 		float2 halfSize = getHalfSize();
 
 		for (int i = 0; i < substeps; i++) {
-			mPosition.x += delta.x;
+			mPosition = mPosition.add(new float2(delta.x, 0));
 			int x1 = (int) ((mPosition.x - halfSize.x) / mRoom.getTileWidth());
 			int x2 = (int) ((mPosition.x + halfSize.x) / mRoom.getTileWidth());
 			int y1n = (int) ((mPosition.y - halfSize.y + 0.01f) / mRoom
@@ -118,25 +118,27 @@ public abstract class Entity {
 			if (delta.x > 0) {
 				for (int y = y1n; y <= y2n; y++) {
 					if (mRoom.isCollidable(x2, y)) {
-						delta.x = 0;
+						delta = new float2(0, delta.y);
 						result.add(Direction.RIGHT);
-						mPosition.x = x2 * mRoom.getTileWidth() - halfSize.x;
+						mPosition = new float2(
+								x2 * mRoom.getTileWidth() - halfSize.x,
+								mPosition.y);
 						break;
 					}
 				}
 			} else if (delta.x < 0) {
 				for (int y = y1n; y <= y2n; y++) {
 					if (mRoom.isCollidable(x1, y)) {
-						delta.x = 0;
+						delta = new float2(0, delta.y);
 						result.add(Direction.LEFT);
-						mPosition.x = (x1 + 1) * mRoom.getTileWidth()
-								+ halfSize.x;
+						mPosition = new float2((x1 + 1) * mRoom.getTileWidth()
+								+ halfSize.x, mPosition.y);
 						break;
 					}
 				}
 			}
 
-			mPosition.y += delta.y;
+			mPosition = mPosition.add(new float2(0, delta.y));
 			int y1 = (int) ((mPosition.y - halfSize.y) / mRoom.getTileHeight());
 			int y2 = (int) ((mPosition.y + halfSize.y) / mRoom.getTileHeight());
 			int x1n = (int) ((mPosition.x - halfSize.x + 0.01f) / mRoom
@@ -147,19 +149,19 @@ public abstract class Entity {
 			if (delta.y > 0) {
 				for (int x = x1n; x <= x2n; x++) {
 					if (mRoom.isCollidable(x, y2)) {
-						delta.y = 0;
+						delta = new float2(delta.x, 0);
 						result.add(Direction.DOWN);
-						mPosition.y = y2 * mRoom.getTileHeight() - halfSize.y;
+						mPosition = new float2(mPosition.x, y2 * mRoom.getTileHeight() - halfSize.y);
 						break;
 					}
 				}
 			} else if (delta.y < 0) {
 				for (int x = x1n; x <= x2n; x++) {
 					if (mRoom.isCollidable(x, y1)) {
-						delta.y = 0;
+						delta = new float2(delta.x, 0);
 						result.add(Direction.UP);
-						mPosition.y = (y1 + 1) * mRoom.getTileHeight()
-								+ halfSize.y;
+						mPosition = new float2(mPosition.x, (y1 + 1) * mRoom.getTileHeight()
+								+ halfSize.y);
 					}
 				}
 			}
@@ -221,7 +223,7 @@ public abstract class Entity {
 
 	// virtual void setPosition(float2 position);
 	public void setPosition(float2 position) {
-		mPosition.set(position);
+		mPosition = position;
 	}
 
 	//
@@ -232,12 +234,12 @@ public abstract class Entity {
 
 	// virtual void setSize(float2 size);
 	public void setSize(float2 size) {
-		mSize.set(size);
+		mSize = size;
 	}
 
 	// virtual void setVelocity(float2 velocity);
 	public void setVelocity(float2 velocity) {
-		mVelocity.set(velocity);
+		mVelocity = velocity;
 	}
 
 	// virtual void update();

@@ -4,7 +4,7 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 
 import com.meros.playn.core.Animation;
 import com.meros.playn.core.CollisionRect;
@@ -14,6 +14,7 @@ import com.meros.playn.core.Entity;
 import com.meros.playn.core.GameState;
 import com.meros.playn.core.Input;
 import com.meros.playn.core.PlayerSkill;
+import com.meros.playn.core.Room;
 import com.meros.playn.core.Sound;
 import com.meros.playn.core.Time;
 import com.meros.playn.core.UtilMethods;
@@ -99,10 +100,11 @@ public class Hero extends Entity {
 
 					if (score > bestScore) {
 						float2 direction = tilePos.subtract(mPosition);
-						float2 rc = new float2();
+						Room.OutInt rcX = mRoom.new OutInt();
+						Room.OutInt rcY = mRoom.new OutInt();
 						boolean rcHit = mRoom.rayCast(mPosition, direction,
-								false, rc);
-						if (rcHit && (int) rc.x == x && (int) rc.y == y) {
+								false, rcX, rcY);
+						if (rcHit && (int) rcX.myInt == x && (int) rcY.myInt == y) {
 							bestScore = score;
 							bestDirection = direction;
 						}
@@ -124,10 +126,11 @@ public class Hero extends Entity {
 
 			if (score > bestScore) {
 				float2 direction = entityPos.subtract(mPosition);
-				float2 rc = new float2();
-				boolean rcHit = mRoom.rayCast(mPosition, direction, false, rc);
-				float2 rcTilePos = new float2(rc.x * mRoom.getTileWidth()
-						+ mRoom.getTileWidth() / 2, rc.y
+				Room.OutInt rcX = mRoom.new OutInt();
+				Room.OutInt rcY = mRoom.new OutInt();
+				boolean rcHit = mRoom.rayCast(mPosition, direction, false, rcX, rcY);
+				float2 rcTilePos = new float2(rcX.myInt * mRoom.getTileWidth()
+						+ mRoom.getTileWidth() / 2, rcY.myInt
 						* mRoom.getTileHeight() + mRoom.getTileHeight() / 2);
 
 				if (!rcHit || aRopeDirection.lengthCompare(rcTilePos) < 0) {
@@ -157,7 +160,7 @@ public class Hero extends Entity {
 	}
 
 	@Override
-	public void draw(Canvas aBuffer, int offsetX, int offsetY, int layer) {
+	public void draw(Surface aBuffer, int offsetX, int offsetY, int layer) {
 		int x = getDrawPositionX();
 		int y = getDrawPositionY();
 
@@ -382,7 +385,7 @@ public class Hero extends Entity {
 		boolean airRunning = false;
 
 		if (Input.isHeld(Buttons.Left)) {
-			mVelocity.x -= acceleration;
+			mVelocity = mVelocity.subtract(new float2(acceleration, 0));;
 
 			if (mRopeState == RopeState.Attached && !mOnGround) {
 				mFacingDirection = Direction.LEFT;
@@ -392,7 +395,7 @@ public class Hero extends Entity {
 		}
 
 		if (Input.isHeld(Buttons.Right)) {
-			mVelocity.x += acceleration;
+			mVelocity = mVelocity.add(new float2(acceleration, 0));;
 
 			if (mRopeState == RopeState.Attached && !mOnGround) {
 				mFacingDirection = Direction.RIGHT;
@@ -408,7 +411,8 @@ public class Hero extends Entity {
 		}
 
 		if (mOnGround && mJumpPrepressed) {
-			mVelocity.y = -JUMP_VELOCITY;
+			mVelocity = mVelocity.subtract(new float2(0, JUMP_VELOCITY));
+
 			if (mRopeState != RopeState.Attached) {
 				mJumpHeld = true;
 			}
@@ -417,7 +421,7 @@ public class Hero extends Entity {
 
 		if (Input.isReleased(Buttons.Jump)) {
 			if (mJumpHeld && mVelocity.y < 0) {
-				mVelocity.y *= 0.5f;
+				mVelocity = new float2(mVelocity.x, mVelocity.y*0.5f);
 			}
 
 			mJumpHeld = false;
@@ -454,7 +458,7 @@ public class Hero extends Entity {
 		}
 
 		if (mMovementState == MovementState.Still) {
-			mVelocity.x = 0;
+			mVelocity = new float2(0, mVelocity.y);
 		}
 
 		if (Input.isPressed(Buttons.Fire)) {
@@ -464,23 +468,23 @@ public class Hero extends Entity {
 			mRopeVelocity = new float2();
 
 			if (Input.isHeld(Buttons.Left)) {
-				mRopeVelocity.x -= 1;
+				mRopeVelocity = mRopeVelocity.subtract(new float2(1, 0));
 			}
 
 			if (Input.isHeld(Buttons.Right)) {
-				mRopeVelocity.x += 1;
+				mRopeVelocity = mRopeVelocity.add(new float2(1, 0));
 			}
 
 			if (Input.isHeld(Buttons.Up)) {
-				mRopeVelocity.y -= 1;
+				mRopeVelocity = mRopeVelocity.subtract(new float2(0, 1));
 			}
 
 			if (Input.isHeld(Buttons.Down)) {
-				mRopeVelocity.y += 1;
+				mRopeVelocity = mRopeVelocity.add(new float2(0, 1));
 			}
 
 			if (mRopeVelocity.isZero()) {
-				mRopeVelocity.x = (mFacingDirection == Direction.LEFT ? -1 : 1);
+				mRopeVelocity = new float2((mFacingDirection == Direction.LEFT ? -1 : 1), mRopeVelocity.y);
 			}
 
 			mRopeVelocity = adjustRopeDirection(
@@ -542,10 +546,11 @@ public class Hero extends Entity {
 					mJumpHeld = false;
 					mHookedEntityOffset = mRopePosition.subtract(mHookedEntity
 							.getPosition());
-					mHookedEntityOffset.x = (float) Math
-							.floor(mHookedEntityOffset.x);
-					mHookedEntityOffset.y = (float) Math
-							.floor(mHookedEntityOffset.y);
+					mHookedEntityOffset = new float2(
+							(float) Math
+							.floor(mHookedEntityOffset.x), 
+							(float) Math
+							.floor(mHookedEntityOffset.y));
 				}
 			}
 		}
@@ -571,11 +576,11 @@ public class Hero extends Entity {
 			}
 
 			if (Input.isHeld(Buttons.Up)) {
-				mVelocity.y -= acceleration;
+				mVelocity = mVelocity.subtract(new float2(0, acceleration));
 			}
 
 			if (Input.isHeld(Buttons.Down)) {
-				mVelocity.y += acceleration;
+				mVelocity = mVelocity.add(new float2(0, acceleration));
 			}
 
 			int ropeTileX = (int) (mRopePosition.x / mRoom.getTileWidth());
@@ -589,15 +594,15 @@ public class Hero extends Entity {
 		EnumSet<Direction> bumps = moveWithCollision();
 
 		if (bumps.contains(Direction.LEFT) || bumps.contains(Direction.RIGHT)) {
-			mVelocity.x = 0;
+			mVelocity = new float2(0, mVelocity.y);
 		}
 
 		if (bumps.contains(Direction.UP) || bumps.contains(Direction.DOWN)) {
-			mVelocity.y = 0;
+			mVelocity = new float2(mVelocity.x, 0);
 		}
 
 		float gravity = mJumpHeld ? JUMP_GRAVITY : GRAVITY;
-		mVelocity.y += gravity;
+		mVelocity = mVelocity.add(new float2(0, gravity));
 		boolean ground = bumps.contains(Direction.DOWN);
 		if (ground && !mOnGround && mRopeState != RopeState.Attached) {
 			Sound.playSample("data/sounds/land");

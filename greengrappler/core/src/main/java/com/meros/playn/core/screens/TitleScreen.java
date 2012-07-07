@@ -1,6 +1,6 @@
 package com.meros.playn.core.screens;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 
 import com.meros.playn.core.Animation;
 import com.meros.playn.core.Font;
@@ -39,7 +39,7 @@ public class TitleScreen extends Screen {
 	Animation myTitle = Resource.getAnimation("data/images/title.bmp", 1);
 
 	@Override
-	public void onDraw(Canvas aBuffer) {
+	public void onDraw(Surface aBuffer) {
 		myTitle.drawFrame(aBuffer, 0, 0, 0);
 
 		if (!myGameStart)

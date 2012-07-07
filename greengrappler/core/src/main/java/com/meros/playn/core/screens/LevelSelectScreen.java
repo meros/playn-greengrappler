@@ -2,7 +2,7 @@ package com.meros.playn.core.screens;
 
 import java.util.ArrayList;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 import playn.core.Color;
 
 import com.meros.playn.core.Animation;
@@ -141,7 +141,7 @@ public class LevelSelectScreen extends Screen {
 	// bool myRunBossUnlockedDialogue;
 	// void PrivSetLevelDesc(int aX, int aY, LevelDesc aLevelDesc);
 	@Override
-	public void onDraw(Canvas aBuffer) {
+	public void onDraw(Surface aBuffer) {
 		aBuffer.setFillColor(Color.rgb(57, 56, 41));
 		aBuffer.fillRect(0, 0, 320, 240);
 
@@ -149,9 +149,9 @@ public class LevelSelectScreen extends Screen {
 			int color = Color.rgb(181, 166, 107);
 			if (myParticles.get(i).myZ <= 2)
 				color = Color.rgb(123, 113, 99);
-			aBuffer.setStrokeColor(color);
+			aBuffer.setFillColor(color);
 			aBuffer.drawLine(myParticles.get(i).myX, myParticles.get(i).myY,
-					myParticles.get(i).myX + 2, myParticles.get(i).myY);
+					myParticles.get(i).myX + 2, myParticles.get(i).myY, 1);
 		}
 
 		if (!myLevelSelected)

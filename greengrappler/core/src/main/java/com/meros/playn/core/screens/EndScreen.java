@@ -1,6 +1,6 @@
 package com.meros.playn.core.screens;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 import playn.core.Color;
 
 import com.meros.playn.core.Font;
@@ -20,7 +20,7 @@ public class EndScreen extends Screen {
 	int myFrameCounter = -60;
 
 	@Override
-	public void onDraw(Canvas aBuffer) {
+	public void onDraw(Surface aBuffer) {
 		aBuffer.setFillColor(Color.rgb(57, 56, 41));
 		aBuffer.fillRect(0, 0, 320, 240);
 

@@ -2,7 +2,7 @@ package com.meros.playn.core.entities;
 
 import java.util.EnumSet;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 
 import com.meros.playn.core.Animation;
 import com.meros.playn.core.Constants.Direction;
@@ -21,7 +21,7 @@ public class ReactorCore extends Entity {
 	}
 
 	@Override
-	public void draw(Canvas buffer, int offsetX, int offsetY, int layer) {
+	public void draw(Surface buffer, int offsetX, int offsetY, int layer) {
 		// Entity::draw(buffer, offsetX, offsetY, layer);
 		float2 pos = getPosition();
 		pos = pos.subtract(new float2(mAnimation.getFrameWidth(), mAnimation
@@ -40,13 +40,12 @@ public class ReactorCore extends Entity {
 	public void update() {
 		Hero hero = mRoom.getHero();
 
-		mVelocity.y += 6.0;
-		mVelocity.x = 0;
+		mVelocity = new float2(0, mVelocity.y + 6.0f);
 
 		EnumSet<Direction> bumps = moveWithCollision();
 
 		if (bumps.contains(Direction.UP) || bumps.contains(Direction.DOWN)) {
-			mVelocity.y *= -0.8;
+			mVelocity = new float2(mVelocity.x, mVelocity.y*0.8f);
 		}
 
 		if (hero.getCollisionRect().Collides(getCollisionRect())) {

@@ -1,6 +1,6 @@
 package com.meros.playn.core;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 import playn.core.Image;
 
 public class Animation {
@@ -31,13 +31,13 @@ public class Animation {
 
 	}
 
-	public void drawFrame(Canvas aBuffer, int aFrame, int aX, int aY) {
+	public void drawFrame(Surface aBuffer, int aFrame, int aX, int aY) {
 		drawFrame(aBuffer, aFrame, aX, aY, false, false);
 	}
 
 	// void drawFrame(BITMAP *aBuffer, int aFrame, int aX, int aY, bool aHFlip =
 	// false, bool aVFlip = false, Blending aBlending = Blending_None) const;
-	public void drawFrame(Canvas aBuffer, int aFrame, int aX, int aY, boolean aHFlip,
+	public void drawFrame(Surface aBuffer, int aFrame, int aX, int aY, boolean aHFlip,
 			boolean aVFlip) {
 		// TODO: dummy
 		aBuffer.save();

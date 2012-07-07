@@ -3,7 +3,7 @@ package com.meros.playn.core.entities;
 import java.util.ArrayList;
 import java.util.Random;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 
 import com.meros.playn.core.Animation;
 import com.meros.playn.core.Entity;
@@ -43,7 +43,7 @@ public class ParticleSystem extends Entity {
 	}
 
 	@Override
-	public void draw(Canvas aBuffer, int aOffsetX, int aOffsetY, int aLayer) {
+	public void draw(Surface aBuffer, int aOffsetX, int aOffsetY, int aLayer) {
 		if (myLifeTimeTicks < myBlinkTimeTicks && myLifeTimeTicks % 2 == 0)
 			return;
 
@@ -109,7 +109,7 @@ public class ParticleSystem extends Entity {
 						myParticlesPos.get(i).add(
 								myParticlesVel.get(i).divide(
 										Time.TicksPerSecond)));
-				myParticlesVel.get(i).y += myGravity;
+				myParticlesVel.set(i, myParticlesVel.get(i).add(new float2(0,myGravity)));
 			}
 
 			myLifeTimeTicks--;

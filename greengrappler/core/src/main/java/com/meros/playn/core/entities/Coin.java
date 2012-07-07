@@ -2,7 +2,7 @@ package com.meros.playn.core.entities;
 
 import java.util.EnumSet;
 
-import playn.core.Canvas;
+import playn.core.Surface;
 
 import com.meros.playn.core.Animation;
 import com.meros.playn.core.Constants.Direction;
@@ -19,7 +19,7 @@ public class Coin extends Entity {
 	enum Type {
 		DYNAMIC, STATIC
 	}
-	
+
 	Animation myAnimationCoin;
 	int myFrame = 0;
 
@@ -34,8 +34,7 @@ public class Coin extends Entity {
 
 			float2 velocity = UtilMethods.sincos(3.1415 * (i + 1)
 					/ (aNumberOfCoins + 1));
-			velocity.x *= 100;
-			velocity.y *= -200;
+			velocity = new float2(velocity.x * 100, velocity.y * -200);
 
 			Coin coin = new Coin();
 			coin.setLifeTime(aLifeTime);
@@ -52,7 +51,7 @@ public class Coin extends Entity {
 	}
 
 	@Override
-	public void draw(Canvas aBuffer, int aOffsetX, int aOffsetY, int aLayer) {
+	public void draw(Surface aBuffer, int aOffsetX, int aOffsetY, int aLayer) {
 		float2 pos = getPosition();
 		pos = pos.subtract(new float2(myAnimationCoin.getFrameWidth(),
 				myAnimationCoin.getFrameHeight()).divide(2));
@@ -98,7 +97,7 @@ public class Coin extends Entity {
 			if (myTemporary && myLifeTime == 0) {
 				remove();
 			} else {
-				mVelocity.y += 6.0;
+				mVelocity = mVelocity.add(new float2(0.0f, 6.0f));
 
 				EnumSet<Direction> bumps = moveWithCollision();
 
@@ -107,7 +106,8 @@ public class Coin extends Entity {
 					if (Math.abs(mVelocity.x) > 10) {
 						Sound.playSample("data/sounds/coin");
 					}
-					mVelocity.x *= -0.5;
+
+					mVelocity = new float2(mVelocity.x * -0.5f, mVelocity.y);
 				}
 
 				if (bumps.contains(Direction.UP)
@@ -115,7 +115,8 @@ public class Coin extends Entity {
 					if (Math.abs(mVelocity.y) > 10) {
 						Sound.playSample("data/sounds/coin");
 					}
-					mVelocity.y *= -0.2;
+
+					mVelocity = new float2(mVelocity.x, mVelocity.y*-0.2f);
 				}
 
 				myLifeTime--;
