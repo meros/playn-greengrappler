@@ -16,7 +16,7 @@ public abstract class Entity {
 	protected float2 mSize = new float2();
 
 	protected float2 mVelocity = new float2();
-
+	
 	// virtual void draw(BITMAP *buffer, int offsetX, int offsetY, int layer);
 	public void draw(Canvas aBuffer, int offsetX, int offsetY, int layer) {
 		int x = getDrawPositionX() + offsetX;
@@ -60,7 +60,7 @@ public abstract class Entity {
 
 	// virtual float2 getPosition();
 	public float2 getPosition() {
-		return (float2) mPosition.clone();
+		return mPosition;
 	}
 
 	// virtual Room *getRoom();
@@ -70,12 +70,12 @@ public abstract class Entity {
 
 	// virtual float2 getSize();
 	public float2 getSize() {
-		return (float2) mSize.clone();
+		return mSize;
 	}
 
 	// virtual float2 getVelocity();
 	public float2 getVelocity() {
-		return (float2) mVelocity.clone();
+		return mVelocity;
 	}
 
 	// virtual bool isDamagable();
@@ -221,7 +221,7 @@ public abstract class Entity {
 
 	// virtual void setPosition(float2 position);
 	public void setPosition(float2 position) {
-		mPosition = (float2) position.clone();
+		mPosition.set(position);
 	}
 
 	//
@@ -232,12 +232,12 @@ public abstract class Entity {
 
 	// virtual void setSize(float2 size);
 	public void setSize(float2 size) {
-		mSize = (float2) size.clone();
+		mSize.set(size);
 	}
 
 	// virtual void setVelocity(float2 velocity);
 	public void setVelocity(float2 velocity) {
-		mVelocity = (float2) velocity.clone();
+		mVelocity.set(velocity);
 	}
 
 	// virtual void update();

@@ -2,6 +2,7 @@ package com.meros.playn.core;
 
 import com.meros.playn.core.entities.BreakingHookTile;
 import com.meros.playn.core.entities.Coin;
+import com.meros.playn.core.entities.GroundWalkingMonster;
 import com.meros.playn.core.entities.Hero;
 import com.meros.playn.core.entities.Reactor;
 import com.meros.playn.core.entities.SimpleWalkingMonster;
@@ -22,17 +23,17 @@ public class EntityFactory {
 			return new Spike();
 		case 4:
 			return new SpawnPoint();
-			// case 5:
-			// return new
-			// GroundWalkingMonster(GroundWalkingMonster::Type_Floor);
-			// case 6:
-			// return new GroundWalkingMonster(GroundWalkingMonster::Type_Roof);
-			// case 7:
-			// return new
-			// GroundWalkingMonster(GroundWalkingMonster::Type_LeftWall);
-			// case 8:
-			// return new
-			// GroundWalkingMonster(GroundWalkingMonster::Type_RightWall);
+		case 5:
+			return new
+					GroundWalkingMonster(GroundWalkingMonster.Type.FLOOR);
+		case 6:
+			return new GroundWalkingMonster(GroundWalkingMonster.Type.ROOF);
+		case 7:
+			return new
+					GroundWalkingMonster(GroundWalkingMonster.Type.LEFT_WALL);
+		case 8:
+			return new
+					GroundWalkingMonster(GroundWalkingMonster.Type.RIGHT_WALL);
 		case 9:
 			return new SimpleWalkingMonster();
 			// case 10:

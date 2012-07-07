@@ -8,6 +8,7 @@ public class Layer {
 
 	CanvasImage myBuffer;
 	boolean myBufferIsDirty = true;
+	Tile myDummyTile = new Tile();
 
 	int myHeight;
 	Tile[][] myTiles;
@@ -18,7 +19,8 @@ public class Layer {
 		myWidth = aWidth;
 		myHeight = aHeight;
 
-		myBuffer = PlayN.graphics().createImage(aWidth * 10, aHeight * 10);
+		
+		myBuffer = PlayN.graphics().createImage(Math.max(aWidth, 1) * 10, Math.max(aHeight, 1) * 10);
 
 		myTiles = new Tile[aWidth][aHeight];
 	}
@@ -30,8 +32,6 @@ public class Layer {
 		}
 
 		aBuffer.drawImage(myBuffer, aOffsetX, aOffsetY);
-		//aBuffer.drawImage(myBuffer, 0, 0, 320, 240, -aOffsetX, -aOffsetY, 320,
-			//	240);
 	}
 
 	public float getHeight() {
@@ -40,14 +40,8 @@ public class Layer {
 
 	public Tile getTile(int aX, int aY) {
 
-		if (aX < 0)
-			return new Tile();
-		if (aY < 0)
-			return new Tile();
-		if (aX >= getWidth())
-			return new Tile();
-		if (aY >= getHeight())
-			return new Tile();
+		if (aX < 0 || aY < 0 || aX >= myTiles.length || aY >= myTiles[aX].length)
+			return myDummyTile;
 
 		return myTiles[aX][aY];
 	}

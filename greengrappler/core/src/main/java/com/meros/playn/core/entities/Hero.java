@@ -7,6 +7,7 @@ import java.util.Set;
 import playn.core.Canvas;
 
 import com.meros.playn.core.Animation;
+import com.meros.playn.core.CollisionRect;
 import com.meros.playn.core.Constants.Buttons;
 import com.meros.playn.core.Constants.Direction;
 import com.meros.playn.core.Entity;
@@ -139,7 +140,7 @@ public class Hero extends Entity {
 		return bestDirection.normalize();
 	}
 
-	private void detachHook() {
+	public void detachHook() {
 		if (mRopeState != RopeState.Retracted
 				&& mRopeState != RopeState.Dissapearing) {
 			mRopeState = RopeState.Dissapearing;
@@ -165,7 +166,7 @@ public class Hero extends Entity {
 					offsetX + x - mAnimationHurt.getFrameWidth() / 2,
 					(int) (offsetY + y + getHalfSize().y - mAnimationHurt
 							.getFrameHeight()),
-					mFacingDirection == Direction.LEFT, false);
+							mFacingDirection == Direction.LEFT, false);
 			return;
 		}
 
@@ -228,9 +229,9 @@ public class Hero extends Entity {
 				}
 
 				mAnimationRope
-						.drawFrame(aBuffer, frame,
-								(int) (rx + wave.x - mAnimationRope
-										.getFrameWidth() / 2), (int) (ry
+				.drawFrame(aBuffer, frame,
+						(int) (rx + wave.x - mAnimationRope
+								.getFrameWidth() / 2), (int) (ry
 										+ wave.y - mAnimationRope
 										.getFrameHeight() / 2));
 
@@ -240,7 +241,7 @@ public class Hero extends Entity {
 
 			mAnimationHook.drawFrame(aBuffer, frame,
 					x1 - mAnimationHook.getFrameWidth() / 2, y1
-							- mAnimationHook.getFrameHeight() / 2);
+					- mAnimationHook.getFrameHeight() / 2);
 
 		}
 
@@ -253,7 +254,7 @@ public class Hero extends Entity {
 					offsetX + x - animation.getFrameWidth() / 2,
 					(int) (offsetY + y + getHalfSize().y - animation
 							.getFrameHeight()),
-					mFacingDirection == Direction.LEFT, false);
+							mFacingDirection == Direction.LEFT, false);
 		}
 	}
 
@@ -615,5 +616,16 @@ public class Hero extends Entity {
 
 	public void setLastSpawnPoint(float2 aSpawnPoint) {
 		mySpawnPoint = aSpawnPoint;
+	}
+
+	public boolean hasHook() {
+		return mRopeState == RopeState.Attached;
+	}
+
+	public CollisionRect getHookCollisionRect() {
+		CollisionRect rect = new CollisionRect();
+		rect.myTopLeft = mRopePosition.subtract(new float2(2,2));
+		rect.myBottomRight = mRopePosition.add(new float2(2,2));
+		return rect;
 	}
 }

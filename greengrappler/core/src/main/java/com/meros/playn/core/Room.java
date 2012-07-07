@@ -1,7 +1,11 @@
 package com.meros.playn.core;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import playn.core.Canvas;
@@ -177,14 +181,21 @@ public class Room {
 		myMiddleLayer.draw(aBuffer, (int) mCamera.getOffset().x,
 				(int) mCamera.getOffset().y);
 
-		for (int layer = 0; layer < 5; layer++) {
-			for (Entity entity : mEntities) {
-				if (entity.getLayer() != layer)
-					continue;
-
-				entity.draw(aBuffer, (int) mCamera.getOffset().x,
-						(int) mCamera.getOffset().y, 0);
+		List<Entity> entitiesToDraw = new ArrayList<Entity>();
+		entitiesToDraw.addAll(mEntities);
+		Collections.sort(entitiesToDraw, new Comparator<Entity>() {
+			@Override
+			public int compare(Entity aEnt1, Entity aEnt2) {
+				if (aEnt1.getLayer() != aEnt2.getLayer())
+					return aEnt1.getLayer() - aEnt2.getLayer();
+				
+				return aEnt1.getClass().getName().compareTo(aEnt2.getClass().getName());
 			}
+		});
+
+		for (Entity entity: entitiesToDraw) {
+			entity.draw(aBuffer, (int) mCamera.getOffset().x,
+					(int) mCamera.getOffset().y, 0);
 		}
 
 		myForegroundLayer.draw(aBuffer, (int) mCamera.getOffset().x,
@@ -258,7 +269,7 @@ public class Room {
 			if (entity.getPosition().x - entity.getHalfSize().x > getWidthInTiles()
 					* getTileWidth()
 					|| entity.getPosition().y - entity.getHalfSize().y > getHeightInTiles()
-							* getTileHeight()
+					* getTileHeight()
 					|| entity.getPosition().x + entity.getHalfSize().x < 0
 					|| entity.getPosition().y + entity.getHalfSize().y < 0) {
 				entity.remove();
@@ -289,20 +300,20 @@ public class Room {
 		if (cullBeyondDirection) {
 			minX = Math.max(minX,
 					ix
-							+ (int) (Math.min(0.0f, direction.x)
-									/ getTileWidth() - 1.0f));
+					+ (int) (Math.min(0.0f, direction.x)
+							/ getTileWidth() - 1.0f));
 			maxX = Math.min(maxX,
 					ix
-							+ (int) (Math.max(0.0f, direction.x)
-									/ getTileWidth() + 2.0f));
+					+ (int) (Math.max(0.0f, direction.x)
+							/ getTileWidth() + 2.0f));
 			minY = Math.max(minY,
 					iy
-							+ (int) (Math.min(0.0f, direction.y)
-									/ getTileHeight() - 1.0f));
+					+ (int) (Math.min(0.0f, direction.y)
+							/ getTileHeight() - 1.0f));
 			maxY = Math.min(maxY,
 					iy
-							+ (int) (Math.max(0.0f, direction.y)
-									/ getTileHeight() + 2.0f));
+					+ (int) (Math.max(0.0f, direction.y)
+							/ getTileHeight() + 2.0f));
 		}
 		boolean hit = false;
 		while (ix >= minX && ix < maxX && iy >= minY && iy < maxY) {

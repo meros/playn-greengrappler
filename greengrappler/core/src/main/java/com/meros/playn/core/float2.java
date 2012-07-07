@@ -1,7 +1,7 @@
 package com.meros.playn.core;
 
-public class float2 {
-	float EPSILON = 0.0000001f;
+public class float2  implements Cloneable {
+	static float EPSILON = 0.0000001f;
 	public float x = 0;
 	public float y = 0;
 
@@ -12,23 +12,28 @@ public class float2 {
 		x = aX;
 		y = aY;
 	}
+	
+	private float2 getClone()
+	{
+		try {
+			return (float2) clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 
 	public float2 add(float2 other) {
-		float2 copy = (float2) clone();
+		float2 copy = getClone();
 		copy.x += other.x;
 		copy.y += other.y;
 		return copy;
 	}
 
-	public Object clone() {
-		float2 copy = new float2();
-		copy.x = x;
-		copy.y = y;
-		return copy;
-	}
-
 	public float2 divide(float divider) {
-		float2 copy = (float2) clone();
+		float2 copy = getClone();
 		copy.x /= divider;
 		copy.y /= divider;
 		return copy;
@@ -56,7 +61,7 @@ public class float2 {
 	}
 
 	public float2 multiply(float factor) {
-		float2 copy = (float2) clone();
+		float2 copy = getClone();
 		copy.x *= factor;
 		copy.y *= factor;
 		return copy;
@@ -67,9 +72,14 @@ public class float2 {
 	}
 
 	public float2 subtract(float2 other) {
-		float2 copy = (float2) clone();
+		float2 copy = getClone();
 		copy.x -= other.x;
 		copy.y -= other.y;
 		return copy;
+	}
+
+	public void set(float2 aOther) {
+		x = aOther.x;
+		y = aOther.y;
 	}
 }

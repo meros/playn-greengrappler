@@ -5,7 +5,9 @@ import static playn.core.PlayN.log;
 import playn.core.CanvasImage;
 import playn.core.Color;
 import playn.core.Game;
+import playn.core.ImageLayer;
 import playn.core.ImmediateLayer;
+import playn.core.PlayN;
 import playn.core.ImmediateLayer.Renderer;
 import playn.core.Surface;
 
@@ -44,10 +46,29 @@ public class GreenGrappler implements Game, Renderer {
 
 		// create and add background image layer
 		// graphics().setSize(320, 240);
+		
+		int w = PlayN.graphics().width();
+		int h = PlayN.graphics().height();
+		
+		float aspect = w/h;
+		float targetAspect = 320/240;
+		float scale = 1.0f;
+
+		if (aspect < targetAspect) {
+			scale = w / 320;
+		} else {
+			scale = h / 240;
+		}
+
 
 		buffer = graphics().createImage(320, 240);
-		ImmediateLayer imLayer = graphics().createImmediateLayer(this);
-		graphics().rootLayer().add(imLayer);
+		ImageLayer bufferLayer = graphics().createImageLayer();
+		bufferLayer.setImage(buffer);
+		bufferLayer.setScale(scale);
+
+		graphics().rootLayer().add(bufferLayer);
+		//ImmediateLayer imLayer = graphics().createImmediateLayer(this);
+		//graphics().rootLayer().add(imLayer);
 
 		if (myFullScreen)
 			graphics().setSize(graphics().screenWidth(),
@@ -137,6 +158,22 @@ public class GreenGrappler implements Game, Renderer {
 
 	@Override
 	public void paint(float alpha) {
+		if (!myReadyForUpdates)
+			return;
+		ScreenManager.draw(buffer.canvas());
+
+		long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
+		if (elapsedTimeMillis > 1000)
+		{
+			startTimeMillis += 1000;
+			lastFpsCount = fpsCount;
+			fpsCount = 0;
+		}
+		else
+		{
+			fpsCount ++;
+		}
+		myFont.draw(buffer.canvas(), "fps: " + lastFpsCount, 10, 10);
 
 	}
 
@@ -153,45 +190,10 @@ public class GreenGrappler implements Game, Renderer {
 
 	int fpsCount = 0;
 	int lastFpsCount = 0;
-	
+
 	@Override
 	public void render(Surface surface) {
-		if (!myReadyForUpdates)
-			return;
 
-		ScreenManager.draw(buffer.canvas());
-
-		long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
-		if (elapsedTimeMillis > 1000)
-		{
-			startTimeMillis += 1000;
-			lastFpsCount = fpsCount;
-			fpsCount = 0;
-		}
-		else
-		{
-			fpsCount ++;
-		}
-		myFont.draw(buffer.canvas(), "fps: " + lastFpsCount, 10, 10);
-		
-		surface.save();
-
-		float w = surface.width();
-		float h = surface.height();
-
-		float targetAspect = 320 / 240;
-		float aspect = w / h;
-
-		if (aspect < targetAspect) {
-			float scaleFactor = surface.width() / 320;
-			surface.scale(scaleFactor, scaleFactor);
-		} else {
-			float scaleFactor = surface.height() / 240;
-			surface.scale(scaleFactor, scaleFactor);
-		}
-		
-		surface.drawImage(buffer, 0, 0);
-		surface.restore();
 	}
 
 	@Override
