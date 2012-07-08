@@ -88,8 +88,7 @@ public class Input implements Keyboard.Listener, Touch.Listener {
 
 	@Override
 	public void onKeyTyped(TypedEvent event) {
-		// TODO Auto-generated method stub
-
+		//Do nothing
 	}
 
 	@Override

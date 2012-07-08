@@ -1,6 +1,8 @@
 package com.meros.playn.core;
 
 public class PlayerSkill {
+	
+	//TODO: PlayerSkill is just a dummy
 
 	public static float get() {
 		// TODO Auto-generated method stub
