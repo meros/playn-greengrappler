@@ -107,7 +107,6 @@ public abstract class Entity {
 	}
 
 	public EnumSet<Direction> moveWithCollision(float2 delta) {
-		// FIXME: implement
 		int substeps = (int) Math
 				.ceil((Math.abs(delta.x) + Math.abs(delta.y)) * 0.2);
 		delta = delta.divide(substeps);

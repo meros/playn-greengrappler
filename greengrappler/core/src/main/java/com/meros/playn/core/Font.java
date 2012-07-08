@@ -52,24 +52,9 @@ public class Font {
 		int x = aX;
 		int y = aY;
 
-		// TODO: blending?? bool addBlend = aBlending == Blending_Add;
-		// setBlending(aBlending);
-
 		for (int i = 0; i < aText.length(); i++) {
 			Image bitmap = getBitmapForGlyph(aText.charAt(i));
-			// TODO: no blending implemented!
-			// if (aBlending == Blending_None)
-			// {
 			aBuffer.drawImage(bitmap, x, y);
-			// }
-			// else if (addBlend)
-			// {
-			// draw_trans_sprite(aBuffer, bitmap, x, y);
-			// }
-			// else
-			// {
-			// draw_lit_sprite(aBuffer, bitmap, x, y, 0);
-			// }
 			x += bitmap.width();
 		}
 	}
@@ -147,7 +132,7 @@ public class Font {
 	}
 
 	private Image getBitmapForGlyph(char glyph) {
-		Image defaultBitmap = myGlyphToBitmap.get("" + ' '); // TODO make bitmap
+		Image defaultBitmap = myGlyphToBitmap.get("" + ' ');
 		Image bitmap = defaultBitmap;
 		if (myGlyphToBitmap.containsKey("" + glyph)) {
 			bitmap = myGlyphToBitmap.get("" + glyph);

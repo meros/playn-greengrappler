@@ -64,8 +64,7 @@ public class SimpleWalkingMonster extends Entity {
 
 	@Override
 	public int getLayer() {
-		// TODO Auto-generated method stub
-		return 3;
+		return 1;
 	}
 
 	@Override

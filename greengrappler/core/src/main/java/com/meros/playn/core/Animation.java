@@ -39,7 +39,6 @@ public class Animation {
 	// false, bool aVFlip = false, Blending aBlending = Blending_None) const;
 	public void drawFrame(Surface aBuffer, int aFrame, int aX, int aY, boolean aHFlip,
 			boolean aVFlip) {
-		// TODO: dummy
 		aBuffer.save();
 		if (aHFlip)
 			aBuffer.transform(-1, 0, 0, 1, getFrameWidth() + aX * 2, 0);

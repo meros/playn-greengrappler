@@ -111,7 +111,6 @@ public class LavaSea extends Entity {
 	
 	@Override
 	public int getLayer() {
-		// TODO Auto-generated method stub
 		return 4;
 	}
 

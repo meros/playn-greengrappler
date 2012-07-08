@@ -9,7 +9,6 @@ public abstract class Screen {
 		try {
 			ScreenManager.exit(this);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

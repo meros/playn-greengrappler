@@ -87,7 +87,6 @@ public class Dialogue extends Entity {
 
 	@Override
 	public int getLayer() {
-		// TODO Auto-generated method stub
 		return 3;
 	}
 
