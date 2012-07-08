@@ -14,10 +14,20 @@ namespace com.meros.playn
       app.SetStatusBarHidden(true, true);
       var pf = IOSPlatform.register(app, IOSPlatform.SupportedOrients.PORTRAITS);
       pf.assets().setPathPrefix("assets");
-      PlayN.run(new GreenGrappler());
+      PlayN.run(
+		new GreenGrappler(
+				true, 
+				new blaj()));
       return true;
     }
   }
+
+	public class blaj : GreenGrappler.ExitCallback
+	{
+		public void exit ()
+		{
+		}
+	}
 
   public class Application {
     static void Main (string[] args) {

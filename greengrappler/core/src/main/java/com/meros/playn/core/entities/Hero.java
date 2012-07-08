@@ -633,4 +633,8 @@ public class Hero extends Entity {
 		rect.myBottomRight = mRopePosition.add(new float2(2,2));
 		return rect;
 	}
+
+	public Entity getHookedEntity() {
+		return mHookedEntity;
+	}
 }

@@ -8,8 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import playn.core.Surface;
 import playn.core.Color;
+import playn.core.Surface;
 
 import com.meros.playn.core.entities.Hero;
 
@@ -105,8 +105,15 @@ public class Room {
 		return false;
 	}
 
-	public Entity findHookableEntity(float2 mRopePosition) {
-		// TODO Auto-generated method stub
+	public Entity findHookableEntity(float2 position) {
+		for (Entity entity : mHookableEntities)
+		{
+			float2 toEntity = entity.getPosition().subtract(position);
+			if (Math.abs(toEntity.x) < entity.getHalfSize().x && Math.abs(toEntity.y) < entity.getHalfSize().y) {
+				return entity;
+			}
+		}
+
 		return null;
 	}
 

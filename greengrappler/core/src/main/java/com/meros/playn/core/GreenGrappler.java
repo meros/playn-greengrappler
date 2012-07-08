@@ -3,10 +3,10 @@ package com.meros.playn.core;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.log;
 import playn.core.Game;
+import playn.core.ImmediateLayer;
 import playn.core.ImmediateLayer.Renderer;
 import playn.core.PlayN;
 import playn.core.Surface;
-import playn.core.SurfaceLayer;
 
 import com.meros.playn.core.Constants.Buttons;
 import com.meros.playn.core.screens.TitleScreen;
@@ -16,8 +16,6 @@ public class GreenGrappler implements Game, Renderer {
 	public interface ExitCallback {
 		public abstract void exit();
 	}
-
-	Surface buffer;
 
 	float fps = 0.0f;
 
@@ -57,8 +55,7 @@ public class GreenGrappler implements Game, Renderer {
 			scale = h / 240;
 		}
 
-		SurfaceLayer bufferLayer = graphics().createSurfaceLayer(320, 240);
-		buffer = bufferLayer.surface();
+		ImmediateLayer bufferLayer = graphics().createImmediateLayer(320, 240, this);
 		bufferLayer.setScale(scale);
 
 		graphics().rootLayer().add(bufferLayer);
@@ -153,23 +150,7 @@ public class GreenGrappler implements Game, Renderer {
 
 	@Override
 	public void paint(float alpha) {
-		if (!myReadyForUpdates)
-			return;
-		ScreenManager.draw(buffer);
-
-		long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
-		if (elapsedTimeMillis > 1000)
-		{
-			startTimeMillis += 1000;
-			lastFpsCount = fpsCount;
-			fpsCount = 0;
-		}
-		else
-		{
-			fpsCount ++;
-		}
 		
-		myFont.draw(buffer, "fps: " + lastFpsCount, 10, 10);
 	}
 
 	void postPreloadInit() {
@@ -188,7 +169,23 @@ public class GreenGrappler implements Game, Renderer {
 
 	@Override
 	public void render(Surface surface) {
+		if (!myReadyForUpdates)
+			return;
+		ScreenManager.draw(surface);
 
+		long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
+		if (elapsedTimeMillis > 1000)
+		{
+			startTimeMillis += 1000;
+			lastFpsCount = fpsCount;
+			fpsCount = 0;
+		}
+		else
+		{
+			fpsCount ++;
+		}
+		
+		myFont.draw(surface, "fps: " + lastFpsCount, 10, 10);
 	}
 
 	@Override

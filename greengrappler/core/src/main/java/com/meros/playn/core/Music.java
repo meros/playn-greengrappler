@@ -3,6 +3,13 @@ package com.meros.playn.core;
 public class Music {
 
 	static playn.core.Sound sound;
+	
+	public interface MusicPlayer
+	{
+		
+	}
+	
+	MusicPlayer myMusicPlayer = null;
 
 	public static void playSong(String path) {
 		stop();
