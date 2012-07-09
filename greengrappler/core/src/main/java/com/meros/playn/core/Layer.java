@@ -16,6 +16,7 @@ public class Layer {
 	Tile[][] myTiles;
 
 	int myWidth;
+	private int myDestroyedToTileRow = 0;
 
 	public Layer(int aWidth, int aHeight) {
 		myWidth = aWidth;
@@ -32,8 +33,13 @@ public class Layer {
 			privUpdateBuffer(myBuffer.canvas());
 			myBufferIsDirty = false;
 		}
+		
+		int sX = myDestroyedToTileRow*10;
+		int sY = 0;
+		int sW = (int) (myBuffer.width()-sX);
+		int sH = (int) myBuffer.height();
 
-		aBuffer.drawImage(myBuffer, aOffsetX, aOffsetY);
+		aBuffer.drawImage(myBuffer, aOffsetX+sX, aOffsetY, sW, sH, sX, sY, sW, sH);
 	}
 
 	public float getHeight() {
@@ -41,8 +47,7 @@ public class Layer {
 	}
 
 	public Tile getTile(int aX, int aY) {
-
-		if (aX < 0 || aY < 0 || aX >= myTiles.length || aY >= myTiles[aX].length)
+		if (aX < myDestroyedToTileRow || aY < 0 || aX >= myTiles.length || aY >= myTiles[aX].length)
 			return myDummyTile;
 
 		return myTiles[aX][aY];
@@ -69,5 +74,9 @@ public class Layer {
 		myTiles[aX][aY] = aTile;
 
 		myBufferIsDirty = true;
+	}
+
+	public void setDestroyedToTileRow(int aX) {
+		myDestroyedToTileRow = aX;
 	}
 }

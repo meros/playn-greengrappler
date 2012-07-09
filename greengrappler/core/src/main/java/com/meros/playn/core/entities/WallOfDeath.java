@@ -50,7 +50,6 @@ public class WallOfDeath extends Entity {
 		{
 			myOriginalPosition = getPosition();
 			myInited = true;
-			mRoom.createTileBackup();
 		}
 
 		if (!myRunning)
@@ -74,10 +73,8 @@ public class WallOfDeath extends Entity {
 		}
 
 		for (int xo = 0; xo < 3; xo++) {
-			for (int yt = 0; yt < mRoom.getHeightInTiles(); yt++) {
 				int xt = xo + (int)((mPosition.x - mSize.x / 2) / mRoom.getTileWidth());
-				mRoom.destroyTile(xt, yt);
-			}
+				mRoom.destroyToTileRow(xt);
 		}
 
 		float heroX = mRoom.getHero().getPosition().x;
@@ -122,7 +119,7 @@ public class WallOfDeath extends Entity {
 	@Override
 	public void onRespawn()
 	{
-		mRoom.restoreTileBackup();
+		mRoom.destroyToTileRow(0);
 		setPosition(myOriginalPosition);
 		myRunning = false;
 		myBoost = false;

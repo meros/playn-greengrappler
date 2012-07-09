@@ -25,19 +25,16 @@ public class Room {
 
 	Set<Entity> mHookableEntities = new HashSet<Entity>();
 	Layer myBackgroundLayer;
-	Layer myBackgroundLayerBackup;
-
+	
 	Font myFont = Resource.getFont("data/images/font.bmp");
 	Layer myForegroundLayer;
-	Layer myForegroundLayerBackup;
-
+	
 	int myFrameCounter = 0;
 
 	boolean myHeroIsDead = false;
 
 	boolean myIsCompleted = false;
 	Layer myMiddleLayer;
-	Layer myMiddleLayerBackup;
 
 	public Room(Layer aBackgroundLayer, Layer aMiddleLayer,
 			Layer aForegroundLayer) {
@@ -82,13 +79,6 @@ public class Room {
 	public void broadcastStartWallOfDeath() {
 		for (Entity entity : mEntities)
 			entity.onStartWallOfDeath();
-	}
-
-	public void createTileBackup() {
-		// TODO: deep copy!?
-		myBackgroundLayerBackup = myBackgroundLayer;
-		myMiddleLayerBackup = myMiddleLayer;
-		myForegroundLayerBackup = myForegroundLayer;
 	}
 
 	public boolean damageDone(int aX, int aY) {
@@ -372,13 +362,6 @@ public class Room {
 		}
 	}
 
-	public void restoreTileBackup() {
-		// TODO: deep copy!?
-		myBackgroundLayer = myBackgroundLayerBackup;
-		myMiddleLayer = myMiddleLayerBackup;
-		myForegroundLayer = myForegroundLayerBackup;
-	}
-
 	public void setCamera(Camera aCamera) {
 		mCamera = aCamera;
 	}
@@ -423,17 +406,19 @@ public class Room {
 		}
 	}
 
-	public boolean destroyTile(int aX, int aY) {
-		boolean spawnDebris = myMiddleLayer.getTile(aX, aY).getCollide();
-		//TODO: backup doesn't work! myMiddleLayer.setTile(aX, aY, new Tile()); 
-		//TODO: myForegroundLayer.setTile(aX, aY, new Tile());
-		if (spawnDebris) {
-			ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 20, 100, 20, 1, 50, 3, new float2(0.0f, -50.0f), 5.0f);
-			ps.setPosition(new float2(aX * getTileWidth() + getTileWidth() * 0.75f, aY * getTileHeight() + getTileHeight() * 0.75f));
-			addEntity(ps);
+	public void destroyToTileRow(int aX) {
+		for (int y = 0; y < myMiddleLayer.getHeight(); y++)
+		{
+			boolean spawnDebris = myMiddleLayer.getTile(aX, y).getCollide();
+			if (spawnDebris) {
+				ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 20, 100, 20, 1, 50, 3, new float2(0.0f, -50.0f), 5.0f);
+				ps.setPosition(new float2(aX * getTileWidth() + getTileWidth() * 0.75f, y * getTileHeight() + getTileHeight() * 0.75f));
+				addEntity(ps);
+			}
 		}
-		
-		return spawnDebris;
+
+		myMiddleLayer.setDestroyedToTileRow(aX);
+		myForegroundLayer.setDestroyedToTileRow(aX);
 	}
 
 }
