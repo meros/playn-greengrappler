@@ -1,9 +1,9 @@
 package com.meros.playn.java;
 
-import com.meros.playn.core.GreenGrappler;
-
 import playn.core.PlayN;
 import playn.java.JavaPlatform;
+
+import com.meros.playn.core.GreenGrappler;
 
 public class GreenGrapplerJava {
 
