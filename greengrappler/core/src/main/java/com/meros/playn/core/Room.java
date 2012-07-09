@@ -408,4 +408,18 @@ public class Room {
 
 	}
 
+	public void broadcastButtonUp(int aId) {
+		for (Entity entity : mEntities)
+		{
+			entity.onButtonUp(aId);
+		}
+	}
+
+	public void broadcastButtonDown(int aId) {
+		for (Entity entity : mEntities)
+		{
+			entity.onButtonDown(aId);
+		}
+	}
+
 }

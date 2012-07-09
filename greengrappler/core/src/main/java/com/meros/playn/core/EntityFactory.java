@@ -1,7 +1,9 @@
 package com.meros.playn.core;
 
 import com.meros.playn.core.entities.BreakingHookTile;
+import com.meros.playn.core.entities.Button;
 import com.meros.playn.core.entities.Coin;
+import com.meros.playn.core.entities.Door;
 import com.meros.playn.core.entities.GroundWalkingMonster;
 import com.meros.playn.core.entities.Hero;
 import com.meros.playn.core.entities.LavaSea;
@@ -46,10 +48,10 @@ public class EntityFactory {
 			return new Coin();
 		case 34:
 			return new MovingHookTile();
-			// case 64:
-			// return new Button(1);
-			// case 65:
-			// return new Door(1);
+		case 64:
+			return new Button(1);
+		case 65:
+			return new Door(1);
 			//
 			// case 96:
 			// return new WallOfDeath();

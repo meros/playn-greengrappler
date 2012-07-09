@@ -49,7 +49,7 @@ public class Animation {
 		aBuffer.restore();
 	}
 
-	Image getFrame(int aFrame) {
+	public Image getFrame(int aFrame) {
 		return myFrames[Math.abs(aFrame % myFrames.length)];
 	}
 
