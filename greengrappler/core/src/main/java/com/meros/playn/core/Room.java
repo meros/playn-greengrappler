@@ -12,6 +12,7 @@ import playn.core.Color;
 import playn.core.Surface;
 
 import com.meros.playn.core.entities.Hero;
+import com.meros.playn.core.entities.ParticleSystem;
 
 public class Room {
 
@@ -420,6 +421,19 @@ public class Room {
 		{
 			entity.onButtonDown(aId);
 		}
+	}
+
+	public boolean destroyTile(int aX, int aY) {
+		boolean spawnDebris = myMiddleLayer.getTile(aX, aY).getCollide();
+		//TODO: backup doesn't work! myMiddleLayer.setTile(aX, aY, new Tile()); 
+		//TODO: myForegroundLayer.setTile(aX, aY, new Tile());
+		if (spawnDebris) {
+			ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 20, 100, 20, 1, 50, 3, new float2(0.0f, -50.0f), 5.0f);
+			ps.setPosition(new float2(aX * getTileWidth() + getTileWidth() * 0.75f, aY * getTileHeight() + getTileHeight() * 0.75f));
+			addEntity(ps);
+		}
+		
+		return spawnDebris;
 	}
 
 }

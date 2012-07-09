@@ -8,9 +8,11 @@ import playn.core.Image;
 
 public class Font {
 
+	//TODO: fix the artifact when drawing characters (due to scaling and not clipping at the exact position)
+	
 	Map<String, Image> myGlyphToBitmap = new HashMap<String, Image>();
 	int myHeight = 0;
-
+	
 	public Font(Image aGlyphImage, char aStartChar, char aEndChar) {
 		String glyphs = "";
 		for (char theChar = aStartChar; theChar <= aEndChar; theChar++) {

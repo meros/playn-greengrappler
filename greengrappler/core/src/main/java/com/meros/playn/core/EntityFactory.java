@@ -12,6 +12,8 @@ import com.meros.playn.core.entities.Reactor;
 import com.meros.playn.core.entities.SimpleWalkingMonster;
 import com.meros.playn.core.entities.SpawnPoint;
 import com.meros.playn.core.entities.Spike;
+import com.meros.playn.core.entities.WallOfDeath;
+import com.meros.playn.core.entities.WallOfDeathStarter;
 
 public class EntityFactory {
 
@@ -52,12 +54,10 @@ public class EntityFactory {
 			return new Button(1);
 		case 65:
 			return new Door(1);
-			//
-			// case 96:
-			// return new WallOfDeath();
-			// case 97:
-			// return new WallOfDeathStarter();
-			//
+		case 96:
+			return new WallOfDeath();
+		case 97:
+			return new WallOfDeathStarter();
 		case 128:
 			return new Dialogue("data/dialogues/1-tutorial1.txt");
 		case 129:
