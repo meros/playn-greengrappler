@@ -9,6 +9,7 @@ import playn.core.PlayN;
 import playn.core.Surface;
 
 import com.meros.playn.core.Constants.Buttons;
+import com.meros.playn.core.screens.SplashScreen;
 import com.meros.playn.core.screens.TitleScreen;
 
 public class GreenGrappler implements Game, Renderer {
@@ -156,8 +157,8 @@ public class GreenGrappler implements Game, Renderer {
 	void postPreloadInit() {
 		// ScreenManager.add(new EndScreen());
 		ScreenManager.add(new TitleScreen());
+		ScreenManager.add(new SplashScreen());
 		myFont = Resource.getFont("data/images/font.bmp");
-		// TODO: ScreenManager.add(new SplashScreen());
 	}
 
 	void postPreloadUpdate() {

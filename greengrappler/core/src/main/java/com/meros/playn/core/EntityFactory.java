@@ -1,5 +1,8 @@
 package com.meros.playn.core;
 
+import com.meros.playn.core.Constants.Direction;
+import com.meros.playn.core.entities.BossFloor;
+import com.meros.playn.core.entities.BossWall;
 import com.meros.playn.core.entities.BreakingHookTile;
 import com.meros.playn.core.entities.Button;
 import com.meros.playn.core.entities.Coin;
@@ -62,15 +65,14 @@ public class EntityFactory {
 			return new Dialogue("data/dialogues/1-tutorial1.txt");
 		case 129:
 			return new Dialogue("data/dialogues/2-tutorial2.txt");
-			//
-			// case 160:
-			// return new BossFloor();
-			// case 161:
-			// return new BossWall(Direction_Right);
-			// case 162:
-			// return new BossWall(Direction_Left);
-			// case 163:
-			// return new Boss();
+		case 160:
+			return new BossFloor();
+		case 161:
+			return new BossWall(Direction.RIGHT);
+		case 162:
+			return new BossWall(Direction.LEFT);
+		//case 163:
+			//return new Boss();
 		}
 
 		return null;
