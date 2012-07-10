@@ -6542,3 +6542,4 @@ data/images/hero_fall.bmp
 -1
 0
 0
+0

@@ -200,4 +200,8 @@ public class ObjectGroup extends MapLayer
 
         return null;
     }
+
+	public int getObjectCount() {
+		return objects.size();
+	}
 }

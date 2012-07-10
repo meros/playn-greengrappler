@@ -87559,3 +87559,4 @@ data/images/entities.bmp
 -1
 -1
 -1
+0

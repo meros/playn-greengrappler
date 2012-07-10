@@ -3,11 +3,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
 
 import tiled.core.Map;
 import tiled.core.MapLayer;
+import tiled.core.MapObject;
+import tiled.core.ObjectGroup;
 import tiled.core.Tile;
 import tiled.core.TileLayer;
 import tiled.core.TileSet;
@@ -104,6 +107,37 @@ public class Convert {
 			printLayer("foreground", layers, gidtoidMap, ps);
 
 			printLayer("entities", layers, gidtoEntIdMap, ps);
+			
+			boolean found = false;
+			
+			for(MapLayer layer : layers)
+			{
+				if (layer.getName().compareTo("camera") != 0)
+					continue;
+				
+				ObjectGroup cameraRects = (ObjectGroup)layer;
+				Iterator<MapObject> it = cameraRects.getObjects();
+				
+				ps.println(cameraRects.getObjectCount());
+						
+				while (it.hasNext())
+				{
+					MapObject object = it.next();
+					
+					ps.println(object.getX());
+					ps.println(object.getY());
+					ps.println(object.getWidth());
+					ps.println(object.getHeight());
+				}
+				
+				found = true;
+			}
+			
+			if (!found)
+			{
+				ps.println(0);
+			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

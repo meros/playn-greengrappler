@@ -20823,3 +20823,8 @@ data/images/entities.bmp
 -1
 -1
 -1
+1
+290
+110
+170
+110

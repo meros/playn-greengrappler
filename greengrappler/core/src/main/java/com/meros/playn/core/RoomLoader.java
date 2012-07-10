@@ -103,6 +103,19 @@ public class RoomLoader {
 				}
 			}
 		}
+		
+		int cameraRectCount = Integer.parseInt(data[curri++]);
+		
+		for (int i = 0; i < cameraRectCount; i++)
+		{
+			int x = Integer.parseInt(data[curri++]);
+			int y = Integer.parseInt(data[curri++]);
+			int w = Integer.parseInt(data[curri++]);
+			int h = Integer.parseInt(data[curri++]);
+			
+			room.getCamera().addRect(x, y, w, h);
+		}
+		
 
 		return room;
 	}
