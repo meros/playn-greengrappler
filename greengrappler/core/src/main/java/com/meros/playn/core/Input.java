@@ -56,7 +56,7 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 
 		public boolean hits(int aX, int aY)
 		{
-			return aX >= myX && aX <= myX + myW && aY >= myY && aY <= myY + myW;
+			return aX >= myX && aX <= myX + myW && aY >= myY && aY <= myY + myH;
 		}
 
 		public Buttons getButton()
@@ -165,8 +165,13 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 		mKeyMap.put(Key.A, Buttons.Jump);
 
 		Input input = new Input();
-		myTouchAreas.add(input.new TouchArea(100,100,100,100, Buttons.Fire, true));
-		myTouchAreas.add(input.new TouchArea(200,100,100,100, Buttons.Right, false));
+		myTouchAreas.add(input.new TouchArea(800,0,160,720, Buttons.Fire, true));
+		myTouchAreas.add(input.new TouchArea(600,0,100,720, Buttons.Jump, true));
+		
+		myTouchAreas.add(input.new TouchArea(50,534,70,70, Buttons.Left, false));
+		myTouchAreas.add(input.new TouchArea(121,459,70,70, Buttons.Up, false));
+		myTouchAreas.add(input.new TouchArea(191,534,70,70, Buttons.Right, false));
+		myTouchAreas.add(input.new TouchArea(121,599,70,70, Buttons.Down, false));
 	}
 
 	public static boolean isHeld(Buttons aButton) {
