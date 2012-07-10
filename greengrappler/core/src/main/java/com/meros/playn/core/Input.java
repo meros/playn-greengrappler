@@ -74,66 +74,58 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 
 	private class Touch
 	{
-		Buttons myButton = null;
-		boolean mySticky = false;
-		TouchArea myArea = null;
+		Set<TouchArea> myActiveAreas = new HashSet<TouchArea>();
 
 		public Touch(float aX, float aY) {
-			Point p = new Point(aX, aY);
-			myHitTranslator.translateHit(p);
-			
-			
-			for (TouchArea area : myTouchAreas)
-			{
-				if (area.hits((int)p.x, (int)p.y))
-				{
-					enter(area);
-				}
-			}
+			onTouchMove(aX, aY);
 		}
-		
+
 		private void enter(TouchArea area)
 		{
-			myButton = area.getButton();
-			myArea = area;
-			mySticky = area.isSticky();			
-			Input.onButtonDown(myButton);
+			if (myActiveAreas.contains(area))
+				return;
+
+			myActiveAreas.add(area);
+			Input.onButtonDown(area.getButton());
+		}
+
+
+		private void exit(TouchArea area) {
+			if (!myActiveAreas.contains(area))
+				return;
+
+			myActiveAreas.remove(area);
+			Input.onButtonUp(area.getButton());			
 		}
 
 		public void onTouchEnd() {
-			if (myButton != null)
+			Set<TouchArea> actives = new HashSet<TouchArea>();
+			actives.addAll(myActiveAreas);
+			for(TouchArea area : actives)
 			{
-				Input.onButtonUp(myButton);
+				exit(area);
 			}
 		}
 
 		public void onTouchMove(float aX, float aY) {
 			Point p = new Point(aX, aY);
 			myHitTranslator.translateHit(p);
-			
-			if (mySticky)
-				return;
 
-			if (myArea != null && !myArea.hits((int)p.x, (int)p.y))
+			Set<TouchArea> actives = new HashSet<TouchArea>();
+			actives.addAll(myActiveAreas);
+			for(TouchArea area : actives)
 			{
-				//Moved outside non sticky button
-				Input.onButtonUp(myButton);
-				myButton = null;
-				myArea = null;
-			}
-			else
-			{
-				for (TouchArea area : myTouchAreas)
+				if (!area.hits((int)p.x, (int)p.y))
 				{
-					if (area.hits((int)p.x, (int)p.y))
-					{
-						if (area.isSticky())
-						{
-							continue; //Cannot move into sticky buttons!
-						}
+					exit(area);
+				}
+			}
 
-						enter(area);
-					}
+			for (TouchArea area : myTouchAreas)
+			{
+				if (area.hits((int)p.x, (int)p.y))
+				{
+					enter(area);
 				}
 			}
 		}
@@ -165,13 +157,33 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 		mKeyMap.put(Key.A, Buttons.Jump);
 
 		Input input = new Input();
-		myTouchAreas.add(input.new TouchArea(800,0,160,720, Buttons.Fire, true));
-		myTouchAreas.add(input.new TouchArea(600,0,100,720, Buttons.Jump, true));
+		myTouchAreas.add(input.new TouchArea(777,454,175,175, Buttons.Fire, true));
+		myTouchAreas.add(input.new TouchArea(684,619,175,175, Buttons.Jump, true));
 		
-		myTouchAreas.add(input.new TouchArea(50,534,70,70, Buttons.Left, false));
-		myTouchAreas.add(input.new TouchArea(121,459,70,70, Buttons.Up, false));
-		myTouchAreas.add(input.new TouchArea(191,534,70,70, Buttons.Right, false));
-		myTouchAreas.add(input.new TouchArea(121,599,70,70, Buttons.Down, false));
+		float2 dpadCenter = new float2(165, 555);
+		int smallWidth = 92;
+		int largeWidth = 339;
+
+		myTouchAreas.add(input.new TouchArea(
+				(int) (dpadCenter.x-largeWidth/2),
+				(int) (dpadCenter.y-largeWidth/2),
+				smallWidth,
+				largeWidth, Buttons.Left, false));
+		myTouchAreas.add(input.new TouchArea(
+				(int) (dpadCenter.x+largeWidth/2-smallWidth),
+				(int) (dpadCenter.y-largeWidth/2),
+				smallWidth,
+				largeWidth, Buttons.Right, false));
+		myTouchAreas.add(input.new TouchArea(
+				(int) (dpadCenter.x-largeWidth/2),
+				(int) (dpadCenter.y-largeWidth/2),
+				largeWidth,
+				smallWidth, Buttons.Up, false));
+		myTouchAreas.add(input.new TouchArea(
+				(int) (dpadCenter.x-largeWidth/2),
+				(int) (dpadCenter.y+largeWidth/2-smallWidth),
+				largeWidth,
+				smallWidth, Buttons.Down, false));
 	}
 
 	public static boolean isHeld(Buttons aButton) {

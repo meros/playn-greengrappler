@@ -73,7 +73,7 @@ public class WallOfDeath extends Entity {
 		}
 
 		for (int xo = 0; xo < 3; xo++) {
-				int xt = xo + (int)((mPosition.x - mSize.x / 2) / mRoom.getTileWidth());
+				int xt = xo + (int)((mPosition.x - getSize().x / 2) / mRoom.getTileWidth());
 				mRoom.destroyToTileRow(xt);
 		}
 

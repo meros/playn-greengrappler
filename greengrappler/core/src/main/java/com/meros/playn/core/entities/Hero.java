@@ -81,7 +81,7 @@ public class Hero extends Entity {
 	boolean myIsDead = false;
 
 	public Hero() {
-		mSize = new float2(10.0f, 15.0f);
+		setSize(new float2(10.0f, 15.0f));
 	}
 
 	private float2 adjustRopeDirection(float2 aRopeDirection) {

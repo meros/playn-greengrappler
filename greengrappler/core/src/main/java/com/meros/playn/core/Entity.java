@@ -13,7 +13,8 @@ public abstract class Entity {
 	protected boolean mRemoved = false;
 	protected Room mRoom = null;
 
-	protected float2 mSize = new float2();
+	private float2 mSize = new float2();
+	private float2 mHalfSize = new float2();
 
 	protected float2 mVelocity = new float2();
 
@@ -60,7 +61,7 @@ public abstract class Entity {
 
 	// virtual float2 getHalfSize();
 	public float2 getHalfSize() {
-		return mSize.multiply(0.5f);
+		return mHalfSize;
 	}
 
 	// virtual int getLayer() = 0;
@@ -242,6 +243,7 @@ public abstract class Entity {
 	// virtual void setSize(float2 size);
 	public void setSize(float2 size) {
 		mSize = size;
+		mHalfSize = size.multiply(0.5f);
 	}
 
 	// virtual void setVelocity(float2 velocity);
