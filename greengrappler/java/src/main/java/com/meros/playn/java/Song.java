@@ -1,4 +1,4 @@
-package com.meros.playn.core.micromod;
+package com.meros.playn.java;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,7 +8,11 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
-public class Song
+import com.meros.playn.core.Music.AbstractSong;
+import com.meros.playn.core.micromod.IBXM;
+import com.meros.playn.core.micromod.Module;
+
+public class Song implements AbstractSong
 {
 	private static final int SAMPLE_RATE = 48000;
 
@@ -24,11 +28,9 @@ public class Song
 	
 	private State myState = State.STOPPED;
 
-	public Song(String fileName) throws LineUnavailableException, IOException
+	public Song(InputStream aIs) throws LineUnavailableException, IOException
 	{
-		InputStream is = getClass().getClassLoader().getResourceAsStream(fileName);
-		
-		loadModule(is);
+		loadModule(aIs);
 
 		AudioFormat audioFormat = new AudioFormat( SAMPLE_RATE, 16, 2, true, true );
 		audioLine = AudioSystem.getSourceDataLine( audioFormat );
@@ -90,5 +92,4 @@ public class Song
 		myState = State.STOPPED;
 		audioLine.stop();
 	}
-
 }

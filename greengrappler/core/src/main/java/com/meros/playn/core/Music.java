@@ -1,38 +1,47 @@
 package com.meros.playn.core;
 
-import java.io.IOException;
 import java.util.Stack;
-
-import javax.sound.sampled.LineUnavailableException;
-
-import com.meros.playn.core.micromod.Song;
 
 public class Music {
 
-	private static Song myCurrentSong = null;
-	
-	private static Stack<Song> mySongStack = new Stack<Song>();
-	
-	public interface MusicPlayer
+	public interface AbstractSong
 	{
-		
+		public abstract void play();
+		public abstract void stop();
+		public abstract void update();
 	}
-	
-	MusicPlayer myMusicPlayer = null;
+
+	public interface SongFactory
+	{
+		public abstract AbstractSong getSong(String resource);
+	}
+
+	private static AbstractSong myCurrentSong = null;
+	private static Stack<AbstractSong> mySongStack = new Stack<AbstractSong>();
+
+	private static SongFactory mySongFactory = null;
+
+	public static void setSongFactory(SongFactory aSongFactory)
+	{
+		mySongFactory = aSongFactory;
+	}
 
 	public static void playSong(String path) {
 		stop();
+
+		if (mySongFactory != null)
+		{
+			myCurrentSong = mySongFactory.getSong(path);
+		}
 		
-		try {
-			//TODO: ugly hack!
-			
-			myCurrentSong = new Song("com/meros/playn/resources/" + path);//"/Users/meros/Documents/development/playn-greengrappler/greengrappler/core/src/main/java/com/meros/playn/resources/data/music/intro2.xm");
+		play();
+	}
+
+	public static void play()
+	{
+		if (myCurrentSong != null)
+		{
 			myCurrentSong.play();
-			
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -44,23 +53,25 @@ public class Music {
 	}
 
 	public static void pushSong() {
+		stop();
+
 		if (myCurrentSong != null)
 		{
-			myCurrentSong.stop();
 			mySongStack.push(myCurrentSong);
 		}
 	}
 
 	public static void popSong() {
 		stop();
-		
+
 		if (myCurrentSong != null && mySongStack.size() > 0)
 		{
 			myCurrentSong = mySongStack.pop();
-			myCurrentSong.play();
 		}
+
+		play();
 	}
-	
+
 	public static void update()
 	{
 		if (myCurrentSong != null)
