@@ -7,6 +7,7 @@ import playn.core.ImmediateLayer.Clipped;
 import playn.core.ImmediateLayer.Renderer;
 import playn.core.PlayN;
 import playn.core.Surface;
+import playn.core.SurfaceLayer;
 import pythagoras.f.Point;
 
 import com.meros.playn.core.Constants.Buttons;
@@ -40,41 +41,76 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 		myExitCallback = exitCallback;
 	}
 
+	SurfaceLayer controlLayer;
+	boolean myPaintControlsOnce = false;
+
 	@Override
 	public void init() {
 		log().debug("Green Grappler init");
 
 		// create and add background image layer
 		graphics().setSize(1280, 720);
-		
-		float w = PlayN.graphics().width();
-		float h = PlayN.graphics().height();
-		
-		float aspect = w/h;
-		float targetAspect = 320/240;
-		float scale = 1.0f;
 
-		float translateX = 0;
-		float translateY = 0;
-
-		if (aspect < targetAspect) {
-			scale = w / 320;
-			translateY = h/2-240*scale/2;
-		} else {
-			scale = h / 240;
-			translateX = w/2-320*scale/2;
-		}
-		
-		
 		bufferLayer = graphics().createImmediateLayer(320, 240, this);
-		//bufferLayer.setTranslation(translateX, translateY);
-		bufferLayer.setScale(scale);
-		bufferLayer.setTranslation(translateX, translateY);
-		
+
+		{		
+			float w = PlayN.graphics().width();
+			float h = PlayN.graphics().height();
+
+			float aspect = w/h;
+			float targetAspect = 320/240;
+			float scale = 1.0f;
+
+			float translateX = 0;
+			float translateY = 0;
+
+			if (aspect < targetAspect) {
+				scale = w / 320;
+				translateY = h/2-240*scale/2;
+			} else {
+				scale = h / 240;
+				translateX = w/2-320*scale/2;
+			}
+
+
+
+			//bufferLayer.setTranslation(translateX, translateY);
+			bufferLayer.setScale(scale);
+			bufferLayer.setTranslation(translateX, translateY);
+		}
+
 		graphics().rootLayer().add(bufferLayer);
-		
+
+		controlLayer = graphics().createSurfaceLayer(960, 720);
+
+		{
+			float w = PlayN.graphics().width();
+			float h = PlayN.graphics().height();
+
+			float aspect = w/h;
+			float targetAspect = 960/720;
+			float scale = 1.0f;
+
+			float translateX = 0;
+			float translateY = 0;
+
+			if (aspect < targetAspect) {
+				scale = w / 960;
+				translateY = h/2-720*scale/2;
+			} else {
+				scale = h / 720;
+				translateX = w/2-960*scale/2;
+			}
+
+			controlLayer.setScale(scale);
+			controlLayer.setTranslation(translateX, translateY);
+
+		}
+
+		graphics().rootLayer().add(controlLayer);
+
 		Input.setTouchTranslator(this);
-		
+
 		if (myFullScreen)
 			graphics().setSize(graphics().screenWidth(),
 					graphics().screenHeight());
@@ -121,6 +157,7 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 		Resource.preLoad("data/images/unselected_level_background.bmp");
 		Resource.preLoad("data/images/wall.bmp");
 		Resource.preLoad("data/images/z_coin.bmp");
+		Resource.preLoad("data/images/controls.png");
 
 		Resource.preLoadText("data/rooms/breaktilelevel.txt");
 		Resource.preLoadText("data/rooms/level1.txt");
@@ -163,7 +200,11 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 
 	@Override
 	public void paint(float alpha) {
-		
+		if (!myPaintControlsOnce)
+		{
+			controlLayer.surface().drawImage(PlayN.assets().getImage("data/images/controls.png"), 0, 0);
+			myPaintControlsOnce = true;
+		}
 	}
 
 	void postPreloadInit() {
@@ -198,7 +239,7 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 		{
 			fpsCount ++;
 		}
-		
+
 		myFont.draw(surface, "fps: " + lastFpsCount, 10, 10);
 		Input.onDraw(surface);
 	}
@@ -226,6 +267,6 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 
 	@Override
 	public void translateHit(Point aHitpoint) {
-		bufferLayer.transform().inverseTransform(aHitpoint, aHitpoint);
+		controlLayer.transform().inverseTransform(aHitpoint, aHitpoint);
 	}
 }
