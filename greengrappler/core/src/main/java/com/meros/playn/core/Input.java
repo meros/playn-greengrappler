@@ -74,17 +74,18 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 
 	private class Touch
 	{
-		public float x;
-		public float y;
-
 		Buttons myButton = null;
 		boolean mySticky = false;
 		TouchArea myArea = null;
 
 		public Touch(float aX, float aY) {
+			Point p = new Point(aX, aY);
+			myHitTranslator.translateHit(p);
+			
+			
 			for (TouchArea area : myTouchAreas)
 			{
-				if (area.hits((int)aX, (int)aY))
+				if (area.hits((int)p.x, (int)p.y))
 				{
 					enter(area);
 				}
@@ -107,10 +108,13 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 		}
 
 		public void onTouchMove(float aX, float aY) {
+			Point p = new Point(aX, aY);
+			myHitTranslator.translateHit(p);
+			
 			if (mySticky)
 				return;
 
-			if (myArea != null && !myArea.hits((int)aX, (int)aY))
+			if (myArea != null && !myArea.hits((int)p.x, (int)p.y))
 			{
 				//Moved outside non sticky button
 				Input.onButtonUp(myButton);
@@ -121,7 +125,7 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 			{
 				for (TouchArea area : myTouchAreas)
 				{
-					if (area.hits((int)aX, (int)aY))
+					if (area.hits((int)p.x, (int)p.y))
 					{
 						if (area.isSticky())
 						{
@@ -251,14 +255,7 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 		for (Touch touch : mTouches.values())
 		{
 			surface.setFillColor(Color.rgb(0, 255, 0));
-			int size = 10;
-
-			Point p = new Point(touch.x, touch.y);
-			PlayN.log().debug(p.x + " " + p.y);
-			PlayN.log().debug(p.x + " " + p.y);
-
-			surface.fillRect(p.x-size, p.y-size, size*2, size*2);
-
+			int size = 30;
 		}
 	}
 

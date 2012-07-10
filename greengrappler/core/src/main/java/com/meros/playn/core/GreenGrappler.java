@@ -45,24 +45,32 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 		log().debug("Green Grappler init");
 
 		// create and add background image layer
-		// graphics().setSize(320, 240);
+		graphics().setSize(1280, 720);
 		
-		int w = PlayN.graphics().width();
-		int h = PlayN.graphics().height();
+		float w = PlayN.graphics().width();
+		float h = PlayN.graphics().height();
 		
 		float aspect = w/h;
 		float targetAspect = 320/240;
 		float scale = 1.0f;
 
+		float translateX = 0;
+		float translateY = 0;
+
 		if (aspect < targetAspect) {
 			scale = w / 320;
+			translateY = h/2-240*scale/2;
 		} else {
 			scale = h / 240;
+			translateX = w/2-320*scale/2;
 		}
-
+		
+		
 		bufferLayer = graphics().createImmediateLayer(320, 240, this);
+		//bufferLayer.setTranslation(translateX, translateY);
 		bufferLayer.setScale(scale);
-
+		bufferLayer.setTranslation(translateX, translateY);
+		
 		graphics().rootLayer().add(bufferLayer);
 		
 		Input.setTouchTranslator(this);
