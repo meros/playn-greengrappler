@@ -238,7 +238,7 @@ public class LevelSelectScreen extends Screen {
 
 			LevelDescription bossLevel = myLevelDescs[i];
 			if (GameState.getInt(bossLevel.myLevelFile) == 0) {
-				myBossLevelUnlocked = false;
+				//TODO: debugging myBossLevelUnlocked = false;
 				break;
 			}
 		}

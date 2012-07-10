@@ -25,4 +25,14 @@ public class Music {
 		}
 	}
 
+	public static void pushSong() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public static void popSong() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

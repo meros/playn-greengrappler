@@ -10,7 +10,6 @@ import com.meros.playn.core.float2;
 
 public class Button extends Entity {
 
-	private boolean mCollisionThisFrame = false;
 	private boolean mTriggered = false;
 	private int myTime = 60*5;
 	private int myCounter = myTime + 1;
@@ -43,7 +42,6 @@ public class Button extends Entity {
 
 		if (mRoom.getHero().Collides(this))
 		{
-			mCollisionThisFrame = true;		
 			if (!mTriggered)
 			{
 				mTriggered = true;
@@ -54,7 +52,6 @@ public class Button extends Entity {
 		}
 		else
 		{
-			mCollisionThisFrame = false;
 			mTriggered = false;
 		}
 	}
@@ -76,7 +73,6 @@ public class Button extends Entity {
 
 	public void onRespawn()
 	{
-		mCollisionThisFrame = false;
 		mTriggered = false;
 		myCounter = myTime + 1;
 	}

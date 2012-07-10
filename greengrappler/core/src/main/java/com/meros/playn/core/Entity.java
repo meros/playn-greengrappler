@@ -19,15 +19,15 @@ public abstract class Entity {
 
 	// virtual void draw(BITMAP *buffer, int offsetX, int offsetY, int layer);
 	public void draw(Surface aBuffer, int offsetX, int offsetY, int layer) {
-		int x = getDrawPositionX() + offsetX;
-		int y = getDrawPositionY() + offsetY;
-		int x1 = (int) (x - getHalfSize().x);
-		int y1 = (int) (y - getHalfSize().y);
-		int x2 = (int) (x + getHalfSize().x);
-		int y2 = (int) (y + getHalfSize().y);
-		// buffer.strokeRect(x1, y1, x2-x1, y2-y1);
-		// buffer.drawLine(x - 3, y, x + 3, y);
-		// buffer.drawLine(x, y - 3, x, y + 3);
+//		int x = getDrawPositionX() + offsetX;
+//		int y = getDrawPositionY() + offsetY;
+//		int x1 = (int) (x - getHalfSize().x);
+//		int y1 = (int) (y - getHalfSize().y);
+//		int x2 = (int) (x + getHalfSize().x);
+//		int y2 = (int) (y + getHalfSize().y);
+//		// buffer.strokeRect(x1, y1, x2-x1, y2-y1);
+//		// buffer.drawLine(x - 3, y, x + 3, y);
+//		// buffer.drawLine(x, y - 3, x, y + 3);
 	}
 
 	public boolean Collides(Entity aOther)

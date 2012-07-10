@@ -12,7 +12,6 @@ public class Door extends Entity {
 	private int myId;
 	private boolean myOpening = false;
 	private boolean myClosing = false;
-	private boolean myInited = false;
 	private int myDoorHeight = 40;
 	private int myFrameCounter = 0;
 	
@@ -93,7 +92,6 @@ public class Door extends Entity {
 	{
 		myOpening = false;
 		myClosing = false;
-		myInited = false;
 		myDoorHeight = 40;
 	}
 

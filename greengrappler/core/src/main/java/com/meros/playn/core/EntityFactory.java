@@ -71,8 +71,8 @@ public class EntityFactory {
 			return new BossWall(Direction.RIGHT);
 		case 162:
 			return new BossWall(Direction.LEFT);
-		//case 163:
-			//return new Boss();
+		case 163:
+			return new Boss();
 		}
 
 		return null;
