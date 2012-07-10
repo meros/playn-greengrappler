@@ -3,16 +3,18 @@ package com.meros.playn.core;
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.log;
 import playn.core.Game;
-import playn.core.ImmediateLayer;
+import playn.core.ImmediateLayer.Clipped;
 import playn.core.ImmediateLayer.Renderer;
 import playn.core.PlayN;
 import playn.core.Surface;
+import pythagoras.f.Point;
 
 import com.meros.playn.core.Constants.Buttons;
+import com.meros.playn.core.Input.HitTranslator;
 import com.meros.playn.core.screens.SplashScreen;
 import com.meros.playn.core.screens.TitleScreen;
 
-public class GreenGrappler implements Game, Renderer {
+public class GreenGrappler implements Game, Renderer, HitTranslator {
 
 	public interface ExitCallback {
 		public abstract void exit();
@@ -30,6 +32,8 @@ public class GreenGrappler implements Game, Renderer {
 	boolean myReadyForUpdates = false;
 
 	long startTimeMillis = System.currentTimeMillis();
+
+	private Clipped bufferLayer;
 
 	public GreenGrappler(boolean aFullScreen, ExitCallback exitCallback) {
 		myFullScreen = aFullScreen;
@@ -56,13 +60,13 @@ public class GreenGrappler implements Game, Renderer {
 			scale = h / 240;
 		}
 
-		ImmediateLayer bufferLayer = graphics().createImmediateLayer(320, 240, this);
+		bufferLayer = graphics().createImmediateLayer(320, 240, this);
 		bufferLayer.setScale(scale);
 
 		graphics().rootLayer().add(bufferLayer);
-		//ImmediateLayer imLayer = graphics().createImmediateLayer(this);
-		//graphics().rootLayer().add(imLayer);
-
+		
+		Input.setTouchTranslator(this);
+		
 		if (myFullScreen)
 			graphics().setSize(graphics().screenWidth(),
 					graphics().screenHeight());
@@ -188,10 +192,11 @@ public class GreenGrappler implements Game, Renderer {
 		}
 		
 		myFont.draw(surface, "fps: " + lastFpsCount, 10, 10);
+		Input.onDraw(surface);
 	}
 
 	@Override
-	public void update(float delta) {
+	public void update(float delta) {		
 		if (myReadyForUpdates) {
 			postPreloadUpdate();
 		} else if (Resource.isDonePreloading()) {
@@ -209,5 +214,10 @@ public class GreenGrappler implements Game, Renderer {
 	@Override
 	public int updateRate() {
 		return 1000 / Time.TicksPerSecond;
+	}
+
+	@Override
+	public void translateHit(Point aHitpoint) {
+		bufferLayer.transform().inverseTransform(aHitpoint, aHitpoint);
 	}
 }

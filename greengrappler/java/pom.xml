@@ -33,6 +33,35 @@
 
   <build>
     <plugins>
+      <plugin>
+    <groupId>org.sonatype.plugins</groupId>
+    <artifactId>jarjar-maven-plugin</artifactId>
+    <version>1.5</version>
+    <executions>
+        <execution>
+            <phase>package</phase>
+            <goals>
+                <goal>jarjar</goal>
+            </goals>
+            <configuration>
+                <rules />
+            </configuration>
+        </execution>
+    </executions>
+</plugin>  
+
+      <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-jar-plugin</artifactId>
+    <configuration>
+        <archive>
+            <manifest>
+                <mainClass>com.meros.playn.java.GreenGrapplerJava</mainClass>
+            </manifest>
+        </archive>
+    </configuration>
+</plugin>
+        
       <!-- unpack LWJGL when testing -->
       <plugin>
         <groupId>com.googlecode.mavennatives</groupId>
