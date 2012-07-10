@@ -1,8 +1,17 @@
 package com.meros.playn.core;
 
+import java.io.IOException;
+import java.util.Stack;
+
+import javax.sound.sampled.LineUnavailableException;
+
+import com.meros.playn.core.micromod.Song;
+
 public class Music {
 
-	static playn.core.Sound sound;
+	private static Song myCurrentSong = null;
+	
+	private static Stack<Song> mySongStack = new Stack<Song>();
 	
 	public interface MusicPlayer
 	{
@@ -13,26 +22,50 @@ public class Music {
 
 	public static void playSong(String path) {
 		stop();
-		// TODO: mp3 converted songs are just too large!
-		// sound = playn.core.PlayN.assets().getSound(path);
-		// sound.setLooping(true);
-		// sound.play();
+		
+		try {
+			//TODO: ugly hack!
+			
+			myCurrentSong = new Song("com/meros/playn/resources/" + path);//"/Users/meros/Documents/development/playn-greengrappler/greengrappler/core/src/main/java/com/meros/playn/resources/data/music/intro2.xm");
+			myCurrentSong.play();
+			
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void stop() {
-		if (sound != null) {
-			sound.stop();
+		if (myCurrentSong != null)
+		{
+			myCurrentSong.stop();
 		}
 	}
 
 	public static void pushSong() {
-		// TODO Auto-generated method stub
-		
+		if (myCurrentSong != null)
+		{
+			myCurrentSong.stop();
+			mySongStack.push(myCurrentSong);
+		}
 	}
 
 	public static void popSong() {
-		// TODO Auto-generated method stub
+		stop();
 		
+		if (myCurrentSong != null && mySongStack.size() > 0)
+		{
+			myCurrentSong = mySongStack.pop();
+			myCurrentSong.play();
+		}
 	}
-
+	
+	public static void update()
+	{
+		if (myCurrentSong != null)
+		{
+			myCurrentSong.update();
+		}
+	}
 }

@@ -163,6 +163,7 @@ public class GreenGrappler implements Game, Renderer {
 
 	void postPreloadUpdate() {
 		ScreenManager.onLogic();
+		Music.update();
 	}
 
 	int fpsCount = 0;

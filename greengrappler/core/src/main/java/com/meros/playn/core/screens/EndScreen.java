@@ -92,7 +92,7 @@ public class EndScreen extends Screen {
 			Sound.playSample("data/sounds/green_peace");
 		}
 		if (myFrameCounter == GREEN_PEACE_DURATION) {
-			Music.playSong("data/music/intro2");
+			Music.playSong("data/music/intro2.xm");
 		} else if (myFrameCounter > GREEN_PEACE_DURATION
 				&& myFrameCounter % 4 == 0) {
 			myCreditsOffset--;

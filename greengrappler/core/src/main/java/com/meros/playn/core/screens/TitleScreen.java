@@ -63,7 +63,7 @@ public class TitleScreen extends Screen {
 	@Override
 	public void onEntered() {
 		myGameStart = false;
-		Music.playSong("data/music/intro2");
+		Music.playSong("data/music/intro2.xm");
 
 		if (GameState.isSavePresent())
 			myContinue = true;
