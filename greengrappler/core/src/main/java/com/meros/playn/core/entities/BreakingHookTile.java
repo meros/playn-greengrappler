@@ -48,8 +48,8 @@ public class BreakingHookTile extends Entity {
 
 	@Override
 	public void onRespawn() {
-		myTileX = (int) (mPosition.x / mRoom.getTileWidth());
-		myTileY = (int) (mPosition.y / mRoom.getTileHeight());
+		myTileX = (int) (getPosition().x / mRoom.getTileWidth());
+		myTileY = (int) (getPosition().y / mRoom.getTileHeight());
 		mRoom.setHookable(myTileX, myTileY, true);
 		mRoom.setCollidable(myTileX, myTileY, true);
 		myBreakCounter = 0;

@@ -99,10 +99,10 @@ public class Hero extends Entity {
 					float score = getAutoAimScore(aRopeDirection, tilePos);
 
 					if (score > bestScore) {
-						float2 direction = tilePos.subtract(mPosition);
+						float2 direction = tilePos.subtract(getPosition());
 						Room.OutInt rcX = mRoom.new OutInt();
 						Room.OutInt rcY = mRoom.new OutInt();
-						boolean rcHit = mRoom.rayCast(mPosition, direction,
+						boolean rcHit = mRoom.rayCast(getPosition(), direction,
 								false, rcX, rcY);
 						if (rcHit && (int) rcX.myInt == x && (int) rcY.myInt == y) {
 							bestScore = score;
@@ -125,10 +125,10 @@ public class Hero extends Entity {
 			float score = getAutoAimScore(aRopeDirection, entityPos);
 
 			if (score > bestScore) {
-				float2 direction = entityPos.subtract(mPosition);
+				float2 direction = entityPos.subtract(getPosition());
 				Room.OutInt rcX = mRoom.new OutInt();
 				Room.OutInt rcY = mRoom.new OutInt();
-				boolean rcHit = mRoom.rayCast(mPosition, direction, false, rcX, rcY);
+				boolean rcHit = mRoom.rayCast(getPosition(), direction, false, rcX, rcY);
 				float2 rcTilePos = new float2(rcX.myInt * mRoom.getTileWidth()
 						+ mRoom.getTileWidth() / 2, rcY.myInt
 						* mRoom.getTileHeight() + mRoom.getTileHeight() / 2);
@@ -262,7 +262,7 @@ public class Hero extends Entity {
 	}
 
 	private float getAutoAimScore(float2 aRopeDirection, float2 aAutoAimPos) {
-		float2 playerToTile = aAutoAimPos.subtract(mPosition);
+		float2 playerToTile = aAutoAimPos.subtract(getPosition());
 		float dotValue = aRopeDirection.dot(playerToTile);
 		if (dotValue < 0) {
 			return -1;
@@ -464,7 +464,7 @@ public class Hero extends Entity {
 		if (Input.isPressed(Buttons.Fire)) {
 			Sound.playSample("data/sounds/rope");
 			mRopeState = RopeState.Moving;
-			mRopePosition = mPosition;
+			mRopePosition = getPosition();
 			mRopeVelocity = new float2();
 
 			if (Input.isHeld(Buttons.Left)) {
@@ -521,7 +521,7 @@ public class Hero extends Entity {
 					break;
 				}
 
-				if (mRopePosition.subtract(mPosition).length() > mRopeMaxLenghth) {
+				if (mRopePosition.subtract(getPosition()).length() > mRopeMaxLenghth) {
 					detachHook();
 					Sound.playSample("data/sounds/no_hook");
 					break;
@@ -561,11 +561,11 @@ public class Hero extends Entity {
 						mHookedEntityOffset);
 			}
 
-			float2 ropeToHero = mPosition.subtract(mRopePosition);
+			float2 ropeToHero = getPosition().subtract(mRopePosition);
 			if (ropeToHero.lengthCompare(ROPE_REST_LENGTH) > 0) {
 				float2 ropeRestPoint = mRopePosition.add(ropeToHero.normalize()
 						.multiply(ROPE_REST_LENGTH));
-				float2 heroToRestPoint = ropeRestPoint.subtract(mPosition);
+				float2 heroToRestPoint = ropeRestPoint.subtract(getPosition());
 				float2 ropeAcceleration = heroToRestPoint
 						.multiply(ROPE_SPRING_CONSTANT);
 				if (ropeAcceleration.lengthCompare(ROPE_MAX_ACCELERATION) > 0) {

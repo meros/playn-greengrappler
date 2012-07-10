@@ -25,14 +25,14 @@ public class MovingHookTile extends Entity {
 
 	public void setRoom(Room room)
 	{
-		mInitialPosition = mPosition;
+		mInitialPosition = getPosition();
 		mInitialVelocity = mVelocity;
 		super.setRoom(room);
 	}
 
 	public void onRespawn()
 	{
-		mPosition = mInitialPosition;
+		setPosition(mInitialPosition);
 		mVelocity = mInitialVelocity;
 		hasHook = false;
 	}

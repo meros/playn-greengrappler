@@ -55,7 +55,7 @@ public class WallOfDeath extends Entity {
 		if (!myRunning)
 			return;
 
-		if (mPosition.x > 2950.0f) {
+		if (getPosition().x > 2950.0f) {
 			ParticleSystem ps = new ParticleSystem(mySaw, 2, 100, 20, 10, 20, 1, new float2(0.0f, -50.0f), 4.0f);
 
 			int x = (int) (getDrawPositionX() - getSize().x / 2);
@@ -73,7 +73,7 @@ public class WallOfDeath extends Entity {
 		}
 
 		for (int xo = 0; xo < 3; xo++) {
-				int xt = xo + (int)((mPosition.x - getSize().x / 2) / mRoom.getTileWidth());
+				int xt = xo + (int)((getPosition().x - getSize().x / 2) / mRoom.getTileWidth());
 				mRoom.destroyToTileRow(xt);
 		}
 
@@ -83,7 +83,7 @@ public class WallOfDeath extends Entity {
 		float distance = heroX - x;
 		if (distance > 190 && !myBoost)
 		{
-			mPosition = new float2(heroX - 190, mPosition.y);
+			setPosition(new float2(heroX - 190, getPosition().y));
 		}
 
 		if (distance < 80)

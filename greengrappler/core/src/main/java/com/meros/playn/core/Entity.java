@@ -9,10 +9,10 @@ import com.meros.playn.core.Constants.Direction;
 public abstract class Entity {
 
 	protected int mFrameCounter = 0;
-	protected float2 mPosition = new float2();
 	protected boolean mRemoved = false;
 	protected Room mRoom = null;
 
+	private float2 mPosition = new float2();
 	private float2 mSize = new float2();
 	private float2 mHalfSize = new float2();
 
@@ -20,15 +20,15 @@ public abstract class Entity {
 
 	// virtual void draw(BITMAP *buffer, int offsetX, int offsetY, int layer);
 	public void draw(Surface aBuffer, int offsetX, int offsetY, int layer) {
-//		int x = getDrawPositionX() + offsetX;
-//		int y = getDrawPositionY() + offsetY;
-//		int x1 = (int) (x - getHalfSize().x);
-//		int y1 = (int) (y - getHalfSize().y);
-//		int x2 = (int) (x + getHalfSize().x);
-//		int y2 = (int) (y + getHalfSize().y);
-//		// buffer.strokeRect(x1, y1, x2-x1, y2-y1);
-//		// buffer.drawLine(x - 3, y, x + 3, y);
-//		// buffer.drawLine(x, y - 3, x, y + 3);
+		//		int x = getDrawPositionX() + offsetX;
+		//		int y = getDrawPositionY() + offsetY;
+		//		int x1 = (int) (x - getHalfSize().x);
+		//		int y1 = (int) (y - getHalfSize().y);
+		//		int x2 = (int) (x + getHalfSize().x);
+		//		int y2 = (int) (y + getHalfSize().y);
+		//		// buffer.strokeRect(x1, y1, x2-x1, y2-y1);
+		//		// buffer.drawLine(x - 3, y, x + 3, y);
+		//		// buffer.drawLine(x, y - 3, x, y + 3);
 	}
 
 	public boolean Collides(Entity aOther)
@@ -41,12 +41,11 @@ public abstract class Entity {
 	//
 	// virtual CollisionRect getCollisionRect();
 	public CollisionRect getCollisionRect() {
+		CollisionRect myCachedRect = new CollisionRect();
+		myCachedRect.myTopLeft = new float2(mPosition.x-mSize.x/2, mPosition.y-mSize.y/2);
+		myCachedRect.myBottomRight = new float2(mPosition.x+mSize.x/2, mPosition.y+mSize.y/2);
 
-		CollisionRect collisionRect = new CollisionRect();
-		collisionRect.myTopLeft = new float2(mPosition.x-mSize.x/2, mPosition.y-mSize.y/2);
-		collisionRect.myBottomRight = new float2(mPosition.x+mSize.x/2, mPosition.y+mSize.y/2);
-
-		return collisionRect;
+		return myCachedRect;
 	}
 
 	// virtual int getDrawPositionX();
