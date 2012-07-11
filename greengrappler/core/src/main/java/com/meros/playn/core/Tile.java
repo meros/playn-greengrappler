@@ -64,4 +64,8 @@ public class Tile {
 	public void setHook(boolean aHook) {
 		myHook = aHook;
 	}
+
+	public boolean isOpaque() {
+		return myTileImage != null;
+	}
 }

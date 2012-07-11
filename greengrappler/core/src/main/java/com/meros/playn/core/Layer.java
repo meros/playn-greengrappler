@@ -28,7 +28,7 @@ public class Layer {
 		myTiles = new Tile[aWidth][aHeight];
 	}
 
-	public void draw(Surface aBuffer, int aOffsetX, int aOffsetY) {
+	public void draw(Surface aBuffer, int aOffsetX, int aOffsetY, Layer[] aOverLayers) {
 		
 		int firstTileX = (-aOffsetX)/10;
 		int lastTileX = (int) ((aBuffer.width() - aOffsetX)/10);
@@ -37,8 +37,16 @@ public class Layer {
 		
 		for (int x = firstTileX; x <= lastTileX; x++) {
 			for (int y = firstTileY; y <= lastTileY; y++) {
+				for (Layer overLayer : aOverLayers)
+				{
+					Tile overLayerTile = overLayer.getTile(x, y);
+					if (overLayerTile != null && overLayerTile.isOpaque())
+					{
+						continue;
+					}
+				}
+				
 				Tile tile = getTile(x, y);
-
 				if (tile != null) {
 					tile.onDraw(
 							aBuffer, 

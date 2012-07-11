@@ -170,10 +170,12 @@ public class Room {
 			return;
 		}
 
+		Layer[] bgLayers = {myMiddleLayer, myForegroundLayer};
 		myBackgroundLayer.draw(aBuffer, (int) mCamera.getOffset().x,
-				(int) mCamera.getOffset().y);
+				(int) mCamera.getOffset().y, bgLayers);
+		Layer[] midLayers = {myForegroundLayer};
 		myMiddleLayer.draw(aBuffer, (int) mCamera.getOffset().x,
-				(int) mCamera.getOffset().y);
+				(int) mCamera.getOffset().y, midLayers);
 
 		List<Entity> entitiesToDraw = new ArrayList<Entity>();
 		entitiesToDraw.addAll(mEntities);
@@ -192,8 +194,9 @@ public class Room {
 					(int) mCamera.getOffset().y, 0);
 		}
 
+		Layer[] fgLayers = {};
 		myForegroundLayer.draw(aBuffer, (int) mCamera.getOffset().x,
-				(int) mCamera.getOffset().y);
+				(int) mCamera.getOffset().y, fgLayers);
 
 		if (myIsCompleted) {
 			myFont.drawCenter(aBuffer, "LEVEL COMPLETED!", 0, 0, 320, 240);
