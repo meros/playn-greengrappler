@@ -33,19 +33,26 @@ public abstract class Entity {
 
 	public boolean Collides(Entity aOther)
 	{
-		CollisionRect a = getCollisionRect();
-		CollisionRect b = aOther.getCollisionRect();
-		return a.Collides(b);
+		if (getPosition().x + getHalfSize().x < aOther.getPosition().x - aOther.getHalfSize().x)
+			return false;
+		if (getPosition().y + getHalfSize().y < aOther.getPosition().y - aOther.getHalfSize().x)
+			return false;
+		if (getPosition().x - getHalfSize().x > aOther.getPosition().x + aOther.getHalfSize().x)
+			return false;
+		if (getPosition().y - getHalfSize().y > aOther.getPosition().y + aOther.getHalfSize().y)
+			return false;
+		
+		return true;
 	}
 
 	//
 	// virtual CollisionRect getCollisionRect();
 	public CollisionRect getCollisionRect() {
-		CollisionRect myCachedRect = new CollisionRect();
-		myCachedRect.myTopLeft = new float2(mPosition.x-mSize.x/2, mPosition.y-mSize.y/2);
-		myCachedRect.myBottomRight = new float2(mPosition.x+mSize.x/2, mPosition.y+mSize.y/2);
+		CollisionRect collisionRect = new CollisionRect();
+		collisionRect.myTopLeft = new float2(mPosition.x-mSize.x/2, mPosition.y-mSize.y/2);
+		collisionRect.myBottomRight = new float2(mPosition.x+mSize.x/2, mPosition.y+mSize.y/2);
 
-		return myCachedRect;
+		return collisionRect;
 	}
 
 	// virtual int getDrawPositionX();

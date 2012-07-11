@@ -113,14 +113,10 @@ public class Hero extends Entity {
 			}
 		}
 
-		Set<Entity> damagableEntities = mRoom.getDamagableEntities();
-		Set<Entity> hookableEntities = mRoom.getHookableEntities();
-		Set<Entity> entities = new HashSet<Entity>();
-
-		entities.addAll(damagableEntities);
-		entities.addAll(hookableEntities);
-
-		for (Entity e : entities) {
+		for (Entity e : mRoom.getEntities()) {
+			if (!e.isDamagable() && !e.isHookable())
+				continue;
+			
 			float2 entityPos = e.getPosition();
 			float score = getAutoAimScore(aRopeDirection, entityPos);
 

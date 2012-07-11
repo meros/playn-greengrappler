@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -19,16 +20,17 @@ public class Room {
 	Camera mCamera;
 	float2 mCameraBottomRight = new float2();
 	float2 mCameraTopLeft = new float2();
-	Set<Entity> mDamagableEntities = new HashSet<Entity>();
-	Set<Entity> mEntities = new HashSet<Entity>();
+	Set<Entity> mDamagableEntities = new LinkedHashSet<Entity>();
+	Set<Entity> mEntities = new LinkedHashSet<Entity>();
+	Set<Entity> mEntitiesToAdd = new LinkedHashSet<Entity>();
 	Hero mHero = null;
 
 	Set<Entity> mHookableEntities = new HashSet<Entity>();
 	Layer myBackgroundLayer;
-	
+
 	Font myFont = Resource.getFont("data/images/font.bmp");
 	Layer myForegroundLayer;
-	
+
 	int myFrameCounter = 0;
 
 	boolean myHeroIsDead = false;
@@ -49,13 +51,7 @@ public class Room {
 		}
 
 		aEntity.setRoom(this);
-		mEntities.add(aEntity);
-
-		if (aEntity.isDamagable())
-			mDamagableEntities.add(aEntity);
-
-		if (aEntity.isHookable())
-			mHookableEntities.add(aEntity);
+		mEntitiesToAdd.add(aEntity);
 	}
 
 	public void broadcastBoosFloorActivate() {
@@ -186,7 +182,7 @@ public class Room {
 			public int compare(Entity aEnt1, Entity aEnt2) {
 				if (aEnt1.getLayer() != aEnt2.getLayer())
 					return aEnt1.getLayer() - aEnt2.getLayer();
-				
+
 				return aEnt1.getClass().getName().compareTo(aEnt2.getClass().getName());
 			}
 		});
@@ -206,6 +202,18 @@ public class Room {
 
 	public void onLogic() {
 		myFrameCounter++;
+
+		for (Entity entity : mEntitiesToAdd)
+		{
+			if (entity.isDamagable())
+				mDamagableEntities.add(entity);
+
+			if (entity.isHookable())
+				mHookableEntities.add(entity);
+		}
+		mEntities.addAll(mEntitiesToAdd);
+		mEntitiesToAdd.clear();
+
 
 		if (myIsCompleted && myFrameCounter == 60)
 			Music.playSong("data/music/level_completed.xm");
@@ -227,16 +235,15 @@ public class Room {
 			getCamera().centerToHero(mHero);
 			getCamera().onRespawn();
 			myHeroIsDead = false;
-
 		}
 
 		if (mHero.isDead()) {
 			return;
 		}
 
-		Set<Entity> entitiesToRemove = new HashSet<Entity>();
-
-		for (Entity entity : mEntities) {
+		Iterator<Entity> it = mEntities.iterator();
+		while(it.hasNext()) {
+			Entity entity = it.next();
 			if (entity.isRemoved()) {
 				if (entity.isDamagable()) {
 					mDamagableEntities.remove(entity);
@@ -246,14 +253,11 @@ public class Room {
 					mHookableEntities.remove(entity);
 				}
 
-				entitiesToRemove.add(entity);
+				it.remove();
 			}
 		}
 
-		mEntities.removeAll(entitiesToRemove);
-
-		Set<Entity> entToUpdate = new HashSet<Entity>(mEntities);
-		for (Entity entity : entToUpdate) {
+		for (Entity entity : mEntities) {
 			if (mHero.isDead())
 				break;
 
@@ -277,7 +281,7 @@ public class Room {
 
 		getCamera().update(getHero(), mCameraTopLeft, mCameraBottomRight);
 	}
-	
+
 	public class OutInt
 	{
 		public int myInt;
@@ -419,6 +423,10 @@ public class Room {
 
 		myMiddleLayer.setDestroyedToTileRow(aX);
 		myForegroundLayer.setDestroyedToTileRow(aX);
+	}
+
+	public Set<Entity> getEntities() {
+		return mEntities;
 	}
 
 }

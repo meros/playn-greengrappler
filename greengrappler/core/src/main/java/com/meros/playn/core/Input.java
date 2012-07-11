@@ -269,11 +269,6 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 
 	public static void onDraw(Surface surface)
 	{
-		for (Touch touch : mTouches.values())
-		{
-			surface.setFillColor(Color.rgb(0, 255, 0));
-			int size = 30;
-		}
 	}
 
 	public static void setTouchTranslator(HitTranslator aHitTranslator) {

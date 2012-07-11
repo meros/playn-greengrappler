@@ -29,6 +29,27 @@ public class Layer {
 	}
 
 	public void draw(Surface aBuffer, int aOffsetX, int aOffsetY) {
+		
+		int firstTileX = (-aOffsetX)/10;
+		int lastTileX = (int) ((aBuffer.width() - aOffsetX)/10);
+		int firstTileY = (-aOffsetY)/10;
+		int lastTileY = (int) ((aBuffer.height() - aOffsetY)/10);
+		
+		for (int x = firstTileX; x <= lastTileX; x++) {
+			for (int y = firstTileY; y <= lastTileY; y++) {
+				Tile tile = getTile(x, y);
+
+				if (tile != null) {
+					tile.onDraw(
+							aBuffer, 
+							aOffsetX + x * tile.getWidth(),
+							aOffsetY + y * tile.getHeight());
+				}
+			}
+		}
+		
+		/*
+		
 		if (myBufferIsDirty) {
 			privUpdateBuffer(myBuffer.canvas());
 			myBufferIsDirty = false;
@@ -40,6 +61,7 @@ public class Layer {
 		int sH = (int) myBuffer.height();
 
 		aBuffer.drawImage(myBuffer, aOffsetX+sX, aOffsetY, sW, sH, sX, sY, sW, sH);
+		*/
 	}
 
 	public float getHeight() {
