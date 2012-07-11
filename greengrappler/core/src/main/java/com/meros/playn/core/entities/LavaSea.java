@@ -24,7 +24,7 @@ public class LavaSea extends Entity {
 	{
 		Hero hero = mRoom.getHero();
 
-		if (hero.Collides(this))
+		if (hero.getCollisionRect().Collides(getCollisionRect()))
 		{
 			hero.kill();
 		}

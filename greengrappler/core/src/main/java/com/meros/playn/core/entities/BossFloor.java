@@ -28,7 +28,7 @@ public class BossFloor extends Entity {
 		if (!myActive)
 			return;
 
-		if (mRoom.getHero().Collides(this))
+		if (mRoom.getHero().getCollisionRect().Collides(getCollisionRect()))
 		{
 			mRoom.getHero().kill();
 		}

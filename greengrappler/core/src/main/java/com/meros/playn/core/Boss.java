@@ -84,7 +84,7 @@ public class Boss extends Entity {
 				&& myState != State.DEAD 
 				&& myState != State.VULNERABLE)
 		{
-			if (mRoom.getHero().Collides(this))
+			if (mRoom.getHero().getCollisionRect().Collides(getCollisionRect()))
 			{
 				mRoom.getHero().kill();
 			}
