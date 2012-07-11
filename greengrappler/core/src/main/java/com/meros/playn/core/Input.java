@@ -157,12 +157,12 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 		mKeyMap.put(Key.A, Buttons.Jump);
 
 		Input input = new Input();
-		myTouchAreas.add(input.new TouchArea(777,454,175,175, Buttons.Fire, true));
-		myTouchAreas.add(input.new TouchArea(684,619,175,175, Buttons.Jump, true));
+		myTouchAreas.add(input.new TouchArea(616+172,465,172,234, Buttons.Fire, true));
+		myTouchAreas.add(input.new TouchArea(616,465,172,234, Buttons.Jump, true));
 		
 		float2 dpadCenter = new float2(165, 555);
-		int smallWidth = 92;
-		int largeWidth = 339;
+		int smallWidth = 160;
+		int largeWidth = 400;
 
 		myTouchAreas.add(input.new TouchArea(
 				(int) (dpadCenter.x-largeWidth/2),
