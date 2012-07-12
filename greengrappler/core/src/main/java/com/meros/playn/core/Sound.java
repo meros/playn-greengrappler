@@ -12,7 +12,6 @@ public class Sound {
 		{
 			mSounds.put(soundFile, playn.core.PlayN.assets().getSound(soundFile));
 		}
-		
 		mSounds.get(soundFile).play();
 	}
 }
