@@ -75,22 +75,34 @@ public class Camera {
 			myShakeOffset = new float2();
 		}
 
-		//TODO: this should be an option, It's a usability hack to avoid
-		//getting the hero under the players thumbs on mobile
-		//if (myOffset.x + aTopLeft.x > 0) {
-		//	myOffset = new float2(-aTopLeft.x, myOffset.y);
-		//}
+		if (myOffset.x + aTopLeft.x > 0) {
+			myOffset = new float2(-aTopLeft.x, myOffset.y);
+		}
 
 		if (myOffset.y + aTopLeft.y > 10) {
 			myOffset = new float2(myOffset.x, 10 - aTopLeft.y);
 		}
 
-		//if (myOffset.x + aBottomRight.x < 320) {
-		//	myOffset = new float2(320 - aBottomRight.x, myOffset.y);
-		//}
+		if (myOffset.x + aBottomRight.x < 320) {
+			myOffset = new float2(320 - aBottomRight.x, myOffset.y);
+		}
 
 		if (myOffset.y + aBottomRight.y < 240) {
 			myOffset = new float2(myOffset.x, 240 - aBottomRight.y);
+		}
+		
+		//TODO: this should be an option, It's a usability hack to avoid
+		//getting the hero under the players thumbs on mobile		
+		int thumbSafeAreaSize = 120;
+		
+		if (heroRealPos.x + myOffset.x < thumbSafeAreaSize)
+		{
+			myOffset = new float2(thumbSafeAreaSize-heroRealPos.x, myOffset.y);
+		}
+		
+		if (heroRealPos.x + myOffset.x > 320-thumbSafeAreaSize)
+		{
+			myOffset = new float2((320-thumbSafeAreaSize)-heroRealPos.x, myOffset.y);
 		}
 	}
 
