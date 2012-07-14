@@ -9,7 +9,7 @@ import com.meros.playn.core.float2;
 
 public class Spike extends Entity {
 
-	Image mySpikeTile = Resource.getBitmap("data/images/tileset1.bmp").subImage(70,0, 0,0);
+	Image mySpikeTile = Resource.getBitmap("data/images/tileset1.bmp").subImage(70, 0, 10, 10);
 
 	public Spike() {
 		setSize(new float2(10, 10));
