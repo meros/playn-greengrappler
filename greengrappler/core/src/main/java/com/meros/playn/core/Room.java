@@ -16,10 +16,7 @@ import com.meros.playn.core.entities.Hero;
 import com.meros.playn.core.entities.ParticleSystem;
 
 public class Room {
-
-	Camera mCamera;
-	float2 mCameraBottomRight = new float2();
-	float2 mCameraTopLeft = new float2();
+	private final Camera mCamera;
 	Set<Entity> mDamagableEntities = new LinkedHashSet<Entity>();
 	Set<Entity> mEntities = new LinkedHashSet<Entity>();
 	Set<Entity> mEntitiesToAdd = new LinkedHashSet<Entity>();
@@ -30,6 +27,8 @@ public class Room {
 
 	Font myFont = Resource.getFont("data/images/font.bmp");
 	Layer myForegroundLayer;
+	boolean myHookableArray[][];
+	boolean myCollidableArray[][];
 
 	int myFrameCounter = 0;
 
@@ -38,11 +37,29 @@ public class Room {
 	boolean myIsCompleted = false;
 	Layer myMiddleLayer;
 
-	public Room(Layer aBackgroundLayer, Layer aMiddleLayer,
-			Layer aForegroundLayer) {
+	public Room(
+			Layer aBackgroundLayer, 
+			Layer aMiddleLayer,
+			Layer aForegroundLayer,
+			Camera aCamera) {
+		
 		myBackgroundLayer = aBackgroundLayer;
 		myMiddleLayer = aMiddleLayer;
 		myForegroundLayer = aForegroundLayer;
+		
+		mCamera = aCamera;
+		
+		myHookableArray = new boolean[getWidthInTiles()][getHeightInTiles()];
+		myCollidableArray = new boolean[getWidthInTiles()][getHeightInTiles()];
+		
+		for (int x = 0; x < getWidthInTiles(); x++)
+		{
+			for (int y = 0; y < getHeightInTiles(); y++)
+			{
+				myHookableArray[x][y] = myMiddleLayer.getTile(x, y).getHook();
+				myCollidableArray[x][y] = myMiddleLayer.getTile(x, y).getCollide();
+			}
+		}
 	}
 
 	public void addEntity(Entity aEntity) {
@@ -112,7 +129,7 @@ public class Room {
 		return mDamagableEntities;
 	}
 
-	public float getHeightInTiles() {
+	public int getHeightInTiles() {
 		return myMiddleLayer.getHeight();
 	}
 
@@ -132,12 +149,15 @@ public class Room {
 		return 10.0f;
 	}
 
-	public float getWidthInTiles() {
+	public int getWidthInTiles() {
 		return myMiddleLayer.getWidth();
 	}
 
-	public boolean isCollidable(int x, int y) {
-		return myMiddleLayer.getTile(x, y).getCollide();
+	public boolean isCollidable(int aX, int aY) {
+		if (aX < 0 || aX >= myCollidableArray.length || aY < 0 || aY >= myCollidableArray[aX].length)
+			return false;
+		
+		return myCollidableArray[aX][aY];
 	}
 
 	public boolean isCompleted() {
@@ -150,8 +170,11 @@ public class Room {
 		return false;
 	}
 
-	public boolean isHookable(int x, int y) {
-		return myMiddleLayer.getTile(x, y).getHook();
+	public boolean isHookable(int aX, int aY) {
+		if (aX < 0 || aX >= myHookableArray.length || aY < 0 || aY >= myHookableArray[aX].length)
+			return false;
+		
+		return myHookableArray[aX][aY];
 	}
 
 	public void onDraw(Surface aBuffer) {
@@ -282,7 +305,7 @@ public class Room {
 
 		}
 
-		getCamera().update(getHero(), mCameraTopLeft, mCameraBottomRight);
+		getCamera().update(getHero());
 	}
 
 	public class OutInt
@@ -369,17 +392,11 @@ public class Room {
 		}
 	}
 
-	public void setCamera(Camera aCamera) {
-		mCamera = aCamera;
-	}
-
-	public void setCameraRect(float2 aTopLeft, float2 aBottomRight) {
-		mCameraTopLeft = aTopLeft;
-		mCameraBottomRight = aBottomRight;
-	}
-
 	public void setCollidable(int aX, int aY, boolean aCollide) {
-		myMiddleLayer.getTile(aX, aY).setCollide(aCollide);
+		if (aX < 0 || aX >= myCollidableArray.length || aY < 0 || aY >= myCollidableArray[aX].length)
+			return;
+		
+		myCollidableArray[aX][aY] = aCollide;
 	}
 
 	public void setCompleted() {
@@ -395,8 +412,10 @@ public class Room {
 	}
 
 	public void setHookable(int aX, int aY, boolean aHook) {
-		myMiddleLayer.getTile(aX, aY).setHook(aHook);
-
+		if (aX < 0 || aX >= myHookableArray.length || aY < 0 || aY >= myHookableArray[aX].length)
+			return;
+		
+		myHookableArray[aX][aY] = aHook;
 	}
 
 	public void broadcastButtonUp(int aId) {

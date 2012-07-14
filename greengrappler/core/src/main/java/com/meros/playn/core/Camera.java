@@ -23,6 +23,14 @@ public class Camera {
 	float myShakeAmount = 0.0f;
 	int myShakeTime = 0;
 
+	private final float2 myTopLeft;
+	private final float2 myBottomRight;
+
+	public Camera(float2 aTopLeft, float2 aBottomRight) {
+		myTopLeft = aTopLeft;
+		myBottomRight = aBottomRight;
+	}
+
 	public void addShake(float aAmount, int aShakeTime) {
 		myShakeAmount = aAmount;
 		myShakeTime = aShakeTime;
@@ -39,7 +47,7 @@ public class Camera {
 				(int) (myOffset.y + myShakeOffset.y + 0.5));
 	}
 
-	public void update(Hero aHero, float2 aTopLeft, float2 aBottomRight) {
+	public void update(Hero aHero) {
 		boolean foundRect = false;
 		float2 desiredOffset = new float2();
 
@@ -75,34 +83,35 @@ public class Camera {
 			myShakeOffset = new float2();
 		}
 
-		if (myOffset.x + aTopLeft.x > 0) {
-			myOffset = new float2(-aTopLeft.x, myOffset.y);
+		if (myOffset.x + myTopLeft.x > 0) {
+			myOffset = new float2(-myTopLeft.x, myOffset.y);
 		}
 
-		if (myOffset.y + aTopLeft.y > 10) {
-			myOffset = new float2(myOffset.x, 10 - aTopLeft.y);
+		if (myOffset.y + myTopLeft.y > 10) {
+			myOffset = new float2(myOffset.x, 10 - myTopLeft.y);
 		}
 
-		if (myOffset.x + aBottomRight.x < 320) {
-			myOffset = new float2(320 - aBottomRight.x, myOffset.y);
+		if (myOffset.x + myBottomRight.x < 320) {
+			myOffset = new float2(320 - myBottomRight.x, myOffset.y);
 		}
 
-		if (myOffset.y + aBottomRight.y < 240) {
-			myOffset = new float2(myOffset.x, 240 - aBottomRight.y);
+		if (myOffset.y + myBottomRight.y < 240) {
+			myOffset = new float2(myOffset.x, 240 - myBottomRight.y);
 		}
-		
-		//TODO: this should be an option, It's a usability hack to avoid
-		//getting the hero under the players thumbs on mobile		
-		int thumbSafeAreaSize = 120;
-		
-		if (heroRealPos.x + myOffset.x < thumbSafeAreaSize)
+
+		if (GlobalOptions.avoidHeroAtThumbs())
 		{
-			myOffset = new float2(thumbSafeAreaSize-heroRealPos.x, myOffset.y);
-		}
-		
-		if (heroRealPos.x + myOffset.x > 320-thumbSafeAreaSize)
-		{
-			myOffset = new float2((320-thumbSafeAreaSize)-heroRealPos.x, myOffset.y);
+			int thumbSafeAreaSize = 130;
+
+			if (heroRealPos.x + myOffset.x < thumbSafeAreaSize)
+			{
+				myOffset = new float2(thumbSafeAreaSize-heroRealPos.x, myOffset.y);
+			}
+
+			if (heroRealPos.x + myOffset.x > 320-thumbSafeAreaSize)
+			{
+				myOffset = new float2((320-thumbSafeAreaSize)-heroRealPos.x, myOffset.y);
+			}
 		}
 	}
 

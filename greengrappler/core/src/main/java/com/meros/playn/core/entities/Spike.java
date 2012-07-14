@@ -1,16 +1,15 @@
 package com.meros.playn.core.entities;
 
+import playn.core.Image;
 import playn.core.Surface;
 
 import com.meros.playn.core.Entity;
 import com.meros.playn.core.Resource;
-import com.meros.playn.core.Tile;
 import com.meros.playn.core.float2;
 
 public class Spike extends Entity {
 
-	Tile mySpikeTile = new Tile(Resource.getBitmap("data/images/tileset1.bmp"),
-			70, 0, 10, 10);
+	Image mySpikeTile = Resource.getBitmap("data/images/tileset1.bmp").subImage(70,0, 0,0);
 
 	public Spike() {
 		setSize(new float2(10, 10));
@@ -19,8 +18,7 @@ public class Spike extends Entity {
 	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer) {
 		float2 pos = getPosition().subtract(getHalfSize());
-		mySpikeTile.onDraw(buffer, (int) (offsetX + pos.x),
-				(int) (offsetY + pos.y));
+		buffer.drawImage(mySpikeTile, offsetX + pos.x, offsetY + pos.y);
 	}
 
 	@Override

@@ -1,22 +1,30 @@
 package com.meros.playn.core;
 
+import playn.core.PlayN;
+
 public class PlayerSkill {
 	
-	//TODO: PlayerSkill is just a dummy
+	private static float skill = 0.5f;
 
-	public static float get() {
-		// TODO Auto-generated method stub
-		return 1.0f;
+	public static void playerDidSomethingClever(float howClever, float howImportant)
+	{
+		if (howClever > skill) {
+			skill = UtilMethods.lerp(skill, howClever, howImportant);
+		}
+		PlayN.log().debug("Player skill: "  + skill);
 	}
 
-	public static void playerDidSomethingClever(float f, float g) {
-		// TODO Auto-generated method stub
+	public static void playerDidSomethingStupid(float howClever, float howImportant)
+	{
+		if (howClever < skill) {
+			skill = UtilMethods.lerp(skill, howClever, howImportant);
+		}
 
+		PlayN.log().debug("Player skill: "  + skill);
 	}
 
-	public static void playerDidSomethingStupid(float f, float g) {
-		// TODO Auto-generated method stub
-
+	public static float get()
+	{
+		return skill;
 	}
-
 }

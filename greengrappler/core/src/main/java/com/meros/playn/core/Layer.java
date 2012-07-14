@@ -3,8 +3,12 @@ package com.meros.playn.core;
 import playn.core.Canvas;
 import playn.core.CanvasImage;
 import playn.core.CanvasSurface;
+import playn.core.Image;
+import playn.core.Pattern;
 import playn.core.PlayN;
 import playn.core.Surface;
+import playn.core.gl.ImageGL;
+import playn.core.gl.SurfaceGL;
 
 public class Layer {
 
@@ -37,21 +41,31 @@ public class Layer {
 		
 		for (int x = firstTileX; x <= lastTileX; x++) {
 			for (int y = firstTileY; y <= lastTileY; y++) {
+				
+				boolean dontDraw = false;
+				
 				for (Layer overLayer : aOverLayers)
 				{
 					Tile overLayerTile = overLayer.getTile(x, y);
 					if (overLayerTile != null && overLayerTile.isOpaque())
 					{
-						continue;
+						dontDraw = true;
 					}
 				}
 				
+				if (dontDraw)
+				{
+					continue;
+				}
+				
 				Tile tile = getTile(x, y);
-				if (tile != null) {
-					tile.onDraw(
-							aBuffer, 
-							aOffsetX + x * tile.getWidth(),
-							aOffsetY + y * tile.getHeight());
+				if (tile != null && tile.getImage() != null) {
+					Image image = tile.getImage();
+
+					int startX = aOffsetX + x * 10;
+					int startY = aOffsetY + y * 10;
+					
+					aBuffer.drawImage(image, startX, startY);
 				}
 			}
 		}
@@ -72,7 +86,7 @@ public class Layer {
 		*/
 	}
 
-	public float getHeight() {
+	public int getHeight() {
 		return myHeight;
 	}
 
@@ -83,21 +97,8 @@ public class Layer {
 		return myTiles[aX][aY];
 	}
 
-	public float getWidth() {
+	public int getWidth() {
 		return myWidth;
-	}
-
-	private void privUpdateBuffer(Canvas aBuffer) {
-		for (int x = 0; x < getWidth(); ++x) {
-			for (int y = 0; y < getHeight(); ++y) {
-				Tile tile = getTile(x, y);
-
-				if (tile != null) {
-					tile.onDraw(new CanvasSurface(aBuffer), x * tile.getWidth(),
-							y * tile.getHeight());
-				}
-			}
-		}
 	}
 
 	public void setTile(int aX, int aY, Tile aTile) {

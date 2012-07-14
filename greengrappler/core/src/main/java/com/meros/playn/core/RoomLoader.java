@@ -25,9 +25,9 @@ public class RoomLoader {
 			boolean collide = Integer.parseInt(data[curri++]) == 1;
 			boolean hookable = Integer.parseInt(data[curri++]) == 1;
 
-			tiles[i] = new Tile(Resource.getBitmap(filename), x, y, w, h);
-			tiles[i].setHook(hookable);
-			tiles[i].setCollide(collide);
+			tiles[i] = new Tile(Resource.getBitmap(filename), x, y, w, h, hookable, collide);
+			//tiles[i].setHook(hookable);
+			//tiles[i].setCollide(collide);
 		}
 
 		// Layer bg
@@ -40,7 +40,7 @@ public class RoomLoader {
 			for (int y = 0; y < height; y++) {
 				int tileType = Integer.parseInt(data[curri++]);
 				if (tileType != -1) {
-					backgroundLayer.setTile(x, y, tiles[tileType].clone());
+					backgroundLayer.setTile(x, y, tiles[tileType]);
 				}
 			}
 		}
@@ -54,9 +54,9 @@ public class RoomLoader {
 			for (int y = 0; y < height; y++) {
 				int tileType = Integer.parseInt(data[curri++]);
 				if (tileType != -1) {
-					middleLayer.setTile(x, y, tiles[tileType].clone());
+					middleLayer.setTile(x, y, tiles[tileType]);
 				} else {
-					middleLayer.setTile(x, y, emptyTile.clone());
+					middleLayer.setTile(x, y, emptyTile);
 				}
 			}
 		}
@@ -70,16 +70,14 @@ public class RoomLoader {
 			for (int y = 0; y < height; y++) {
 				int tileType = Integer.parseInt(data[curri++]);
 				if (tileType != -1) {
-					foregroundLayer.setTile(x, y, tiles[tileType].clone());
+					foregroundLayer.setTile(x, y, tiles[tileType]);
 				}
 			}
 		}
 
-		Room room = new Room(backgroundLayer, middleLayer, foregroundLayer);
-		room.setCamera(new Camera());
-		room.setCameraRect(new float2(0, 0), new float2(
-				middleLayer.getWidth() * 10, middleLayer.getHeight() * 10));
-
+		Room room = new Room(backgroundLayer, middleLayer, foregroundLayer, new Camera(new float2(0,0), new float2(
+				middleLayer.getWidth() * 10, middleLayer.getHeight() * 10)));
+		
 		// Entities
 		width = Integer.parseInt(data[curri++]);
 		height = Integer.parseInt(data[curri++]);

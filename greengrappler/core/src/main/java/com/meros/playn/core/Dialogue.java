@@ -69,20 +69,33 @@ public class Dialogue extends Entity {
 
 		if (!myRunning)
 			return;
+		
+		int position = 240 - myBackground.getFrameHeight();
+		
+		if (GlobalOptions.dialogueAtTop())
+		{
+			position = 10;
+		}
 
-		myBackground.drawFrame(aBuffer, 0, 0,
-				240 - myBackground.getFrameHeight());
+		myBackground.drawFrame(aBuffer, 0, 0, position, false, GlobalOptions.dialogueAtTop());
 		CharacterPortrait portrait = myLines.get(myCurrentLine).myPortrait;
 		String line = myLines.get(myCurrentLine).myLine;
 
 		int pX = 4;
-		int pY = 240 - myTedPortrait.getFrameHeight() - 3;
+		int pY = position + myBackground.getFrameHeight() - myTedPortrait.getFrameHeight() - 3;
+		
 		if (portrait == CharacterPortrait.Ted)
 			myTedPortrait.drawFrame(aBuffer, 0, pX, pY);
 		if (portrait == CharacterPortrait.DoctorGreen)
 			myDoctorGreenPortrait.drawFrame(aBuffer, 0, pX, pY);
+		
+		int fontPosition = position + myBackground.getFrameHeight() - 16;
+		if (GlobalOptions.dialogueAtTop())
+		{
+			fontPosition = position + 5;
+		}
 
-		myFont.drawWrap(aBuffer, line, 55, 240 - 16, 300, myCurrentCharacter);
+		myFont.drawWrap(aBuffer, line, 55, fontPosition, 300, myCurrentCharacter);
 	}
 
 	@Override

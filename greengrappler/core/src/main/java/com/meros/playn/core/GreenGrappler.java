@@ -53,7 +53,7 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 		// create and add background image layer
 		//graphics().setSize(1280, 720);
 		graphics().ctx().setTextureFilter(GLContext.Filter.NEAREST, GLContext.Filter.NEAREST);
-		
+
 
 		Input.setTouchTranslator(this);
 
@@ -148,7 +148,7 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 	public void paint(float alpha) {
 		if (myReadyForUpdates && !mySetupRenderingOnce)
 		{
-			
+
 			bufferLayer = graphics().createImmediateLayer(320, 240, this);
 
 			{		
@@ -179,34 +179,38 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 
 			graphics().rootLayer().add(bufferLayer);
 
-			controlLayer = graphics().createImageLayer(PlayN.assets().getImage("data/images/controls.png"));
 
-
+			if (GlobalOptions.showTouchControls())
 			{
-				float w = PlayN.graphics().width();
-				float h = PlayN.graphics().height();
+				controlLayer = graphics().createImageLayer(PlayN.assets().getImage("data/images/controls.png"));
 
-				float aspect = w/h;
-				float targetAspect = 960/720;
-				float scale = 1.0f;
 
-				float translateX = 0;
-				float translateY = 0;
+				{
+					float w = PlayN.graphics().width();
+					float h = PlayN.graphics().height();
 
-				if (aspect < targetAspect) {
-					scale = w / 960;
-					translateY = h/2-720*scale/2;
-				} else {
-					scale = h / 720;
-					translateX = w/2-960*scale/2;
+					float aspect = w/h;
+					float targetAspect = 960/720;
+					float scale = 1.0f;
+
+					float translateX = 0;
+					float translateY = 0;
+
+					if (aspect < targetAspect) {
+						scale = w / 960;
+						translateY = h/2-720*scale/2;
+					} else {
+						scale = h / 720;
+						translateX = w/2-960*scale/2;
+					}
+
+					controlLayer.setScale(scale);
+					controlLayer.setTranslation(translateX, translateY);
+					controlLayer.setAlpha(0.5f);
 				}
 
-				controlLayer.setScale(scale);
-				controlLayer.setTranslation(translateX, translateY);
-
+				graphics().rootLayer().add(controlLayer);
 			}
-
-			graphics().rootLayer().add(controlLayer);
 
 			mySetupRenderingOnce = true;
 		}
