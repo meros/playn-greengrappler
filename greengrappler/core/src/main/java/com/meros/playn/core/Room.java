@@ -17,9 +17,9 @@ import com.meros.playn.core.entities.ParticleSystem;
 
 public class Room {
 	private final Camera mCamera;
-	Set<Entity> mDamagableEntities = new LinkedHashSet<Entity>();
-	Set<Entity> mEntities = new LinkedHashSet<Entity>();
-	Set<Entity> mEntitiesToAdd = new LinkedHashSet<Entity>();
+	Set<Entity> mDamagableEntities = new HashSet<Entity>();
+	Set<Entity> mEntities = new HashSet<Entity>();
+	Set<Entity> mEntitiesToAdd = new HashSet<Entity>();
 	Hero mHero = null;
 
 	Set<Entity> mHookableEntities = new HashSet<Entity>();
@@ -42,16 +42,16 @@ public class Room {
 			Layer aMiddleLayer,
 			Layer aForegroundLayer,
 			Camera aCamera) {
-		
+
 		myBackgroundLayer = aBackgroundLayer;
 		myMiddleLayer = aMiddleLayer;
 		myForegroundLayer = aForegroundLayer;
-		
+
 		mCamera = aCamera;
-		
+
 		myHookableArray = new boolean[getWidthInTiles()][getHeightInTiles()];
 		myCollidableArray = new boolean[getWidthInTiles()][getHeightInTiles()];
-		
+
 		for (int x = 0; x < getWidthInTiles(); x++)
 		{
 			for (int y = 0; y < getHeightInTiles(); y++)
@@ -156,7 +156,7 @@ public class Room {
 	public boolean isCollidable(int aX, int aY) {
 		if (aX < 0 || aX >= myCollidableArray.length || aY < 0 || aY >= myCollidableArray[aX].length)
 			return false;
-		
+
 		return myCollidableArray[aX][aY];
 	}
 
@@ -173,7 +173,7 @@ public class Room {
 	public boolean isHookable(int aX, int aY) {
 		if (aX < 0 || aX >= myHookableArray.length || aY < 0 || aY >= myHookableArray[aX].length)
 			return false;
-		
+
 		return myHookableArray[aX][aY];
 	}
 
@@ -267,20 +267,25 @@ public class Room {
 			return;
 		}
 
-		Iterator<Entity> it = mEntities.iterator();
-		while(it.hasNext()) {
-			Entity entity = it.next();
+		Set<Entity> itemsToRemove = null;
+
+		for(Entity entity : mEntities)
+		{
 			if (entity.isRemoved()) {
-				if (entity.isDamagable()) {
-					mDamagableEntities.remove(entity);
+				if (itemsToRemove == null)
+				{
+					itemsToRemove = new HashSet<Entity>();
 				}
 
-				if (entity.isHookable()) {
-					mHookableEntities.remove(entity);
-				}
-
-				it.remove();
+				itemsToRemove.add(entity);
 			}
+		}
+
+		if (itemsToRemove != null)
+		{
+			mEntities.removeAll(itemsToRemove);
+			mHookableEntities.removeAll(itemsToRemove);
+			mDamagableEntities.removeAll(itemsToRemove);
 		}
 
 		for (Entity entity : mEntities) {
@@ -395,7 +400,7 @@ public class Room {
 	public void setCollidable(int aX, int aY, boolean aCollide) {
 		if (aX < 0 || aX >= myCollidableArray.length || aY < 0 || aY >= myCollidableArray[aX].length)
 			return;
-		
+
 		myCollidableArray[aX][aY] = aCollide;
 	}
 
@@ -414,7 +419,7 @@ public class Room {
 	public void setHookable(int aX, int aY, boolean aHook) {
 		if (aX < 0 || aX >= myHookableArray.length || aY < 0 || aY >= myHookableArray[aX].length)
 			return;
-		
+
 		myHookableArray[aX][aY] = aHook;
 	}
 
