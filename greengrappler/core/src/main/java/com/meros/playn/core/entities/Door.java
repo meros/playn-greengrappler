@@ -26,8 +26,8 @@ public class Door extends Entity {
 	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer )
 	{
-		int x = (int) (getDrawPositionX() + offsetX - getSize().x / 2);
-		int y = (int) (getDrawPositionY() + offsetY - getSize().y / 2);
+		int x = (int) (getDrawPositionX() + offsetX - getSize().getX() / 2);
+		int y = (int) (getDrawPositionY() + offsetY - getSize().getY() / 2);
 
 		buffer.drawImage(myDoor.getFrame(0), x, y, 10, myDoorHeight, 0, 0 , 10, myDoorHeight);
 	}
@@ -52,8 +52,8 @@ public class Door extends Entity {
 			myDoorHeight++;
 		}
 
-		int tileX = (int)(getPosition().x - getSize().x / 2) / 10;
-		int tileY = (int)(getPosition().y - getSize().y / 2) / 10;
+		int tileX = (int)(getPosition().getX() - getSize().getX() / 2) / 10;
+		int tileY = (int)(getPosition().getY() - getSize().getY() / 2) / 10;
 
 		for (int i = 0; i < 4; i++)
 		{

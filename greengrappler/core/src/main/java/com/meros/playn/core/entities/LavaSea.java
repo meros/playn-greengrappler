@@ -35,9 +35,9 @@ public class LavaSea extends Entity {
 		if (mSafeMode)
 		{
 			mSafeLevel ++;
-			if (mSafeLevel > getPosition().y + 10)
+			if (mSafeLevel > getPosition().getY() + 10)
 			{
-				mSafeLevel = (int) (getPosition().y + 10);
+				mSafeLevel = (int) (getPosition().getY() + 10);
 			}
 		}
 
@@ -56,8 +56,8 @@ public class LavaSea extends Entity {
 			
 			Random random = new Random();
 
-			int min = (int) -mRoom.getCamera().getOffset().x;
-			int max = (int) (320-mRoom.getCamera().getOffset().x);
+			int min = (int) -mRoom.getCamera().getOffset().getX();
+			int max = (int) (320-mRoom.getCamera().getOffset().getX());
 			int rVal = random.nextInt(max-min)+min;
 			
 			ImmutableFloatPair pos = new ImmutableFloatPair(rVal, getCurrentY());
@@ -106,7 +106,7 @@ public class LavaSea extends Entity {
 
 		float sinwave = (float) ((Math.sin(mFrame/100.0f)+1)/2);
 		sinwave = sinwave*sinwave*sinwave ;
-		return (int) (getPosition().y - sinwave*80 + 2);
+		return (int) (getPosition().getY() - sinwave*80 + 2);
 	}
 
 	@Override

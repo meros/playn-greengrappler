@@ -5,16 +5,16 @@ public class CollisionRect {
 	public ImmutableFloatPair myTopLeft = new ImmutableFloatPair();
 	
 	public boolean Collides(CollisionRect aOther) {
-		if (myBottomRight.x <= aOther.myTopLeft.x)
+		if (myBottomRight.getX() <= aOther.myTopLeft.getX())
 			return false;
 
-		if (myTopLeft.x >= aOther.myBottomRight.x)
+		if (myTopLeft.getX() >= aOther.myBottomRight.getX())
 			return false;
 
-		if (myBottomRight.y <= aOther.myTopLeft.y)
+		if (myBottomRight.getY() <= aOther.myTopLeft.getY())
 			return false;
 
-		if (myTopLeft.y >= aOther.myBottomRight.y)
+		if (myTopLeft.getY() >= aOther.myBottomRight.getY())
 			return false;
 
 		return true;

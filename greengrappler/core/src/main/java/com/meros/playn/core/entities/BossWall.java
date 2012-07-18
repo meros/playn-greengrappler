@@ -25,8 +25,8 @@ public class BossWall extends Entity {
 	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer )
 	{
-		int x = (int) (getDrawPositionX() + offsetX - getHalfSize().x);
-		int y = (int) (getDrawPositionY() + offsetY - getHalfSize().y);
+		int x = (int) (getDrawPositionX() + offsetX - getHalfSize().getX());
+		int y = (int) (getDrawPositionY() + offsetY - getHalfSize().getY());
 
 		myWall.drawFrame(buffer, 0, x, y, myDirection == Direction.LEFT, false);
 		//Entity::draw(buffer, offsetX, offsetY, layer);
@@ -48,42 +48,42 @@ public class BossWall extends Entity {
 		if (myDirection == Direction.RIGHT && myFrameCounter % 200 == 0)
 		{
 			BossSaw saw = new BossSaw(myDirection);
-			saw.setPosition(new ImmutableFloatPair(getPosition().x, getPosition().y + getHalfSize().y - 10));
+			saw.setPosition(new ImmutableFloatPair(getPosition().getX(), getPosition().getY() + getHalfSize().getY() - 10));
 			mRoom.addEntity(saw);
 		}
 
 		if (myDirection == Direction.RIGHT && (100 + myFrameCounter) % 200 == 0)
 		{
 			BossSaw saw = new BossSaw(myDirection);
-			saw.setPosition(new ImmutableFloatPair(getPosition().x, getPosition().y + getHalfSize().y - 30));
+			saw.setPosition(new ImmutableFloatPair(getPosition().getX(), getPosition().getY() + getHalfSize().getY() - 30));
 			mRoom.addEntity(saw);
 		}
 
 		if (myDirection == Direction.RIGHT && (180 + myFrameCounter) % 200 == 0)
 		{
 			BossSaw saw = new BossSaw(myDirection);
-			saw.setPosition(new ImmutableFloatPair(getPosition().x, getPosition().y  + getHalfSize().y - 50));
+			saw.setPosition(new ImmutableFloatPair(getPosition().getX(), getPosition().getY()  + getHalfSize().getY() - 50));
 			mRoom.addEntity(saw);
 		}
 
 		if (myDirection == Direction.LEFT && myFrameCounter % 350 == 0)
 		{
 			BossSaw saw = new BossSaw(myDirection);
-			saw.setPosition(new ImmutableFloatPair(getPosition().x, getPosition().y + getHalfSize().y - 10));
+			saw.setPosition(new ImmutableFloatPair(getPosition().getX(), getPosition().getY() + getHalfSize().getY() - 10));
 			mRoom.addEntity(saw);
 		}
 
 		if (myDirection == Direction.LEFT && (100 + myFrameCounter) % 350 == 0)
 		{
 			BossSaw saw = new BossSaw(myDirection);
-			saw.setPosition(new ImmutableFloatPair(getPosition().x, getPosition().y + getHalfSize().y - 30));
+			saw.setPosition(new ImmutableFloatPair(getPosition().getX(), getPosition().getY() + getHalfSize().getY() - 30));
 			mRoom.addEntity(saw);
 		}
 
 		if (myDirection == Direction.LEFT && (300 + myFrameCounter) % 350 == 0)
 		{
 			BossSaw saw = new BossSaw(myDirection);
-			saw.setPosition(new ImmutableFloatPair(getPosition().x, getPosition().y + getHalfSize().y - 50));
+			saw.setPosition(new ImmutableFloatPair(getPosition().getX(), getPosition().getY() + getHalfSize().getY() - 50));
 			mRoom.addEntity(saw);
 		}
 
@@ -93,9 +93,9 @@ public class BossWall extends Entity {
 	public void setTilesCollidable( 
 		boolean aCollidable )
 	{
-		int sx = (int) ((getPosition().x-getHalfSize().x)/10);
-		int sy = (int) ((getPosition().y-getHalfSize().y)/10);
-		int height = (int) ((getSize().y) / 10);
+		int sx = (int) ((getPosition().getX()-getHalfSize().getX())/10);
+		int sy = (int) ((getPosition().getY()-getHalfSize().getY())/10);
+		int height = (int) ((getSize().getY()) / 10);
 
 		for (int y = sy; y < sy + height; y++)
 			mRoom.setCollidable(sx, y, aCollidable);

@@ -68,7 +68,7 @@ public class Button extends Entity {
 		{
 			frame = 0;
 		}
-		myButton.drawFrame(buffer, frame, x - (int)getSize().x / 2, y - (int)getSize().y / 2);
+		myButton.drawFrame(buffer, frame, x - (int)getSize().getX() / 2, y - (int)getSize().getY() / 2);
 
 		//Entity::draw(buffer, offsetX, offsetY, layer);
 	}

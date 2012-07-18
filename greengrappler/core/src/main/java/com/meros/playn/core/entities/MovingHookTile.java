@@ -47,16 +47,16 @@ public class MovingHookTile extends Entity {
 		hasHook = (mRoom.getHero().getHookedEntity() == this);
 
 		if (hasHook) {
-			mVelocity = new ImmutableFloatPair((mVelocity.x > 0) ? 40.0f : -40.0f, mVelocity.y);
+			mVelocity = new ImmutableFloatPair((mVelocity.getX() > 0) ? 40.0f : -40.0f, mVelocity.getY());
 			mFrameCounter++;
 		} else {
-			mVelocity = new ImmutableFloatPair((mVelocity.x > 0) ? 20.0f : -20.0f, mVelocity.y);
+			mVelocity = new ImmutableFloatPair((mVelocity.getX() > 0) ? 20.0f : -20.0f, mVelocity.getY());
 		}
 
 		EnumSet<Direction> bumps = moveWithCollision();
 
 		if (bumps.contains(Direction.LEFT) || bumps.contains(Direction.RIGHT)) {
-			mVelocity = new ImmutableFloatPair(-mVelocity.x, mVelocity.y);
+			mVelocity = new ImmutableFloatPair(-mVelocity.getX(), mVelocity.getY());
 		}
 	}
 

@@ -28,7 +28,7 @@ public class ReactorCore extends Entity {
 				.getFrameHeight()).divide(2));
 		pos = pos.add(new ImmutableFloatPair(offsetX, offsetY));
 
-		mAnimation.drawFrame(buffer, mFrame / 5, (int) pos.x, (int) pos.y);
+		mAnimation.drawFrame(buffer, mFrame / 5, (int) pos.getX(), (int) pos.getY());
 	}
 
 	@Override
@@ -40,12 +40,12 @@ public class ReactorCore extends Entity {
 	public void update() {
 		Hero hero = mRoom.getHero();
 
-		mVelocity = new ImmutableFloatPair(0, mVelocity.y + 6.0f);
+		mVelocity = new ImmutableFloatPair(0, mVelocity.getY() + 6.0f);
 
 		EnumSet<Direction> bumps = moveWithCollision();
 
 		if (bumps.contains(Direction.UP) || bumps.contains(Direction.DOWN)) {
-			mVelocity = new ImmutableFloatPair(mVelocity.x, mVelocity.y*0.8f);
+			mVelocity = new ImmutableFloatPair(mVelocity.getX(), mVelocity.getY()*0.8f);
 		}
 
 		if (hero.Collides(this)) {

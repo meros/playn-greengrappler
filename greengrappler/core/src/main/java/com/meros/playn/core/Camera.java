@@ -43,8 +43,8 @@ public class Camera {
 	}
 
 	public ImmutableFloatPair getOffset() {
-		return new ImmutableFloatPair((int) (myOffset.x + myShakeOffset.x + 0.5),
-				(int) (myOffset.y + myShakeOffset.y + 0.5));
+		return new ImmutableFloatPair((int) (myOffset.getX() + myShakeOffset.getX() + 0.5),
+				(int) (myOffset.getY() + myShakeOffset.getY() + 0.5));
 	}
 
 	public void update(Hero aHero) {
@@ -54,8 +54,8 @@ public class Camera {
 		ImmutableFloatPair heroRealPos = aHero.getPosition();
 		for(Rect rect : cameraRects)
 		{
-			if (rect.x < heroRealPos.x && rect.y <heroRealPos.y &&
-					(rect.x + rect.w) > heroRealPos.x && (rect.y+rect.h) > heroRealPos.y)
+			if (rect.x < heroRealPos.getX() && rect.y <heroRealPos.getY() &&
+					(rect.x + rect.w) > heroRealPos.getX() && (rect.y+rect.h) > heroRealPos.getY())
 			{
 				desiredOffset = new ImmutableFloatPair(-rect.x, -rect.y + 10);
 				foundRect = true;
@@ -83,34 +83,34 @@ public class Camera {
 			myShakeOffset = new ImmutableFloatPair();
 		}
 
-		if (myOffset.x + myTopLeft.x > 0) {
-			myOffset = new ImmutableFloatPair(-myTopLeft.x, myOffset.y);
+		if (myOffset.getX() + myTopLeft.getX() > 0) {
+			myOffset = new ImmutableFloatPair(-myTopLeft.getX(), myOffset.getY());
 		}
 
-		if (myOffset.y + myTopLeft.y > 10) {
-			myOffset = new ImmutableFloatPair(myOffset.x, 10 - myTopLeft.y);
+		if (myOffset.getY() + myTopLeft.getY() > 10) {
+			myOffset = new ImmutableFloatPair(myOffset.getX(), 10 - myTopLeft.getY());
 		}
 
-		if (myOffset.x + myBottomRight.x < 320) {
-			myOffset = new ImmutableFloatPair(320 - myBottomRight.x, myOffset.y);
+		if (myOffset.getX() + myBottomRight.getX() < 320) {
+			myOffset = new ImmutableFloatPair(320 - myBottomRight.getX(), myOffset.getY());
 		}
 
-		if (myOffset.y + myBottomRight.y < 240) {
-			myOffset = new ImmutableFloatPair(myOffset.x, 240 - myBottomRight.y);
+		if (myOffset.getY() + myBottomRight.getY() < 240) {
+			myOffset = new ImmutableFloatPair(myOffset.getX(), 240 - myBottomRight.getY());
 		}
 
 		if (GlobalOptions.avoidHeroAtThumbs())
 		{
 			int thumbSafeAreaSize = 130;
 
-			if (heroRealPos.x + myOffset.x < thumbSafeAreaSize)
+			if (heroRealPos.getX() + myOffset.getX() < thumbSafeAreaSize)
 			{
-				myOffset = new ImmutableFloatPair(thumbSafeAreaSize-heroRealPos.x, myOffset.y);
+				myOffset = new ImmutableFloatPair(thumbSafeAreaSize-heroRealPos.getX(), myOffset.getY());
 			}
 
-			if (heroRealPos.x + myOffset.x > 320-thumbSafeAreaSize)
+			if (heroRealPos.getX() + myOffset.getX() > 320-thumbSafeAreaSize)
 			{
-				myOffset = new ImmutableFloatPair((320-thumbSafeAreaSize)-heroRealPos.x, myOffset.y);
+				myOffset = new ImmutableFloatPair((320-thumbSafeAreaSize)-heroRealPos.getX(), myOffset.getY());
 			}
 		}
 	}

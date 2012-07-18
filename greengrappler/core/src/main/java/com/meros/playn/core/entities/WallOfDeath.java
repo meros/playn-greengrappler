@@ -29,10 +29,10 @@ public class WallOfDeath extends Entity {
 	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer )
 	{
-		int x = (int) (getDrawPositionX() + offsetX - getSize().x / 2);
-		int y = (int) (getDrawPositionY() + offsetY - getSize().y / 2);
+		int x = (int) (getDrawPositionX() + offsetX - getSize().getX() / 2);
+		int y = (int) (getDrawPositionY() + offsetY - getSize().getY() / 2);
 
-		int saws = (int)getSize().y / 12;
+		int saws = (int)getSize().getY() / 12;
 
 		for (int i = 0; i < saws; i++)
 		{
@@ -55,12 +55,12 @@ public class WallOfDeath extends Entity {
 		if (!myRunning)
 			return;
 
-		if (getPosition().x > 2950.0f) {
+		if (getPosition().getX() > 2950.0f) {
 			ParticleSystem ps = new ParticleSystem(mySaw, 2, 100, 20, 10, 20, 1, new ImmutableFloatPair(0.0f, -50.0f), 4.0f);
 
-			int x = (int) (getDrawPositionX() - getSize().x / 2);
-			int y = (int) (getDrawPositionY() - getSize().y / 2);
-			int saws = (int)getSize().y / 12;
+			int x = (int) (getDrawPositionX() - getSize().getX() / 2);
+			int y = (int) (getDrawPositionY() - getSize().getY() / 2);
+			int saws = (int)getSize().getY() / 12;
 
 			for (int i = 0; i < saws; i++)
 			{
@@ -73,17 +73,17 @@ public class WallOfDeath extends Entity {
 		}
 
 		for (int xo = 0; xo < 3; xo++) {
-				int xt = xo + (int)((getPosition().x - getSize().x / 2) / mRoom.getTileWidth());
+				int xt = xo + (int)((getPosition().getX() - getSize().getX() / 2) / mRoom.getTileWidth());
 				mRoom.destroyToTileRow(xt - 1);
 		}
 
-		float heroX = mRoom.getHero().getPosition().x;
-		float x = getPosition().x;
+		float heroX = mRoom.getHero().getPosition().getX();
+		float x = getPosition().getX();
 
 		float distance = heroX - x;
 		if (distance > 190 && !myBoost)
 		{
-			setPosition(new ImmutableFloatPair(heroX - 190, getPosition().y));
+			setPosition(new ImmutableFloatPair(heroX - 190, getPosition().getY()));
 		}
 
 		if (distance < 80)
@@ -108,7 +108,7 @@ public class WallOfDeath extends Entity {
 		}
 
 
-		setPosition(new ImmutableFloatPair(getPosition().x + mySpeed, getPosition().y));
+		setPosition(new ImmutableFloatPair(getPosition().getX() + mySpeed, getPosition().getY()));
 
 		if (mRoom.getHero().Collides(this))
 		{

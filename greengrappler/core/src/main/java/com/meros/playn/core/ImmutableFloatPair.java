@@ -2,8 +2,8 @@ package com.meros.playn.core;
 
 public class ImmutableFloatPair implements AbstractFloatPair   {
 	static float EPSILON = 0.0000001f;
-	public final float x;
-	public final float y;
+	private final float x;
+	private final float y;
 
 	public ImmutableFloatPair() {
 		x = 0;

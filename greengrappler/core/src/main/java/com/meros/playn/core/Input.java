@@ -164,23 +164,23 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 		int largeWidth = 400;
 
 		myTouchAreas.add(input.new TouchArea(
-				(int) (dpadCenter.x-largeWidth/2),
-				(int) (dpadCenter.y-largeWidth/2),
+				(int) (dpadCenter.getX()-largeWidth/2),
+				(int) (dpadCenter.getY()-largeWidth/2),
 				smallWidth,
 				largeWidth, Buttons.Left, false));
 		myTouchAreas.add(input.new TouchArea(
-				(int) (dpadCenter.x+largeWidth/2-smallWidth),
-				(int) (dpadCenter.y-largeWidth/2),
+				(int) (dpadCenter.getX()+largeWidth/2-smallWidth),
+				(int) (dpadCenter.getY()-largeWidth/2),
 				smallWidth,
 				largeWidth, Buttons.Right, false));
 		myTouchAreas.add(input.new TouchArea(
-				(int) (dpadCenter.x-largeWidth/2),
-				(int) (dpadCenter.y-largeWidth/2),
+				(int) (dpadCenter.getX()-largeWidth/2),
+				(int) (dpadCenter.getY()-largeWidth/2),
 				largeWidth,
 				smallWidth, Buttons.Up, false));
 		myTouchAreas.add(input.new TouchArea(
-				(int) (dpadCenter.x-largeWidth/2),
-				(int) (dpadCenter.y+largeWidth/2-smallWidth),
+				(int) (dpadCenter.getX()-largeWidth/2),
+				(int) (dpadCenter.getY()+largeWidth/2-smallWidth),
 				largeWidth,
 				smallWidth, Buttons.Down, false));
 	}

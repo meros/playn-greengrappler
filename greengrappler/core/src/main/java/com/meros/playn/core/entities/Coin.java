@@ -34,7 +34,7 @@ public class Coin extends Entity {
 
 			ImmutableFloatPair velocity = UtilMethods.sincos(3.1415 * (i + 1)
 					/ (aNumberOfCoins + 1));
-			velocity = new ImmutableFloatPair(velocity.x * 100, velocity.y * -200);
+			velocity = new ImmutableFloatPair(velocity.getX() * 100, velocity.getY() * -200);
 
 			Coin coin = new Coin();
 			coin.setLifeTime(aLifeTime);
@@ -64,7 +64,7 @@ public class Coin extends Entity {
 			}
 
 			myAnimationCoin.drawFrame(aBuffer, (myFrame < 5 * 4) ? myFrame / 5 : 0,
-					(int) pos.x, (int) pos.y, false, false);
+					(int) pos.getX(), (int) pos.getY(), false, false);
 		}
 	}
 
@@ -103,20 +103,20 @@ public class Coin extends Entity {
 
 				if (bumps.contains(Direction.LEFT)
 						|| bumps.contains(Direction.RIGHT)) {
-					if (Math.abs(mVelocity.x) > 10) {
+					if (Math.abs(mVelocity.getX()) > 10) {
 						Sound.playSample("data/sounds/coin");
 					}
 
-					mVelocity = new ImmutableFloatPair(mVelocity.x * -0.5f, mVelocity.y);
+					mVelocity = new ImmutableFloatPair(mVelocity.getX() * -0.5f, mVelocity.getY());
 				}
 
 				if (bumps.contains(Direction.UP)
 						|| bumps.contains(Direction.DOWN)) {
-					if (Math.abs(mVelocity.y) > 10) {
+					if (Math.abs(mVelocity.getY()) > 10) {
 						Sound.playSample("data/sounds/coin");
 					}
 
-					mVelocity = new ImmutableFloatPair(mVelocity.x, mVelocity.y*-0.2f);
+					mVelocity = new ImmutableFloatPair(mVelocity.getX(), mVelocity.getY()*-0.2f);
 				}
 
 				myLifeTime--;

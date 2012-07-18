@@ -36,10 +36,10 @@ public class Reactor extends Entity {
 
 		if (myDamage >= DAMAGE_MAX)
 			myShell.drawFrame(buffer, myDamage / FRAME_PER_DAMAGE - 1, x
-					- (int) getSize().x / 2, y - (int) getSize().y / 2);
+					- (int) getSize().getX() / 2, y - (int) getSize().getY() / 2);
 		else
 			myShell.drawFrame(buffer, myDamage / FRAME_PER_DAMAGE, x
-					- (int) getSize().x / 2, y - (int) getSize().y / 2);
+					- (int) getSize().getX() / 2, y - (int) getSize().getY() / 2);
 	}
 
 	@Override
@@ -110,8 +110,8 @@ public class Reactor extends Entity {
 	}
 
 	public void setTilesCollidable(boolean aCollidable) {
-		int sx = (int) ((getPosition().x - getHalfSize().x) / 10);
-		int sy = (int) ((getPosition().y - getHalfSize().y) / 10);
+		int sx = (int) ((getPosition().getX() - getHalfSize().getX()) / 10);
+		int sy = (int) ((getPosition().getY() - getHalfSize().getY()) / 10);
 
 		for (int x = sx; x < sx + 3; x++)
 			for (int y = sy; y < sy + 4; y++)

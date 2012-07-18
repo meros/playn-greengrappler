@@ -113,7 +113,7 @@ public class Room {
 		for (Entity entity : mHookableEntities)
 		{
 			ImmutableFloatPair toEntity = entity.getPosition().subtract(position);
-			if (Math.abs(toEntity.x) < entity.getHalfSize().x && Math.abs(toEntity.y) < entity.getHalfSize().y) {
+			if (Math.abs(toEntity.getX()) < entity.getHalfSize().getX() && Math.abs(toEntity.getY()) < entity.getHalfSize().getY()) {
 				return entity;
 			}
 		}
@@ -194,17 +194,17 @@ public class Room {
 			aBuffer.fillRect(0, 0, 320, 240);
 
 			if (myFrameCounter < 60)
-				mHero.draw(aBuffer, (int) mCamera.getOffset().x,
-						(int) mCamera.getOffset().y, 0);
+				mHero.draw(aBuffer, (int) mCamera.getOffset().getX(),
+						(int) mCamera.getOffset().getY(), 0);
 			return;
 		}
 
 		Layer[] bgLayers = {myMiddleLayer, myForegroundLayer};
-		myBackgroundLayer.draw(aBuffer, (int) mCamera.getOffset().x,
-				(int) mCamera.getOffset().y, bgLayers);
+		myBackgroundLayer.draw(aBuffer, (int) mCamera.getOffset().getX(),
+				(int) mCamera.getOffset().getY(), bgLayers);
 		Layer[] midLayers = {myForegroundLayer};
-		myMiddleLayer.draw(aBuffer, (int) mCamera.getOffset().x,
-				(int) mCamera.getOffset().y, midLayers);
+		myMiddleLayer.draw(aBuffer, (int) mCamera.getOffset().getX(),
+				(int) mCamera.getOffset().getY(), midLayers);
 
 		List<Entity> entitiesToDraw = new ArrayList<Entity>();
 		entitiesToDraw.addAll(mEntities);
@@ -219,13 +219,13 @@ public class Room {
 		});
 
 		for (Entity entity: entitiesToDraw) {
-			entity.draw(aBuffer, (int) mCamera.getOffset().x,
-					(int) mCamera.getOffset().y, 0);
+			entity.draw(aBuffer, (int) mCamera.getOffset().getX(),
+					(int) mCamera.getOffset().getY(), 0);
 		}
 
 		Layer[] fgLayers = {};
-		myForegroundLayer.draw(aBuffer, (int) mCamera.getOffset().x,
-				(int) mCamera.getOffset().y, fgLayers);
+		myForegroundLayer.draw(aBuffer, (int) mCamera.getOffset().getX(),
+				(int) mCamera.getOffset().getY(), fgLayers);
 
 		if (myIsCompleted) {
 			myFont.drawCenter(aBuffer, "LEVEL COMPLETED!", 0, 0, 320, 240);
@@ -305,12 +305,12 @@ public class Room {
 		mHero.update();
 
 		for (Entity entity : mEntities) {
-			if (entity.getPosition().x - entity.getHalfSize().x > getWidthInTiles()
+			if (entity.getPosition().getX() - entity.getHalfSize().getX() > getWidthInTiles()
 					* getTileWidth()
-					|| entity.getPosition().y - entity.getHalfSize().y > getHeightInTiles()
+					|| entity.getPosition().getY() - entity.getHalfSize().getY() > getHeightInTiles()
 					* getTileHeight()
-					|| entity.getPosition().x + entity.getHalfSize().x < 0
-					|| entity.getPosition().y + entity.getHalfSize().y < 0) {
+					|| entity.getPosition().getX() + entity.getHalfSize().getX() < 0
+					|| entity.getPosition().getY() + entity.getHalfSize().getY() < 0) {
 				entity.remove();
 			}
 
@@ -330,12 +330,12 @@ public class Room {
 			return false;
 		}
 
-		int ix = (int) ((int) Math.floor(origin.x) / getTileWidth());
-		int iy = (int) ((int) Math.floor(origin.y) / getTileHeight());
-		float dx = (origin.x / getTileWidth() - ix);
-		float dy = (origin.y / getTileHeight() - iy);
-		float tx = direction.x > 0 ? 1 : 0;
-		float ty = direction.y > 0 ? 1 : 0;
+		int ix = (int) ((int) Math.floor(origin.getX()) / getTileWidth());
+		int iy = (int) ((int) Math.floor(origin.getY()) / getTileHeight());
+		float dx = (origin.getX() / getTileWidth() - ix);
+		float dy = (origin.getY() / getTileHeight() - iy);
+		float tx = direction.getX() > 0 ? 1 : 0;
+		float ty = direction.getY() > 0 ? 1 : 0;
 
 		int minX = 0;
 		int maxX = getWidthInTiles();
@@ -344,19 +344,19 @@ public class Room {
 		if (cullBeyondDirection) {
 			minX = Math.max(minX,
 					ix
-					+ (int) (Math.min(0.0f, direction.x)
+					+ (int) (Math.min(0.0f, direction.getX())
 							/ getTileWidth() - 1.0f));
 			maxX = Math.min(maxX,
 					ix
-					+ (int) (Math.max(0.0f, direction.x)
+					+ (int) (Math.max(0.0f, direction.getX())
 							/ getTileWidth() + 2.0f));
 			minY = Math.max(minY,
 					iy
-					+ (int) (Math.min(0.0f, direction.y)
+					+ (int) (Math.min(0.0f, direction.getY())
 							/ getTileHeight() - 1.0f));
 			maxY = Math.min(maxY,
 					iy
-					+ (int) (Math.max(0.0f, direction.y)
+					+ (int) (Math.max(0.0f, direction.getY())
 							/ getTileHeight() + 2.0f));
 		}
 		boolean hit = false;
@@ -366,11 +366,11 @@ public class Room {
 				break;
 			}
 
-			if (direction.y == 0
-					|| (direction.x != 0 && ((tx - dx) / direction.x < (ty - dy)
-							/ direction.y))) {
-				dy += direction.y * (tx - dx) / direction.x;
-				if (direction.x > 0) {
+			if (direction.getY() == 0
+					|| (direction.getX() != 0 && ((tx - dx) / direction.getX() < (ty - dy)
+							/ direction.getY()))) {
+				dy += direction.getY() * (tx - dx) / direction.getX();
+				if (direction.getX() > 0) {
 					ix++;
 					dx = 0;
 				} else {
@@ -378,8 +378,8 @@ public class Room {
 					dx = 1;
 				}
 			} else {
-				dx += direction.x * (ty - dy) / direction.y;
-				if (direction.y > 0) {
+				dx += direction.getX() * (ty - dy) / direction.getY();
+				if (direction.getY() > 0) {
 					iy++;
 					dy = 0;
 				} else {
@@ -448,7 +448,7 @@ public class Room {
 		
 		for (int y = 0; y < myMiddleLayer.getHeight(); y++)
 		{
-			boolean spawnDebris = myMiddleLayer.getTile(aX, y).getCollide();
+			boolean s = myMiddleLayer.getTile(aX, y).getCollide();
 			//TODO: if (spawnDebris) {
 				//ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 20, 100, 20, 1, 50, 3, new ImmutableFloatPair(0.0f, -50.0f), 5.0f);
 			//	ps.setPosition(new ImmutableFloatPair(aX * getTileWidth() + getTileWidth() * 0.75f, y * getTileHeight() + getTileHeight() * 0.75f));

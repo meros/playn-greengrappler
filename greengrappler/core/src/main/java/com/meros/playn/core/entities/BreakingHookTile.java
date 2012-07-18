@@ -48,8 +48,8 @@ public class BreakingHookTile extends Entity {
 
 	@Override
 	public void onRespawn() {
-		myTileX = (int) (getPosition().x / mRoom.getTileWidth());
-		myTileY = (int) (getPosition().y / mRoom.getTileHeight());
+		myTileX = (int) (getPosition().getX() / mRoom.getTileWidth());
+		myTileY = (int) (getPosition().getY() / mRoom.getTileHeight());
 		mRoom.setHookable(myTileX, myTileY, true);
 		mRoom.setCollidable(myTileX, myTileY, true);
 		myBreakCounter = 0;
@@ -96,9 +96,9 @@ public class BreakingHookTile extends Entity {
 
 		if (hero != null) {
 			if (hero.getRopeState() == Hero.RopeState.Attached) {
-				int ropeTileX = (int) (hero.getRopePosition().x / mRoom
+				int ropeTileX = (int) (hero.getRopePosition().getX() / mRoom
 						.getTileWidth());
-				int ropeTileY = (int) (hero.getRopePosition().y / mRoom
+				int ropeTileY = (int) (hero.getRopePosition().getY() / mRoom
 						.getTileWidth());
 				if (ropeTileX == myTileX && ropeTileY == myTileY) {
 					myBreaking = true;

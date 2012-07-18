@@ -94,7 +94,7 @@ public class RoomLoader {
 					ImmutableFloatPair pos = 
 							new ImmutableFloatPair(
 									10 * x + 10 / 2, 
-									(10 * (y + 1))-entity.getHalfSize().y);
+									(10 * (y + 1))-entity.getHalfSize().getY());
 
 					entity.setPosition(pos);
 					room.addEntity(entity);

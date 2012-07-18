@@ -161,7 +161,7 @@ public class Hero extends Entity {
 		if (myIsDead) {
 			mAnimationHurt.drawFrame(aBuffer, 0,
 					offsetX + x - mAnimationHurt.getFrameWidth() / 2,
-					(int) (offsetY + y + getHalfSize().y - mAnimationHurt
+					(int) (offsetY + y + getHalfSize().getY() - mAnimationHurt
 							.getFrameHeight()),
 							mFacingDirection == Direction.LEFT, false);
 			return;
@@ -201,8 +201,8 @@ public class Hero extends Entity {
 				&& (mRopeState != RopeState.Dissapearing || (mRopeDissapearCounter & 1) != 0)) {
 			int x2 = getDrawPositionX() + offsetX;
 			int y2 = getDrawPositionY() + offsetY;
-			int x1 = (int) (mRopePosition.x + 0.5f) + offsetX;
-			int y1 = (int) (mRopePosition.y + 0.5f) + offsetY;
+			int x1 = (int) (mRopePosition.getX() + 0.5f) + offsetX;
+			int y1 = (int) (mRopePosition.getY() + 0.5f) + offsetY;
 
 			ImmutableFloatPair line = new ImmutableFloatPair(x2 - x1, y2 - y1);
 			int rlength = (int) line.length();
@@ -222,18 +222,18 @@ public class Hero extends Entity {
 					float t = i / (float) (segments - 1);
 					float value = (float) (Math.sin(t * 3.141592) * Math
 							.sin(i * 0.3f));
-					wave = new ImmutableFloatPair(line.y, -line.x).multiply(value);
+					wave = new ImmutableFloatPair(line.getY(), -line.getX()).multiply(value);
 				}
 
 				mAnimationRope
 				.drawFrame(aBuffer, frame,
-						(int) (rx + wave.x - mAnimationRope
+						(int) (rx + wave.getX() - mAnimationRope
 								.getFrameWidth() / 2), (int) (ry
-										+ wave.y - mAnimationRope
+										+ wave.getY() - mAnimationRope
 										.getFrameHeight() / 2));
 
-				rx += line.x;
-				ry += line.y;
+				rx += line.getX();
+				ry += line.getY();
 			}
 
 			mAnimationHook.drawFrame(aBuffer, frame,
@@ -249,7 +249,7 @@ public class Hero extends Entity {
 		if ((mBlinkingTicksLeft / 6) % 2 == 0) {
 			animation.drawFrame(aBuffer, frame,
 					offsetX + x - animation.getFrameWidth() / 2,
-					(int) (offsetY + y + getHalfSize().y - animation
+					(int) (offsetY + y + getHalfSize().getY() - animation
 							.getFrameHeight()),
 							mFacingDirection == Direction.LEFT, false);
 		}
@@ -364,7 +364,7 @@ public class Hero extends Entity {
 
 		super.update();
 
-		if (mySpawnPoint.x < -100 && mySpawnPoint.y < -100) {
+		if (mySpawnPoint.getX() < -100 && mySpawnPoint.getY() < -100) {
 			mySpawnPoint = getPosition();
 		}
 
@@ -414,8 +414,8 @@ public class Hero extends Entity {
 		}
 
 		if (Input.isReleased(Buttons.Jump)) {
-			if (mJumpHeld && mVelocity.y < 0) {
-				mVelocity = new ImmutableFloatPair(mVelocity.x, mVelocity.y*0.5f);
+			if (mJumpHeld && mVelocity.getY() < 0) {
+				mVelocity = new ImmutableFloatPair(mVelocity.getX(), mVelocity.getY()*0.5f);
 			}
 
 			mJumpHeld = false;
@@ -426,7 +426,7 @@ public class Hero extends Entity {
 			detachHook();
 		}
 
-		if (mVelocity.y >= 0) {
+		if (mVelocity.getY() >= 0) {
 			mJumpHeld = false;
 		}
 
@@ -435,24 +435,24 @@ public class Hero extends Entity {
 		}
 
 		if (mOnGround) {
-			if (mVelocity.x > 0) {
+			if (mVelocity.getX() > 0) {
 				mFacingDirection = Direction.RIGHT;
-			} else if (mVelocity.x < 0) {
+			} else if (mVelocity.getX() < 0) {
 				mFacingDirection = Direction.LEFT;
 			}
 
-			if (Math.abs(mVelocity.x) > GROUND_STOP_VELOCITY) {
+			if (Math.abs(mVelocity.getX()) > GROUND_STOP_VELOCITY) {
 				mMovementState = MovementState.Run;
 			}
 		} else if (!airRunning) {
-			if (mVelocity.y > 0)
+			if (mVelocity.getY() > 0)
 				mMovementState = MovementState.Jump;
 			else
 				mMovementState = MovementState.Fall;
 		}
 
 		if (mMovementState == MovementState.Still) {
-			mVelocity = new ImmutableFloatPair(0, mVelocity.y);
+			mVelocity = new ImmutableFloatPair(0, mVelocity.getY());
 		}
 
 		if (Input.isPressed(Buttons.Fire)) {
@@ -478,16 +478,16 @@ public class Hero extends Entity {
 			}
 
 			if (mRopeVelocity.isZero()) {
-				mRopeVelocity = new ImmutableFloatPair((mFacingDirection == Direction.LEFT ? -1 : 1), mRopeVelocity.y);
+				mRopeVelocity = new ImmutableFloatPair((mFacingDirection == Direction.LEFT ? -1 : 1), mRopeVelocity.getY());
 			}
 
 			mRopeVelocity = adjustRopeDirection(
 					(mVelocity.add(mRopeVelocity.normalize().multiply(
 							ROPE_SPEED))).normalize()).multiply(ROPE_SPEED);
 
-			if (mRopeVelocity.x < 0) {
+			if (mRopeVelocity.getX() < 0) {
 				mFacingDirection = Direction.LEFT;
-			} else if (mRopeVelocity.x > 0) {
+			} else if (mRopeVelocity.getX() > 0) {
 				mFacingDirection = Direction.RIGHT;
 			}
 		}
@@ -497,8 +497,8 @@ public class Hero extends Entity {
 			for (int i = 0; i < substeps; i++) {
 				mRopePosition = mRopePosition.add(mRopeVelocity.divide(substeps
 						* Time.TicksPerSecond));
-				int tileX = (int) (mRopePosition.x / mRoom.getTileWidth());
-				int tileY = (int) (mRopePosition.y / mRoom.getTileHeight());
+				int tileX = (int) (mRopePosition.getX() / mRoom.getTileWidth());
+				int tileY = (int) (mRopePosition.getY() / mRoom.getTileHeight());
 				if (mRoom.isHookable(tileX, tileY)) {
 					// Sound::stopSample("data/sounds/rope");
 					Sound.playSample("data/sounds/hook");
@@ -527,8 +527,8 @@ public class Hero extends Entity {
 					break;
 				}
 
-				if (mRoom.damageDone((int) (mRopePosition.x),
-						(int) (mRopePosition.y))) {
+				if (mRoom.damageDone((int) (mRopePosition.getX()),
+						(int) (mRopePosition.getY()))) {
 					detachHook();
 					break;
 				}
@@ -542,9 +542,9 @@ public class Hero extends Entity {
 							.getPosition());
 					mHookedEntityOffset = new ImmutableFloatPair(
 							(float) Math
-							.floor(mHookedEntityOffset.x), 
+							.floor(mHookedEntityOffset.getX()), 
 							(float) Math
-							.floor(mHookedEntityOffset.y));
+							.floor(mHookedEntityOffset.getY()));
 				}
 			}
 		}
@@ -577,8 +577,8 @@ public class Hero extends Entity {
 				mVelocity = mVelocity.add(new ImmutableFloatPair(0, acceleration));
 			}
 
-			int ropeTileX = (int) (mRopePosition.x / mRoom.getTileWidth());
-			int ropeTileY = (int) (mRopePosition.y / mRoom.getTileWidth());
+			int ropeTileX = (int) (mRopePosition.getX() / mRoom.getTileWidth());
+			int ropeTileY = (int) (mRopePosition.getY() / mRoom.getTileWidth());
 			if (mHookedEntity == null
 					&& !mRoom.isHookable(ropeTileX, ropeTileY)) {
 				detachHook();
@@ -588,11 +588,11 @@ public class Hero extends Entity {
 		EnumSet<Direction> bumps = moveWithCollision();
 
 		if (bumps.contains(Direction.LEFT) || bumps.contains(Direction.RIGHT)) {
-			mVelocity = new ImmutableFloatPair(0, mVelocity.y);
+			mVelocity = new ImmutableFloatPair(0, mVelocity.getY());
 		}
 
 		if (bumps.contains(Direction.UP) || bumps.contains(Direction.DOWN)) {
-			mVelocity = new ImmutableFloatPair(mVelocity.x, 0);
+			mVelocity = new ImmutableFloatPair(mVelocity.getX(), 0);
 		}
 
 		float gravity = mJumpHeld ? JUMP_GRAVITY : GRAVITY;

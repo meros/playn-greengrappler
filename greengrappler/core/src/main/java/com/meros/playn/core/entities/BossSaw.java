@@ -30,8 +30,8 @@ public class BossSaw extends Entity {
 	@Override
 	public void draw( Surface buffer, int offsetX, int offsetY, int layer )
 	{
-		int x = (int) (getDrawPositionX() + offsetX - getHalfSize().x);
-		int y = (int) (getDrawPositionY() + offsetY - getHalfSize().y);
+		int x = (int) (getDrawPositionX() + offsetX - getHalfSize().getX());
+		int y = (int) (getDrawPositionY() + offsetY - getHalfSize().getY());
 
 		mySaw.drawFrame(buffer, myFrameCounter / 10, x, y);
 

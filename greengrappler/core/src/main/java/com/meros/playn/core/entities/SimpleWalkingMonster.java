@@ -58,7 +58,7 @@ public class SimpleWalkingMonster extends Entity {
 						.getFrameHeight()).divide(2)).add(
 				new ImmutableFloatPair(offsetX, offsetY));
 
-		myAnimation.drawFrame(buffer, myFrame / 15, (int) pos.x, (int) pos.y,
+		myAnimation.drawFrame(buffer, myFrame / 15, (int) pos.getX(), (int) pos.getY(),
 				myFacing == Facing.RIGHT, false);
 	}
 
@@ -85,13 +85,13 @@ public class SimpleWalkingMonster extends Entity {
 			
 			mVelocity = new ImmutableFloatPair(
 					20.0f * ((myFacing == Facing.LEFT) ? -1 : 1),
-					mVelocity.y + 6.0f);
+					mVelocity.getY() + 6.0f);
 
 			setVelocity(mVelocity);
 			EnumSet<Direction> bumps = moveWithCollision();
 
 			if (bumps.contains(Direction.UP) || bumps.contains(Direction.DOWN)) {
-				mVelocity = new ImmutableFloatPair(mVelocity.x, 0);
+				mVelocity = new ImmutableFloatPair(mVelocity.getX(), 0);
 			}
 
 			if (bumps.contains(Direction.LEFT)) {
@@ -102,14 +102,14 @@ public class SimpleWalkingMonster extends Entity {
 				myFacing = Facing.LEFT;
 			}
 
-			int offsetX = (int) ((myFacing == Facing.RIGHT) ? -getHalfSize().x - 2
-					: getHalfSize().x + 2);
-			int offsetY = (int) (getHalfSize().y + 2);
+			int offsetX = (int) ((myFacing == Facing.RIGHT) ? -getHalfSize().getX() - 2
+					: getHalfSize().getX() + 2);
+			int offsetY = (int) (getHalfSize().getY() + 2);
 
 			ImmutableFloatPair position = getPosition();
 
-			int x = (int) ((position.x + offsetX) / mRoom.getTileWidth());
-			int y = (int) ((position.y + offsetY) / mRoom.getTileHeight());
+			int x = (int) ((position.getX() + offsetX) / mRoom.getTileWidth());
+			int y = (int) ((position.getY() + offsetY) / mRoom.getTileHeight());
 
 			if (!mRoom.isCollidable(x, y)) {
 				if (myFacing == Facing.LEFT) {

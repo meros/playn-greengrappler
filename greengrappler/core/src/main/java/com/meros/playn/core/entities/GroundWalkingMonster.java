@@ -46,7 +46,7 @@ public class GroundWalkingMonster extends Entity {
 				.getFrameHeight()).divide(2));
 		pos = pos.add(new ImmutableFloatPair(offsetX, offsetY));
 
-		myAnimation.drawFrame(buffer, myFrame / 3, (int) pos.x, (int) pos.y);
+		myAnimation.drawFrame(buffer, myFrame / 3, (int) pos.getX(), (int) pos.getY());
 	}
 
 	@Override
@@ -91,21 +91,21 @@ public class GroundWalkingMonster extends Entity {
 		int offsetY;
 
 		if (myType == Type.FLOOR || myType == Type.ROOF) {
-			offsetX = (int) ((myFacing == Facing.LEFT_UP) ? -getHalfSize().x - 2
-					: getHalfSize().x + 2);
-			offsetY = (int) ((myType == Type.FLOOR) ? getHalfSize().y + 2
-					: -getHalfSize().y - 2);
+			offsetX = (int) ((myFacing == Facing.LEFT_UP) ? -getHalfSize().getX() - 2
+					: getHalfSize().getX() + 2);
+			offsetY = (int) ((myType == Type.FLOOR) ? getHalfSize().getY() + 2
+					: -getHalfSize().getY() - 2);
 		} else {
-			offsetX = (int) ((myType == Type.LEFT_WALL) ? -getHalfSize().x - 2
-					: getHalfSize().x + 2);
-			offsetY = (int) ((myFacing == Facing.RIGHT_DOWN) ? getHalfSize().y + 2
-					: -getHalfSize().y - 2);
+			offsetX = (int) ((myType == Type.LEFT_WALL) ? -getHalfSize().getX() - 2
+					: getHalfSize().getX() + 2);
+			offsetY = (int) ((myFacing == Facing.RIGHT_DOWN) ? getHalfSize().getY() + 2
+					: -getHalfSize().getY() - 2);
 		}
 
 		ImmutableFloatPair position = getPosition();
 
-		int x = (int) ((position.x + offsetX) / mRoom.getTileWidth());
-		int y = (int) ((position.y + offsetY) / mRoom.getTileHeight());
+		int x = (int) ((position.getX() + offsetX) / mRoom.getTileWidth());
+		int y = (int) ((position.getY() + offsetY) / mRoom.getTileHeight());
 
 		if (!mRoom.isCollidable(x, y)) {
 			if (myFacing == Facing.LEFT_UP) {

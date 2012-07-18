@@ -67,7 +67,7 @@ public class SpawnPoint extends Entity {
 				.subtract(new ImmutableFloatPair(myAnimation.getFrameWidth(), myAnimation.getFrameHeight()).divide(2))
 				.add(new ImmutableFloatPair(offsetX, offsetY));
 
-		myAnimation.drawFrame(buffer, myState.value, (int)pos.x, (int)pos.y);
+		myAnimation.drawFrame(buffer, myState.value, (int)pos.getX(), (int)pos.getY());
 	}
 	
 	@Override

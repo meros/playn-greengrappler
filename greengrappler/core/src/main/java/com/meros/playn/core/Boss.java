@@ -55,8 +55,8 @@ public class Boss extends Entity {
 	@Override
 	public void draw( Surface buffer, int offsetX, int offsetY, int layer )
 	{
-		int x = (int) (getDrawPositionX() + offsetX - getHalfSize().x);
-		int y = (int) (getDrawPositionY() + offsetY - getHalfSize().y);
+		int x = (int) (getDrawPositionX() + offsetX - getHalfSize().getX());
+		int y = (int) (getDrawPositionY() + offsetY - getHalfSize().getY());
 
 		if (myState == State.SLEEPING)
 			myReactor.drawFrame(buffer, DAMAGE_MAX / FRAME_PER_DAMAGE - (myInitalHealth + 3) / FRAME_PER_DAMAGE, x , y );
@@ -124,7 +124,7 @@ public class Boss extends Entity {
 		if (myState == State.MOVE_UPWARDS)
 		{
 			setPosition(getPosition().add(new ImmutableFloatPair(0, -1)));
-			if (myOriginalPos.y - getPosition().y > 130)
+			if (myOriginalPos.getY() - getPosition().getY() > 130)
 			{
 				myState = State.FLOAT;
 				mRoom.broadcastBoosWallActivate();
@@ -138,7 +138,7 @@ public class Boss extends Entity {
 			if (myDirection == Direction.RIGHT)
 			{
 				setPosition(getPosition().add(new ImmutableFloatPair(1.5f, y)));
-				if (getPosition().x  - myOriginalPos.x > 110)
+				if (getPosition().getX()  - myOriginalPos.getX() > 110)
 					myDirection = Direction.LEFT;
 
 			}
@@ -146,7 +146,7 @@ public class Boss extends Entity {
 			if (myDirection == Direction.LEFT)
 			{
 				setPosition(getPosition().add(new ImmutableFloatPair(-1.5f, y)));
-				if (myOriginalPos.x - getPosition().x > 110)
+				if (myOriginalPos.getX() - getPosition().getX() > 110)
 					myDirection = Direction.RIGHT;
 			}
 
@@ -169,10 +169,10 @@ public class Boss extends Entity {
 			else
 			{
 				setPosition(getPosition().add(new ImmutableFloatPair(0, 6.0f)));
-				if (myOriginalPos.y < getPosition().y)
+				if (myOriginalPos.getY() < getPosition().getY())
 				{
 					mRoom.broadcastBoosWallDectivate();
-					setPosition(new ImmutableFloatPair(getPosition().x, myOriginalPos.y));
+					setPosition(new ImmutableFloatPair(getPosition().getX(), myOriginalPos.getY()));
 					myState = State.VULNERABLE;
 					mRoom.getCamera().addShake(5.0f, 80);
 					
@@ -228,8 +228,8 @@ public class Boss extends Entity {
 	setTilesCollidable( 
 			boolean  aCollidable )
 			{
-		int sx = (int) ((getPosition().x-getHalfSize().x)/10);
-		int sy = (int) ((getPosition().y-getHalfSize().y)/10);
+		int sx = (int) ((getPosition().getX()-getHalfSize().getX())/10);
+		int sy = (int) ((getPosition().getY()-getHalfSize().getY())/10);
 
 		for (int x = sx; x < sx + 3; x++)
 			for (int y = sy; y < sy + 4; y++)
