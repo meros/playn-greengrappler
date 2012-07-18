@@ -27,6 +27,7 @@ public class BossSaw extends Entity {
 		setSize(new float2(mySaw.getFrameWidth(), mySaw.getFrameHeight()));
 	}
 
+	@Override
 	public void draw( Surface buffer, int offsetX, int offsetY, int layer )
 	{
 		int x = (int) (getDrawPositionX() + offsetX - getHalfSize().x);
@@ -37,6 +38,7 @@ public class BossSaw extends Entity {
 		//Entity::draw(buffer, offsetX, offsetY, layer);
 	}
 
+	@Override
 	public void update()
 	{
 		myFrameCounter++;
@@ -53,6 +55,7 @@ public class BossSaw extends Entity {
 		}
 	}
 
+	@Override
 	public void onRespawn()
 	{
 		remove();

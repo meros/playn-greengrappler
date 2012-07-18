@@ -16,11 +16,13 @@ public class BossFloor extends Entity {
 		setSize(new float2(320, 10));
 	}
 
+	@Override
 	public void draw( Surface buffer, int offsetX, int offsetY, int layer )
 	{
 		//Entity::draw(buffer, offsetX, offsetY, layer);
 	}
 
+	@Override
 	public void update()
 	{
 		myFrameCounter++;
@@ -37,11 +39,13 @@ public class BossFloor extends Entity {
 			myActive = false;
 	}
 
+	@Override
 	public int getLayer()
 	{
 		return 4;
 	}
 
+	@Override
 	public CollisionRect getCollisionRect()
 	{
 		CollisionRect rect = super.getCollisionRect();
@@ -49,12 +53,14 @@ public class BossFloor extends Entity {
 		return rect;
 	}
 
+	@Override
 	public void onBossFloorActivate()
 	{
 		myActive = true;
 		myFrameCounter = 0;
 	}
 
+	@Override
 	public void onRespawn()
 	{	
 		myActive = false;

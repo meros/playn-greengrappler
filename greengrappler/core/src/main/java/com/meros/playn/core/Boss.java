@@ -52,6 +52,7 @@ public class Boss extends Entity {
 
 	}
 
+	@Override
 	public void draw( Surface buffer, int offsetX, int offsetY, int layer )
 	{
 		int x = (int) (getDrawPositionX() + offsetX - getHalfSize().x);
@@ -67,6 +68,7 @@ public class Boss extends Entity {
 			myBoss.drawFrame(buffer, myAnimFrameCounter / 5, x, y);
 	}
 
+	@Override
 	public void update()
 	{
 		myAnimFrameCounter++;
@@ -216,6 +218,7 @@ public class Boss extends Entity {
 		}
 	}
 
+	@Override
 	public int getLayer()
 	{
 		return 3;
@@ -233,12 +236,14 @@ public class Boss extends Entity {
 				mRoom.setCollidable(x, y, aCollidable);
 			}
 
+	@Override
 	public void setRoom( Room room )
 	{
 		super.setRoom(room);
 		setTilesCollidable(true);
 	}
 
+	@Override
 	public void onDamage()
 	{
 		if (myState == State.SLEEPING)
@@ -287,6 +292,7 @@ public class Boss extends Entity {
 		}
 	}
 
+	@Override
 	public CollisionRect getCollisionRect()
 	{
 		CollisionRect rect = new CollisionRect();
@@ -295,11 +301,13 @@ public class Boss extends Entity {
 		return rect;
 	}
 
+	@Override
 	public boolean isDamagable()
 	{
 		return true;
 	}
 
+	@Override
 	public void onRespawn()
 	{
 		setPosition(myOriginalPos);

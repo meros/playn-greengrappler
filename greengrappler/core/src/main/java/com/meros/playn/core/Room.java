@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -36,6 +35,7 @@ public class Room {
 
 	boolean myIsCompleted = false;
 	Layer myMiddleLayer;
+	private int myDestroyedToTileRow = -1;
 
 	public Room(
 			Layer aBackgroundLayer, 
@@ -156,6 +156,9 @@ public class Room {
 	public boolean isCollidable(int aX, int aY) {
 		if (aX < 0 || aX >= myCollidableArray.length || aY < 0 || aY >= myCollidableArray[aX].length)
 			return false;
+		
+		if (aX < myDestroyedToTileRow)
+			return false;
 
 		return myCollidableArray[aX][aY];
 	}
@@ -172,6 +175,9 @@ public class Room {
 
 	public boolean isHookable(int aX, int aY) {
 		if (aX < 0 || aX >= myHookableArray.length || aY < 0 || aY >= myHookableArray[aX].length)
+			return false;
+		
+		if (aX < myDestroyedToTileRow)
 			return false;
 
 		return myHookableArray[aX][aY];
@@ -332,9 +338,9 @@ public class Room {
 		float ty = direction.y > 0 ? 1 : 0;
 
 		int minX = 0;
-		int maxX = (int) getWidthInTiles();
+		int maxX = getWidthInTiles();
 		int minY = 0;
-		int maxY = (int) getHeightInTiles();
+		int maxY = getHeightInTiles();
 		if (cullBeyondDirection) {
 			minX = Math.max(minX,
 					ix
@@ -438,6 +444,8 @@ public class Room {
 	}
 
 	public void destroyToTileRow(int aX) {
+		myDestroyedToTileRow = aX;
+		
 		for (int y = 0; y < myMiddleLayer.getHeight(); y++)
 		{
 			boolean spawnDebris = myMiddleLayer.getTile(aX, y).getCollide();

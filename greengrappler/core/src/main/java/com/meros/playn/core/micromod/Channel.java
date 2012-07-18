@@ -65,6 +65,7 @@ public class Channel {
 	private int vibratoType, vibratoPhase, vibratoSpeed, vibratoDepth;
 	private int tremoloType, tremoloPhase, tremoloSpeed, tremoloDepth;
 	private int tremoloAdd, vibratoAdd, arpeggioAdd;
+	@SuppressWarnings("unused")
 	private int id, sampleRate, randomSeed;
 	public int plRow;
 	

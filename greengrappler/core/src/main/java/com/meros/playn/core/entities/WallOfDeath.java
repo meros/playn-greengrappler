@@ -119,7 +119,7 @@ public class WallOfDeath extends Entity {
 	@Override
 	public void onRespawn()
 	{
-		mRoom.destroyToTileRow(0);
+		mRoom.destroyToTileRow(-1);
 		setPosition(myOriginalPosition);
 		myRunning = false;
 		myBoost = false;

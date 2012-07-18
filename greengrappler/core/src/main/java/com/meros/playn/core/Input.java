@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import playn.core.Color;
 import playn.core.Key;
 import playn.core.Keyboard;
 import playn.core.Keyboard.Event;

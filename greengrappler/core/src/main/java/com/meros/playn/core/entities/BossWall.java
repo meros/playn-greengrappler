@@ -22,6 +22,7 @@ public class BossWall extends Entity {
 		setSize(new float2(10, 100));
 	}
 	
+	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer )
 	{
 		int x = (int) (getDrawPositionX() + offsetX - getHalfSize().x);
@@ -31,6 +32,7 @@ public class BossWall extends Entity {
 		//Entity::draw(buffer, offsetX, offsetY, layer);
 	}
 
+	@Override
 	public void update()
 	{
 		myFrameCounter++;

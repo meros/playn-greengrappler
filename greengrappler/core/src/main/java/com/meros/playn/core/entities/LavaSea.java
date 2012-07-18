@@ -20,6 +20,7 @@ public class LavaSea extends Entity {
 	Animation mFillAnimation = Resource.getAnimation("data/images/lavafill.bmp",2);
 
 	
+	@Override
 	public void update()
 	{
 		Hero hero = mRoom.getHero();
@@ -66,6 +67,7 @@ public class LavaSea extends Entity {
 		}
 	}
 	
+	@Override
 	public void draw( Surface buffer, int offsetX, int offsetY, int layer )
 	{
 		int screenY = offsetY+getCurrentY();
@@ -73,7 +75,10 @@ public class LavaSea extends Entity {
 		for (int x = -10 + offsetX%10; x <320; x+= 10)
 		{
 			mTopAnimation.drawFrame(buffer, mFrame/30, x, screenY);
+		}
 
+		for (int x = -10 + offsetX%10; x <320; x+= 10)
+		{
 			for (int y = screenY + 10; y < 240; y += 10)
 			{
 				mFillAnimation.drawFrame(buffer, mFrame/30, x, y);
@@ -82,6 +87,7 @@ public class LavaSea extends Entity {
 	}
 
 
+	@Override
 	public CollisionRect getCollisionRect()
 	{
 		CollisionRect rect = new CollisionRect();
@@ -98,11 +104,12 @@ public class LavaSea extends Entity {
 			return mSafeLevel;
 		}
 
-		float sinwave = (float) ((Math.sin((float)mFrame/100.0f)+1)/2);
+		float sinwave = (float) ((Math.sin(mFrame/100.0f)+1)/2);
 		sinwave = sinwave*sinwave*sinwave ;
 		return (int) (getPosition().y - sinwave*80 + 2);
 	}
 
+	@Override
 	public void onLevelComplete()
 	{
 		mSafeLevel = getCurrentY();

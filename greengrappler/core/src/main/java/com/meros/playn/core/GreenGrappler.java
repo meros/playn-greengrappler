@@ -8,7 +8,6 @@ import playn.core.ImmediateLayer.Clipped;
 import playn.core.ImmediateLayer.Renderer;
 import playn.core.PlayN;
 import playn.core.Surface;
-import playn.core.SurfaceLayer;
 import playn.core.gl.GLContext;
 import pythagoras.f.Point;
 

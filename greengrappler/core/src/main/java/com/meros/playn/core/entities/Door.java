@@ -29,7 +29,7 @@ public class Door extends Entity {
 		int x = (int) (getDrawPositionX() + offsetX - getSize().x / 2);
 		int y = (int) (getDrawPositionY() + offsetY - getSize().y / 2);
 
-		buffer.drawImage(myDoor.getFrame(0), (float)x, (float)y, (float)10, (float)myDoorHeight, 0, 0 , 10, myDoorHeight);
+		buffer.drawImage(myDoor.getFrame(0), x, y, 10, myDoorHeight, 0, 0 , 10, myDoorHeight);
 	}
 
 	@Override
@@ -68,6 +68,7 @@ public class Door extends Entity {
 		}
 	}
 
+	@Override
 	public void onButtonDown( int aId )
 	{
 		if (myId != aId)
@@ -78,6 +79,7 @@ public class Door extends Entity {
 		myClosing = false;
 	}
 
+	@Override
 	public void onButtonUp( int aId )
 	{
 		if (myId != aId)
@@ -88,6 +90,7 @@ public class Door extends Entity {
 		myFrameCounter = 0;
 	}
 
+	@Override
 	public void onRespawn()
 	{
 		myOpening = false;

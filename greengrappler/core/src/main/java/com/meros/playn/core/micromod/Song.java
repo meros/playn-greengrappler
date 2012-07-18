@@ -37,7 +37,7 @@ public class Song
 	}
 
 	private synchronized void loadModule( InputStream aIs ) throws IOException {		
-		byte[] moduleData = new byte[ ( int ) aIs.available() ];
+		byte[] moduleData = new byte[ aIs.available() ];
 		int offset = 0;
 		while( offset < moduleData.length ) {
 			int len = aIs.read( moduleData, offset, moduleData.length - offset );

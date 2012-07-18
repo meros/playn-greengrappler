@@ -14,6 +14,7 @@ public class WallOfDeathStarter extends Entity {
 		setSize(new float2(10, 10 * 100));
 	}
 
+	@Override
 	public void onRespawn()
 	{
 		myUsed = false;

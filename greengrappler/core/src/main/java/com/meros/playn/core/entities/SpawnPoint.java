@@ -29,6 +29,7 @@ public class SpawnPoint extends Entity {
 	private Animation myAnimation = Resource.getAnimation("data/images/checkpoint.bmp", 3);
 
 	
+	@Override
 	public void update()
 	{
 	 	Hero hero = mRoom.getHero();
@@ -59,6 +60,7 @@ public class SpawnPoint extends Entity {
 		setSize(new float2(22,25));
 	}
 
+	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer )
 	{
 		float2 pos = getPosition()

@@ -1,8 +1,6 @@
 package com.meros.playn.core.entities;
 
 import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Set;
 
 import playn.core.Surface;
 
@@ -104,7 +102,7 @@ public class Hero extends Entity {
 						Room.OutInt rcY = mRoom.new OutInt();
 						boolean rcHit = mRoom.rayCast(getPosition(), direction,
 								false, rcX, rcY);
-						if (rcHit && (int) rcX.myInt == x && (int) rcY.myInt == y) {
+						if (rcHit && rcX.myInt == x && rcY.myInt == y) {
 							bestScore = score;
 							bestDirection = direction;
 						}

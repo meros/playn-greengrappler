@@ -1,14 +1,9 @@
 package com.meros.playn.core;
 
-import playn.core.Canvas;
 import playn.core.CanvasImage;
-import playn.core.CanvasSurface;
 import playn.core.Image;
-import playn.core.Pattern;
 import playn.core.PlayN;
 import playn.core.Surface;
-import playn.core.gl.ImageGL;
-import playn.core.gl.SurfaceGL;
 
 public class Layer {
 
@@ -39,34 +34,53 @@ public class Layer {
 		int firstTileY = (-aOffsetY)/10;
 		int lastTileY = (int) ((aBuffer.height() - aOffsetY)/10);
 		
-		for (int x = firstTileX; x <= lastTileX; x++) {
-			for (int y = firstTileY; y <= lastTileY; y++) {
+		for (int y = firstTileY; y <= lastTileY; y++) {
+			Tile currentTileType = null;
+			int currentTileXStart = 0;
+			for (int x = firstTileX; x <= lastTileX + 1; x++) {
+				//Same tile as current?
+				Tile tile = getTile(x, y);
 				
-				boolean dontDraw = false;
-				
-				for (Layer overLayer : aOverLayers)
-				{
-					Tile overLayerTile = overLayer.getTile(x, y);
-					if (overLayerTile != null && overLayerTile.isOpaque())
-					{
-						dontDraw = true;
-					}
-				}
-				
-				if (dontDraw)
+				boolean lastColumn = (x == lastTileX + 1);
+
+				if (tile == currentTileType && !lastColumn)
 				{
 					continue;
 				}
-				
-				Tile tile = getTile(x, y);
-				if (tile != null && tile.getImage() != null) {
-					Image image = tile.getImage();
-
-					int startX = aOffsetX + x * 10;
-					int startY = aOffsetY + y * 10;
+				else
+				{
+					//Draw all tiles!
+					if (currentTileType != null && currentTileType.getPattern() != null) {
+						int startX = aOffsetX + currentTileXStart * 10;
+						int startY = aOffsetY + y * 10;
+										
+						aBuffer.save();
+						aBuffer.translate(startX, startY);
+						aBuffer.setFillPattern(currentTileType.getPattern());
+						aBuffer.fillRect(0, 0, (x-currentTileXStart)*10, 10);
+						aBuffer.restore();
+					}
 					
-					aBuffer.drawImage(image, startX, startY);
+					//Reset the current tile type
+					currentTileType = tile;
+					currentTileXStart = x;
 				}
+				
+//				boolean dontDraw = false;
+//				
+//				for (Layer overLayer : aOverLayers)
+//				{
+//					Tile overLayerTile = overLayer.getTile(x, y);
+//					if (overLayerTile != null && overLayerTile.isOpaque())
+//					{
+//						dontDraw = true;
+//					}
+//				}
+//				
+//				if (dontDraw)
+//				{
+//					continue;
+//				}
 			}
 		}
 		

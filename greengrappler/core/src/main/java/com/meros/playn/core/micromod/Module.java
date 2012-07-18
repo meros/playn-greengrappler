@@ -192,6 +192,7 @@ public class Module {
 				loopStart = sampleLength;
 				loopLength = 0;
 			}
+			@SuppressWarnings("unused")
 			boolean stereo = ( moduleData[ instOffset + 31 ] & 0x2 ) == 0x2;
 			boolean sixteenBit = ( moduleData[ instOffset + 31 ] & 0x4 ) == 0x4;
 			if( packed ) throw new IllegalArgumentException( "Packed samples not supported!" );

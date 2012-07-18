@@ -23,6 +23,7 @@ public class MovingHookTile extends Entity {
 		mVelocity = new float2(20.0f, 0.0f);
 	}
 
+	@Override
 	public void setRoom(Room room)
 	{
 		mInitialPosition = getPosition();
@@ -30,6 +31,7 @@ public class MovingHookTile extends Entity {
 		super.setRoom(room);
 	}
 
+	@Override
 	public void onRespawn()
 	{
 		setPosition(mInitialPosition);
@@ -37,6 +39,7 @@ public class MovingHookTile extends Entity {
 		hasHook = false;
 	}
 
+	@Override
 	public void update()
 	{
 		super.update();
@@ -57,6 +60,7 @@ public class MovingHookTile extends Entity {
 		}
 	}
 
+	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer)
 	{
 		int x = getDrawPositionX() + offsetX - mSprite.getFrameWidth() / 2;
@@ -64,6 +68,7 @@ public class MovingHookTile extends Entity {
 		mSprite.drawFrame(buffer, mFrameCounter / 12, x, y);
 	}
 
+	@Override
 	public boolean isHookable()
 	{
 		return true;

@@ -19,6 +19,7 @@ public class Sample {
 	private static final int FILTER_TAPS = 1 << LOG2_FILTER_TAPS;
 	private static final int DELAY = FILTER_TAPS / 2;
 	private static final int LOG2_TABLE_ACCURACY = 4;
+	@SuppressWarnings("unused")
 	private static final int TABLE_ACCURACY = 1 << LOG2_TABLE_ACCURACY;
 	private static final int TABLE_INTERP_SHIFT = FP_SHIFT - LOG2_TABLE_ACCURACY;
 	private static final int TABLE_INTERP_ONE = 1 << TABLE_INTERP_SHIFT;

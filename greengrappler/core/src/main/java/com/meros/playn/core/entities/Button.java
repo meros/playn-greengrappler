@@ -22,6 +22,7 @@ public class Button extends Entity {
 		setSize(new float2(10, 10));
 	}
 
+	@Override
 	public void update()
 	{
 		myCounter++;
@@ -56,6 +57,7 @@ public class Button extends Entity {
 		}
 	}
 
+	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer )
 	{
 		int x = getDrawPositionX() + offsetX;
@@ -71,6 +73,7 @@ public class Button extends Entity {
 		//Entity::draw(buffer, offsetX, offsetY, layer);
 	}
 
+	@Override
 	public void onRespawn()
 	{
 		mTriggered = false;
