@@ -2,7 +2,6 @@ package com.meros.playn.core;
 
 import playn.core.Image;
 import playn.core.Pattern;
-import playn.core.PlayN;
 
 public class Tile {
 

@@ -1,7 +1,6 @@
 package com.meros.playn.core;
 
 import playn.core.CanvasImage;
-import playn.core.Image;
 import playn.core.PlayN;
 import playn.core.Surface;
 

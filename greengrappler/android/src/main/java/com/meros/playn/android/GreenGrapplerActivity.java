@@ -1,5 +1,7 @@
 package com.meros.playn.android;
 
+import java.io.IOException;
+
 import playn.android.GameActivity;
 import playn.core.PlayN;
 
@@ -17,15 +19,11 @@ public class GreenGrapplerActivity extends GameActivity {
 
 			@Override
 			public AbstractSong getSong(String resource) {
-				
-				return null;
-//				try {
-//					return new Song(getClass().getClassLoader().getResourceAsStream("com/meros/playn/resources/" + resource));
-//				} catch (LineUnavailableException e) {
-//					return null;
-//				} catch (IOException e) {
-//					return null;
-//				}
+				try {
+					return new Song(getClass().getClassLoader().getResourceAsStream("com/meros/playn/resources/" + resource));
+				} catch (IOException e) {
+					return null;
+				}
 			}
 		});
 		

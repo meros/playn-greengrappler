@@ -5,7 +5,6 @@ import static playn.core.PlayN.log;
 import playn.core.Game;
 import playn.core.ImageLayer;
 import playn.core.ImmediateLayer;
-import playn.core.ImmediateLayer.Clipped;
 import playn.core.ImmediateLayer.Renderer;
 import playn.core.PlayN;
 import playn.core.Surface;
