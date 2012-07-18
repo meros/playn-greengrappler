@@ -50,7 +50,7 @@ public class Dialogue extends Entity {
 			addLine(portrait, line.substring(1));
 		}
 
-		setSize(new float2(10, 10 * 200));
+		setSize(new ImmutableFloatPair(10, 10 * 200));
 	}
 
 	private void addLine(CharacterPortrait aPortrait, String aLine) {

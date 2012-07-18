@@ -12,7 +12,7 @@ import com.meros.playn.core.Resource;
 import com.meros.playn.core.Room;
 import com.meros.playn.core.Sound;
 import com.meros.playn.core.UtilMethods;
-import com.meros.playn.core.float2;
+import com.meros.playn.core.ImmutableFloatPair;
 
 public class Coin extends Entity {
 
@@ -29,12 +29,12 @@ public class Coin extends Entity {
 	Type myType = Type.STATIC;
 
 	public static void SpawnDeathCoins(int aNumberOfCoins,
-			float2 aCenterPosition, int aLifeTime, Room aRoom) {
+			ImmutableFloatPair aCenterPosition, int aLifeTime, Room aRoom) {
 		for (int i = 0; i < aNumberOfCoins; i++) {
 
-			float2 velocity = UtilMethods.sincos(3.1415 * (i + 1)
+			ImmutableFloatPair velocity = UtilMethods.sincos(3.1415 * (i + 1)
 					/ (aNumberOfCoins + 1));
-			velocity = new float2(velocity.x * 100, velocity.y * -200);
+			velocity = new ImmutableFloatPair(velocity.x * 100, velocity.y * -200);
 
 			Coin coin = new Coin();
 			coin.setLifeTime(aLifeTime);
@@ -47,16 +47,16 @@ public class Coin extends Entity {
 
 	public Coin() {
 		myAnimationCoin = Resource.getAnimation("data/images/coin.bmp", 4);
-		setSize(new float2(12, 12));
+		setSize(new ImmutableFloatPair(12, 12));
 	}
 
 	@Override
 	public void draw(Surface aBuffer, int aOffsetX, int aOffsetY, int aLayer) {
-		float2 pos = getPosition();
-		pos = pos.subtract(new float2(myAnimationCoin.getFrameWidth(),
+		ImmutableFloatPair pos = getPosition();
+		pos = pos.subtract(new ImmutableFloatPair(myAnimationCoin.getFrameWidth(),
 				myAnimationCoin.getFrameHeight()).divide(2));
 
-		pos = pos.add(new float2(aOffsetX, aOffsetY));
+		pos = pos.add(new ImmutableFloatPair(aOffsetX, aOffsetY));
 
 		if (!myTemporary || (myLifeTime / 10) % 2 == 0) {
 			if (myFrame > 180) {
@@ -97,7 +97,7 @@ public class Coin extends Entity {
 			if (myTemporary && myLifeTime == 0) {
 				remove();
 			} else {
-				mVelocity = mVelocity.add(new float2(0.0f, 6.0f));
+				mVelocity = mVelocity.add(new ImmutableFloatPair(0.0f, 6.0f));
 
 				EnumSet<Direction> bumps = moveWithCollision();
 
@@ -107,7 +107,7 @@ public class Coin extends Entity {
 						Sound.playSample("data/sounds/coin");
 					}
 
-					mVelocity = new float2(mVelocity.x * -0.5f, mVelocity.y);
+					mVelocity = new ImmutableFloatPair(mVelocity.x * -0.5f, mVelocity.y);
 				}
 
 				if (bumps.contains(Direction.UP)
@@ -116,7 +116,7 @@ public class Coin extends Entity {
 						Sound.playSample("data/sounds/coin");
 					}
 
-					mVelocity = new float2(mVelocity.x, mVelocity.y*-0.2f);
+					mVelocity = new ImmutableFloatPair(mVelocity.x, mVelocity.y*-0.2f);
 				}
 
 				myLifeTime--;

@@ -4,7 +4,7 @@ import playn.core.Surface;
 
 import com.meros.playn.core.CollisionRect;
 import com.meros.playn.core.Entity;
-import com.meros.playn.core.float2;
+import com.meros.playn.core.ImmutableFloatPair;
 
 public class BossFloor extends Entity {
 
@@ -13,7 +13,7 @@ public class BossFloor extends Entity {
 	
 	public BossFloor()
 	{
-		setSize(new float2(320, 10));
+		setSize(new ImmutableFloatPair(320, 10));
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class BossFloor extends Entity {
 	public CollisionRect getCollisionRect()
 	{
 		CollisionRect rect = super.getCollisionRect();
-		rect.myTopLeft = rect.myTopLeft.subtract(new float2(0.0f,1.0f));
+		rect.myTopLeft = rect.myTopLeft.subtract(new ImmutableFloatPair(0.0f,1.0f));
 		return rect;
 	}
 

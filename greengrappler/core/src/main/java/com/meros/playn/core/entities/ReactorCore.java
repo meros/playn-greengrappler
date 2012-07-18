@@ -9,7 +9,7 @@ import com.meros.playn.core.Constants.Direction;
 import com.meros.playn.core.Entity;
 import com.meros.playn.core.PlayerSkill;
 import com.meros.playn.core.Resource;
-import com.meros.playn.core.float2;
+import com.meros.playn.core.ImmutableFloatPair;
 
 public class ReactorCore extends Entity {
 
@@ -17,16 +17,16 @@ public class ReactorCore extends Entity {
 	int mFrame = 0;
 
 	public ReactorCore() {
-		setSize(new float2(30, 30));
+		setSize(new ImmutableFloatPair(30, 30));
 	}
 
 	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer) {
 		// Entity::draw(buffer, offsetX, offsetY, layer);
-		float2 pos = getPosition();
-		pos = pos.subtract(new float2(mAnimation.getFrameWidth(), mAnimation
+		ImmutableFloatPair pos = getPosition();
+		pos = pos.subtract(new ImmutableFloatPair(mAnimation.getFrameWidth(), mAnimation
 				.getFrameHeight()).divide(2));
-		pos = pos.add(new float2(offsetX, offsetY));
+		pos = pos.add(new ImmutableFloatPair(offsetX, offsetY));
 
 		mAnimation.drawFrame(buffer, mFrame / 5, (int) pos.x, (int) pos.y);
 	}
@@ -40,12 +40,12 @@ public class ReactorCore extends Entity {
 	public void update() {
 		Hero hero = mRoom.getHero();
 
-		mVelocity = new float2(0, mVelocity.y + 6.0f);
+		mVelocity = new ImmutableFloatPair(0, mVelocity.y + 6.0f);
 
 		EnumSet<Direction> bumps = moveWithCollision();
 
 		if (bumps.contains(Direction.UP) || bumps.contains(Direction.DOWN)) {
-			mVelocity = new float2(mVelocity.x, mVelocity.y*0.8f);
+			mVelocity = new ImmutableFloatPair(mVelocity.x, mVelocity.y*0.8f);
 		}
 
 		if (hero.Collides(this)) {

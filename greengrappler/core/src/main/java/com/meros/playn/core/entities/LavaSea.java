@@ -8,7 +8,7 @@ import com.meros.playn.core.Animation;
 import com.meros.playn.core.CollisionRect;
 import com.meros.playn.core.Entity;
 import com.meros.playn.core.Resource;
-import com.meros.playn.core.float2;
+import com.meros.playn.core.ImmutableFloatPair;
 
 public class LavaSea extends Entity {
 
@@ -51,7 +51,7 @@ public class LavaSea extends Entity {
 				1,
 				50,
 				10,
-				new float2(0, -30),
+				new ImmutableFloatPair(0, -30),
 				5.0f);
 			
 			Random random = new Random();
@@ -60,7 +60,7 @@ public class LavaSea extends Entity {
 			int max = (int) (320-mRoom.getCamera().getOffset().x);
 			int rVal = random.nextInt(max-min)+min;
 			
-			float2 pos = new float2(rVal, getCurrentY());
+			ImmutableFloatPair pos = new ImmutableFloatPair(rVal, getCurrentY());
 			particleSystem.setPosition(pos, 5, false);
 
 			mRoom.addEntity(particleSystem);
@@ -91,8 +91,8 @@ public class LavaSea extends Entity {
 	public CollisionRect getCollisionRect()
 	{
 		CollisionRect rect = new CollisionRect();
-		rect.myTopLeft = new float2(0, getCurrentY());
-		rect.myBottomRight = new float2(10000000, 10000000);
+		rect.myTopLeft = new ImmutableFloatPair(0, getCurrentY());
+		rect.myBottomRight = new ImmutableFloatPair(10000000, 10000000);
 
 		return rect;
 	}

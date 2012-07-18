@@ -16,7 +16,7 @@ import com.meros.playn.core.Room;
 import com.meros.playn.core.Sound;
 import com.meros.playn.core.Time;
 import com.meros.playn.core.UtilMethods;
-import com.meros.playn.core.float2;
+import com.meros.playn.core.ImmutableFloatPair;
 
 public class Hero extends Entity {
 
@@ -61,30 +61,30 @@ public class Hero extends Entity {
 	Direction mFacingDirection = Direction.RIGHT;
 	int mFrame = 0;
 	Entity mHookedEntity = null;
-	float2 mHookedEntityOffset = new float2();
+	ImmutableFloatPair mHookedEntityOffset = new ImmutableFloatPair();
 	boolean mJumpHeld = false;
 	boolean mJumpPrepressed = false;
 	MovementState mMovementState = MovementState.Still;
 	boolean mOnGround = false;
 	int mRopeDissapearCounter = 0;
 	int mRopeMaxLenghth = 180;
-	float2 mRopePosition = new float2();
+	ImmutableFloatPair mRopePosition = new ImmutableFloatPair();
 	RopeState mRopeState = RopeState.Retracted;
 
-	float2 mRopeVelocity = new float2();
+	ImmutableFloatPair mRopeVelocity = new ImmutableFloatPair();
 
-	float2 mySpawnPoint = new float2(-200, -200);
+	ImmutableFloatPair mySpawnPoint = new ImmutableFloatPair(-200, -200);
 
 	boolean myImortal = false;
 	boolean myIsDead = false;
 
 	public Hero() {
-		setSize(new float2(10.0f, 15.0f));
+		setSize(new ImmutableFloatPair(10.0f, 15.0f));
 	}
 
-	private float2 adjustRopeDirection(float2 aRopeDirection) {
+	private ImmutableFloatPair adjustRopeDirection(ImmutableFloatPair aRopeDirection) {
 		float bestScore = 0;
-		float2 bestDirection = aRopeDirection;
+		ImmutableFloatPair bestDirection = aRopeDirection;
 
 		for (int y = 0; y < mRoom.getHeightInTiles(); y++) {
 			for (int x = 0; x < mRoom.getWidthInTiles(); x++) {
@@ -93,11 +93,11 @@ public class Hero extends Entity {
 							+ mRoom.getTileWidth() / 2;
 					float pixelY = y * mRoom.getTileHeight()
 							+ mRoom.getTileHeight() / 2;
-					float2 tilePos = new float2(pixelX, pixelY);
+					ImmutableFloatPair tilePos = new ImmutableFloatPair(pixelX, pixelY);
 					float score = getAutoAimScore(aRopeDirection, tilePos);
 
 					if (score > bestScore) {
-						float2 direction = tilePos.subtract(getPosition());
+						ImmutableFloatPair direction = tilePos.subtract(getPosition());
 						Room.OutInt rcX = mRoom.new OutInt();
 						Room.OutInt rcY = mRoom.new OutInt();
 						boolean rcHit = mRoom.rayCast(getPosition(), direction,
@@ -115,15 +115,15 @@ public class Hero extends Entity {
 			if (!e.isDamagable() && !e.isHookable())
 				continue;
 			
-			float2 entityPos = e.getPosition();
+			ImmutableFloatPair entityPos = e.getPosition();
 			float score = getAutoAimScore(aRopeDirection, entityPos);
 
 			if (score > bestScore) {
-				float2 direction = entityPos.subtract(getPosition());
+				ImmutableFloatPair direction = entityPos.subtract(getPosition());
 				Room.OutInt rcX = mRoom.new OutInt();
 				Room.OutInt rcY = mRoom.new OutInt();
 				boolean rcHit = mRoom.rayCast(getPosition(), direction, false, rcX, rcY);
-				float2 rcTilePos = new float2(rcX.myInt * mRoom.getTileWidth()
+				ImmutableFloatPair rcTilePos = new ImmutableFloatPair(rcX.myInt * mRoom.getTileWidth()
 						+ mRoom.getTileWidth() / 2, rcY.myInt
 						* mRoom.getTileHeight() + mRoom.getTileHeight() / 2);
 
@@ -204,7 +204,7 @@ public class Hero extends Entity {
 			int x1 = (int) (mRopePosition.x + 0.5f) + offsetX;
 			int y1 = (int) (mRopePosition.y + 0.5f) + offsetY;
 
-			float2 line = new float2(x2 - x1, y2 - y1);
+			ImmutableFloatPair line = new ImmutableFloatPair(x2 - x1, y2 - y1);
 			int rlength = (int) line.length();
 			line = line.divide(line.length());
 			line = line.multiply(3);
@@ -215,14 +215,14 @@ public class Hero extends Entity {
 			int segments = (int) Math.ceil(rlength / line.length());
 
 			for (int i = 0; i < segments; i++) {
-				float2 wave = new float2();
+				ImmutableFloatPair wave = new ImmutableFloatPair();
 
 				if ((mRopeState == RopeState.Moving || mRopeState == RopeState.Dissapearing)
 						&& segments > 1) {
 					float t = i / (float) (segments - 1);
 					float value = (float) (Math.sin(t * 3.141592) * Math
 							.sin(i * 0.3f));
-					wave = new float2(line.y, -line.x).multiply(value);
+					wave = new ImmutableFloatPair(line.y, -line.x).multiply(value);
 				}
 
 				mAnimationRope
@@ -255,8 +255,8 @@ public class Hero extends Entity {
 		}
 	}
 
-	private float getAutoAimScore(float2 aRopeDirection, float2 aAutoAimPos) {
-		float2 playerToTile = aAutoAimPos.subtract(getPosition());
+	private float getAutoAimScore(ImmutableFloatPair aRopeDirection, ImmutableFloatPair aAutoAimPos) {
+		ImmutableFloatPair playerToTile = aAutoAimPos.subtract(getPosition());
 		float dotValue = aRopeDirection.dot(playerToTile);
 		if (dotValue < 0) {
 			return -1;
@@ -274,7 +274,7 @@ public class Hero extends Entity {
 		return 2;
 	}
 
-	public float2 getRopePosition() {
+	public ImmutableFloatPair getRopePosition() {
 		return mRopePosition;
 	}
 
@@ -342,7 +342,7 @@ public class Hero extends Entity {
 
 	public void respawn() {
 		setPosition(mySpawnPoint);
-		setVelocity(new float2(0, 0));
+		setVelocity(new ImmutableFloatPair(0, 0));
 		myIsDead = false;
 		GameState.put("coins", 0);
 		mOnGround = false;
@@ -379,7 +379,7 @@ public class Hero extends Entity {
 		boolean airRunning = false;
 
 		if (Input.isHeld(Buttons.Left)) {
-			mVelocity = mVelocity.subtract(new float2(acceleration, 0));;
+			mVelocity = mVelocity.subtract(new ImmutableFloatPair(acceleration, 0));;
 
 			if (mRopeState == RopeState.Attached && !mOnGround) {
 				mFacingDirection = Direction.LEFT;
@@ -389,7 +389,7 @@ public class Hero extends Entity {
 		}
 
 		if (Input.isHeld(Buttons.Right)) {
-			mVelocity = mVelocity.add(new float2(acceleration, 0));;
+			mVelocity = mVelocity.add(new ImmutableFloatPair(acceleration, 0));;
 
 			if (mRopeState == RopeState.Attached && !mOnGround) {
 				mFacingDirection = Direction.RIGHT;
@@ -405,7 +405,7 @@ public class Hero extends Entity {
 		}
 
 		if (mOnGround && mJumpPrepressed) {
-			mVelocity = mVelocity.subtract(new float2(0, JUMP_VELOCITY));
+			mVelocity = mVelocity.subtract(new ImmutableFloatPair(0, JUMP_VELOCITY));
 
 			if (mRopeState != RopeState.Attached) {
 				mJumpHeld = true;
@@ -415,7 +415,7 @@ public class Hero extends Entity {
 
 		if (Input.isReleased(Buttons.Jump)) {
 			if (mJumpHeld && mVelocity.y < 0) {
-				mVelocity = new float2(mVelocity.x, mVelocity.y*0.5f);
+				mVelocity = new ImmutableFloatPair(mVelocity.x, mVelocity.y*0.5f);
 			}
 
 			mJumpHeld = false;
@@ -452,33 +452,33 @@ public class Hero extends Entity {
 		}
 
 		if (mMovementState == MovementState.Still) {
-			mVelocity = new float2(0, mVelocity.y);
+			mVelocity = new ImmutableFloatPair(0, mVelocity.y);
 		}
 
 		if (Input.isPressed(Buttons.Fire)) {
 			Sound.playSample("data/sounds/rope");
 			mRopeState = RopeState.Moving;
 			mRopePosition = getPosition();
-			mRopeVelocity = new float2();
+			mRopeVelocity = new ImmutableFloatPair();
 
 			if (Input.isHeld(Buttons.Left)) {
-				mRopeVelocity = mRopeVelocity.subtract(new float2(1, 0));
+				mRopeVelocity = mRopeVelocity.subtract(new ImmutableFloatPair(1, 0));
 			}
 
 			if (Input.isHeld(Buttons.Right)) {
-				mRopeVelocity = mRopeVelocity.add(new float2(1, 0));
+				mRopeVelocity = mRopeVelocity.add(new ImmutableFloatPair(1, 0));
 			}
 
 			if (Input.isHeld(Buttons.Up)) {
-				mRopeVelocity = mRopeVelocity.subtract(new float2(0, 1));
+				mRopeVelocity = mRopeVelocity.subtract(new ImmutableFloatPair(0, 1));
 			}
 
 			if (Input.isHeld(Buttons.Down)) {
-				mRopeVelocity = mRopeVelocity.add(new float2(0, 1));
+				mRopeVelocity = mRopeVelocity.add(new ImmutableFloatPair(0, 1));
 			}
 
 			if (mRopeVelocity.isZero()) {
-				mRopeVelocity = new float2((mFacingDirection == Direction.LEFT ? -1 : 1), mRopeVelocity.y);
+				mRopeVelocity = new ImmutableFloatPair((mFacingDirection == Direction.LEFT ? -1 : 1), mRopeVelocity.y);
 			}
 
 			mRopeVelocity = adjustRopeDirection(
@@ -540,7 +540,7 @@ public class Hero extends Entity {
 					mJumpHeld = false;
 					mHookedEntityOffset = mRopePosition.subtract(mHookedEntity
 							.getPosition());
-					mHookedEntityOffset = new float2(
+					mHookedEntityOffset = new ImmutableFloatPair(
 							(float) Math
 							.floor(mHookedEntityOffset.x), 
 							(float) Math
@@ -555,12 +555,12 @@ public class Hero extends Entity {
 						mHookedEntityOffset);
 			}
 
-			float2 ropeToHero = getPosition().subtract(mRopePosition);
+			ImmutableFloatPair ropeToHero = getPosition().subtract(mRopePosition);
 			if (ropeToHero.lengthCompare(ROPE_REST_LENGTH) > 0) {
-				float2 ropeRestPoint = mRopePosition.add(ropeToHero.normalize()
+				ImmutableFloatPair ropeRestPoint = mRopePosition.add(ropeToHero.normalize()
 						.multiply(ROPE_REST_LENGTH));
-				float2 heroToRestPoint = ropeRestPoint.subtract(getPosition());
-				float2 ropeAcceleration = heroToRestPoint
+				ImmutableFloatPair heroToRestPoint = ropeRestPoint.subtract(getPosition());
+				ImmutableFloatPair ropeAcceleration = heroToRestPoint
 						.multiply(ROPE_SPRING_CONSTANT);
 				if (ropeAcceleration.lengthCompare(ROPE_MAX_ACCELERATION) > 0) {
 					ropeAcceleration = ropeAcceleration.normalize().multiply(
@@ -570,11 +570,11 @@ public class Hero extends Entity {
 			}
 
 			if (Input.isHeld(Buttons.Up)) {
-				mVelocity = mVelocity.subtract(new float2(0, acceleration));
+				mVelocity = mVelocity.subtract(new ImmutableFloatPair(0, acceleration));
 			}
 
 			if (Input.isHeld(Buttons.Down)) {
-				mVelocity = mVelocity.add(new float2(0, acceleration));
+				mVelocity = mVelocity.add(new ImmutableFloatPair(0, acceleration));
 			}
 
 			int ropeTileX = (int) (mRopePosition.x / mRoom.getTileWidth());
@@ -588,15 +588,15 @@ public class Hero extends Entity {
 		EnumSet<Direction> bumps = moveWithCollision();
 
 		if (bumps.contains(Direction.LEFT) || bumps.contains(Direction.RIGHT)) {
-			mVelocity = new float2(0, mVelocity.y);
+			mVelocity = new ImmutableFloatPair(0, mVelocity.y);
 		}
 
 		if (bumps.contains(Direction.UP) || bumps.contains(Direction.DOWN)) {
-			mVelocity = new float2(mVelocity.x, 0);
+			mVelocity = new ImmutableFloatPair(mVelocity.x, 0);
 		}
 
 		float gravity = mJumpHeld ? JUMP_GRAVITY : GRAVITY;
-		mVelocity = mVelocity.add(new float2(0, gravity));
+		mVelocity = mVelocity.add(new ImmutableFloatPair(0, gravity));
 		boolean ground = bumps.contains(Direction.DOWN);
 		if (ground && !mOnGround && mRopeState != RopeState.Attached) {
 			Sound.playSample("data/sounds/land");
@@ -613,7 +613,7 @@ public class Hero extends Entity {
 		}
 	}
 
-	public void setLastSpawnPoint(float2 aSpawnPoint) {
+	public void setLastSpawnPoint(ImmutableFloatPair aSpawnPoint) {
 		mySpawnPoint = aSpawnPoint;
 	}
 
@@ -623,8 +623,8 @@ public class Hero extends Entity {
 
 	public CollisionRect getHookCollisionRect() {
 		CollisionRect rect = new CollisionRect();
-		rect.myTopLeft = mRopePosition.subtract(new float2(2,2));
-		rect.myBottomRight = mRopePosition.add(new float2(2,2));
+		rect.myTopLeft = mRopePosition.subtract(new ImmutableFloatPair(2,2));
+		rect.myBottomRight = mRopePosition.add(new ImmutableFloatPair(2,2));
 		return rect;
 	}
 

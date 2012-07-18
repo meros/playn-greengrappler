@@ -8,19 +8,19 @@ import com.meros.playn.core.Animation;
 import com.meros.playn.core.Constants.Direction;
 import com.meros.playn.core.Entity;
 import com.meros.playn.core.Room;
-import com.meros.playn.core.float2;
+import com.meros.playn.core.ImmutableFloatPair;
 
 public class MovingHookTile extends Entity {
 
 	private Animation mSprite = new Animation("data/images/movinghooktile.bmp", 2);
 	private boolean hasHook = false;
-	private float2 mInitialPosition;
-	private float2 mInitialVelocity;
+	private ImmutableFloatPair mInitialPosition;
+	private ImmutableFloatPair mInitialVelocity;
 	
 	public MovingHookTile()
 	{
-		setSize(new float2(mSprite.getFrameHeight(), mSprite.getFrameHeight()));
-		mVelocity = new float2(20.0f, 0.0f);
+		setSize(new ImmutableFloatPair(mSprite.getFrameHeight(), mSprite.getFrameHeight()));
+		mVelocity = new ImmutableFloatPair(20.0f, 0.0f);
 	}
 
 	@Override
@@ -47,16 +47,16 @@ public class MovingHookTile extends Entity {
 		hasHook = (mRoom.getHero().getHookedEntity() == this);
 
 		if (hasHook) {
-			mVelocity = new float2((mVelocity.x > 0) ? 40.0f : -40.0f, mVelocity.y);
+			mVelocity = new ImmutableFloatPair((mVelocity.x > 0) ? 40.0f : -40.0f, mVelocity.y);
 			mFrameCounter++;
 		} else {
-			mVelocity = new float2((mVelocity.x > 0) ? 20.0f : -20.0f, mVelocity.y);
+			mVelocity = new ImmutableFloatPair((mVelocity.x > 0) ? 20.0f : -20.0f, mVelocity.y);
 		}
 
 		EnumSet<Direction> bumps = moveWithCollision();
 
 		if (bumps.contains(Direction.LEFT) || bumps.contains(Direction.RIGHT)) {
-			mVelocity = new float2(-mVelocity.x, mVelocity.y);
+			mVelocity = new ImmutableFloatPair(-mVelocity.x, mVelocity.y);
 		}
 	}
 

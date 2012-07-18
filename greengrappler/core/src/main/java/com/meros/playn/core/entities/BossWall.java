@@ -7,7 +7,7 @@ import com.meros.playn.core.Constants.Direction;
 import com.meros.playn.core.Entity;
 import com.meros.playn.core.Resource;
 import com.meros.playn.core.Room;
-import com.meros.playn.core.float2;
+import com.meros.playn.core.ImmutableFloatPair;
 
 public class BossWall extends Entity {
 
@@ -19,7 +19,7 @@ public class BossWall extends Entity {
 	public BossWall(Direction aDirection)
 	{
 		myDirection = aDirection;
-		setSize(new float2(10, 100));
+		setSize(new ImmutableFloatPair(10, 100));
 	}
 	
 	@Override
@@ -48,42 +48,42 @@ public class BossWall extends Entity {
 		if (myDirection == Direction.RIGHT && myFrameCounter % 200 == 0)
 		{
 			BossSaw saw = new BossSaw(myDirection);
-			saw.setPosition(new float2(getPosition().x, getPosition().y + getHalfSize().y - 10));
+			saw.setPosition(new ImmutableFloatPair(getPosition().x, getPosition().y + getHalfSize().y - 10));
 			mRoom.addEntity(saw);
 		}
 
 		if (myDirection == Direction.RIGHT && (100 + myFrameCounter) % 200 == 0)
 		{
 			BossSaw saw = new BossSaw(myDirection);
-			saw.setPosition(new float2(getPosition().x, getPosition().y + getHalfSize().y - 30));
+			saw.setPosition(new ImmutableFloatPair(getPosition().x, getPosition().y + getHalfSize().y - 30));
 			mRoom.addEntity(saw);
 		}
 
 		if (myDirection == Direction.RIGHT && (180 + myFrameCounter) % 200 == 0)
 		{
 			BossSaw saw = new BossSaw(myDirection);
-			saw.setPosition(new float2(getPosition().x, getPosition().y  + getHalfSize().y - 50));
+			saw.setPosition(new ImmutableFloatPair(getPosition().x, getPosition().y  + getHalfSize().y - 50));
 			mRoom.addEntity(saw);
 		}
 
 		if (myDirection == Direction.LEFT && myFrameCounter % 350 == 0)
 		{
 			BossSaw saw = new BossSaw(myDirection);
-			saw.setPosition(new float2(getPosition().x, getPosition().y + getHalfSize().y - 10));
+			saw.setPosition(new ImmutableFloatPair(getPosition().x, getPosition().y + getHalfSize().y - 10));
 			mRoom.addEntity(saw);
 		}
 
 		if (myDirection == Direction.LEFT && (100 + myFrameCounter) % 350 == 0)
 		{
 			BossSaw saw = new BossSaw(myDirection);
-			saw.setPosition(new float2(getPosition().x, getPosition().y + getHalfSize().y - 30));
+			saw.setPosition(new ImmutableFloatPair(getPosition().x, getPosition().y + getHalfSize().y - 30));
 			mRoom.addEntity(saw);
 		}
 
 		if (myDirection == Direction.LEFT && (300 + myFrameCounter) % 350 == 0)
 		{
 			BossSaw saw = new BossSaw(myDirection);
-			saw.setPosition(new float2(getPosition().x, getPosition().y + getHalfSize().y - 50));
+			saw.setPosition(new ImmutableFloatPair(getPosition().x, getPosition().y + getHalfSize().y - 50));
 			mRoom.addEntity(saw);
 		}
 

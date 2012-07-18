@@ -43,11 +43,11 @@ public class Boss extends Entity {
 	private Animation myReactor = Resource.getAnimation("data/images/reactor_shell.bmp", 4);
 	private Animation myBoss = Resource.getAnimation("data/images/boss.bmp", 4);
 	private int myFrameCounter = 0;
-	private float2 myOriginalPos;
+	private ImmutableFloatPair myOriginalPos;
 
 	public Boss()
 	{
-		setSize(new float2(30, 40));
+		setSize(new ImmutableFloatPair(30, 40));
 
 
 	}
@@ -101,7 +101,7 @@ public class Boss extends Entity {
 			{
 				Sound.playSample("data/sounds/reactor_explosion");
 				Sound.playSample("data/sounds/start");
-				ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 20, 200, 20, 1, 50, 50, new float2(0.0f, -150.0f), 5.0f);
+				ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 20, 200, 20, 1, 50, 50, new ImmutableFloatPair(0.0f, -150.0f), 5.0f);
 				ps.setPosition(getPosition(), 10.0f, false);
 				mRoom.addEntity(ps);
 				myFrameCounter = 0;
@@ -123,7 +123,7 @@ public class Boss extends Entity {
 
 		if (myState == State.MOVE_UPWARDS)
 		{
-			setPosition(getPosition().add(new float2(0, -1)));
+			setPosition(getPosition().add(new ImmutableFloatPair(0, -1)));
 			if (myOriginalPos.y - getPosition().y > 130)
 			{
 				myState = State.FLOAT;
@@ -137,7 +137,7 @@ public class Boss extends Entity {
 			float y =  (float) (Math.sin(myFrameCounter / 8) * 2.0f);
 			if (myDirection == Direction.RIGHT)
 			{
-				setPosition(getPosition().add(new float2(1.5f, y)));
+				setPosition(getPosition().add(new ImmutableFloatPair(1.5f, y)));
 				if (getPosition().x  - myOriginalPos.x > 110)
 					myDirection = Direction.LEFT;
 
@@ -145,7 +145,7 @@ public class Boss extends Entity {
 
 			if (myDirection == Direction.LEFT)
 			{
-				setPosition(getPosition().add(new float2(-1.5f, y)));
+				setPosition(getPosition().add(new ImmutableFloatPair(-1.5f, y)));
 				if (myOriginalPos.x - getPosition().x > 110)
 					myDirection = Direction.RIGHT;
 			}
@@ -162,22 +162,22 @@ public class Boss extends Entity {
 			if (myFrameCounter < 40)
 			{
 				if (myFrameCounter % 2 == 0)
-					setPosition(getPosition().add(new float2(-2, 0)));
+					setPosition(getPosition().add(new ImmutableFloatPair(-2, 0)));
 				else 
-					setPosition(getPosition().add(new float2(2, 0)));
+					setPosition(getPosition().add(new ImmutableFloatPair(2, 0)));
 			}
 			else
 			{
-				setPosition(getPosition().add(new float2(0, 6.0f)));
+				setPosition(getPosition().add(new ImmutableFloatPair(0, 6.0f)));
 				if (myOriginalPos.y < getPosition().y)
 				{
 					mRoom.broadcastBoosWallDectivate();
-					setPosition(new float2(getPosition().x, myOriginalPos.y));
+					setPosition(new ImmutableFloatPair(getPosition().x, myOriginalPos.y));
 					myState = State.VULNERABLE;
 					mRoom.getCamera().addShake(5.0f, 80);
 					
 					int numPs = random.nextInt() % 10 + 5;
-					ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 10, 40, 10, 1, 50, numPs, new float2(0.0f, -20.0f), 2.0f);
+					ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 10, 40, 10, 1, 50, numPs, new ImmutableFloatPair(0.0f, -20.0f), 2.0f);
 					ps.setPosition(getPosition(), 10.0f, false);
 					mRoom.addEntity(ps);
 					mRoom.broadcastBoosFloorActivate();
@@ -206,12 +206,12 @@ public class Boss extends Entity {
 			{
 				Sound.playSample("data/sounds/reactor_explosion");
 				Sound.playSample("data/sounds/start");
-				ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 20, 200, 20, 1, 50, 50, new float2(0.0f, -150.0f), 5.0f);
+				ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 20, 200, 20, 1, 50, 50, new ImmutableFloatPair(0.0f, -150.0f), 5.0f);
 				ps.setPosition(getPosition(), 10.0f, false);
 				mRoom.addEntity(ps);
 				ReactorCore core = new ReactorCore();
 				core.setPosition(getPosition());
-				core.setVelocity(new float2(0, -50));
+				core.setVelocity(new ImmutableFloatPair(0, -50));
 				mRoom.addEntity(core);
 				remove();
 			}
@@ -249,7 +249,7 @@ public class Boss extends Entity {
 		if (myState == State.SLEEPING)
 		{
 			int numPs = random.nextInt() % 5 + 1;
-			ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 10, 40, 10, 1, 50, numPs, new float2(0.0f, -20.0f), 2.0f);
+			ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 10, 40, 10, 1, 50, numPs, new ImmutableFloatPair(0.0f, -20.0f), 2.0f);
 			ps.setPosition(getPosition(), 10.0f, false);
 			mRoom.addEntity(ps);
 
@@ -271,7 +271,7 @@ public class Boss extends Entity {
 		if (myState == State.VULNERABLE)
 		{
 			int numPs = random.nextInt() % 5 + 1;
-			ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 10, 40, 10, 1, 50, numPs, new float2(0.0f, -20.0f), 2.0f);
+			ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 10, 40, 10, 1, 50, numPs, new ImmutableFloatPair(0.0f, -20.0f), 2.0f);
 			ps.setPosition(getPosition(), 10.0f, false);
 			mRoom.addEntity(ps);
 
@@ -296,8 +296,8 @@ public class Boss extends Entity {
 	public CollisionRect getCollisionRect()
 	{
 		CollisionRect rect = new CollisionRect();
-		rect.myTopLeft = getPosition().subtract(getHalfSize()).subtract(new float2(2,2));
-		rect.myBottomRight = getPosition().add(getHalfSize()).add(new float2(2,2));
+		rect.myTopLeft = getPosition().subtract(getHalfSize()).subtract(new ImmutableFloatPair(2,2));
+		rect.myBottomRight = getPosition().add(getHalfSize()).add(new ImmutableFloatPair(2,2));
 		return rect;
 	}
 

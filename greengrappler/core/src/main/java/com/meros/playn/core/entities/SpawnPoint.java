@@ -6,7 +6,7 @@ import com.meros.playn.core.Animation;
 import com.meros.playn.core.Entity;
 import com.meros.playn.core.PlayerSkill;
 import com.meros.playn.core.Resource;
-import com.meros.playn.core.float2;
+import com.meros.playn.core.ImmutableFloatPair;
 
 public class SpawnPoint extends Entity {
 	
@@ -57,15 +57,15 @@ public class SpawnPoint extends Entity {
 
 	public SpawnPoint()
 	{
-		setSize(new float2(22,25));
+		setSize(new ImmutableFloatPair(22,25));
 	}
 
 	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer )
 	{
-		float2 pos = getPosition()
-				.subtract(new float2(myAnimation.getFrameWidth(), myAnimation.getFrameHeight()).divide(2))
-				.add(new float2(offsetX, offsetY));
+		ImmutableFloatPair pos = getPosition()
+				.subtract(new ImmutableFloatPair(myAnimation.getFrameWidth(), myAnimation.getFrameHeight()).divide(2))
+				.add(new ImmutableFloatPair(offsetX, offsetY));
 
 		myAnimation.drawFrame(buffer, myState.value, (int)pos.x, (int)pos.y);
 	}

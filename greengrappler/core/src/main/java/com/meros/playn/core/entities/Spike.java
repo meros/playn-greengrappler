@@ -5,19 +5,19 @@ import playn.core.Surface;
 
 import com.meros.playn.core.Entity;
 import com.meros.playn.core.Resource;
-import com.meros.playn.core.float2;
+import com.meros.playn.core.ImmutableFloatPair;
 
 public class Spike extends Entity {
 
 	Image mySpikeTile = Resource.getBitmap("data/images/tileset1.bmp").subImage(70, 0, 10, 10);
 
 	public Spike() {
-		setSize(new float2(10, 10));
+		setSize(new ImmutableFloatPair(10, 10));
 	}
 
 	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer) {
-		float2 pos = getPosition().subtract(getHalfSize());
+		ImmutableFloatPair pos = getPosition().subtract(getHalfSize());
 		buffer.drawImage(mySpikeTile, offsetX + pos.x, offsetY + pos.y);
 	}
 

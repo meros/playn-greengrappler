@@ -6,7 +6,7 @@ import com.meros.playn.core.Animation;
 import com.meros.playn.core.Entity;
 import com.meros.playn.core.Resource;
 import com.meros.playn.core.Sound;
-import com.meros.playn.core.float2;
+import com.meros.playn.core.ImmutableFloatPair;
 
 public class Button extends Entity {
 
@@ -19,7 +19,7 @@ public class Button extends Entity {
 	public Button(int aId)
 	{
 		myId = aId;
-		setSize(new float2(10, 10));
+		setSize(new ImmutableFloatPair(10, 10));
 	}
 
 	@Override

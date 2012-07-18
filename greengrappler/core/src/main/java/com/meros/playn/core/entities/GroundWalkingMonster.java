@@ -11,7 +11,7 @@ import com.meros.playn.core.PlayerSkill;
 import com.meros.playn.core.Resource;
 import com.meros.playn.core.Sound;
 import com.meros.playn.core.UtilMethods;
-import com.meros.playn.core.float2;
+import com.meros.playn.core.ImmutableFloatPair;
 
 public class GroundWalkingMonster extends Entity {
 
@@ -36,15 +36,15 @@ public class GroundWalkingMonster extends Entity {
 
 	public GroundWalkingMonster(Type aType) {
 		myType = aType;
-		setSize(new float2(10, 10));
+		setSize(new ImmutableFloatPair(10, 10));
 	}
 
 	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer) {
-		float2 pos = getPosition();
-		pos = pos.subtract(new float2(myAnimation.getFrameWidth(), myAnimation
+		ImmutableFloatPair pos = getPosition();
+		pos = pos.subtract(new ImmutableFloatPair(myAnimation.getFrameWidth(), myAnimation
 				.getFrameHeight()).divide(2));
-		pos = pos.add(new float2(offsetX, offsetY));
+		pos = pos.add(new ImmutableFloatPair(offsetX, offsetY));
 
 		myAnimation.drawFrame(buffer, myFrame / 3, (int) pos.x, (int) pos.y);
 	}
@@ -58,21 +58,21 @@ public class GroundWalkingMonster extends Entity {
 	public void update() {
 		Hero hero = mRoom.getHero();
 
-		float2 vel;
+		ImmutableFloatPair vel;
 
 		float adjustedSpeed = UtilMethods.lerp(MIN_WALKING_SPEED,
 				MAX_WALKING_SPEED, PlayerSkill.get());
 
 		if (myType == Type.FLOOR || myType == Type.ROOF) {
 			if (myFacing == Facing.LEFT_UP)
-				vel = new float2(-adjustedSpeed, 0);
+				vel = new ImmutableFloatPair(-adjustedSpeed, 0);
 			else
-				vel = new float2(adjustedSpeed, 0);
+				vel = new ImmutableFloatPair(adjustedSpeed, 0);
 		} else {
 			if (myFacing == Facing.LEFT_UP)
-				vel = new float2(0, -adjustedSpeed);
+				vel = new ImmutableFloatPair(0, -adjustedSpeed);
 			else
-				vel = new float2(0, adjustedSpeed);
+				vel = new ImmutableFloatPair(0, adjustedSpeed);
 		}
 
 		setVelocity(vel);
@@ -102,7 +102,7 @@ public class GroundWalkingMonster extends Entity {
 					: -getHalfSize().y - 2);
 		}
 
-		float2 position = getPosition();
+		ImmutableFloatPair position = getPosition();
 
 		int x = (int) ((position.x + offsetX) / mRoom.getTileWidth());
 		int y = (int) ((position.y + offsetY) / mRoom.getTileHeight());

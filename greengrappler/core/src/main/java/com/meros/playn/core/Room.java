@@ -97,8 +97,8 @@ public class Room {
 	public boolean damageDone(int aX, int aY) {
 		for (Entity entity : mDamagableEntities) {
 			CollisionRect rect = new CollisionRect();
-			rect.myTopLeft = new float2(aX, aY);
-			rect.myBottomRight = new float2(aX + 1, aY + 1);
+			rect.myTopLeft = new ImmutableFloatPair(aX, aY);
+			rect.myBottomRight = new ImmutableFloatPair(aX + 1, aY + 1);
 
 			if (rect.Collides(entity.getCollisionRect())) {
 				entity.onDamage();
@@ -109,10 +109,10 @@ public class Room {
 		return false;
 	}
 
-	public Entity findHookableEntity(float2 position) {
+	public Entity findHookableEntity(ImmutableFloatPair position) {
 		for (Entity entity : mHookableEntities)
 		{
-			float2 toEntity = entity.getPosition().subtract(position);
+			ImmutableFloatPair toEntity = entity.getPosition().subtract(position);
 			if (Math.abs(toEntity.x) < entity.getHalfSize().x && Math.abs(toEntity.y) < entity.getHalfSize().y) {
 				return entity;
 			}
@@ -324,7 +324,7 @@ public class Room {
 		public int myInt;
 	}
 
-	public boolean rayCast(float2 origin, float2 direction,
+	public boolean rayCast(ImmutableFloatPair origin, ImmutableFloatPair direction,
 			boolean cullBeyondDirection, OutInt aOutX, OutInt aOutY) {
 		if (direction.isZero()) {
 			return false;
@@ -391,7 +391,7 @@ public class Room {
 		if (hit) {
 			aOutX.myInt = ix;
 			aOutY.myInt = iy;
-			float2 tileCenter = new float2(ix * getTileWidth() + getTileWidth()
+			ImmutableFloatPair tileCenter = new ImmutableFloatPair(ix * getTileWidth() + getTileWidth()
 					/ 2, iy * getTileHeight() + getTileHeight() / 2);
 			if (cullBeyondDirection
 					&& origin.subtract(tileCenter).lengthCompare(direction) > 0) {
@@ -449,11 +449,11 @@ public class Room {
 		for (int y = 0; y < myMiddleLayer.getHeight(); y++)
 		{
 			boolean spawnDebris = myMiddleLayer.getTile(aX, y).getCollide();
-			if (spawnDebris) {
-				ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 20, 100, 20, 1, 50, 3, new float2(0.0f, -50.0f), 5.0f);
-				ps.setPosition(new float2(aX * getTileWidth() + getTileWidth() * 0.75f, y * getTileHeight() + getTileHeight() * 0.75f));
-				addEntity(ps);
-			}
+			//TODO: if (spawnDebris) {
+				//ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 20, 100, 20, 1, 50, 3, new ImmutableFloatPair(0.0f, -50.0f), 5.0f);
+			//	ps.setPosition(new ImmutableFloatPair(aX * getTileWidth() + getTileWidth() * 0.75f, y * getTileHeight() + getTileHeight() * 0.75f));
+			//	addEntity(ps);
+			//}
 		}
 
 		myMiddleLayer.setDestroyedToTileRow(aX);

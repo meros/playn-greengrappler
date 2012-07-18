@@ -3,7 +3,7 @@ package com.meros.playn.core.entities;
 import playn.core.Surface;
 
 import com.meros.playn.core.Entity;
-import com.meros.playn.core.float2;
+import com.meros.playn.core.ImmutableFloatPair;
 
 public class WallOfDeathStarter extends Entity {
 
@@ -11,7 +11,7 @@ public class WallOfDeathStarter extends Entity {
 
 	public WallOfDeathStarter()
 	{
-		setSize(new float2(10, 10 * 100));
+		setSize(new ImmutableFloatPair(10, 10 * 100));
 	}
 
 	@Override

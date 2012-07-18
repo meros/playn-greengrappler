@@ -10,7 +10,7 @@ import com.meros.playn.core.Entity;
 import com.meros.playn.core.PlayerSkill;
 import com.meros.playn.core.Resource;
 import com.meros.playn.core.Sound;
-import com.meros.playn.core.float2;
+import com.meros.playn.core.ImmutableFloatPair;
 
 public class SimpleWalkingMonster extends Entity {
 
@@ -37,14 +37,14 @@ public class SimpleWalkingMonster extends Entity {
 	float WALKING_SPEED = 14.0f;
 
 	public SimpleWalkingMonster() {
-		setSize(new float2(20, 20));
+		setSize(new ImmutableFloatPair(20, 20));
 	}
 
 	public void die() {
 		Sound.playSample("data/sounds/damage");
 
 		ParticleSystem ps = new ParticleSystem(Resource.getAnimation(
-				"data/images/debris.bmp", 4), 10, 30, 10, 1, 50, 5, new float2(
+				"data/images/debris.bmp", 4), 10, 30, 10, 1, 50, 5, new ImmutableFloatPair(
 				0.0f, -30.0f), 2.0f);
 		ps.setPosition(getPosition(), 5.0f, false);
 		mRoom.addEntity(ps);
@@ -53,10 +53,10 @@ public class SimpleWalkingMonster extends Entity {
 
 	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer) {
-		float2 pos = getPosition().subtract(
-				new float2(myAnimation.getFrameWidth(), myAnimation
+		ImmutableFloatPair pos = getPosition().subtract(
+				new ImmutableFloatPair(myAnimation.getFrameWidth(), myAnimation
 						.getFrameHeight()).divide(2)).add(
-				new float2(offsetX, offsetY));
+				new ImmutableFloatPair(offsetX, offsetY));
 
 		myAnimation.drawFrame(buffer, myFrame / 15, (int) pos.x, (int) pos.y,
 				myFacing == Facing.RIGHT, false);
@@ -83,7 +83,7 @@ public class SimpleWalkingMonster extends Entity {
 		switch (myState) {
 		case WALKING: {
 			
-			mVelocity = new float2(
+			mVelocity = new ImmutableFloatPair(
 					20.0f * ((myFacing == Facing.LEFT) ? -1 : 1),
 					mVelocity.y + 6.0f);
 
@@ -91,7 +91,7 @@ public class SimpleWalkingMonster extends Entity {
 			EnumSet<Direction> bumps = moveWithCollision();
 
 			if (bumps.contains(Direction.UP) || bumps.contains(Direction.DOWN)) {
-				mVelocity = new float2(mVelocity.x, 0);
+				mVelocity = new ImmutableFloatPair(mVelocity.x, 0);
 			}
 
 			if (bumps.contains(Direction.LEFT)) {
@@ -106,7 +106,7 @@ public class SimpleWalkingMonster extends Entity {
 					: getHalfSize().x + 2);
 			int offsetY = (int) (getHalfSize().y + 2);
 
-			float2 position = getPosition();
+			ImmutableFloatPair position = getPosition();
 
 			int x = (int) ((position.x + offsetX) / mRoom.getTileWidth());
 			int y = (int) ((position.y + offsetY) / mRoom.getTileHeight());

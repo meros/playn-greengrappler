@@ -8,7 +8,7 @@ import com.meros.playn.core.PlayerSkill;
 import com.meros.playn.core.Resource;
 import com.meros.playn.core.Sound;
 import com.meros.playn.core.UtilMethods;
-import com.meros.playn.core.float2;
+import com.meros.playn.core.ImmutableFloatPair;
 
 public class WallOfDeath extends Entity {
 
@@ -19,11 +19,11 @@ public class WallOfDeath extends Entity {
 	private boolean myRunning = false;
 	private float mySoundCountdown = 10.0f;
 	private Animation mySaw = Resource.getAnimation("data/images/saw.bmp");
-	private float2 myOriginalPosition;
+	private ImmutableFloatPair myOriginalPosition;
 
 	public WallOfDeath()
 	{
-		setSize(new float2(10, 12 * 100));
+		setSize(new ImmutableFloatPair(10, 12 * 100));
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class WallOfDeath extends Entity {
 			return;
 
 		if (getPosition().x > 2950.0f) {
-			ParticleSystem ps = new ParticleSystem(mySaw, 2, 100, 20, 10, 20, 1, new float2(0.0f, -50.0f), 4.0f);
+			ParticleSystem ps = new ParticleSystem(mySaw, 2, 100, 20, 10, 20, 1, new ImmutableFloatPair(0.0f, -50.0f), 4.0f);
 
 			int x = (int) (getDrawPositionX() - getSize().x / 2);
 			int y = (int) (getDrawPositionY() - getSize().y / 2);
@@ -64,7 +64,7 @@ public class WallOfDeath extends Entity {
 
 			for (int i = 0; i < saws; i++)
 			{
-				ps.setPosition(new float2(x, y + i * 12), 0.1f, true);
+				ps.setPosition(new ImmutableFloatPair(x, y + i * 12), 0.1f, true);
 			}
 
 			mRoom.addEntity(ps);
@@ -74,7 +74,7 @@ public class WallOfDeath extends Entity {
 
 		for (int xo = 0; xo < 3; xo++) {
 				int xt = xo + (int)((getPosition().x - getSize().x / 2) / mRoom.getTileWidth());
-				mRoom.destroyToTileRow(xt);
+				mRoom.destroyToTileRow(xt - 1);
 		}
 
 		float heroX = mRoom.getHero().getPosition().x;
@@ -83,7 +83,7 @@ public class WallOfDeath extends Entity {
 		float distance = heroX - x;
 		if (distance > 190 && !myBoost)
 		{
-			setPosition(new float2(heroX - 190, getPosition().y));
+			setPosition(new ImmutableFloatPair(heroX - 190, getPosition().y));
 		}
 
 		if (distance < 80)
@@ -108,7 +108,7 @@ public class WallOfDeath extends Entity {
 		}
 
 
-		setPosition(new float2(getPosition().x + mySpeed, getPosition().y));
+		setPosition(new ImmutableFloatPair(getPosition().x + mySpeed, getPosition().y));
 
 		if (mRoom.getHero().Collides(this))
 		{

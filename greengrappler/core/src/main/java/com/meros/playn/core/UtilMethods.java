@@ -17,7 +17,7 @@ public class UtilMethods {
 		return aMin + (aMax - aMin) * aRatio;
 	}
 	
-	public static float2 sincos(double d) {
-		return new float2((float) Math.cos(d), (float) Math.sin(d));
+	public static ImmutableFloatPair sincos(double d) {
+		return new ImmutableFloatPair((float) Math.cos(d), (float) Math.sin(d));
 	}
 }

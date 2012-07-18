@@ -8,7 +8,7 @@ import com.meros.playn.core.PlayerSkill;
 import com.meros.playn.core.Resource;
 import com.meros.playn.core.Room;
 import com.meros.playn.core.UtilMethods;
-import com.meros.playn.core.float2;
+import com.meros.playn.core.ImmutableFloatPair;
 
 public class BreakingHookTile extends Entity {
 
@@ -24,7 +24,7 @@ public class BreakingHookTile extends Entity {
 	private int myTileY;
 
 	public BreakingHookTile() {
-		setSize(new float2(mySprite.getFrameWidth(), mySprite.getFrameHeight()));
+		setSize(new ImmutableFloatPair(mySprite.getFrameWidth(), mySprite.getFrameHeight()));
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class BreakingHookTile extends Entity {
 
 				ParticleSystem ps = new ParticleSystem(Resource.getAnimation(
 						"data/images/debris.bmp", 4), 10, 50, 20, 1, 50, 2,
-						new float2(0.0f, -30.0f), 2.0f);
+						new ImmutableFloatPair(0.0f, -30.0f), 2.0f);
 				ps.setPosition(getPosition(), 2.0f, false);
 				mRoom.addEntity(ps);
 

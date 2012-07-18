@@ -10,7 +10,7 @@ import com.meros.playn.core.Entity;
 import com.meros.playn.core.Resource;
 import com.meros.playn.core.Room;
 import com.meros.playn.core.Sound;
-import com.meros.playn.core.float2;
+import com.meros.playn.core.ImmutableFloatPair;
 
 public class Reactor extends Entity {
 
@@ -26,7 +26,7 @@ public class Reactor extends Entity {
 			4);
 
 	public Reactor() {
-		setSize(new float2(30, 40));
+		setSize(new ImmutableFloatPair(30, 40));
 	}
 
 	@Override
@@ -46,9 +46,9 @@ public class Reactor extends Entity {
 	public CollisionRect getCollisionRect() {
 		CollisionRect rect = new CollisionRect();
 		rect.myTopLeft = getPosition().subtract(getHalfSize()).subtract(
-				new float2(2, 2));
+				new ImmutableFloatPair(2, 2));
 		rect.myBottomRight = getPosition().add(getHalfSize()).add(
-				new float2(2, 2));
+				new ImmutableFloatPair(2, 2));
 		return rect;
 	}
 
@@ -80,7 +80,7 @@ public class Reactor extends Entity {
 		int numPs = random.nextInt() % 5 + 1;
 		ParticleSystem ps = new ParticleSystem(Resource.getAnimation(
 				"data/images/debris.bmp", 4), 10, 40, 10, 1, 50, numPs,
-				new float2(0.0f, -20.0f), 2.0f);
+				new ImmutableFloatPair(0.0f, -20.0f), 2.0f);
 		ps.setPosition(getPosition(), 10.0f, false);
 		mRoom.addEntity(ps);
 
@@ -131,7 +131,7 @@ public class Reactor extends Entity {
 
 			ParticleSystem ps = new ParticleSystem(Resource.getAnimation(
 					"data/images/debris.bmp", 4), 10, 40, 10, 1, 50, numPs,
-					new float2(0.0f, -20.0f), 2.0f);
+					new ImmutableFloatPair(0.0f, -20.0f), 2.0f);
 			ps.setPosition(getPosition(), 10.0f, false);
 			mRoom.addEntity(ps);
 		}
@@ -141,7 +141,7 @@ public class Reactor extends Entity {
 			Sound.playSample("data/sounds/start");
 			ParticleSystem ps = new ParticleSystem(Resource.getAnimation(
 					"data/images/debris.bmp", 4), 20, 200, 20, 1, 50, 50,
-					new float2(0.0f, -150.0f), 5.0f);
+					new ImmutableFloatPair(0.0f, -150.0f), 5.0f);
 			ps.setPosition(getPosition(), 10.0f, false);
 			mRoom.addEntity(ps);
 
@@ -149,7 +149,7 @@ public class Reactor extends Entity {
 
 			ReactorCore core = new ReactorCore();
 			core.setPosition(getPosition());
-			core.setVelocity(new float2(0, -50));
+			core.setVelocity(new ImmutableFloatPair(0, -50));
 			mRoom.addEntity(core);
 
 			setTilesCollidable(false);

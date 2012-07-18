@@ -75,7 +75,7 @@ public class RoomLoader {
 			}
 		}
 
-		Room room = new Room(backgroundLayer, middleLayer, foregroundLayer, new Camera(new float2(0,0), new float2(
+		Room room = new Room(backgroundLayer, middleLayer, foregroundLayer, new Camera(new ImmutableFloatPair(0,0), new ImmutableFloatPair(
 				middleLayer.getWidth() * 10, middleLayer.getHeight() * 10)));
 		
 		// Entities
@@ -91,8 +91,8 @@ public class RoomLoader {
 						continue;
 					}
 
-					float2 pos = 
-							new float2(
+					ImmutableFloatPair pos = 
+							new ImmutableFloatPair(
 									10 * x + 10 / 2, 
 									(10 * (y + 1))-entity.getHalfSize().y);
 

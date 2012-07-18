@@ -7,24 +7,24 @@ import com.meros.playn.core.Constants.Direction;
 import com.meros.playn.core.Entity;
 import com.meros.playn.core.Resource;
 import com.meros.playn.core.Sound;
-import com.meros.playn.core.float2;
+import com.meros.playn.core.ImmutableFloatPair;
 
 public class BossSaw extends Entity {
 
 	private int myLifeTime = 60*6;
 	private int myFrameCounter = 0;
 	private Animation mySaw = Resource.getAnimation("data/images/saw.bmp");
-	private float2 mySpeed;
+	private ImmutableFloatPair mySpeed;
 
 	public BossSaw(Direction aDirection)
 	{
 		if (aDirection == Direction.LEFT)
-			mySpeed = new float2(-2.0f, 0);
+			mySpeed = new ImmutableFloatPair(-2.0f, 0);
 		else
-			mySpeed = new float2(2.0f, 0);
+			mySpeed = new ImmutableFloatPair(2.0f, 0);
 
 		Sound.playSample("data/sounds/boss_saw");
-		setSize(new float2(mySaw.getFrameWidth(), mySaw.getFrameHeight()));
+		setSize(new ImmutableFloatPair(mySaw.getFrameWidth(), mySaw.getFrameHeight()));
 	}
 
 	@Override

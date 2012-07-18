@@ -5,7 +5,7 @@ import playn.core.Surface;
 import com.meros.playn.core.Animation;
 import com.meros.playn.core.Entity;
 import com.meros.playn.core.Resource;
-import com.meros.playn.core.float2;
+import com.meros.playn.core.ImmutableFloatPair;
 
 public class Door extends Entity {
 
@@ -20,7 +20,7 @@ public class Door extends Entity {
 	public Door(int aId)
 	{
 		myId = aId;
-		setSize(new float2(10, 40));
+		setSize(new ImmutableFloatPair(10, 40));
 	}
 
 	@Override

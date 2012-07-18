@@ -159,7 +159,7 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 		myTouchAreas.add(input.new TouchArea(616+172,465,172,234, Buttons.Fire, true));
 		myTouchAreas.add(input.new TouchArea(616,465,172,234, Buttons.Jump, true));
 		
-		float2 dpadCenter = new float2(165, 555);
+		ImmutableFloatPair dpadCenter = new ImmutableFloatPair(165, 555);
 		int smallWidth = 160;
 		int largeWidth = 400;
 

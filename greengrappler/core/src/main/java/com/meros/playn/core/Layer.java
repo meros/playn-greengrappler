@@ -104,7 +104,7 @@ public class Layer {
 	}
 
 	public Tile getTile(int aX, int aY) {
-		if (aX < myDestroyedToTileRow || aY < 0 || aX >= myTiles.length || aY >= myTiles[aX].length)
+		if (aX <= myDestroyedToTileRow || aY < 0 || aX >= myTiles.length || aY >= myTiles[aX].length)
 			return myDummyTile;
 
 		return myTiles[aX][aY];
