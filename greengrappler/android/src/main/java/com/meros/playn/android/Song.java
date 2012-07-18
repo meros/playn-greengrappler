@@ -33,7 +33,11 @@ public class Song implements AbstractSong
 	public Song(InputStream aIs) throws IOException
 	{
 		loadModule(aIs);
-		int minSize = AudioTrack.getMinBufferSize( 44100, AudioFormat.CHANNEL_CONFIGURATION_MONO, AudioFormat.ENCODING_PCM_16BIT );        	      
+		int minSize = 
+				AudioTrack.getMinBufferSize( 
+						SAMPLE_RATE, 
+						AudioFormat.CHANNEL_CONFIGURATION_STEREO, 
+						AudioFormat.ENCODING_PCM_16BIT );        	      
 		myAudioTrack = new AudioTrack(
 				AudioManager.STREAM_MUSIC, 
 				SAMPLE_RATE,
@@ -49,6 +53,7 @@ public class Song implements AbstractSong
 		AudioSynthesisTask.Data data = synth.new Data();
 		data.myAudioTrack = myAudioTrack;
 		data.myIbxm = myIbxm;
+		data.myBufferSize = minSize;
 
 		synth.execute(data);
 
@@ -82,37 +87,39 @@ public class Song implements AbstractSong
 
 		public class Data
 		{
+			public int myBufferSize;
 			IBXM myIbxm;
 			AudioTrack myAudioTrack;
 		}
 
 		@Override
 		protected Void doInBackground(Data... params) {
+			byte[] outBuffer = null;
+			int outIdx = 0;
+			int outOffs = 0;
+			
+			int[] buffer = new int[params[0].myIbxm.getMixBufferLength()];
+			outBuffer = new byte[buffer.length*4];
 
 			while (params[0].myAudioTrack.getPlayState() != AudioTrack.PLAYSTATE_STOPPED)
 			{
-
-				byte[] outBuffer = null;
-				int outIdx = 0;
-				int outOffs = 0;
-
-				int[] buffer = new int[params[0].myIbxm.getMixBufferLength()];
-
-				outBuffer = new byte[buffer.length*4];
-				outOffs = 0;
-				outIdx = 0;
-
-				int size = params[0].myIbxm.getAudio(buffer);
-
-				for( int mixIdx = 0, mixEnd = size * 2; mixIdx < mixEnd; mixIdx++ ) {
-					int ampl = buffer[ mixIdx ];
-					if( ampl > 32767 ) ampl = 32767;
-					if( ampl < -32768 ) ampl = -32768;
-					outBuffer[ outIdx++ ] = ( byte ) ( ampl >> 8 );
-					outBuffer[ outIdx++ ] = ( byte ) ampl;
+				if (outOffs >= outIdx)
+				{
+					outOffs = 0;
+					outIdx = 0;
+	
+					int size = params[0].myIbxm.getAudio(buffer);
+	
+					for( int mixIdx = 0, mixEnd = size * 2; mixIdx < mixEnd; mixIdx++ ) {
+						int ampl = buffer[ mixIdx ];
+						if( ampl > 32767 ) ampl = 32767;
+						if( ampl < -32768 ) ampl = -32768;
+						outBuffer[ outIdx++ ] = ( byte ) ampl;
+						outBuffer[ outIdx++ ] = ( byte ) ( ampl >> 8 );
+					}
 				}
 
-				int writeLen = 100;//Math.min(outIdx-outOffs, audioTrack.);
+				int writeLen = Math.min(outIdx-outOffs, params[0].myBufferSize);
 				outOffs += params[0].myAudioTrack.write(outBuffer, outOffs, writeLen);
 			}
 
