@@ -53,12 +53,10 @@ public class SimpleWalkingMonster extends Entity {
 
 	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer) {
-		ImmutableFloatPair pos = getPosition().subtract(
-				new ImmutableFloatPair(myAnimation.getFrameWidth(), myAnimation
-						.getFrameHeight()).divide(2)).add(
-				new ImmutableFloatPair(offsetX, offsetY));
+		float x = getPosition().getX() - myAnimation.getFrameWidth()/2 + offsetX;
+		float y = getPosition().getY() - myAnimation.getFrameHeight()/2 + offsetY;
 
-		myAnimation.drawFrame(buffer, myFrame / 15, (int) pos.getX(), (int) pos.getY(),
+		myAnimation.drawFrame(buffer, myFrame / 15, (int) x, (int) y,
 				myFacing == Facing.RIGHT, false);
 	}
 

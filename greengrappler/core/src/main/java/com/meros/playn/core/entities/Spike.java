@@ -17,8 +17,9 @@ public class Spike extends Entity {
 
 	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer) {
-		ImmutableFloatPair pos = getPosition().subtract(getHalfSize());
-		buffer.drawImage(mySpikeTile, offsetX + pos.getX(), offsetY + pos.getY());
+		buffer.drawImage(mySpikeTile, 
+				offsetX + getPosition().getX() - getHalfSize().getX(), 
+				offsetY + getPosition().getY() - getHalfSize().getY());
 	}
 
 	@Override

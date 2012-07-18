@@ -194,17 +194,17 @@ public class Room {
 			aBuffer.fillRect(0, 0, 320, 240);
 
 			if (myFrameCounter < 60)
-				mHero.draw(aBuffer, (int) mCamera.getOffset().getX(),
-						(int) mCamera.getOffset().getY(), 0);
+				mHero.draw(aBuffer, (int) mCamera.getOffsetX(),
+						(int) mCamera.getOffsetY(), 0);
 			return;
 		}
 
 		Layer[] bgLayers = {myMiddleLayer, myForegroundLayer};
-		myBackgroundLayer.draw(aBuffer, (int) mCamera.getOffset().getX(),
-				(int) mCamera.getOffset().getY(), bgLayers);
+		myBackgroundLayer.draw(aBuffer, (int) mCamera.getOffsetX(),
+				(int) mCamera.getOffsetY(), bgLayers);
 		Layer[] midLayers = {myForegroundLayer};
-		myMiddleLayer.draw(aBuffer, (int) mCamera.getOffset().getX(),
-				(int) mCamera.getOffset().getY(), midLayers);
+		myMiddleLayer.draw(aBuffer, (int) mCamera.getOffsetX(),
+				(int) mCamera.getOffsetY(), midLayers);
 
 		List<Entity> entitiesToDraw = new ArrayList<Entity>();
 		entitiesToDraw.addAll(mEntities);
@@ -219,13 +219,13 @@ public class Room {
 		});
 
 		for (Entity entity: entitiesToDraw) {
-			entity.draw(aBuffer, (int) mCamera.getOffset().getX(),
-					(int) mCamera.getOffset().getY(), 0);
+			entity.draw(aBuffer, (int) mCamera.getOffsetX(),
+					(int) mCamera.getOffsetY(), 0);
 		}
 
 		Layer[] fgLayers = {};
-		myForegroundLayer.draw(aBuffer, (int) mCamera.getOffset().getX(),
-				(int) mCamera.getOffset().getY(), fgLayers);
+		myForegroundLayer.draw(aBuffer, (int) mCamera.getOffsetX(),
+				(int) mCamera.getOffsetY(), fgLayers);
 
 		if (myIsCompleted) {
 			myFont.drawCenter(aBuffer, "LEVEL COMPLETED!", 0, 0, 320, 240);

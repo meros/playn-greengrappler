@@ -56,8 +56,8 @@ public class LavaSea extends Entity {
 			
 			Random random = new Random();
 
-			int min = (int) -mRoom.getCamera().getOffset().getX();
-			int max = (int) (320-mRoom.getCamera().getOffset().getX());
+			int min = (int) -mRoom.getCamera().getOffsetX();
+			int max = (int) (320-mRoom.getCamera().getOffsetX());
 			int rVal = random.nextInt(max-min)+min;
 			
 			ImmutableFloatPair pos = new ImmutableFloatPair(rVal, getCurrentY());

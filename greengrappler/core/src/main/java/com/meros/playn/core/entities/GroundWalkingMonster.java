@@ -7,11 +7,11 @@ import playn.core.Surface;
 import com.meros.playn.core.Animation;
 import com.meros.playn.core.Constants.Direction;
 import com.meros.playn.core.Entity;
+import com.meros.playn.core.ImmutableFloatPair;
 import com.meros.playn.core.PlayerSkill;
 import com.meros.playn.core.Resource;
 import com.meros.playn.core.Sound;
 import com.meros.playn.core.UtilMethods;
-import com.meros.playn.core.ImmutableFloatPair;
 
 public class GroundWalkingMonster extends Entity {
 
@@ -41,12 +41,10 @@ public class GroundWalkingMonster extends Entity {
 
 	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer) {
-		ImmutableFloatPair pos = getPosition();
-		pos = pos.subtract(new ImmutableFloatPair(myAnimation.getFrameWidth(), myAnimation
-				.getFrameHeight()).divide(2));
-		pos = pos.add(new ImmutableFloatPair(offsetX, offsetY));
+		float x = getPosition().getX() - myAnimation.getFrameWidth()/2 + offsetX;
+		float y = getPosition().getY() - myAnimation.getFrameHeight()/2 + offsetY;
 
-		myAnimation.drawFrame(buffer, myFrame / 3, (int) pos.getX(), (int) pos.getY());
+		myAnimation.drawFrame(buffer, myFrame / 3, (int) x, (int) y);
 	}
 
 	@Override

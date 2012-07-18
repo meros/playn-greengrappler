@@ -42,11 +42,15 @@ public class Camera {
 		myOffset = heropos;
 	}
 
-	public ImmutableFloatPair getOffset() {
-		return new ImmutableFloatPair((int) (myOffset.getX() + myShakeOffset.getX() + 0.5),
-				(int) (myOffset.getY() + myShakeOffset.getY() + 0.5));
+	public int getOffsetX() {
+		return (int) (myOffset.getX() + myShakeOffset.getX() + 0.5);
 	}
 
+	public int getOffsetY() {
+		return (int) (myOffset.getY() + myShakeOffset.getY() + 0.5);
+	}
+
+	
 	public void update(Hero aHero) {
 		boolean foundRect = false;
 		ImmutableFloatPair desiredOffset = new ImmutableFloatPair();

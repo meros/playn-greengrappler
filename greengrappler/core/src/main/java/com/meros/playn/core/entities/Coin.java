@@ -52,11 +52,13 @@ public class Coin extends Entity {
 
 	@Override
 	public void draw(Surface aBuffer, int aOffsetX, int aOffsetY, int aLayer) {
-		ImmutableFloatPair pos = getPosition();
-		pos = pos.subtract(new ImmutableFloatPair(myAnimationCoin.getFrameWidth(),
-				myAnimationCoin.getFrameHeight()).divide(2));
+		float x = getPosition().getX();
+		float y = getPosition().getY();
+		x -= myAnimationCoin.getFrameWidth();
+		y -=myAnimationCoin.getFrameHeight() / 2;
 
-		pos = pos.add(new ImmutableFloatPair(aOffsetX, aOffsetY));
+		x += aOffsetX;
+		y += aOffsetY;
 
 		if (!myTemporary || (myLifeTime / 10) % 2 == 0) {
 			if (myFrame > 180) {
@@ -64,7 +66,7 @@ public class Coin extends Entity {
 			}
 
 			myAnimationCoin.drawFrame(aBuffer, (myFrame < 5 * 4) ? myFrame / 5 : 0,
-					(int) pos.getX(), (int) pos.getY(), false, false);
+					(int) x, (int) y, false, false);
 		}
 	}
 
