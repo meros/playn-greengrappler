@@ -13,7 +13,6 @@ import pythagoras.f.Point;
 
 import com.meros.playn.core.Constants.Buttons;
 import com.meros.playn.core.Input.HitTranslator;
-import com.meros.playn.core.screens.SplashScreen;
 import com.meros.playn.core.screens.TitleScreen;
 
 public class GreenGrappler implements Game, Renderer, HitTranslator {
@@ -56,7 +55,7 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 		graphics().ctx().setTextureFilter(GLContext.Filter.NEAREST, GLContext.Filter.NEAREST);
 
 		Input.setTouchTranslator(this);
-
+		
 		if (myFullScreen)
 			graphics().setSize(graphics().screenWidth(),
 					graphics().screenHeight());

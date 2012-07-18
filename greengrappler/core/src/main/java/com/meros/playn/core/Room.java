@@ -12,7 +12,6 @@ import playn.core.Color;
 import playn.core.Surface;
 
 import com.meros.playn.core.entities.Hero;
-import com.meros.playn.core.entities.ParticleSystem;
 
 public class Room {
 	private final Camera mCamera;
