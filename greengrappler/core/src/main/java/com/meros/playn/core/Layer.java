@@ -30,18 +30,18 @@ public class Layer {
 	public void draw(Surface aBuffer, int aOffsetX, int aOffsetY, Layer[] aOverLayers) {
 		
 		int firstTileX = (-aOffsetX)/10;
-		int lastTileX = (int) ((aBuffer.width() - aOffsetX)/10);
+		int lastTileX = (int) ((320 - aOffsetX)/10);
 		int firstTileY = (-aOffsetY)/10;
-		int lastTileY = (int) ((aBuffer.height() - aOffsetY)/10);
+		int lastTileY = (int) ((240 - aOffsetY)/10);
 		
 		for (int y = firstTileY; y <= lastTileY; y++) {
 			Tile currentTileType = null;
 			int currentTileXStart = 0;
-			for (int x = firstTileX; x <= lastTileX + 1; x++) {
+			for (int x = firstTileX; x <= (lastTileX + 1); x++) {
 				//Same tile as current?
 				Tile tile = getTile(x, y);
 				
-				boolean lastColumn = (x == lastTileX + 1);
+				boolean lastColumn = (x == (lastTileX + 1));
 
 				if (tile == currentTileType && !lastColumn)
 				{
@@ -57,7 +57,7 @@ public class Layer {
 						aBuffer.save();
 						aBuffer.translate(startX, startY);
 						aBuffer.setFillPattern(currentTileType.getPattern());
-						aBuffer.fillRect(0, 0, (x-currentTileXStart)*10, 10);
+						aBuffer.fillRect(0, 0, (x-currentTileXStart)*10, 10);						
 						aBuffer.restore();
 					}
 					

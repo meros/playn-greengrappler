@@ -4,6 +4,7 @@ import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.log;
 import playn.core.Game;
 import playn.core.ImageLayer;
+import playn.core.ImmediateLayer;
 import playn.core.ImmediateLayer.Clipped;
 import playn.core.ImmediateLayer.Renderer;
 import playn.core.PlayN;
@@ -35,7 +36,7 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 
 	long startTimeMillis = System.currentTimeMillis();
 
-	private Clipped bufferLayer;
+	private ImmediateLayer bufferLayer;
 
 	public GreenGrappler(boolean aFullScreen, ExitCallback exitCallback) {
 		myFullScreen = aFullScreen;
@@ -149,7 +150,7 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 		if (myReadyForUpdates && !mySetupRenderingOnce)
 		{
 
-			bufferLayer = graphics().createImmediateLayer(320, 240, this);
+			bufferLayer = graphics().createImmediateLayer(this);
 
 			{		
 				float w = PlayN.graphics().width();
