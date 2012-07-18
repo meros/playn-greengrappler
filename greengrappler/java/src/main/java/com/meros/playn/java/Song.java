@@ -63,7 +63,6 @@ public class Song implements AbstractSong
 		if (outOffs >= outIdx)
 		{
 			int[] buffer = new int[ibxm.getMixBufferLength()];
-			
 			outBuffer = new byte[buffer.length*4];
 			outOffs = 0;
 			outIdx = 0;

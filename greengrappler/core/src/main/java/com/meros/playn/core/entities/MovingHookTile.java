@@ -20,14 +20,14 @@ public class MovingHookTile extends Entity {
 	public MovingHookTile()
 	{
 		setSize(new ImmutableFloatPair(mSprite.getFrameHeight(), mSprite.getFrameHeight()));
-		mVelocity = new ImmutableFloatPair(20.0f, 0.0f);
+		mVelocity.set(20.0f, 0.0f);
 	}
 
 	@Override
 	public void setRoom(Room room)
 	{
-		mInitialPosition = getPosition();
-		mInitialVelocity = mVelocity;
+		mInitialPosition = new ImmutableFloatPair(getPosition());
+		mInitialVelocity = new ImmutableFloatPair(mVelocity);
 		super.setRoom(room);
 	}
 
@@ -35,7 +35,7 @@ public class MovingHookTile extends Entity {
 	public void onRespawn()
 	{
 		setPosition(mInitialPosition);
-		mVelocity = mInitialVelocity;
+		mVelocity.set(mInitialVelocity);
 		hasHook = false;
 	}
 
@@ -47,16 +47,16 @@ public class MovingHookTile extends Entity {
 		hasHook = (mRoom.getHero().getHookedEntity() == this);
 
 		if (hasHook) {
-			mVelocity = new ImmutableFloatPair((mVelocity.getX() > 0) ? 40.0f : -40.0f, mVelocity.getY());
+			mVelocity.set((mVelocity.getX() > 0) ? 40.0f : -40.0f, mVelocity.getY());
 			mFrameCounter++;
 		} else {
-			mVelocity = new ImmutableFloatPair((mVelocity.getX() > 0) ? 20.0f : -20.0f, mVelocity.getY());
+			mVelocity.set((mVelocity.getX() > 0) ? 20.0f : -20.0f, mVelocity.getY());
 		}
 
 		EnumSet<Direction> bumps = moveWithCollision();
 
 		if (bumps.contains(Direction.LEFT) || bumps.contains(Direction.RIGHT)) {
-			mVelocity = new ImmutableFloatPair(-mVelocity.getX(), mVelocity.getY());
+			mVelocity.set(-mVelocity.getX(), mVelocity.getY());
 		}
 	}
 

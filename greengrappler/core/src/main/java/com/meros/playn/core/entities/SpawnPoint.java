@@ -4,9 +4,9 @@ import playn.core.Surface;
 
 import com.meros.playn.core.Animation;
 import com.meros.playn.core.Entity;
+import com.meros.playn.core.ImmutableFloatPair;
 import com.meros.playn.core.PlayerSkill;
 import com.meros.playn.core.Resource;
-import com.meros.playn.core.ImmutableFloatPair;
 
 public class SpawnPoint extends Entity {
 	
@@ -63,11 +63,10 @@ public class SpawnPoint extends Entity {
 	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer )
 	{
-		ImmutableFloatPair pos = getPosition()
-				.subtract(new ImmutableFloatPair(myAnimation.getFrameWidth(), myAnimation.getFrameHeight()).divide(2))
-				.add(new ImmutableFloatPair(offsetX, offsetY));
-
-		myAnimation.drawFrame(buffer, myState.value, (int)pos.getX(), (int)pos.getY());
+		int x = (int) (getPosition().getX() - myAnimation.getFrameWidth()/2 + offsetX);
+		int y = (int) (getPosition().getY() - myAnimation.getFrameHeight()/2 + offsetY);
+		
+		myAnimation.drawFrame(buffer, myState.value, x, y);
 	}
 	
 	@Override

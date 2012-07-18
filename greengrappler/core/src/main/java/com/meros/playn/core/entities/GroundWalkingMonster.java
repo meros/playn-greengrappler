@@ -56,24 +56,20 @@ public class GroundWalkingMonster extends Entity {
 	public void update() {
 		Hero hero = mRoom.getHero();
 
-		ImmutableFloatPair vel;
-
 		float adjustedSpeed = UtilMethods.lerp(MIN_WALKING_SPEED,
 				MAX_WALKING_SPEED, PlayerSkill.get());
 
 		if (myType == Type.FLOOR || myType == Type.ROOF) {
 			if (myFacing == Facing.LEFT_UP)
-				vel = new ImmutableFloatPair(-adjustedSpeed, 0);
+				getVelocity().set(-adjustedSpeed, 0);
 			else
-				vel = new ImmutableFloatPair(adjustedSpeed, 0);
+				getVelocity().set(adjustedSpeed, 0);
 		} else {
 			if (myFacing == Facing.LEFT_UP)
-				vel = new ImmutableFloatPair(0, -adjustedSpeed);
+				getVelocity().set(0, -adjustedSpeed);
 			else
-				vel = new ImmutableFloatPair(0, adjustedSpeed);
+				getVelocity().set(0, adjustedSpeed);
 		}
-
-		setVelocity(vel);
 
 		EnumSet<Direction> bumps = moveWithCollision();
 
@@ -100,10 +96,10 @@ public class GroundWalkingMonster extends Entity {
 					: -getHalfSize().getY() - 2);
 		}
 
-		ImmutableFloatPair position = getPosition();
+		
 
-		int x = (int) ((position.getX() + offsetX) / mRoom.getTileWidth());
-		int y = (int) ((position.getY() + offsetY) / mRoom.getTileHeight());
+		int x = (int) ((getPosition().getX() + offsetX) / mRoom.getTileWidth());
+		int y = (int) ((getPosition().getY() + offsetY) / mRoom.getTileHeight());
 
 		if (!mRoom.isCollidable(x, y)) {
 			if (myFacing == Facing.LEFT_UP) {

@@ -76,7 +76,7 @@ public class Boss extends Entity {
 
 		if (myState == State.INIT)
 		{
-			myOriginalPos = getPosition();
+			myOriginalPos = new ImmutableFloatPair(getPosition());
 			myState = State.SLEEPING;
 		}
 
@@ -296,8 +296,8 @@ public class Boss extends Entity {
 	public CollisionRect getCollisionRect()
 	{
 		CollisionRect rect = new CollisionRect();
-		rect.myTopLeft = getPosition().subtract(getHalfSize()).subtract(new ImmutableFloatPair(2,2));
-		rect.myBottomRight = getPosition().add(getHalfSize()).add(new ImmutableFloatPair(2,2));
+		rect.myTopLeft.set(getPosition()).subtract(getHalfSize()).subtract(new ImmutableFloatPair(2,2));
+		rect.myBottomRight.set(getPosition()).add(getHalfSize()).add(new ImmutableFloatPair(2,2));
 		return rect;
 	}
 

@@ -4,15 +4,16 @@ import java.util.EnumSet;
 
 import playn.core.Surface;
 
+import com.meros.playn.core.AbstractFloatPair;
 import com.meros.playn.core.Animation;
 import com.meros.playn.core.Constants.Direction;
 import com.meros.playn.core.Entity;
+import com.meros.playn.core.ImmutableFloatPair;
 import com.meros.playn.core.PlayerSkill;
 import com.meros.playn.core.Resource;
 import com.meros.playn.core.Room;
 import com.meros.playn.core.Sound;
 import com.meros.playn.core.UtilMethods;
-import com.meros.playn.core.ImmutableFloatPair;
 
 public class Coin extends Entity {
 
@@ -29,7 +30,7 @@ public class Coin extends Entity {
 	Type myType = Type.STATIC;
 
 	public static void SpawnDeathCoins(int aNumberOfCoins,
-			ImmutableFloatPair aCenterPosition, int aLifeTime, Room aRoom) {
+			AbstractFloatPair aCenterPosition, int aLifeTime, Room aRoom) {
 		for (int i = 0; i < aNumberOfCoins; i++) {
 
 			ImmutableFloatPair velocity = UtilMethods.sincos(3.1415 * (i + 1)
@@ -54,8 +55,8 @@ public class Coin extends Entity {
 	public void draw(Surface aBuffer, int aOffsetX, int aOffsetY, int aLayer) {
 		float x = getPosition().getX();
 		float y = getPosition().getY();
-		x -= myAnimationCoin.getFrameWidth();
-		y -=myAnimationCoin.getFrameHeight() / 2;
+		x -= myAnimationCoin.getFrameWidth() / 2;
+		y -= myAnimationCoin.getFrameHeight() / 2;
 
 		x += aOffsetX;
 		y += aOffsetY;
@@ -109,7 +110,7 @@ public class Coin extends Entity {
 						Sound.playSample("data/sounds/coin");
 					}
 
-					mVelocity = new ImmutableFloatPair(mVelocity.getX() * -0.5f, mVelocity.getY());
+					mVelocity.set(mVelocity.getX() * -0.5f, mVelocity.getY());
 				}
 
 				if (bumps.contains(Direction.UP)
@@ -118,7 +119,7 @@ public class Coin extends Entity {
 						Sound.playSample("data/sounds/coin");
 					}
 
-					mVelocity = new ImmutableFloatPair(mVelocity.getX(), mVelocity.getY()*-0.2f);
+					mVelocity.set(mVelocity.getX(), mVelocity.getY()*-0.2f);
 				}
 
 				myLifeTime--;

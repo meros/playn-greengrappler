@@ -1,8 +1,8 @@
 package com.meros.playn.core;
 
 public class CollisionRect {
-	public ImmutableFloatPair myBottomRight = new ImmutableFloatPair();
-	public ImmutableFloatPair myTopLeft = new ImmutableFloatPair();
+	public FloatPair myBottomRight = new FloatPair();
+	public FloatPair myTopLeft = new FloatPair();
 	
 	public boolean Collides(CollisionRect aOther) {
 		if (myBottomRight.getX() <= aOther.myTopLeft.getX())

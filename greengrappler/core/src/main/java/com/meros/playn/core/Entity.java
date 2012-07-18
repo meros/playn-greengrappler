@@ -12,11 +12,13 @@ public abstract class Entity {
 	protected boolean mRemoved = false;
 	protected Room mRoom = null;
 
-	private ImmutableFloatPair mPosition = new ImmutableFloatPair();
+	private FloatPair mPosition = new FloatPair();
+	protected FloatPair mVelocity = new FloatPair();
+
 	private ImmutableFloatPair mSize = new ImmutableFloatPair();
 	private ImmutableFloatPair mHalfSize = new ImmutableFloatPair();
-
-	protected ImmutableFloatPair mVelocity = new ImmutableFloatPair();
+	private FloatPair myMoveWithCollisionFP = new FloatPair();
+	private FloatPair mMoveWithCollisionDividedVelocity = new FloatPair();
 
 	// virtual void draw(BITMAP *buffer, int offsetX, int offsetY, int layer);
 	public void draw(Surface aBuffer, int offsetX, int offsetY, int layer) {
@@ -49,8 +51,8 @@ public abstract class Entity {
 	// virtual CollisionRect getCollisionRect();
 	public CollisionRect getCollisionRect() {
 		CollisionRect collisionRect = new CollisionRect();
-		collisionRect.myTopLeft = new ImmutableFloatPair(mPosition.getX()-mSize.getX()/2, mPosition.getY()-mSize.getY()/2);
-		collisionRect.myBottomRight = new ImmutableFloatPair(mPosition.getX()+mSize.getX()/2, mPosition.getY()+mSize.getY()/2);
+		collisionRect.myTopLeft.set(mPosition.getX()-mSize.getX()/2, mPosition.getY()-mSize.getY()/2);
+		collisionRect.myBottomRight.set(mPosition.getX()+mSize.getX()/2, mPosition.getY()+mSize.getY()/2);
 
 		return collisionRect;
 	}
@@ -74,7 +76,7 @@ public abstract class Entity {
 	public abstract int getLayer();
 
 	// virtual float2 getPosition();
-	public ImmutableFloatPair getPosition() {
+	public FloatPair getPosition() {
 		return mPosition;
 	}
 
@@ -89,7 +91,7 @@ public abstract class Entity {
 	}
 
 	// virtual float2 getVelocity();
-	public ImmutableFloatPair getVelocity() {
+	public FloatPair getVelocity() {
 		return mVelocity;
 	}
 
@@ -110,18 +112,21 @@ public abstract class Entity {
 
 	// virtual unsigned int moveWithCollision();
 	public EnumSet<Direction> moveWithCollision() {
-		return moveWithCollision(mVelocity.divide(Time.TicksPerSecond));
+		mMoveWithCollisionDividedVelocity.set(mVelocity).divide(Time.TicksPerSecond);
+		return moveWithCollision(mMoveWithCollisionDividedVelocity );
 	}
 
-	public EnumSet<Direction> moveWithCollision(ImmutableFloatPair delta) {
+	public EnumSet<Direction> moveWithCollision(AbstractFloatPair aDelta) {
+		myMoveWithCollisionFP.set(aDelta);
+		
 		int substeps = (int) Math
-				.ceil((Math.abs(delta.getX()) + Math.abs(delta.getY())) * 0.2);
-		delta = delta.divide(substeps);
+				.ceil((Math.abs(aDelta.getX()) + Math.abs(aDelta.getY())) * 0.2);
+		myMoveWithCollisionFP.divide(substeps);
 		EnumSet<Direction> result = EnumSet.noneOf(Direction.class);
 		ImmutableFloatPair halfSize = getHalfSize();
 
 		for (int i = 0; i < substeps; i++) {
-			mPosition = mPosition.add(new ImmutableFloatPair(delta.getX(), 0));
+			mPosition.add(myMoveWithCollisionFP.getX(), 0);
 			int x1 = (int) ((mPosition.getX() - halfSize.getX()) / mRoom.getTileWidth());
 			int x2 = (int) ((mPosition.getX() + halfSize.getX()) / mRoom.getTileWidth());
 			int y1n = (int) ((mPosition.getY() - halfSize.getY() + 0.01f) / mRoom
@@ -129,30 +134,30 @@ public abstract class Entity {
 			int y2n = (int) ((mPosition.getY() + halfSize.getY() - 0.01f) / mRoom
 					.getTileHeight());
 
-			if (delta.getX() > 0) {
+			if (myMoveWithCollisionFP.getX() > 0) {
 				for (int y = y1n; y <= y2n; y++) {
 					if (mRoom.isCollidable(x2, y)) {
-						delta = new ImmutableFloatPair(0, delta.getY());
+						myMoveWithCollisionFP.set(0, myMoveWithCollisionFP.getY());
 						result.add(Direction.RIGHT);
-						mPosition = new ImmutableFloatPair(
+						mPosition.set(
 								x2 * mRoom.getTileWidth() - halfSize.getX(),
 								mPosition.getY());
 						break;
 					}
 				}
-			} else if (delta.getX() < 0) {
+			} else if (myMoveWithCollisionFP.getX() < 0) {
 				for (int y = y1n; y <= y2n; y++) {
 					if (mRoom.isCollidable(x1, y)) {
-						delta = new ImmutableFloatPair(0, delta.getY());
+						myMoveWithCollisionFP.set(0, myMoveWithCollisionFP.getY());
 						result.add(Direction.LEFT);
-						mPosition = new ImmutableFloatPair((x1 + 1) * mRoom.getTileWidth()
+						mPosition.set((x1 + 1) * mRoom.getTileWidth()
 								+ halfSize.getX(), mPosition.getY());
 						break;
 					}
 				}
 			}
 
-			mPosition = mPosition.add(new ImmutableFloatPair(0, delta.getY()));
+			mPosition.add(0, myMoveWithCollisionFP.getY());
 			int y1 = (int) ((mPosition.getY() - halfSize.getY()) / mRoom.getTileHeight());
 			int y2 = (int) ((mPosition.getY() + halfSize.getY()) / mRoom.getTileHeight());
 			int x1n = (int) ((mPosition.getX() - halfSize.getX() + 0.01f) / mRoom
@@ -160,21 +165,21 @@ public abstract class Entity {
 			int x2n = (int) ((mPosition.getX() + halfSize.getX() - 0.01f) / mRoom
 					.getTileWidth());
 
-			if (delta.getY() > 0) {
+			if (myMoveWithCollisionFP.getY() > 0) {
 				for (int x = x1n; x <= x2n; x++) {
 					if (mRoom.isCollidable(x, y2)) {
-						delta = new ImmutableFloatPair(delta.getX(), 0);
+						myMoveWithCollisionFP.set(myMoveWithCollisionFP.getX(), 0);
 						result.add(Direction.DOWN);
-						mPosition = new ImmutableFloatPair(mPosition.getX(), y2 * mRoom.getTileHeight() - halfSize.getY());
+						mPosition.set(mPosition.getX(), y2 * mRoom.getTileHeight() - halfSize.getY());
 						break;
 					}
 				}
-			} else if (delta.getY() < 0) {
+			} else if (myMoveWithCollisionFP.getY() < 0) {
 				for (int x = x1n; x <= x2n; x++) {
 					if (mRoom.isCollidable(x, y1)) {
-						delta = new ImmutableFloatPair(delta.getX(), 0);
+						myMoveWithCollisionFP.set(myMoveWithCollisionFP.getX(), 0);
 						result.add(Direction.UP);
-						mPosition = new ImmutableFloatPair(mPosition.getX(), (y1 + 1) * mRoom.getTileHeight()
+						mPosition.set(mPosition.getX(), (y1 + 1) * mRoom.getTileHeight()
 								+ halfSize.getY());
 					}
 				}
@@ -236,8 +241,8 @@ public abstract class Entity {
 	}
 
 	// virtual void setPosition(float2 position);
-	public void setPosition(ImmutableFloatPair position) {
-		mPosition = position;
+	public void setPosition(AbstractFloatPair position) {
+		mPosition.set(position);
 	}
 
 	//
@@ -253,8 +258,8 @@ public abstract class Entity {
 	}
 
 	// virtual void setVelocity(float2 velocity);
-	public void setVelocity(ImmutableFloatPair velocity) {
-		mVelocity = velocity;
+	public void setVelocity(AbstractFloatPair velocity) {
+		mVelocity.set(velocity);
 	}
 
 	// virtual void update();

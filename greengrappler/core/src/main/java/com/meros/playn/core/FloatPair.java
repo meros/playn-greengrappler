@@ -1,6 +1,6 @@
 package com.meros.playn.core;
 
-public class FloatPair implements AbstractFloatPair {
+public class FloatPair extends AbstractFloatPair {
 	private float x = 0.0f;
 	private float y = 0.0f;
 	
@@ -15,9 +15,18 @@ public class FloatPair implements AbstractFloatPair {
 		y = aY;
 	}
 
+	public FloatPair() {
+		x = 0;
+		y = 0;
+	}
+
 	public FloatPair add(AbstractFloatPair aOther) {
-		x += aOther.getX();
-		y += aOther.getY();
+		return add(aOther.getX(), aOther.getY());
+	}
+
+	public FloatPair add(float aX, float aY) {
+		x += aX;
+		y += aY;
 		return this;
 	}
 
@@ -41,5 +50,30 @@ public class FloatPair implements AbstractFloatPair {
 		x /= aDivisor;
 		y /= aDivisor;
 		return this;
+	}
+
+	public FloatPair set(AbstractFloatPair aOther) {
+		return set(aOther.getX(), aOther.getY());
+	}
+
+	public FloatPair set(float aX, float aY) {
+		x = aX;
+		y = aY;
+		
+		return this;
+	}
+
+	public FloatPair subtract(AbstractFloatPair aOther) {
+		return subtract(aOther.getX(), aOther.getY());
+	}
+
+	public FloatPair subtract(float aX, float aY) {
+		x -= aX;
+		y -= aY;
+		return this;
+	}
+	
+	public FloatPair normalize() {
+		return this.divide(this.length());
 	}
 }

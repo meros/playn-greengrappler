@@ -45,10 +45,8 @@ public class Reactor extends Entity {
 	@Override
 	public CollisionRect getCollisionRect() {
 		CollisionRect rect = new CollisionRect();
-		rect.myTopLeft = getPosition().subtract(getHalfSize()).subtract(
-				new ImmutableFloatPair(2, 2));
-		rect.myBottomRight = getPosition().add(getHalfSize()).add(
-				new ImmutableFloatPair(2, 2));
+		rect.myTopLeft.set(getPosition()).subtract(getHalfSize()).subtract(2, 2);
+		rect.myBottomRight.set(getPosition()).add(getHalfSize()).add(2, 2);
 		return rect;
 	}
 

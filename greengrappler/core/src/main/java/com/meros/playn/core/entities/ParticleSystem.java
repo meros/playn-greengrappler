@@ -5,6 +5,7 @@ import java.util.Random;
 
 import playn.core.Surface;
 
+import com.meros.playn.core.AbstractFloatPair;
 import com.meros.playn.core.Animation;
 import com.meros.playn.core.Entity;
 import com.meros.playn.core.FloatPair;
@@ -29,7 +30,7 @@ public class ParticleSystem extends Entity {
 
 	public ParticleSystem(Animation aAnimation, int aAnimationSpeed,
 			int aLifeTime, int aBlinkTime, int aMinSpeed, int aMaxSpeed,
-			int aNumParticles, ImmutableFloatPair aInitialVel, float aGravity) {
+			int aNumParticles, AbstractFloatPair aInitialVel, float aGravity) {
 		myAnimation = aAnimation;
 		myAnimationSpeed = aAnimationSpeed;
 		myLifeTimeTicks = aLifeTime;
@@ -69,11 +70,11 @@ public class ParticleSystem extends Entity {
 	}
 
 	@Override
-	public void setPosition(ImmutableFloatPair position) {
+	public void setPosition(AbstractFloatPair position) {
 		setPosition(position, 0.0f, false);
 	}
 
-	public void setPosition(ImmutableFloatPair position, float randomAmount,
+	public void setPosition(AbstractFloatPair position, float randomAmount,
 			boolean randomVel) {
 		super.setPosition(position);
 

@@ -3,14 +3,14 @@ package com.meros.playn.core;
 import java.util.HashMap;
 import java.util.Map;
 
-import playn.core.Surface;
 import playn.core.Image;
+import playn.core.Surface;
 
 public class Font {
 
 	//TODO: fix the artifact when drawing characters (due to scaling and not clipping at the exact position)
 	
-	Map<String, Image> myGlyphToBitmap = new HashMap<String, Image>();
+	Map<Character, Image> myGlyphToBitmap = new HashMap<Character, Image>();
 	int myHeight = 0;
 	
 	public Font(Image aGlyphImage, char aStartChar, char aEndChar) {
@@ -134,10 +134,10 @@ public class Font {
 	}
 
 	private Image getBitmapForGlyph(char glyph) {
-		Image defaultBitmap = myGlyphToBitmap.get("" + ' ');
+		Image defaultBitmap = myGlyphToBitmap.get(' ');
 		Image bitmap = defaultBitmap;
-		if (myGlyphToBitmap.containsKey("" + glyph)) {
-			bitmap = myGlyphToBitmap.get("" + glyph);
+		if (myGlyphToBitmap.containsKey(glyph)) {
+			bitmap = myGlyphToBitmap.get(glyph);
 		}
 		return bitmap;
 	}
@@ -207,7 +207,7 @@ public class Font {
 							: aGlyphs.charAt(currGlyphIndex++);
 					Image bitmap = glyphImage.subImage(x, scanLine, width,
 							height);
-					myGlyphToBitmap.put("" + currGlyph, bitmap);
+					myGlyphToBitmap.put(currGlyph, bitmap);
 
 					x = x1;
 				}
@@ -215,9 +215,9 @@ public class Font {
 			}
 			scanLine += lastRowHeight + 1;
 		}
-		if (!myGlyphToBitmap.containsKey("" + '\n')
-				&& myGlyphToBitmap.containsKey("" + ' '))
-			myGlyphToBitmap.put("" + '\n', myGlyphToBitmap.get("" + ' ')); // have
+		if (!myGlyphToBitmap.containsKey('\n')
+				&& myGlyphToBitmap.containsKey(' '))
+			myGlyphToBitmap.put('\n', myGlyphToBitmap.get(' ')); // have
 		// something
 		// to
 		// draw

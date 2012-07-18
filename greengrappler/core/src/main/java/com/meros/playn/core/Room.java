@@ -36,6 +36,8 @@ public class Room {
 	boolean myIsCompleted = false;
 	Layer myMiddleLayer;
 	private int myDestroyedToTileRow = -1;
+	private FloatPair findHookableEntityToPos = new FloatPair();
+	private FloatPair myRayCastLengthCompareFloatPair = new FloatPair();
 
 	public Room(
 			Layer aBackgroundLayer, 
@@ -97,8 +99,8 @@ public class Room {
 	public boolean damageDone(int aX, int aY) {
 		for (Entity entity : mDamagableEntities) {
 			CollisionRect rect = new CollisionRect();
-			rect.myTopLeft = new ImmutableFloatPair(aX, aY);
-			rect.myBottomRight = new ImmutableFloatPair(aX + 1, aY + 1);
+			rect.myTopLeft.set(aX, aY);
+			rect.myBottomRight.set(aX + 1, aY + 1);
 
 			if (rect.Collides(entity.getCollisionRect())) {
 				entity.onDamage();
@@ -112,8 +114,8 @@ public class Room {
 	public Entity findHookableEntity(ImmutableFloatPair position) {
 		for (Entity entity : mHookableEntities)
 		{
-			ImmutableFloatPair toEntity = entity.getPosition().subtract(position);
-			if (Math.abs(toEntity.getX()) < entity.getHalfSize().getX() && Math.abs(toEntity.getY()) < entity.getHalfSize().getY()) {
+			findHookableEntityToPos.set(entity.getPosition()).subtract(position);
+			if (Math.abs(findHookableEntityToPos.getX()) < entity.getHalfSize().getX() && Math.abs(findHookableEntityToPos.getY()) < entity.getHalfSize().getY()) {
 				return entity;
 			}
 		}
@@ -324,7 +326,7 @@ public class Room {
 		public int myInt;
 	}
 
-	public boolean rayCast(ImmutableFloatPair origin, ImmutableFloatPair direction,
+	public boolean rayCast(AbstractFloatPair origin, AbstractFloatPair direction,
 			boolean cullBeyondDirection, OutInt aOutX, OutInt aOutY) {
 		if (direction.isZero()) {
 			return false;
@@ -393,8 +395,9 @@ public class Room {
 			aOutY.myInt = iy;
 			ImmutableFloatPair tileCenter = new ImmutableFloatPair(ix * getTileWidth() + getTileWidth()
 					/ 2, iy * getTileHeight() + getTileHeight() / 2);
+			myRayCastLengthCompareFloatPair.set(origin).subtract(tileCenter);
 			if (cullBeyondDirection
-					&& origin.subtract(tileCenter).lengthCompare(direction) > 0) {
+					&& myRayCastLengthCompareFloatPair.lengthCompare(direction) > 0) {
 				return false;
 			}
 			return true;

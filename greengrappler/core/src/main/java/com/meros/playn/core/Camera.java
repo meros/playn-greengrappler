@@ -55,7 +55,7 @@ public class Camera {
 		boolean foundRect = false;
 		ImmutableFloatPair desiredOffset = new ImmutableFloatPair();
 
-		ImmutableFloatPair heroRealPos = aHero.getPosition();
+		FloatPair heroRealPos = aHero.getPosition();
 		for(Rect rect : cameraRects)
 		{
 			if (rect.x < heroRealPos.getX() && rect.y <heroRealPos.getY() &&

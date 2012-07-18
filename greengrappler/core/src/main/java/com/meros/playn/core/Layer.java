@@ -14,7 +14,7 @@ public class Layer {
 	Tile[][] myTiles;
 
 	int myWidth;
-	private int myDestroyedToTileRow = 0;
+	private int myDestroyedToTileRow = -1;
 
 	public Layer(int aWidth, int aHeight) {
 		myWidth = aWidth;

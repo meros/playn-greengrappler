@@ -48,7 +48,7 @@ public class WallOfDeath extends Entity {
 
 		if (!myInited)
 		{
-			myOriginalPosition = getPosition();
+			myOriginalPosition = new ImmutableFloatPair(getPosition());
 			myInited = true;
 		}
 

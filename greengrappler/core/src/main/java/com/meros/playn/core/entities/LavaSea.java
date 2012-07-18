@@ -91,8 +91,8 @@ public class LavaSea extends Entity {
 	public CollisionRect getCollisionRect()
 	{
 		CollisionRect rect = new CollisionRect();
-		rect.myTopLeft = new ImmutableFloatPair(0, getCurrentY());
-		rect.myBottomRight = new ImmutableFloatPair(10000000, 10000000);
+		rect.myTopLeft.set(0, getCurrentY());
+		rect.myBottomRight.set(10000000, 10000000);
 
 		return rect;
 	}

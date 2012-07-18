@@ -23,7 +23,7 @@ public class ReactorCore extends Entity {
 	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer) {
 		// Entity::draw(buffer, offsetX, offsetY, layer);
-		ImmutableFloatPair pos = getPosition();
+		ImmutableFloatPair pos = new ImmutableFloatPair(getPosition());
 		pos = pos.subtract(new ImmutableFloatPair(mAnimation.getFrameWidth(), mAnimation
 				.getFrameHeight()).divide(2));
 		pos = pos.add(new ImmutableFloatPair(offsetX, offsetY));
@@ -40,12 +40,12 @@ public class ReactorCore extends Entity {
 	public void update() {
 		Hero hero = mRoom.getHero();
 
-		mVelocity = new ImmutableFloatPair(0, mVelocity.getY() + 6.0f);
+		mVelocity.set(0, mVelocity.getY() + 6.0f);
 
 		EnumSet<Direction> bumps = moveWithCollision();
 
 		if (bumps.contains(Direction.UP) || bumps.contains(Direction.DOWN)) {
-			mVelocity = new ImmutableFloatPair(mVelocity.getX(), mVelocity.getY()*0.8f);
+			mVelocity.set(mVelocity.getX(), mVelocity.getY()*0.8f);
 		}
 
 		if (hero.Collides(this)) {

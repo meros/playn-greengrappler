@@ -81,7 +81,7 @@ public class SimpleWalkingMonster extends Entity {
 		switch (myState) {
 		case WALKING: {
 			
-			mVelocity = new ImmutableFloatPair(
+			mVelocity.set(
 					20.0f * ((myFacing == Facing.LEFT) ? -1 : 1),
 					mVelocity.getY() + 6.0f);
 
@@ -89,7 +89,7 @@ public class SimpleWalkingMonster extends Entity {
 			EnumSet<Direction> bumps = moveWithCollision();
 
 			if (bumps.contains(Direction.UP) || bumps.contains(Direction.DOWN)) {
-				mVelocity = new ImmutableFloatPair(mVelocity.getX(), 0);
+				mVelocity.set(mVelocity.getX(), 0);
 			}
 
 			if (bumps.contains(Direction.LEFT)) {
@@ -104,10 +104,8 @@ public class SimpleWalkingMonster extends Entity {
 					: getHalfSize().getX() + 2);
 			int offsetY = (int) (getHalfSize().getY() + 2);
 
-			ImmutableFloatPair position = getPosition();
-
-			int x = (int) ((position.getX() + offsetX) / mRoom.getTileWidth());
-			int y = (int) ((position.getY() + offsetY) / mRoom.getTileHeight());
+			int x = (int) ((getPosition().getX() + offsetX) / mRoom.getTileWidth());
+			int y = (int) ((getPosition().getY() + offsetY) / mRoom.getTileHeight());
 
 			if (!mRoom.isCollidable(x, y)) {
 				if (myFacing == Facing.LEFT) {
