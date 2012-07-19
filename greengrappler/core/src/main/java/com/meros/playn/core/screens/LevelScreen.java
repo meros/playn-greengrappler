@@ -6,6 +6,7 @@ import playn.core.Color;
 import com.meros.playn.core.Animation;
 import com.meros.playn.core.Font;
 import com.meros.playn.core.GameState;
+import com.meros.playn.core.GreenGrappler;
 import com.meros.playn.core.Input;
 import com.meros.playn.core.LevelDescription;
 import com.meros.playn.core.Music;
@@ -26,12 +27,19 @@ public class LevelScreen extends Screen {
 	LevelDescription myLevelDesc;
 	Room myRoom;
 	int mySelected = 0;
+	boolean myPaused = false;
 
 	public LevelScreen(LevelDescription aLevelDescription) {
 		myLevelDesc = aLevelDescription;
 		Music.playSong(myLevelDesc.myMusicFile);
 
 		myRoom = RoomLoader.LoadRoom(aLevelDescription.myLevelFile);
+	}
+	
+	@Override
+	public void onEntered()
+	{
+		GreenGrappler.showTouchControls(true);
 	}
 
 	@Override
@@ -68,6 +76,13 @@ public class LevelScreen extends Screen {
 
 	@Override
 	public void onLogic() {
+		
+		if (myPaused && !Input.isPressed(Buttons.Pause))
+		{
+			return;
+		}
+		
+		myPaused = !myPaused && Input.isPressed(Buttons.Pause);
 
 		if (myRoom.isCompleted()) {
 			if (myLevelDesc.myLevelFile == "data/rooms/olof.tmx")

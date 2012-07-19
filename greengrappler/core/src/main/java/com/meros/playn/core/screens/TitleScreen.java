@@ -3,8 +3,10 @@ package com.meros.playn.core.screens;
 import playn.core.Surface;
 
 import com.meros.playn.core.Animation;
+import com.meros.playn.core.Constants.Buttons;
 import com.meros.playn.core.Font;
 import com.meros.playn.core.GameState;
+import com.meros.playn.core.GreenGrappler;
 import com.meros.playn.core.Input;
 import com.meros.playn.core.LevelDescription;
 import com.meros.playn.core.Music;
@@ -12,7 +14,6 @@ import com.meros.playn.core.Resource;
 import com.meros.playn.core.Screen;
 import com.meros.playn.core.ScreenManager;
 import com.meros.playn.core.Sound;
-import com.meros.playn.core.Constants.Buttons;
 
 public class TitleScreen extends Screen {
 
@@ -62,6 +63,8 @@ public class TitleScreen extends Screen {
 
 	@Override
 	public void onEntered() {
+		GreenGrappler.showTouchControls(true);
+		
 		myGameStart = false;
 		Music.playSong("data/music/intro2.xm");
 

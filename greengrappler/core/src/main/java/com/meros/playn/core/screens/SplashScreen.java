@@ -1,6 +1,7 @@
 package com.meros.playn.core.screens;
 
 import com.meros.playn.core.Animation;
+import com.meros.playn.core.GreenGrappler;
 import com.meros.playn.core.Resource;
 import com.meros.playn.core.Screen;
 import com.meros.playn.core.Sound;
@@ -12,6 +13,12 @@ public class SplashScreen extends Screen {
 
 	int mFrameCounter = 0;
 	Animation mLogo = Resource.getAnimation("data/images/logo.bmp", 1);
+	
+	@Override
+	public void onEntered()
+	{
+		GreenGrappler.showTouchControls(false);
+	}
 
 	@Override
 	public void onDraw(Surface aBuffer) {

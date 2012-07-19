@@ -154,6 +154,7 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 		mKeyMap.put(Key.Z, Buttons.Fire);
 		mKeyMap.put(Key.ESCAPE, Buttons.ForceQuit);
 		mKeyMap.put(Key.A, Buttons.Jump);
+		mKeyMap.put(Key.P, Buttons.Pause);
 
 		Input input = new Input();
 		myTouchAreas.add(input.new TouchArea(616+172,465,172,234, Buttons.Fire, true));
@@ -183,6 +184,14 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 				(int) (dpadCenter.getY()+largeWidth/2-smallWidth),
 				largeWidth,
 				smallWidth, Buttons.Down, false));
+		
+		int pauseAreaSize = 100;
+		myTouchAreas.add(input.new TouchArea(
+				(int) (960-pauseAreaSize),
+				(int) (720-pauseAreaSize),
+				pauseAreaSize,
+				pauseAreaSize, Buttons.Pause, false));
+		
 	}
 
 	public static boolean isHeld(Buttons aButton) {

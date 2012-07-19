@@ -2,7 +2,7 @@ package com.meros.playn.core;
 
 public class Constants {
 	public enum Buttons {
-		Down, Exit, Fire, ForceQuit, Jump, Left, Right, ToggleFullscreen, ToggleSlowMotion, ToggleVSync, ToggleWideScreen, Up
+		Down, Exit, Fire, ForceQuit, Jump, Left, Right, ToggleFullscreen, ToggleSlowMotion, ToggleVSync, ToggleWideScreen, Up, Pause
 	}
 
 	public enum Direction {

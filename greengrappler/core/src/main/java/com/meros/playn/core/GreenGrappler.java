@@ -13,6 +13,8 @@ import pythagoras.f.Point;
 
 import com.meros.playn.core.Constants.Buttons;
 import com.meros.playn.core.Input.HitTranslator;
+import com.meros.playn.core.screens.EndScreen;
+import com.meros.playn.core.screens.SplashScreen;
 import com.meros.playn.core.screens.TitleScreen;
 
 public class GreenGrappler implements Game, Renderer, HitTranslator {
@@ -32,6 +34,25 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 
 	boolean myReadyForUpdates = false;
 
+	private static ImageLayer controlLayer = null;
+
+	public static void showTouchControls(boolean aShowTouchControls)
+	{
+		if (controlLayer == null)
+		{
+			return;
+		}
+
+		if (aShowTouchControls)
+		{
+			controlLayer.setAlpha(0.7f);
+		}
+		else
+		{
+			controlLayer.setAlpha(0);
+		}
+	}
+
 	long startTimeMillis = System.currentTimeMillis();
 
 	private ImmediateLayer bufferLayer;
@@ -41,13 +62,12 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 		myExitCallback = exitCallback;
 	}
 
-	ImageLayer controlLayer;
 	boolean mySetupRenderingOnce = false;
 
 	@Override
 	public void init() {
 		log().debug("Green Grappler init");
-		
+
 		GameState.loadFromFile();
 
 		// create and add background image layer
@@ -55,7 +75,7 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 		graphics().ctx().setTextureFilter(GLContext.Filter.NEAREST, GLContext.Filter.NEAREST);
 
 		Input.setTouchTranslator(this);
-		
+
 		if (myFullScreen)
 			graphics().setSize(graphics().screenWidth(),
 					graphics().screenHeight());
@@ -216,9 +236,9 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 	}
 
 	void postPreloadInit() {
-		// ScreenManager.add(new EndScreen());
+		ScreenManager.add(new EndScreen());
 		ScreenManager.add(new TitleScreen());
-		//TODO: ScreenManager.add(new SplashScreen());
+		ScreenManager.add(new SplashScreen());
 		myFont = Resource.getFont("data/images/font.bmp");
 	}
 

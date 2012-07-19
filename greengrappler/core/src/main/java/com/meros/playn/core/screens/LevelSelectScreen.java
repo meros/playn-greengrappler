@@ -9,6 +9,7 @@ import com.meros.playn.core.Animation;
 import com.meros.playn.core.Dialogue;
 import com.meros.playn.core.Font;
 import com.meros.playn.core.GameState;
+import com.meros.playn.core.GreenGrappler;
 import com.meros.playn.core.Input;
 import com.meros.playn.core.LevelDescription;
 import com.meros.playn.core.Music;
@@ -229,6 +230,8 @@ public class LevelSelectScreen extends Screen {
 
 	@Override
 	public void onEntered() {
+		GreenGrappler.showTouchControls(true);
+		
 		GameState.saveToFile();
 
 		myBossLevelUnlocked = true;

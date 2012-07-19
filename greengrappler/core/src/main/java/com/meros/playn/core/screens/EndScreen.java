@@ -4,6 +4,7 @@ import playn.core.Surface;
 import playn.core.Color;
 
 import com.meros.playn.core.Font;
+import com.meros.playn.core.GreenGrappler;
 import com.meros.playn.core.Input;
 import com.meros.playn.core.Music;
 import com.meros.playn.core.Resource;
@@ -18,6 +19,12 @@ public class EndScreen extends Screen {
 	int myCreditsOffset = 240;;
 	Font myFont = Resource.getFont("data/images/font.bmp");
 	int myFrameCounter = -60;
+	
+	@Override
+	public void onEntered()
+	{
+		GreenGrappler.showTouchControls(false);
+	}
 
 	@Override
 	public void onDraw(Surface aBuffer) {
