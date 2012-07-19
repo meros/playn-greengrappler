@@ -148,7 +148,7 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 		if (myReadyForUpdates && !mySetupRenderingOnce)
 		{
 
-			bufferLayer = graphics().createImmediateLayer(this);
+			bufferLayer = graphics().createImmediateLayer(320, 240, this);
 
 			{		
 				float w = PlayN.graphics().width();

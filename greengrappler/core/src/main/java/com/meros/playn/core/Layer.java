@@ -20,26 +20,26 @@ public class Layer {
 		myWidth = aWidth;
 		myHeight = aHeight;
 
-		
+
 		myBuffer = PlayN.graphics().createImage(Math.max(aWidth, 1) * 10, Math.max(aHeight, 1) * 10);
 
 		myTiles = new Tile[aWidth][aHeight];
 	}
 
 	public void draw(Surface aBuffer, int aOffsetX, int aOffsetY, Layer[] aOverLayers) {
-		
+
 		int firstTileX = (-aOffsetX)/10;
 		int lastTileX = (int) ((320 - aOffsetX)/10);
 		int firstTileY = (-aOffsetY)/10;
 		int lastTileY = (int) ((240 - aOffsetY)/10);
-		
+
 		for (int y = firstTileY; y <= lastTileY; y++) {
 			Tile currentTileType = null;
 			int currentTileXStart = 0;
 			for (int x = firstTileX; x <= (lastTileX + 1); x++) {
 				//Same tile as current?
 				Tile tile = getTile(x, y);
-				
+				/*
 				boolean lastColumn = (x == (lastTileX + 1));
 
 				if (tile == currentTileType && !lastColumn)
@@ -52,51 +52,56 @@ public class Layer {
 					if (currentTileType != null && currentTileType.getPattern() != null) {
 						int startX = aOffsetX + currentTileXStart * 10;
 						int startY = aOffsetY + y * 10;
-										
+
 						aBuffer.save();
 						aBuffer.translate(startX, startY);
 						aBuffer.setFillPattern(currentTileType.getPattern());
 						aBuffer.fillRect(0, 0, (x-currentTileXStart)*10, 10);						
 						aBuffer.restore();
 					}
-					
+
 					//Reset the current tile type
 					currentTileType = tile;
 					currentTileXStart = x;
 				}
-				
-//				boolean dontDraw = false;
-//				
-//				for (Layer overLayer : aOverLayers)
-//				{
-//					Tile overLayerTile = overLayer.getTile(x, y);
-//					if (overLayerTile != null && overLayerTile.isOpaque())
-//					{
-//						dontDraw = true;
-//					}
-//				}
-//				
-//				if (dontDraw)
-//				{
-//					continue;
-//				}
+				 */
+				boolean dontDraw = false;
+
+				for (Layer overLayer : aOverLayers)
+				{
+					Tile overLayerTile = overLayer.getTile(x, y);
+					if (overLayerTile != null && overLayerTile.isOpaque())
+					{
+						dontDraw = true;
+					}
+				}
+
+				if (dontDraw)
+				{
+					continue;
+				}
+
+				if (tile != null && tile.getImage() != null)
+				{
+					aBuffer.drawImage(tile.getImage(), x*10 + aOffsetX, y*10 + aOffsetY);
+				}
 			}
 		}
-		
+
 		/*
-		
+
 		if (myBufferIsDirty) {
 			privUpdateBuffer(myBuffer.canvas());
 			myBufferIsDirty = false;
 		}
-		
+
 		int sX = myDestroyedToTileRow*10;
 		int sY = 0;
 		int sW = (int) (myBuffer.width()-sX);
 		int sH = (int) myBuffer.height();
 
 		aBuffer.drawImage(myBuffer, aOffsetX+sX, aOffsetY, sW, sH, sX, sY, sW, sH);
-		*/
+		 */
 	}
 
 	public int getHeight() {

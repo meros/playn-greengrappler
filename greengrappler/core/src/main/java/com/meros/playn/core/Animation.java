@@ -39,19 +39,23 @@ public class Animation {
 	// false, bool aVFlip = false, Blending aBlending = Blending_None) const;
 	public void drawFrame(Surface aBuffer, int aFrame, int aX, int aY, boolean aHFlip,
 			boolean aVFlip) {
-		
+
 		if (aX > aBuffer.width() || aY > aBuffer.height() || aX + myFrameWidth < 0 || aY + myFrameHeight < 0)
 			return;
 
+		boolean needTransform = aHFlip || aVFlip;
+		if (needTransform)
+			aBuffer.save();
 		
-		aBuffer.save();
 		if (aHFlip)
 			aBuffer.transform(-1, 0, 0, 1, getFrameWidth() + aX * 2, 0);
 		if (aVFlip)
 			aBuffer.transform(1, 0, 0, -1, 0, getFrameHeight() + aY * 2);
 
 		aBuffer.drawImage(getFrame(aFrame), aX, aY);
-		aBuffer.restore();
+		
+		if (needTransform)
+			aBuffer.restore();
 	}
 
 	public Image getFrame(int aFrame) {

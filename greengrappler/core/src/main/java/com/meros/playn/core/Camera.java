@@ -17,14 +17,16 @@ public class Camera {
 
 	List<Rect> cameraRects = new ArrayList<Rect>();
 
-	ImmutableFloatPair myOffset = new ImmutableFloatPair();
-	ImmutableFloatPair myShakeOffset = new ImmutableFloatPair();
+	FloatPair myOffset = new FloatPair();
+	FloatPair myShakeOffset = new FloatPair();
 
 	float myShakeAmount = 0.0f;
 	int myShakeTime = 0;
 
 	private final ImmutableFloatPair myTopLeft;
 	private final ImmutableFloatPair myBottomRight;
+
+	private FloatPair myUpdateDesiredOffset = new FloatPair();
 
 	public Camera(ImmutableFloatPair aTopLeft, ImmutableFloatPair aBottomRight) {
 		myTopLeft = aTopLeft;
@@ -37,9 +39,8 @@ public class Camera {
 	}
 
 	public void centerToHero(Hero aHero) {
-		ImmutableFloatPair heropos = new ImmutableFloatPair(-aHero.getDrawPositionX() + 320 / 2,
+		myOffset.set(-aHero.getDrawPositionX() + 320 / 2,
 				-aHero.getDrawPositionY() + (2 * 240) / 3);
-		myOffset = heropos;
 	}
 
 	public int getOffsetX() {
@@ -53,7 +54,7 @@ public class Camera {
 	
 	public void update(Hero aHero) {
 		boolean foundRect = false;
-		ImmutableFloatPair desiredOffset = new ImmutableFloatPair();
+		myUpdateDesiredOffset.set(0,0);
 
 		FloatPair heroRealPos = aHero.getPosition();
 		for(Rect rect : cameraRects)
@@ -61,46 +62,44 @@ public class Camera {
 			if (rect.x < heroRealPos.getX() && rect.y <heroRealPos.getY() &&
 					(rect.x + rect.w) > heroRealPos.getX() && (rect.y+rect.h) > heroRealPos.getY())
 			{
-				desiredOffset = new ImmutableFloatPair(-rect.x, -rect.y + 10);
+				myUpdateDesiredOffset.set(-rect.x, -rect.y + 10);
 				foundRect = true;
 			}
 		}
 
 		if (!foundRect) {
-			ImmutableFloatPair heropos = new ImmutableFloatPair(-aHero.getDrawPositionX() + 320 / 2,
+			myUpdateDesiredOffset.set(-aHero.getDrawPositionX() + 320 / 2,
 					-aHero.getDrawPositionY() + (2 * 240) / 3);
-
-			desiredOffset = heropos;
 		}
 
-		myOffset = myOffset.add((desiredOffset.subtract(myOffset))
-				.multiply((float) 0.1));
+		myUpdateDesiredOffset.subtract(myOffset).multiply(0.1f);
+		myOffset.add(myUpdateDesiredOffset);
 
 		myShakeTime--;
 
 		if (myShakeTime > 0) {
-			myShakeOffset = new ImmutableFloatPair(
+			myShakeOffset.set(
 					(float) (myShakeAmount * (Math.random() - 0.5f)),
 					(float) (myShakeAmount * (Math.random() - 0.5f)));
 		}
 		if (myShakeTime < 0) {
-			myShakeOffset = new ImmutableFloatPair();
+			myShakeOffset.set(0,0);
 		}
 
 		if (myOffset.getX() + myTopLeft.getX() > 0) {
-			myOffset = new ImmutableFloatPair(-myTopLeft.getX(), myOffset.getY());
+			myOffset.set(-myTopLeft.getX(), myOffset.getY());
 		}
 
 		if (myOffset.getY() + myTopLeft.getY() > 10) {
-			myOffset = new ImmutableFloatPair(myOffset.getX(), 10 - myTopLeft.getY());
+			myOffset.set(myOffset.getX(), 10 - myTopLeft.getY());
 		}
 
 		if (myOffset.getX() + myBottomRight.getX() < 320) {
-			myOffset = new ImmutableFloatPair(320 - myBottomRight.getX(), myOffset.getY());
+			myOffset.set(320 - myBottomRight.getX(), myOffset.getY());
 		}
 
 		if (myOffset.getY() + myBottomRight.getY() < 240) {
-			myOffset = new ImmutableFloatPair(myOffset.getX(), 240 - myBottomRight.getY());
+			myOffset.set(myOffset.getX(), 240 - myBottomRight.getY());
 		}
 
 		if (GlobalOptions.avoidHeroAtThumbs())
@@ -109,12 +108,12 @@ public class Camera {
 
 			if (heroRealPos.getX() + myOffset.getX() < thumbSafeAreaSize)
 			{
-				myOffset = new ImmutableFloatPair(thumbSafeAreaSize-heroRealPos.getX(), myOffset.getY());
+				myOffset.set(thumbSafeAreaSize-heroRealPos.getX(), myOffset.getY());
 			}
 
 			if (heroRealPos.getX() + myOffset.getX() > 320-thumbSafeAreaSize)
 			{
-				myOffset = new ImmutableFloatPair((320-thumbSafeAreaSize)-heroRealPos.getX(), myOffset.getY());
+				myOffset.set((320-thumbSafeAreaSize)-heroRealPos.getX(), myOffset.getY());
 			}
 		}
 	}
