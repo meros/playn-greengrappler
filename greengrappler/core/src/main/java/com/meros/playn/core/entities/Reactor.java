@@ -5,12 +5,11 @@ import java.util.Random;
 import playn.core.Surface;
 
 import com.meros.playn.core.Animation;
-import com.meros.playn.core.CollisionRect;
 import com.meros.playn.core.Entity;
+import com.meros.playn.core.ImmutableFloatPair;
 import com.meros.playn.core.Resource;
 import com.meros.playn.core.Room;
 import com.meros.playn.core.Sound;
-import com.meros.playn.core.ImmutableFloatPair;
 
 public class Reactor extends Entity {
 
@@ -41,13 +40,29 @@ public class Reactor extends Entity {
 			myShell.drawFrame(buffer, myDamage / FRAME_PER_DAMAGE, x
 					- (int) getSize().getX() / 2, y - (int) getSize().getY() / 2);
 	}
+	
+	@Override
+	public float getCollideTop()
+	{
+		return getPosition().getY() - getHalfSize().getY() - 2;				
+	}
+	
+	@Override
+	public float getCollideLeft()
+	{
+		return getPosition().getX() - getHalfSize().getX() - 2;		
+	}
 
 	@Override
-	public CollisionRect getCollisionRect() {
-		CollisionRect rect = new CollisionRect();
-		rect.myTopLeft.set(getPosition()).subtract(getHalfSize()).subtract(2, 2);
-		rect.myBottomRight.set(getPosition()).add(getHalfSize()).add(2, 2);
-		return rect;
+	public float getCollideBottom()
+	{
+		return getPosition().getY() + getHalfSize().getY() + 2;						
+	}
+
+	@Override
+	public float getCollideRight()
+	{
+		return getPosition().getX() + getHalfSize().getX() + 2;
 	}
 
 	@Override

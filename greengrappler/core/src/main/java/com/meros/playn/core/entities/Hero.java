@@ -6,7 +6,7 @@ import playn.core.Surface;
 
 import com.meros.playn.core.AbstractFloatPair;
 import com.meros.playn.core.Animation;
-import com.meros.playn.core.CollisionRect;
+import com.meros.playn.core.Collidable;
 import com.meros.playn.core.Constants.Buttons;
 import com.meros.playn.core.Constants.Direction;
 import com.meros.playn.core.Entity;
@@ -624,12 +624,43 @@ public class Hero extends Entity {
 	public boolean hasHook() {
 		return mRopeState == RopeState.Attached;
 	}
+	
+	private class HookCollidable implements Collidable
+	{
+		public float myLeft;
+		public float myTop;
+		public float myRight;
+		public float myBottom;
 
-	public CollisionRect getHookCollisionRect() {
-		CollisionRect rect = new CollisionRect();
-		rect.myTopLeft.set(mRopePosition).subtract(2,2);
-		rect.myBottomRight.set(mRopePosition).add(2,2);
-		return rect;
+		@Override
+		public float getCollideTop() {
+			return myTop;
+		}
+
+		@Override
+		public float getCollideLeft() {
+			return myLeft;
+		}
+
+		@Override
+		public float getCollideBottom() {
+			return myBottom;
+		}
+
+		@Override
+		public float getCollideRight() {
+			return myRight;
+		}
+	}
+	
+	private HookCollidable myHookCollidable = new HookCollidable();
+	public Collidable getHookCollidable() {
+		myHookCollidable.myLeft = mRopePosition.getX() - 2;
+		myHookCollidable.myRight = mRopePosition.getX() + 2;
+		myHookCollidable.myTop = mRopePosition.getY() - 2;
+		myHookCollidable.myBottom = mRopePosition.getY() + 2;
+
+		return myHookCollidable;
 	}
 
 	public Entity getHookedEntity() {

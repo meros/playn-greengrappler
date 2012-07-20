@@ -114,7 +114,7 @@ public class GroundWalkingMonster extends Entity {
 		}
 
 		if (hero.hasHook()
-				&& hero.getHookCollisionRect().Collides(getCollisionRect())) {
+				&& Collides(hero.getHookCollidable())) {
 			Sound.playSample("data/sounds/hook");
 			hero.detachHook();
 		}

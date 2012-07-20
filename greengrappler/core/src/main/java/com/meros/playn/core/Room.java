@@ -97,11 +97,7 @@ public class Room {
 
 	public boolean damageDone(int aX, int aY) {
 		for (Entity entity : mDamagableEntities) {
-			CollisionRect rect = new CollisionRect();
-			rect.myTopLeft.set(aX, aY);
-			rect.myBottomRight.set(aX + 1, aY + 1);
-
-			if (rect.Collides(entity.getCollisionRect())) {
+			if (CollisionMethods.Collides(entity, aX, aY, aX+1, aY+1)) {
 				entity.onDamage();
 				return true;
 			}
@@ -450,7 +446,7 @@ public class Room {
 		
 		for (int y = 0; y < myMiddleLayer.getHeight(); y++)
 		{
-			boolean s = myMiddleLayer.getTile(aX, y).getCollide();
+			//boolean s = myMiddleLayer.getTile(aX, y).getCollide();
 			//TODO: if (spawnDebris) {
 				//ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 20, 100, 20, 1, 50, 3, new ImmutableFloatPair(0.0f, -50.0f), 5.0f);
 			//	ps.setPosition(new ImmutableFloatPair(aX * getTileWidth() + getTileWidth() * 0.75f, y * getTileHeight() + getTileHeight() * 0.75f));

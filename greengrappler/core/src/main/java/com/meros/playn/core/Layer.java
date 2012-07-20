@@ -34,8 +34,8 @@ public class Layer {
 		int lastTileY = (int) ((240 - aOffsetY)/10);
 
 		for (int y = firstTileY; y <= lastTileY; y++) {
-			Tile currentTileType = null;
-			int currentTileXStart = 0;
+			//Tile currentTileType = null;
+			//int currentTileXStart = 0;
 			for (int x = firstTileX; x <= (lastTileX + 1); x++) {
 				//Same tile as current?
 				Tile tile = getTile(x, y);

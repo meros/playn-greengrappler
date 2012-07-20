@@ -6,7 +6,7 @@ import playn.core.Surface;
 
 import com.meros.playn.core.Constants.Direction;
 
-public abstract class Entity {
+public abstract class Entity implements Collidable {
 
 	protected int mFrameCounter = 0;
 	protected boolean mRemoved = false;
@@ -17,8 +17,6 @@ public abstract class Entity {
 
 	private ImmutableFloatPair mSize = new ImmutableFloatPair();
 	private ImmutableFloatPair mHalfSize = new ImmutableFloatPair();
-	private FloatPair myMoveWithCollisionFP = new FloatPair();
-	private FloatPair mMoveWithCollisionDividedVelocity = new FloatPair();
 
 	// virtual void draw(BITMAP *buffer, int offsetX, int offsetY, int layer);
 	public void draw(Surface aBuffer, int offsetX, int offsetY, int layer) {
@@ -32,29 +30,30 @@ public abstract class Entity {
 		//		// buffer.drawLine(x - 3, y, x + 3, y);
 		//		// buffer.drawLine(x, y - 3, x, y + 3);
 	}
-
-	public boolean Collides(Entity aOther)
+	
+	public float getCollideTop()
 	{
-		if (getPosition().getX() + getHalfSize().getX() < aOther.getPosition().getX() - aOther.getHalfSize().getX())
-			return false;
-		if (getPosition().getY() + getHalfSize().getY() < aOther.getPosition().getY() - aOther.getHalfSize().getX())
-			return false;
-		if (getPosition().getX() - getHalfSize().getX() > aOther.getPosition().getX() + aOther.getHalfSize().getX())
-			return false;
-		if (getPosition().getY() - getHalfSize().getY() > aOther.getPosition().getY() + aOther.getHalfSize().getY())
-			return false;
-		
-		return true;
+		return getPosition().getY() - getHalfSize().getY();				
+	}
+	
+	public float getCollideLeft()
+	{
+		return getPosition().getX() - getHalfSize().getX();		
 	}
 
-	//
-	// virtual CollisionRect getCollisionRect();
-	public CollisionRect getCollisionRect() {
-		CollisionRect collisionRect = new CollisionRect();
-		collisionRect.myTopLeft.set(mPosition.getX()-mSize.getX()/2, mPosition.getY()-mSize.getY()/2);
-		collisionRect.myBottomRight.set(mPosition.getX()+mSize.getX()/2, mPosition.getY()+mSize.getY()/2);
+	public float getCollideBottom()
+	{
+		return getPosition().getY() + getHalfSize().getY();						
+	}
 
-		return collisionRect;
+	public float getCollideRight()
+	{
+		return getPosition().getX() + getHalfSize().getX();
+	}
+
+	public boolean Collides(Collidable aOther)
+	{
+		return CollisionMethods.Collides(this, aOther);
 	}
 
 	// virtual int getDrawPositionX();
@@ -112,21 +111,25 @@ public abstract class Entity {
 
 	// virtual unsigned int moveWithCollision();
 	public EnumSet<Direction> moveWithCollision() {
-		mMoveWithCollisionDividedVelocity.set(mVelocity).divide(Time.TicksPerSecond);
-		return moveWithCollision(mMoveWithCollisionDividedVelocity );
+		return moveWithCollision(
+				mVelocity.getX()/Time.TicksPerSecond,
+				mVelocity.getY()/Time.TicksPerSecond);
 	}
 
-	public EnumSet<Direction> moveWithCollision(AbstractFloatPair aDelta) {
-		myMoveWithCollisionFP.set(aDelta);
+	public EnumSet<Direction> moveWithCollision(float aDeltaX, float aDeltaY) {
+		float deltaX = aDeltaX;
+		float deltaY = aDeltaY;
 		
 		int substeps = (int) Math
-				.ceil((Math.abs(aDelta.getX()) + Math.abs(aDelta.getY())) * 0.2);
-		myMoveWithCollisionFP.divide(substeps);
+				.ceil((Math.abs(aDeltaX) + Math.abs(aDeltaY)) * 0.2);
+		deltaX /= substeps;
+		deltaY /= substeps;
+		
 		EnumSet<Direction> result = EnumSet.noneOf(Direction.class);
 		ImmutableFloatPair halfSize = getHalfSize();
 
 		for (int i = 0; i < substeps; i++) {
-			mPosition.add(myMoveWithCollisionFP.getX(), 0);
+			mPosition.add(deltaX, 0);
 			int x1 = (int) ((mPosition.getX() - halfSize.getX()) / mRoom.getTileWidth());
 			int x2 = (int) ((mPosition.getX() + halfSize.getX()) / mRoom.getTileWidth());
 			int y1n = (int) ((mPosition.getY() - halfSize.getY() + 0.01f) / mRoom
@@ -134,10 +137,12 @@ public abstract class Entity {
 			int y2n = (int) ((mPosition.getY() + halfSize.getY() - 0.01f) / mRoom
 					.getTileHeight());
 
-			if (myMoveWithCollisionFP.getX() > 0) {
+			if (deltaX > 0) {
 				for (int y = y1n; y <= y2n; y++) {
 					if (mRoom.isCollidable(x2, y)) {
-						myMoveWithCollisionFP.set(0, myMoveWithCollisionFP.getY());
+						
+						deltaX = 0;
+						
 						result.add(Direction.RIGHT);
 						mPosition.set(
 								x2 * mRoom.getTileWidth() - halfSize.getX(),
@@ -145,10 +150,12 @@ public abstract class Entity {
 						break;
 					}
 				}
-			} else if (myMoveWithCollisionFP.getX() < 0) {
+			} else if (deltaX < 0) {
 				for (int y = y1n; y <= y2n; y++) {
 					if (mRoom.isCollidable(x1, y)) {
-						myMoveWithCollisionFP.set(0, myMoveWithCollisionFP.getY());
+						
+						deltaX = 0;
+						
 						result.add(Direction.LEFT);
 						mPosition.set((x1 + 1) * mRoom.getTileWidth()
 								+ halfSize.getX(), mPosition.getY());
@@ -157,7 +164,7 @@ public abstract class Entity {
 				}
 			}
 
-			mPosition.add(0, myMoveWithCollisionFP.getY());
+			mPosition.add(0, deltaY);
 			int y1 = (int) ((mPosition.getY() - halfSize.getY()) / mRoom.getTileHeight());
 			int y2 = (int) ((mPosition.getY() + halfSize.getY()) / mRoom.getTileHeight());
 			int x1n = (int) ((mPosition.getX() - halfSize.getX() + 0.01f) / mRoom
@@ -165,19 +172,23 @@ public abstract class Entity {
 			int x2n = (int) ((mPosition.getX() + halfSize.getX() - 0.01f) / mRoom
 					.getTileWidth());
 
-			if (myMoveWithCollisionFP.getY() > 0) {
+			if (deltaY > 0) {
 				for (int x = x1n; x <= x2n; x++) {
 					if (mRoom.isCollidable(x, y2)) {
-						myMoveWithCollisionFP.set(myMoveWithCollisionFP.getX(), 0);
+						
+						deltaY = 0;
+						
 						result.add(Direction.DOWN);
 						mPosition.set(mPosition.getX(), y2 * mRoom.getTileHeight() - halfSize.getY());
 						break;
 					}
 				}
-			} else if (myMoveWithCollisionFP.getY() < 0) {
+			} else if (deltaY < 0) {
 				for (int x = x1n; x <= x2n; x++) {
 					if (mRoom.isCollidable(x, y1)) {
-						myMoveWithCollisionFP.set(myMoveWithCollisionFP.getX(), 0);
+						
+						deltaY = 0;
+						
 						result.add(Direction.UP);
 						mPosition.set(mPosition.getX(), (y1 + 1) * mRoom.getTileHeight()
 								+ halfSize.getY());

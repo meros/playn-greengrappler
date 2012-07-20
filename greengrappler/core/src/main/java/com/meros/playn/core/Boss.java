@@ -86,7 +86,7 @@ public class Boss extends Entity {
 				&& myState != State.DEAD 
 				&& myState != State.VULNERABLE)
 		{
-			if (mRoom.getHero().getCollisionRect().Collides(getCollisionRect()))
+			if (mRoom.getHero().Collides(this))
 			{
 				mRoom.getHero().kill();
 			}
@@ -291,14 +291,29 @@ public class Boss extends Entity {
 			}
 		}
 	}
+	
+	@Override
+	public float getCollideTop()
+	{
+		return getPosition().getY() - getHalfSize().getY() - 2;				
+	}
+	
+	@Override
+	public float getCollideLeft()
+	{
+		return getPosition().getX() - getHalfSize().getX() - 2;		
+	}
 
 	@Override
-	public CollisionRect getCollisionRect()
+	public float getCollideBottom()
 	{
-		CollisionRect rect = new CollisionRect();
-		rect.myTopLeft.set(getPosition()).subtract(getHalfSize()).subtract(new ImmutableFloatPair(2,2));
-		rect.myBottomRight.set(getPosition()).add(getHalfSize()).add(new ImmutableFloatPair(2,2));
-		return rect;
+		return getPosition().getY() + getHalfSize().getY() + 2;						
+	}
+
+	@Override
+	public float getCollideRight()
+	{
+		return getPosition().getX() + getHalfSize().getX() + 2;
 	}
 
 	@Override

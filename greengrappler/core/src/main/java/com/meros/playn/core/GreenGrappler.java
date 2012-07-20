@@ -72,7 +72,10 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 
 		// create and add background image layer
 		//graphics().setSize(1280, 720);
-		graphics().ctx().setTextureFilter(GLContext.Filter.NEAREST, GLContext.Filter.NEAREST);
+		if (graphics().ctx() != null)
+		{
+			graphics().ctx().setTextureFilter(GLContext.Filter.NEAREST, GLContext.Filter.NEAREST);
+		}
 
 		Input.setTouchTranslator(this);
 

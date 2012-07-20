@@ -2,7 +2,6 @@ package com.meros.playn.core.entities;
 
 import playn.core.Surface;
 
-import com.meros.playn.core.CollisionRect;
 import com.meros.playn.core.Entity;
 import com.meros.playn.core.ImmutableFloatPair;
 
@@ -30,7 +29,7 @@ public class BossFloor extends Entity {
 		if (!myActive)
 			return;
 
-		if (mRoom.getHero().getCollisionRect().Collides(getCollisionRect()))
+		if (mRoom.getHero().Collides(this))
 		{
 			mRoom.getHero().kill();
 		}
@@ -46,13 +45,11 @@ public class BossFloor extends Entity {
 	}
 
 	@Override
-	public CollisionRect getCollisionRect()
+	public float getCollideTop()
 	{
-		CollisionRect rect = super.getCollisionRect();
-		rect.myTopLeft = rect.myTopLeft.subtract(new ImmutableFloatPair(0.0f,1.0f));
-		return rect;
+		return super.getCollideTop() - 1;
 	}
-
+	
 	@Override
 	public void onBossFloorActivate()
 	{

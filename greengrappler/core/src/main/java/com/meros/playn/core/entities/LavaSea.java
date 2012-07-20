@@ -5,10 +5,9 @@ import java.util.Random;
 import playn.core.Surface;
 
 import com.meros.playn.core.Animation;
-import com.meros.playn.core.CollisionRect;
 import com.meros.playn.core.Entity;
-import com.meros.playn.core.Resource;
 import com.meros.playn.core.ImmutableFloatPair;
+import com.meros.playn.core.Resource;
 
 public class LavaSea extends Entity {
 
@@ -25,7 +24,7 @@ public class LavaSea extends Entity {
 	{
 		Hero hero = mRoom.getHero();
 
-		if (hero.getCollisionRect().Collides(getCollisionRect()))
+		if (hero.Collides(this))
 		{
 			hero.kill();
 		}
@@ -86,15 +85,28 @@ public class LavaSea extends Entity {
 		}
 	}
 
+	@Override
+	public float getCollideTop()
+	{
+		return getCurrentY();
+	}
+	
+	@Override
+	public float getCollideLeft()
+	{
+		return 0;
+	}
 
 	@Override
-	public CollisionRect getCollisionRect()
+	public float getCollideRight()
 	{
-		CollisionRect rect = new CollisionRect();
-		rect.myTopLeft.set(0, getCurrentY());
-		rect.myBottomRight.set(10000000, 10000000);
-
-		return rect;
+		return 100000;
+	}
+	
+	@Override
+	public float getCollideBottom()
+	{
+		return 100000;
 	}
 
 	private int getCurrentY()
