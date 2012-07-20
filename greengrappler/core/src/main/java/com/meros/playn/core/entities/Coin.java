@@ -42,7 +42,7 @@ public class Coin extends Entity {
 			coin.setPosition(aCenterPosition);
 			coin.setVelocity(velocity);
 			aRoom.addEntity(coin);
-			Sound.playSample("data/sounds/coin");
+			//TODO: this causes a stupid lag when lots of coins! Not really needed sound imo! Sound.playSample("data/sounds/coin");
 		}
 	}
 
