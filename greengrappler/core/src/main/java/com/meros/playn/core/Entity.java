@@ -116,6 +116,7 @@ public abstract class Entity implements Collidable {
 				mVelocity.getY()/Time.TicksPerSecond);
 	}
 
+	private EnumSet<Direction> myMoveWithCollisionResult = EnumSet.noneOf(Direction.class);
 	public EnumSet<Direction> moveWithCollision(float aDeltaX, float aDeltaY) {
 		float deltaX = aDeltaX;
 		float deltaY = aDeltaY;
@@ -125,7 +126,7 @@ public abstract class Entity implements Collidable {
 		deltaX /= substeps;
 		deltaY /= substeps;
 		
-		EnumSet<Direction> result = EnumSet.noneOf(Direction.class);
+		myMoveWithCollisionResult.clear();
 		ImmutableFloatPair halfSize = getHalfSize();
 
 		for (int i = 0; i < substeps; i++) {
@@ -143,7 +144,7 @@ public abstract class Entity implements Collidable {
 						
 						deltaX = 0;
 						
-						result.add(Direction.RIGHT);
+						myMoveWithCollisionResult.add(Direction.RIGHT);
 						mPosition.set(
 								x2 * mRoom.getTileWidth() - halfSize.getX(),
 								mPosition.getY());
@@ -156,7 +157,7 @@ public abstract class Entity implements Collidable {
 						
 						deltaX = 0;
 						
-						result.add(Direction.LEFT);
+						myMoveWithCollisionResult.add(Direction.LEFT);
 						mPosition.set((x1 + 1) * mRoom.getTileWidth()
 								+ halfSize.getX(), mPosition.getY());
 						break;
@@ -178,7 +179,7 @@ public abstract class Entity implements Collidable {
 						
 						deltaY = 0;
 						
-						result.add(Direction.DOWN);
+						myMoveWithCollisionResult.add(Direction.DOWN);
 						mPosition.set(mPosition.getX(), y2 * mRoom.getTileHeight() - halfSize.getY());
 						break;
 					}
@@ -189,7 +190,7 @@ public abstract class Entity implements Collidable {
 						
 						deltaY = 0;
 						
-						result.add(Direction.UP);
+						myMoveWithCollisionResult.add(Direction.UP);
 						mPosition.set(mPosition.getX(), (y1 + 1) * mRoom.getTileHeight()
 								+ halfSize.getY());
 					}
@@ -197,7 +198,7 @@ public abstract class Entity implements Collidable {
 			}
 		}
 
-		return result;
+		return myMoveWithCollisionResult;
 	}
 
 	// virtual void onBossFloorActivate();
