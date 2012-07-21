@@ -106,7 +106,7 @@ public class Coin extends Entity {
 			if (myTemporary && myLifeTime == 0) {
 				remove();
 			} else {
-				mVelocity = mVelocity.add(new ImmutableFloatPair(0.0f, 6.0f));
+				mVelocity.add(0.0f, 6.0f);
 
 				EnumSet<Direction> bumps = moveWithCollision();
 
