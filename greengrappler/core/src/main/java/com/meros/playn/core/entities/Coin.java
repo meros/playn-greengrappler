@@ -17,6 +17,8 @@ import com.meros.playn.core.UtilMethods;
 
 public class Coin extends Entity {
 
+	public static final int COIN_SIZE = 12;
+
 	enum Type {
 		DYNAMIC, STATIC
 	}
@@ -28,6 +30,7 @@ public class Coin extends Entity {
 	boolean myTemporary = false;
 
 	Type myType = Type.STATIC;
+	private boolean mCollides = false;
 
 	public static void SpawnDeathCoins(int aNumberOfCoins,
 			AbstractFloatPair aCenterPosition, int aLifeTime, Room aRoom) {
@@ -48,7 +51,7 @@ public class Coin extends Entity {
 
 	public Coin() {
 		myAnimationCoin = Resource.getAnimation("data/images/coin.bmp", 4);
-		setSize(new ImmutableFloatPair(12, 12));
+		setSize(new ImmutableFloatPair(COIN_SIZE, COIN_SIZE));
 	}
 
 	@Override
@@ -94,9 +97,12 @@ public class Coin extends Entity {
 	// virtual void update();
 	@Override
 	public void update() {
-		Hero hero = mRoom.getHero();
-
 		if (myType == Type.DYNAMIC) {
+			if (mRoom.getHero().Collides(this))
+			{
+				setCollides();
+			}
+			
 			if (myTemporary && myLifeTime == 0) {
 				remove();
 			} else {
@@ -126,14 +132,23 @@ public class Coin extends Entity {
 			}
 		}
 
-		if (hero.Collides(this)) {
-			if (hero.gotCoin()) {
+		if (mCollides)
+		{
+			if (mRoom.getHero().gotCoin()) {
 				PlayerSkill.playerDidSomethingClever(0.3f, 0.05f);
 				Sound.playSample("data/sounds/coin");
-				remove();
+				remove();			
 			}
 		}
 
 		myFrame++;
+	}
+
+	public void setCollides() {
+		mCollides = true;
+	}
+
+	public boolean isDynamic() {
+		return myType == Type.DYNAMIC;
 	}
 }

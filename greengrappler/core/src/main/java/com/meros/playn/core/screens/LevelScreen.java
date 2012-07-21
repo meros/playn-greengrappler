@@ -72,6 +72,11 @@ public class LevelScreen extends Screen {
 			myFont.draw(aBuffer, "EXIT LEVEL", 130, 120);
 			myHand.drawFrame(aBuffer, 0, 120, 110 + mySelected * 10);
 		}
+		
+		if (myPaused)
+		{
+			myFont.drawCenter(aBuffer, "PAUSED", 0, 0, (int)aBuffer.width(), (int)aBuffer.height());
+		}
 	}
 
 	@Override

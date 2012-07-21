@@ -1,16 +1,20 @@
 package com.meros.playn.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import playn.core.Color;
 import playn.core.Surface;
 
+import com.meros.playn.core.entities.Coin;
 import com.meros.playn.core.entities.Hero;
 
 public class Room {
@@ -37,6 +41,7 @@ public class Room {
 	private int myDestroyedToTileRow = -1;
 	private FloatPair findHookableEntityToPos = new FloatPair();
 	private FloatPair myRayCastLengthCompareFloatPair = new FloatPair();
+	private SortedMap<Integer, SortedMap<Integer, Coin>> mSortedCoins = new TreeMap<Integer, SortedMap<Integer, Coin>>();
 
 	public Room(
 			Layer aBackgroundLayer, 
@@ -67,7 +72,6 @@ public class Room {
 		if (aEntity instanceof Hero) {
 			mHero = (Hero) aEntity;
 		}
-
 		aEntity.setRoom(this);
 		mEntitiesToAdd.add(aEntity);
 	}
@@ -153,7 +157,7 @@ public class Room {
 	public boolean isCollidable(int aX, int aY) {
 		if (aX < 0 || aX >= myCollidableArray.length || aY < 0 || aY >= myCollidableArray[aX].length)
 			return false;
-		
+
 		if (aX < myDestroyedToTileRow)
 			return false;
 
@@ -173,7 +177,7 @@ public class Room {
 	public boolean isHookable(int aX, int aY) {
 		if (aX < 0 || aX >= myHookableArray.length || aY < 0 || aY >= myHookableArray[aX].length)
 			return false;
-		
+
 		if (aX < myDestroyedToTileRow)
 			return false;
 
@@ -239,10 +243,25 @@ public class Room {
 
 			if (entity.isHookable())
 				mHookableEntities.add(entity);
+
+			if (entity instanceof Coin)
+			{
+				if (!((Coin)entity).isDynamic())
+				{
+					SortedMap<Integer, Coin> yMap = mSortedCoins.get((int) entity.getPosition().getX());
+
+					if (yMap == null)
+					{
+						yMap = new TreeMap<Integer, Coin>();
+						mSortedCoins.put((int) entity.getPosition().getX(), yMap);
+					}
+
+					yMap.put((int) entity.getPosition().getY(), (Coin)entity);
+				}
+			}
 		}
 		mEntities.addAll(mEntitiesToAdd);
 		mEntitiesToAdd.clear();
-
 
 		if (myIsCompleted && myFrameCounter == 60)
 			Music.playSong("data/music/level_completed.xm");
@@ -289,6 +308,7 @@ public class Room {
 			mEntities.removeAll(itemsToRemove);
 			mHookableEntities.removeAll(itemsToRemove);
 			mDamagableEntities.removeAll(itemsToRemove);
+			//mSortedCoins.(itemsToRemove);
 		}
 
 		for (Entity entity : mEntities) {
@@ -299,7 +319,28 @@ public class Room {
 				entity.update();
 		}
 
+		//Update hero
 		mHero.update();
+
+		//Coins
+		Collection<SortedMap<Integer, Coin>> yMaps = mSortedCoins.subMap(
+				(int)(mHero.getPosition().getX() - mHero.getHalfSize().getX() - Coin.COIN_SIZE/2),
+				(int)(mHero.getPosition().getX() + mHero.getHalfSize().getX() + Coin.COIN_SIZE/2)).values();
+
+		for (SortedMap<Integer, Coin> yMap : yMaps)
+		{
+			Collection<Coin> coins = yMap.subMap(
+					(int)(mHero.getPosition().getY() - mHero.getHalfSize().getY() - Coin.COIN_SIZE/2),
+					(int)(mHero.getPosition().getY() + mHero.getHalfSize().getY() + Coin.COIN_SIZE/2)).values();
+
+			for(Coin coin : coins)
+			{
+				if (coin.Collides(mHero))
+				{
+					coin.setCollides();
+				}
+			}
+		}
 
 		for (Entity entity : mEntities) {
 			if (entity.getPosition().getX() - entity.getHalfSize().getX() > getWidthInTiles()
@@ -443,12 +484,12 @@ public class Room {
 
 	public void destroyToTileRow(int aX) {
 		myDestroyedToTileRow = aX;
-		
+
 		for (int y = 0; y < myMiddleLayer.getHeight(); y++)
 		{
 			//boolean s = myMiddleLayer.getTile(aX, y).getCollide();
 			//TODO: if (spawnDebris) {
-				//ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 20, 100, 20, 1, 50, 3, new ImmutableFloatPair(0.0f, -50.0f), 5.0f);
+			//ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 20, 100, 20, 1, 50, 3, new ImmutableFloatPair(0.0f, -50.0f), 5.0f);
 			//	ps.setPosition(new ImmutableFloatPair(aX * getTileWidth() + getTileWidth() * 0.75f, y * getTileHeight() + getTileHeight() * 0.75f));
 			//	addEntity(ps);
 			//}

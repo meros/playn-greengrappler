@@ -188,7 +188,7 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 		int pauseAreaSize = 100;
 		myTouchAreas.add(input.new TouchArea(
 				(int) (960-pauseAreaSize),
-				(int) (720-pauseAreaSize),
+				(int) (0),
 				pauseAreaSize,
 				pauseAreaSize, Buttons.Pause, false));
 		

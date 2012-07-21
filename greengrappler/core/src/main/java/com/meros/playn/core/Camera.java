@@ -36,6 +36,9 @@ public class Camera {
 	public void addShake(float aAmount, int aShakeTime) {
 		myShakeAmount = aAmount;
 		myShakeTime = aShakeTime;
+		
+		//Shake time is in frames - convert to ms
+		GlobalOptions.Vibrate((int) (myShakeTime/60.0f*1000.0f));
 	}
 
 	public void centerToHero(Hero aHero) {
