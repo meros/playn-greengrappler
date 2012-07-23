@@ -71,7 +71,7 @@ public class TitleScreen extends Screen {
 		if (GameState.isSavePresent())
 			myContinue = true;
 		else
-			myContinue = true;//TODO: false;
+			myContinue = false;
 		if (myContinue)
 			mySelected = 1;
 	}

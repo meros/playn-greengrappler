@@ -131,16 +131,7 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 	}
 
 	static Map<Integer, Touch> mTouches = new HashMap<Integer, Touch>();
-
-	public static void disable() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public static void enable() {
-		// TODO Auto-generated method stub
-
-	}
+	private static boolean mEnabled = true;
 
 	public static void init() {
 		PlayN.keyboard().setListener(new Input());
@@ -195,14 +186,23 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 	}
 
 	public static boolean isHeld(Buttons aButton) {
+		if (!mEnabled)
+			return false;
+		
 		return mIsHeld.contains(aButton);
 	}
 
 	public static boolean isPressed(Buttons aButton) {
+		if (!mEnabled)
+			return false;
+
 		return mIsPressed.contains(aButton);
 	}
 
 	public static boolean isReleased(Buttons aButton) {
+		if (!mEnabled)
+			return false;
+
 		return mIsReleased.contains(aButton);
 	}
 
@@ -281,5 +281,13 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 
 	public static void setTouchTranslator(HitTranslator aHitTranslator) {
 		myHitTranslator = aHitTranslator;
+	}
+
+	public static void enable() {
+		mEnabled = true;
+	}
+
+	public static void disable() {
+		mEnabled = false;
 	}
 }

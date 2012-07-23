@@ -7,8 +7,6 @@ import playn.core.Image;
 import playn.core.Surface;
 
 public class Font {
-
-	//TODO: fix the artifact when drawing characters (due to scaling and not clipping at the exact position)
 	
 	Map<Character, Image> myGlyphToBitmap = new HashMap<Character, Image>();
 	int myHeight = 0;

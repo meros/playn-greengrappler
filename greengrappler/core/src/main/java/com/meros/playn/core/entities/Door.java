@@ -1,5 +1,7 @@
 package com.meros.playn.core.entities;
 
+//TODO: BUGGAR! Går oändligt långt upp när den timeat ut
+
 import playn.core.Surface;
 
 import com.meros.playn.core.Animation;
