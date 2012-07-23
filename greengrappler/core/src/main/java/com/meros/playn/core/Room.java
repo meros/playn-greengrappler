@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -19,12 +16,13 @@ import com.meros.playn.core.entities.Hero;
 
 public class Room {
 	private final Camera mCamera;
-	Set<Entity> mDamagableEntities = new HashSet<Entity>();
-	Set<Entity> mEntities = new HashSet<Entity>();
-	Set<Entity> mEntitiesToAdd = new HashSet<Entity>();
+	ArrayList<Entity> mEntities = new ArrayList<Entity>();
+
+	ArrayList<Entity> mDamagableEntities = new ArrayList<Entity>();
+	ArrayList<Entity> mHookableEntities = new ArrayList<Entity>();
+	ArrayList<Entity> mEntitiesToAdd = new ArrayList<Entity>();
 	Hero mHero = null;
 
-	Set<Entity> mHookableEntities = new HashSet<Entity>();
 	Layer myBackgroundLayer;
 
 	Font myFont = Resource.getFont("data/images/font.bmp");
@@ -42,6 +40,18 @@ public class Room {
 	private FloatPair findHookableEntityToPos = new FloatPair();
 	private FloatPair myRayCastLengthCompareFloatPair = new FloatPair();
 	private SortedMap<Integer, SortedMap<Integer, Coin>> mSortedCoins = new TreeMap<Integer, SortedMap<Integer, Coin>>();
+	private Layer[] myBgLayers;
+	private Layer[] myMidLayers;
+	private Layer[] myFgLayers;
+	private Comparator<Entity> myDrawOrderComperator = new Comparator<Entity>() {
+		@Override
+		public int compare(Entity aEnt1, Entity aEnt2) {
+			if (aEnt1.getLayer() != aEnt2.getLayer())
+				return aEnt1.getLayer() - aEnt2.getLayer();
+
+			return aEnt1.getClass().getName().compareTo(aEnt2.getClass().getName());
+		}
+	};
 
 	public Room(
 			Layer aBackgroundLayer, 
@@ -52,6 +62,10 @@ public class Room {
 		myBackgroundLayer = aBackgroundLayer;
 		myMiddleLayer = aMiddleLayer;
 		myForegroundLayer = aForegroundLayer;
+
+		myBgLayers = new Layer[]{myMiddleLayer, myForegroundLayer};
+		myMidLayers = new Layer[]{myForegroundLayer};
+		myFgLayers = new Layer[]{};
 
 		mCamera = aCamera;
 
@@ -72,24 +86,31 @@ public class Room {
 		if (aEntity instanceof Hero) {
 			mHero = (Hero) aEntity;
 		}
+		
 		aEntity.setRoom(this);
 		mEntitiesToAdd.add(aEntity);
 	}
 
 	public void broadcastBoosFloorActivate() {
-		for (Entity entity : mEntities) {
+		for (int i = 0; i < mEntities.size(); i++){
+			Entity entity = mEntities.get(i);
+			
 			entity.onBossFloorActivate();
 		}
 	}
 
 	public void broadcastBoosWallActivate() {
-		for (Entity entity : mEntities) {
+		for (int i = 0; i < mEntities.size(); i++){
+			Entity entity = mEntities.get(i);
+			
 			entity.onBossWallActivate();
 		}
 	}
 
 	public void broadcastBoosWallDectivate() {
-		for (Entity entity : mEntities) {
+		for (int i = 0; i < mEntities.size(); i++){
+			Entity entity = mEntities.get(i);
+			
 			entity.onBossWallDeactivate();
 		}
 	}
@@ -126,7 +147,7 @@ public class Room {
 		return mCamera;
 	}
 
-	public Set<Entity> getDamagableEntities() {
+	public Collection<Entity> getDamagableEntities() {
 		return mDamagableEntities;
 	}
 
@@ -138,7 +159,7 @@ public class Room {
 		return mHero;
 	}
 
-	public Set<Entity> getHookableEntities() {
+	public Collection<Entity> getHookableEntities() {
 		return mHookableEntities;
 	}
 
@@ -200,33 +221,18 @@ public class Room {
 			return;
 		}
 
-		Layer[] bgLayers = {myMiddleLayer, myForegroundLayer};
 		myBackgroundLayer.draw(aBuffer, (int) mCamera.getOffsetX(),
-				(int) mCamera.getOffsetY(), bgLayers);
-		Layer[] midLayers = {myForegroundLayer};
+				(int) mCamera.getOffsetY(), myBgLayers);
 		myMiddleLayer.draw(aBuffer, (int) mCamera.getOffsetX(),
-				(int) mCamera.getOffsetY(), midLayers);
+				(int) mCamera.getOffsetY(), myMidLayers);
 
-		List<Entity> entitiesToDraw = new ArrayList<Entity>();
-		entitiesToDraw.addAll(mEntities);
-		Collections.sort(entitiesToDraw, new Comparator<Entity>() {
-			@Override
-			public int compare(Entity aEnt1, Entity aEnt2) {
-				if (aEnt1.getLayer() != aEnt2.getLayer())
-					return aEnt1.getLayer() - aEnt2.getLayer();
-
-				return aEnt1.getClass().getName().compareTo(aEnt2.getClass().getName());
-			}
-		});
-
-		for (Entity entity: entitiesToDraw) {
+		for (Entity entity: mEntities) {
 			entity.draw(aBuffer, (int) mCamera.getOffsetX(),
 					(int) mCamera.getOffsetY(), 0);
 		}
 
-		Layer[] fgLayers = {};
 		myForegroundLayer.draw(aBuffer, (int) mCamera.getOffsetX(),
-				(int) mCamera.getOffsetY(), fgLayers);
+				(int) mCamera.getOffsetY(), myFgLayers);
 
 		if (myIsCompleted) {
 			myFont.drawCenter(aBuffer, "LEVEL COMPLETED!", 0, 0, 320, 240);
@@ -236,32 +242,39 @@ public class Room {
 	public void onLogic() {
 		myFrameCounter++;
 
-		for (Entity entity : mEntitiesToAdd)
+		if (mEntitiesToAdd.size() > 0)
 		{
-			if (entity.isDamagable())
-				mDamagableEntities.add(entity);
-
-			if (entity.isHookable())
-				mHookableEntities.add(entity);
-
-			if (entity instanceof Coin)
+			for (Entity entity : mEntitiesToAdd)
 			{
-				if (!((Coin)entity).isDynamic())
+				if (entity.isDamagable())
+					mDamagableEntities.add(entity);
+
+				if (entity.isHookable())
+					mHookableEntities.add(entity);
+
+				if (entity instanceof Coin)
 				{
-					SortedMap<Integer, Coin> yMap = mSortedCoins.get((int) entity.getPosition().getX());
-
-					if (yMap == null)
+					if (!((Coin)entity).isDynamic())
 					{
-						yMap = new TreeMap<Integer, Coin>();
-						mSortedCoins.put((int) entity.getPosition().getX(), yMap);
-					}
+						SortedMap<Integer, Coin> yMap = mSortedCoins.get((int) entity.getPosition().getX());
 
-					yMap.put((int) entity.getPosition().getY(), (Coin)entity);
+						if (yMap == null)
+						{
+							yMap = new TreeMap<Integer, Coin>();
+							mSortedCoins.put((int) entity.getPosition().getX(), yMap);
+						}
+
+						yMap.put((int) entity.getPosition().getY(), (Coin)entity);
+					}
 				}
 			}
+			mEntities.addAll(mEntitiesToAdd);
+
+			//Sort to draw order
+			Collections.sort(mEntities, myDrawOrderComperator);
+
+			mEntitiesToAdd.clear();
 		}
-		mEntities.addAll(mEntitiesToAdd);
-		mEntitiesToAdd.clear();
 
 		if (myIsCompleted && myFrameCounter == 60)
 			Music.playSong("data/music/level_completed.xm");
@@ -289,29 +302,22 @@ public class Room {
 			return;
 		}
 
-		Set<Entity> itemsToRemove = null;
-
-		for(Entity entity : mEntities)
+		for(int i = 0; i < mEntities.size(); i++)
 		{
+			Entity entity = mEntities.get(i);
 			if (entity.isRemoved()) {
-				if (itemsToRemove == null)
-				{
-					itemsToRemove = new HashSet<Entity>();
-				}
 
-				itemsToRemove.add(entity);
+				mEntities.remove(i);
+				mHookableEntities.remove(entity);
+				mDamagableEntities.remove(entity);
+
+				i--;
 			}
 		}
 
-		if (itemsToRemove != null)
-		{
-			mEntities.removeAll(itemsToRemove);
-			mHookableEntities.removeAll(itemsToRemove);
-			mDamagableEntities.removeAll(itemsToRemove);
-			//mSortedCoins.(itemsToRemove);
-		}
-
-		for (Entity entity : mEntities) {
+		for (int i = 0; i < mEntities.size(); i++){
+			Entity entity = mEntities.get(i);
+			
 			if (mHero.isDead())
 				break;
 
@@ -342,7 +348,9 @@ public class Room {
 			}
 		}
 
-		for (Entity entity : mEntities) {
+		for (int i = 0; i < mEntities.size(); i++){
+			Entity entity = mEntities.get(i);
+			
 			if (entity.getPosition().getX() - entity.getHalfSize().getX() > getWidthInTiles()
 					* getTileWidth()
 					|| entity.getPosition().getY() - entity.getHalfSize().getY() > getHeightInTiles()
@@ -450,7 +458,9 @@ public class Room {
 	}
 
 	public void setCompleted() {
-		for (Entity entity : mEntities) {
+		for (int i = 0; i < mEntities.size(); i++){
+			Entity entity = mEntities.get(i);
+			
 			entity.onLevelComplete();
 		}
 
@@ -499,7 +509,7 @@ public class Room {
 		myForegroundLayer.setDestroyedToTileRow(aX);
 	}
 
-	public Set<Entity> getEntities() {
+	public Collection<Entity> getEntities() {
 		return mEntities;
 	}
 

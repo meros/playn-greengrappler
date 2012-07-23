@@ -1,9 +1,13 @@
 package com.meros.playn.core.screens;
 
-import playn.core.Surface;
+import java.util.HashMap;
+import java.util.Map;
+
 import playn.core.Color;
+import playn.core.Surface;
 
 import com.meros.playn.core.Animation;
+import com.meros.playn.core.Constants.Buttons;
 import com.meros.playn.core.Font;
 import com.meros.playn.core.GameState;
 import com.meros.playn.core.GreenGrappler;
@@ -15,7 +19,6 @@ import com.meros.playn.core.Room;
 import com.meros.playn.core.RoomLoader;
 import com.meros.playn.core.Screen;
 import com.meros.playn.core.Sound;
-import com.meros.playn.core.Constants.Buttons;
 
 public class LevelScreen extends Screen {
 
@@ -41,6 +44,8 @@ public class LevelScreen extends Screen {
 	{
 		GreenGrappler.showTouchControls(true);
 	}
+	
+	Map<Integer, String> myCoinString = new HashMap<Integer, String>();
 
 	@Override
 	public void onDraw(Surface aBuffer) {
@@ -49,7 +54,13 @@ public class LevelScreen extends Screen {
 
 		myRoom.onDraw(aBuffer);
 
-		String coinsString = "[x" + GameState.getInt("coins");
+		int coins = GameState.getInt("coins");
+		if (!myCoinString.containsKey(coins))
+		{
+			myCoinString.put(coins, "[x" + GameState.getInt("coins"));
+		}
+		
+		String coinsString = myCoinString.get(coins);
 
 		aBuffer.setFillColor(Color.rgb(57, 56, 41));
 		aBuffer.fillRect(0, 0, 320, 10);

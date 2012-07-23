@@ -15,7 +15,7 @@ public class Camera {
 		public int h;
 	}
 
-	List<Rect> cameraRects = new ArrayList<Rect>();
+	List<Rect> myCameraRects = new ArrayList<Rect>();
 
 	FloatPair myOffset = new FloatPair();
 	FloatPair myShakeOffset = new FloatPair();
@@ -60,8 +60,10 @@ public class Camera {
 		myUpdateDesiredOffset.set(0,0);
 
 		FloatPair heroRealPos = aHero.getPosition();
-		for(Rect rect : cameraRects)
+		for(int i = 0; i < myCameraRects.size(); i++)
 		{
+			Rect rect = myCameraRects.get(i);
+			
 			if (rect.x < heroRealPos.getX() && rect.y <heroRealPos.getY() &&
 					(rect.x + rect.w) > heroRealPos.getX() && (rect.y+rect.h) > heroRealPos.getY())
 			{
@@ -133,6 +135,6 @@ public class Camera {
 		rect.w = w;
 		rect.h = h;
 
-		cameraRects.add(rect);
+		myCameraRects.add(rect);
 	}
 }

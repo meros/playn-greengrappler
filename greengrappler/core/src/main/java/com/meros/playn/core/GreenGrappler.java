@@ -2,6 +2,10 @@ package com.meros.playn.core;
 
 import static playn.core.PlayN.graphics;
 import static playn.core.PlayN.log;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import playn.core.Game;
 import playn.core.ImageLayer;
 import playn.core.ImmediateLayer;
@@ -252,6 +256,8 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 
 	int fpsCount = 0;
 	int lastFpsCount = 0;
+	
+	Map<Integer, String> myFpsStringMap = new HashMap<Integer, String>();
 
 	@Override
 	public void render(Surface surface) {
@@ -270,12 +276,18 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 		{
 			fpsCount ++;
 		}
+		
+		if (!myFpsStringMap.containsKey(lastFpsCount))
+		{
+			myFpsStringMap.put(lastFpsCount, "fps: " + lastFpsCount);
+		}
 
-		myFont.draw(surface, "fps: " + lastFpsCount, 10, 10);
+		myFont.draw(surface, myFpsStringMap.get(lastFpsCount), 10, 10);
 	}
 
+	
 	@Override
-	public void update(float delta) {		
+	public void update(float delta) {
 		if (myReadyForUpdates) {
 			postPreloadUpdate();
 		} else if (Resource.isDonePreloading()) {

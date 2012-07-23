@@ -107,6 +107,7 @@ public class Song implements AbstractSong
 						outBuffer[ outIdx++ ] = ( byte ) ( ampl >> 8 );
 					}
 				}
+				
 
 				int writeLen = Math.min(outIdx-outOffs, myData.myBufferSize);
 				outOffs += myData.myAudioTrack.write(outBuffer, outOffs, writeLen);
