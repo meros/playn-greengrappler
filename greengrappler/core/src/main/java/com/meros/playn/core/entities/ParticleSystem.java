@@ -28,8 +28,11 @@ public class ParticleSystem extends Entity {
 	private ArrayList<FloatPair> myParticlesPos = new ArrayList<FloatPair>();
 	private ArrayList<FloatPair> myParticlesVel = new ArrayList<FloatPair>();
 
-	public ParticleSystem(Animation aAnimation, int aAnimationSpeed,
-			int aLifeTime, int aBlinkTime, int aMinSpeed, int aMaxSpeed,
+	public ParticleSystem(
+			Animation aAnimation, 
+			int aAnimationSpeed,
+			int aLifeTime, 
+			int aBlinkTime, int aMinSpeed, int aMaxSpeed,
 			int aNumParticles, AbstractFloatPair aInitialVel, float aGravity) {
 		myAnimation = aAnimation;
 		myAnimationSpeed = aAnimationSpeed;

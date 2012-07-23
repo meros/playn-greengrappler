@@ -44,8 +44,8 @@ public class GreenGrapplerActivity extends GameActivity {
 
 			@Override
 			public void onResume() {
-				// TODO Auto-generated method stub
-
+				GlobalOptions.setPaused(false);
+				Music.play();
 			}
 
 			@Override
@@ -56,6 +56,9 @@ public class GreenGrapplerActivity extends GameActivity {
 				if (PlayN.graphics().ctx().trisShader(null) != null) {
 					PlayN.graphics().ctx().trisShader(null).clearProgram();
 				}
+				
+				GlobalOptions.setPaused(true);
+				Music.stop();
 			}
 
 			@Override
@@ -69,7 +72,6 @@ public class GreenGrapplerActivity extends GameActivity {
 
 			@Override
 			public void exit() {
-				// TODO Auto-generated method stub
 
 			}
 		}));

@@ -17,7 +17,6 @@ import pythagoras.f.Point;
 
 import com.meros.playn.core.Constants.Buttons;
 import com.meros.playn.core.Input.HitTranslator;
-import com.meros.playn.core.screens.EndScreen;
 import com.meros.playn.core.screens.SplashScreen;
 import com.meros.playn.core.screens.TitleScreen;
 
@@ -243,7 +242,6 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 	}
 
 	void postPreloadInit() {
-		ScreenManager.add(new EndScreen());
 		ScreenManager.add(new TitleScreen());
 		ScreenManager.add(new SplashScreen());
 		myFont = Resource.getFont("data/images/font.bmp");

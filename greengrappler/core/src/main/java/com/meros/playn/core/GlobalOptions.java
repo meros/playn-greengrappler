@@ -8,6 +8,7 @@ public class GlobalOptions {
 	}
 
 	public static AbstractVibrator mVibrator = null;
+	private static boolean mPaused = false;
 	
 	public static boolean showTouchControls()
 	{
@@ -28,5 +29,14 @@ public class GlobalOptions {
 	{
 		if (mVibrator  != null)
 			mVibrator.vibrate(aVibrateTime);
+	}
+
+	public static void setPaused(boolean aPaused) {
+		mPaused = aPaused;
+	}
+	
+	public static boolean getPaused()
+	{
+		return mPaused;
 	}
 }

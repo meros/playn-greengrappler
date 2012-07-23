@@ -24,13 +24,15 @@ public class LevelScreen extends Screen {
 
 	Animation myDarken = Resource.getAnimation("data/images/darken.bmp");
 	boolean myExit = false;
-	Animation myExitBackground;
+	Animation myExitBackground = Resource.getAnimation("data/images/level_exit_background.bmp", 1);;
 	Font myFont = Resource.getFont("data/images/font.bmp");
 	Animation myHand = Resource.getAnimation("data/images/hand.bmp", 1);
 	LevelDescription myLevelDesc;
 	Room myRoom;
 	int mySelected = 0;
+	
 	boolean myPaused = false;
+	int myPauseItemSelected = 0;
 
 	public LevelScreen(LevelDescription aLevelDescription) {
 		myLevelDesc = aLevelDescription;
@@ -82,11 +84,6 @@ public class LevelScreen extends Screen {
 			myFont.draw(aBuffer, "CONTINUE", 130, 110);
 			myFont.draw(aBuffer, "EXIT LEVEL", 130, 120);
 			myHand.drawFrame(aBuffer, 0, 120, 110 + mySelected * 10);
-		}
-		
-		if (myPaused)
-		{
-			myFont.drawCenter(aBuffer, "PAUSED", 0, 0, (int)aBuffer.width(), (int)aBuffer.height());
 		}
 	}
 

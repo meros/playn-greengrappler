@@ -154,7 +154,7 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 		mKeyMap.put(Key.Z, Buttons.Fire);
 		mKeyMap.put(Key.ESCAPE, Buttons.ForceQuit);
 		mKeyMap.put(Key.A, Buttons.Jump);
-		mKeyMap.put(Key.P, Buttons.Pause);
+		mKeyMap.put(Key.P, Buttons.Exit);
 
 		Input input = new Input();
 		myTouchAreas.add(input.new TouchArea(616+172,465,172,234, Buttons.Fire, true));
@@ -190,7 +190,7 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 				(int) (960-pauseAreaSize),
 				(int) (0),
 				pauseAreaSize,
-				pauseAreaSize, Buttons.Pause, false));
+				pauseAreaSize, Buttons.Exit, false));
 		
 	}
 

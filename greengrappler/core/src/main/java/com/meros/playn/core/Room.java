@@ -13,6 +13,7 @@ import playn.core.Surface;
 
 import com.meros.playn.core.entities.Coin;
 import com.meros.playn.core.entities.Hero;
+import com.meros.playn.core.entities.ParticleSystem;
 
 public class Room {
 	private final Camera mCamera;
@@ -497,12 +498,21 @@ public class Room {
 
 		for (int y = 0; y < myMiddleLayer.getHeight(); y++)
 		{
-			//boolean s = myMiddleLayer.getTile(aX, y).getCollide();
-			//TODO: if (spawnDebris) {
-			//ParticleSystem ps = new ParticleSystem(Resource.getAnimation("data/images/debris.bmp", 4), 20, 100, 20, 1, 50, 3, new ImmutableFloatPair(0.0f, -50.0f), 5.0f);
-			//	ps.setPosition(new ImmutableFloatPair(aX * getTileWidth() + getTileWidth() * 0.75f, y * getTileHeight() + getTileHeight() * 0.75f));
-			//	addEntity(ps);
-			//}
+			boolean spawnDebris = myMiddleLayer.getTile(aX, y).getCollide();
+			if (spawnDebris) {
+			ParticleSystem ps = new ParticleSystem(
+					Resource.getAnimation("data/images/debris.bmp", 4), 
+					20, 
+					30, 
+					10, 
+					15, 
+					40, 
+					3, 
+					new ImmutableFloatPair(0.0f, -50.0f),
+					5.0f);
+				ps.setPosition(new ImmutableFloatPair(aX * getTileWidth() + getTileWidth() * 0.75f, y * getTileHeight() + getTileHeight() * 0.75f));
+				addEntity(ps);
+			}
 		}
 
 		myMiddleLayer.setDestroyedToTileRow(aX);
