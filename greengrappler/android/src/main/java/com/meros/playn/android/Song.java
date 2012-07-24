@@ -23,13 +23,13 @@ public class Song implements AbstractSong
 
 	private Module myModule;
 	private IBXM myIbxm;
-	private final AudioTrack myAudioTrack;
+	private AudioTrack myAudioTrack;
 	private static final int SAMPLE_RATE = 48000;
 	private final int myBufferSize;
 
 
 	private Synth synth;
-	
+
 	public Song(InputStream aIs) throws IOException
 	{
 		loadModule(aIs);
@@ -38,7 +38,8 @@ public class Song implements AbstractSong
 				AudioTrack.getMinBufferSize( 
 						SAMPLE_RATE, 
 						AudioFormat.CHANNEL_CONFIGURATION_STEREO, 
-						AudioFormat.ENCODING_PCM_16BIT );        	      
+						AudioFormat.ENCODING_PCM_16BIT );     
+		
 		myAudioTrack = new AudioTrack(
 				AudioManager.STREAM_MUSIC, 
 				SAMPLE_RATE,
@@ -90,7 +91,7 @@ public class Song implements AbstractSong
 			int[] buffer = new int[myData.myIbxm.getMixBufferLength()];
 			outBuffer = new byte[buffer.length*4];
 
-			while (myData.myAudioTrack.getPlayState() != AudioTrack.PLAYSTATE_STOPPED)
+			while (myData.myAudioTrack.getPlayState() == AudioTrack.PLAYSTATE_PLAYING)
 			{
 				if (outOffs >= outIdx)
 				{
@@ -107,7 +108,7 @@ public class Song implements AbstractSong
 						outBuffer[ outIdx++ ] = ( byte ) ( ampl >> 8 );
 					}
 				}
-				
+
 
 				int writeLen = Math.min(outIdx-outOffs, myData.myBufferSize);
 				outOffs += myData.myAudioTrack.write(outBuffer, outOffs, writeLen);

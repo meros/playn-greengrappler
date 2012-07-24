@@ -13,6 +13,7 @@ import com.meros.playn.core.GreenGrappler;
 import com.meros.playn.core.Music;
 import com.meros.playn.core.Music.AbstractSong;
 import com.meros.playn.core.Music.SongFactory;
+import com.meros.playn.core.Sound;
 
 public class GreenGrapplerActivity extends GameActivity {
 
@@ -56,23 +57,22 @@ public class GreenGrapplerActivity extends GameActivity {
 				if (PlayN.graphics().ctx().trisShader(null) != null) {
 					PlayN.graphics().ctx().trisShader(null).clearProgram();
 				}
-				
+
 				GlobalOptions.setPaused(true);
 				Music.stop();
 			}
 
 			@Override
 			public void onExit() {
-				// TODO Auto-generated method stub
-
 			}
 		});
-		
+
 		PlayN.run(new GreenGrappler(true, new GreenGrappler.ExitCallback() {
 
 			@Override
 			public void exit() {
-
+				//I know this goes agains the android way - but I don't care!
+				android.os.Process.killProcess(android.os.Process.myPid());
 			}
 		}));
 	}

@@ -33,7 +33,7 @@ public class Music {
 		{
 			myCurrentSong = mySongFactory.getSong(path);
 		}
-		
+
 		play();
 	}
 

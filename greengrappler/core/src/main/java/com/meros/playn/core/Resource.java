@@ -10,6 +10,7 @@ import java.util.Map;
 import playn.core.CanvasImage;
 import playn.core.Color;
 import playn.core.Image;
+import playn.core.PlayN;
 import playn.core.ResourceCallback;
 
 public class Resource {
@@ -139,9 +140,9 @@ public class Resource {
 		mPreloadedImages.put(filename, assets().getImage(filename));
 	}
 
-	public static void preLoadSound(String string) {
-		assets().getSound(string);
-
+	public static void preLoadSound(String sound) {
+		PlayN.log().debug("Preloading " + sound);
+		assets().getSound(sound);
 	}
 
 	public static void preLoadText(final String filename) {

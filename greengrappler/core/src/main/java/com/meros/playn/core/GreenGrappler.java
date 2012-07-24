@@ -157,7 +157,7 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 		Resource.preLoadSound("data/sounds/hook");
 		Resource.preLoadSound("data/sounds/hurt");
 		Resource.preLoadSound("data/sounds/jump");
-		Resource.preLoadSound("data/sounds/land");
+		//TODO: this sound is buggy! Resource.preLoadSound("data/sounds/land");
 		Resource.preLoadSound("data/sounds/no_hook");
 		Resource.preLoadSound("data/sounds/reactor_explosion");
 		Resource.preLoadSound("data/sounds/rope");

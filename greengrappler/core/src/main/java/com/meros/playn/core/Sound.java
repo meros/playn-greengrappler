@@ -15,4 +15,8 @@ public class Sound {
 
 		mSounds.get(soundFile).play();
 	}
+
+	public static void onExit() {
+		mSounds.clear();
+	}
 }
