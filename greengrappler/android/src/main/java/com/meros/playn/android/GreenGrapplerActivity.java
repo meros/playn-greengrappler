@@ -13,7 +13,6 @@ import com.meros.playn.core.GreenGrappler;
 import com.meros.playn.core.Music;
 import com.meros.playn.core.Music.AbstractSong;
 import com.meros.playn.core.Music.SongFactory;
-import com.meros.playn.core.Sound;
 
 public class GreenGrapplerActivity extends GameActivity {
 
