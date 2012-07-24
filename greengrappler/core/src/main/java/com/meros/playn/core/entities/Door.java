@@ -39,6 +39,11 @@ public class Door extends Entity {
 	{
 
 		myFrameCounter++;
+		
+		if (myDoorHeight < 4)
+		{
+			myDoorHeight = 4;
+		}
 
 		if (myOpening && myDoorHeight != 4)
 		{
