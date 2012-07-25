@@ -2,9 +2,15 @@ package com.meros.playn.core;
 
 public class GlobalOptions {
 	
+	public enum VibrationType
+	{
+		SIMPLE,
+		PULSATING,
+	}
+	
 	public static interface AbstractVibrator
 	{
-		public void vibrate(int aVibrateTime);
+		public void vibrate(int aVibrateTime, VibrationType aVibrationTime);
 	}
 
 	public static AbstractVibrator mVibrator = null;
@@ -25,10 +31,10 @@ public class GlobalOptions {
 		return true;
 	}
 	
-	public static void Vibrate(int aVibrateTime)
+	public static void Vibrate(int aVibrateTime, VibrationType aVibrationType)
 	{
 		if (mVibrator  != null)
-			mVibrator.vibrate(aVibrateTime);
+			mVibrator.vibrate(aVibrateTime, aVibrationType);
 	}
 
 	public static void setPaused(boolean aPaused) {

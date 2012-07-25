@@ -6,9 +6,11 @@ import playn.android.GameActivity;
 import playn.core.PlayN;
 import playn.core.PlayN.LifecycleListener;
 import android.os.Vibrator;
+import android.view.KeyEvent;
 
 import com.meros.playn.core.GlobalOptions;
 import com.meros.playn.core.GlobalOptions.AbstractVibrator;
+import com.meros.playn.core.GlobalOptions.VibrationType;
 import com.meros.playn.core.GreenGrappler;
 import com.meros.playn.core.Music;
 import com.meros.playn.core.Music.AbstractSong;
@@ -30,12 +32,28 @@ public class GreenGrapplerActivity extends GameActivity {
 				}
 			}
 		});
-
+		
+		
 		GlobalOptions.mVibrator = new AbstractVibrator() {
 			Vibrator myVibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
 			@Override
-			public void vibrate(int aVibrateTime) {
-				myVibrator.vibrate(aVibrateTime);
+			public void vibrate(int aVibrateTime, VibrationType aVibrationType) {
+				if (aVibrationType == VibrationType.SIMPLE)
+				{
+					myVibrator.vibrate(aVibrateTime);
+				}
+				if (aVibrationType == VibrationType.PULSATING)
+				{
+					long[] pulsePattern = new long[aVibrateTime/100];
+
+					for (int i = 0; i< aVibrateTime/100; i++)
+					{
+						pulsePattern[i] = i%2==0?75:25;
+					}
+					
+					myVibrator.vibrate(pulsePattern, -1);
+				}
 			}
 		};
 
@@ -74,5 +92,11 @@ public class GreenGrapplerActivity extends GameActivity {
 				android.os.Process.killProcess(android.os.Process.myPid());
 			}
 		}));
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent nativeEvent) {
+		
+		return super.onKeyDown(keyCode, nativeEvent);
 	}
 }

@@ -38,7 +38,7 @@ public class Camera {
 		myShakeTime = aShakeTime;
 		
 		//Shake time is in frames - convert to ms
-		GlobalOptions.Vibrate((int) (myShakeTime/60.0f*1000.0f));
+		GlobalOptions.Vibrate((int) (myShakeTime/60.0f*1000.0f), GlobalOptions.VibrationType.PULSATING);
 	}
 
 	public void centerToHero(Hero aHero) {

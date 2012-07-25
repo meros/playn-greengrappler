@@ -603,7 +603,7 @@ public class Hero extends Entity {
 		mVelocity.add(0, gravity);
 		boolean ground = bumps.contains(Direction.DOWN);
 		if (ground && !mOnGround && mRopeState != RopeState.Attached) {
-			//TODO: buggy sound! Sound.playSample("data/sounds/land");
+			Sound.playSample("data/sounds/land");
 		}
 		mOnGround = ground;
 

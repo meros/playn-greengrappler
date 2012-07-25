@@ -109,6 +109,10 @@ public class TitleScreen extends Screen {
 			else
 				Sound.playSample("data/sounds/select");
 		}
+		
+		if (Input.isPressed(Buttons.Exit)) {
+			exit();
+		}
 
 		if (Input.isPressed(Buttons.Fire)) {
 			if (mySelected == 0) {

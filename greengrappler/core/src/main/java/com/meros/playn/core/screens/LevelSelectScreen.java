@@ -9,6 +9,7 @@ import com.meros.playn.core.Animation;
 import com.meros.playn.core.Dialogue;
 import com.meros.playn.core.Font;
 import com.meros.playn.core.GameState;
+import com.meros.playn.core.GlobalOptions;
 import com.meros.playn.core.GreenGrappler;
 import com.meros.playn.core.Input;
 import com.meros.playn.core.LevelDescription;
@@ -18,6 +19,7 @@ import com.meros.playn.core.Screen;
 import com.meros.playn.core.ScreenManager;
 import com.meros.playn.core.Sound;
 import com.meros.playn.core.Constants.Buttons;
+import com.meros.playn.core.GlobalOptions.VibrationType;
 
 public class LevelSelectScreen extends Screen {
 
@@ -310,7 +312,10 @@ public class LevelSelectScreen extends Screen {
 			if (mySelectedX < 0)
 				mySelectedX = 0;
 			else
+			{
+				GlobalOptions.Vibrate(50, VibrationType.SIMPLE);
 				Sound.playSample("data/sounds/select");
+			}
 		}
 
 		if (Input.isPressed(Buttons.Right)) {
@@ -318,7 +323,10 @@ public class LevelSelectScreen extends Screen {
 			if (mySelectedX > 2)
 				mySelectedX = 2;
 			else
+			{
+				GlobalOptions.Vibrate(50, VibrationType.SIMPLE);
 				Sound.playSample("data/sounds/select");
+			}
 		}
 
 		if (Input.isPressed(Buttons.Up)) {
@@ -326,7 +334,10 @@ public class LevelSelectScreen extends Screen {
 			if (mySelectedY < 0)
 				mySelectedY = 0;
 			else
+			{
+				GlobalOptions.Vibrate(50, VibrationType.SIMPLE);
 				Sound.playSample("data/sounds/select");
+			}
 		}
 
 		if (Input.isPressed(Buttons.Down)) {
@@ -334,7 +345,10 @@ public class LevelSelectScreen extends Screen {
 			if (mySelectedY > 2)
 				mySelectedY = 2;
 			else
+			{
+				GlobalOptions.Vibrate(50, VibrationType.SIMPLE);
 				Sound.playSample("data/sounds/select");
+			}
 		}
 
 		if (Input.isPressed(Buttons.Fire)) {
