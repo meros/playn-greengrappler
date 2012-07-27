@@ -6,12 +6,15 @@ import java.util.Map;
 import playn.core.PlayN;
 
 public class GameState {
-	
+
 	private static Map<String, String> myDataMap = new HashMap<String, String>();
 
 	public static void clear() {
 		myDataMap.clear();
-		//TODO: clear storage!
+
+		for (String key : PlayN.storage().keys()) {
+			PlayN.storage().removeItem(key);
+		}
 	}
 
 	public static int getInt(String aKey) {
@@ -28,8 +31,7 @@ public class GameState {
 
 	public static void loadFromFile() {
 		myDataMap.clear();
-		for (String key : PlayN.storage().keys())
-		{
+		for (String key : PlayN.storage().keys()) {
 			myDataMap.put(key, PlayN.storage().getItem(key));
 		}
 	}
@@ -40,9 +42,7 @@ public class GameState {
 
 	public static void saveToFile() {
 		setSavePresent();
-		
-		for (String key : myDataMap.keySet())
-		{
+		for (String key : myDataMap.keySet()) {
 			PlayN.storage().setItem(key, myDataMap.get(key));
 		}
 	}

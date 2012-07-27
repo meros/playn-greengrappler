@@ -12,9 +12,9 @@ import com.meros.playn.core.GlobalOptions;
 import com.meros.playn.core.GlobalOptions.AbstractVibrator;
 import com.meros.playn.core.GlobalOptions.VibrationType;
 import com.meros.playn.core.GreenGrappler;
-import com.meros.playn.core.Music;
-import com.meros.playn.core.Music.AbstractSong;
-import com.meros.playn.core.Music.SongFactory;
+import com.meros.playn.core.media.Music;
+import com.meros.playn.core.media.Music.AbstractSong;
+import com.meros.playn.core.media.Music.SongFactory;
 
 public class GreenGrapplerActivity extends GameActivity {
 
@@ -45,11 +45,11 @@ public class GreenGrapplerActivity extends GameActivity {
 				}
 				if (aVibrationType == VibrationType.PULSATING)
 				{
-					long[] pulsePattern = new long[aVibrateTime/100];
+					long[] pulsePattern = new long[2*aVibrateTime/100];
 
-					for (int i = 0; i< aVibrateTime/100; i++)
+					for (int i = 0; i < 2*aVibrateTime/100; i++)
 					{
-						pulsePattern[i] = i%2==0?75:25;
+						pulsePattern[i] = (((i%2)==0) ? 75 : 25);
 					}
 					
 					myVibrator.vibrate(pulsePattern, -1);

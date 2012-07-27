@@ -1,16 +1,16 @@
 package com.meros.playn.core.screens;
 
-import playn.core.Surface;
 import playn.core.Color;
+import playn.core.Surface;
 
-import com.meros.playn.core.Font;
+import com.meros.playn.core.Constants.Buttons;
 import com.meros.playn.core.GreenGrappler;
 import com.meros.playn.core.Input;
-import com.meros.playn.core.Music;
 import com.meros.playn.core.Resource;
 import com.meros.playn.core.Screen;
-import com.meros.playn.core.Sound;
-import com.meros.playn.core.Constants.Buttons;
+import com.meros.playn.core.media.Font;
+import com.meros.playn.core.media.Music;
+import com.meros.playn.core.media.Sound;
 
 public class EndScreen extends Screen {
 
@@ -19,10 +19,9 @@ public class EndScreen extends Screen {
 	int myCreditsOffset = 240;;
 	Font myFont = Resource.getFont("data/images/font.bmp");
 	int myFrameCounter = -60;
-	
+
 	@Override
-	public void onEntered()
-	{
+	public void onEntered() {
 		GreenGrappler.showTouchControls(false);
 	}
 
@@ -105,7 +104,7 @@ public class EndScreen extends Screen {
 			myCreditsOffset--;
 		}
 
-		if (Input.isPressed(Buttons.Exit))
+		if (Input.isPressed(Buttons.EXIT))
 			exit();
 	}
 

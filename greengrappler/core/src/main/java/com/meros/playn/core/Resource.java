@@ -13,6 +13,9 @@ import playn.core.Image;
 import playn.core.PlayN;
 import playn.core.ResourceCallback;
 
+import com.meros.playn.core.media.Animation;
+import com.meros.playn.core.media.Font;
+
 public class Resource {
 
 	static Map<String, Image> mBitmaps = new HashMap<String, Image>();

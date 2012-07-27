@@ -16,11 +16,13 @@ import playn.core.gl.GLContext;
 import pythagoras.f.Point;
 
 import com.meros.playn.core.Constants.Buttons;
-import com.meros.playn.core.Input.HitTranslator;
+import com.meros.playn.core.Input.AbstractHitTranslator;
+import com.meros.playn.core.media.Font;
+import com.meros.playn.core.media.Music;
 import com.meros.playn.core.screens.SplashScreen;
 import com.meros.playn.core.screens.TitleScreen;
 
-public class GreenGrappler implements Game, Renderer, HitTranslator {
+public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 
 	public interface ExitCallback {
 		public abstract void exit();
@@ -39,19 +41,14 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 
 	private static ImageLayer controlLayer = null;
 
-	public static void showTouchControls(boolean aShowTouchControls)
-	{
-		if (controlLayer == null)
-		{
+	public static void showTouchControls(boolean aShowTouchControls) {
+		if (controlLayer == null) {
 			return;
 		}
 
-		if (aShowTouchControls)
-		{
+		if (aShowTouchControls) {
 			controlLayer.setAlpha(0.7f);
-		}
-		else
-		{
+		} else {
 			controlLayer.setAlpha(0);
 		}
 	}
@@ -74,10 +71,10 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 		GameState.loadFromFile();
 
 		// create and add background image layer
-		//graphics().setSize(1280, 720);
-		if (graphics().ctx() != null)
-		{
-			graphics().ctx().setTextureFilter(GLContext.Filter.NEAREST, GLContext.Filter.NEAREST);
+		// graphics().setSize(1280, 720);
+		if (graphics().ctx() != null) {
+			graphics().ctx().setTextureFilter(GLContext.Filter.NEAREST,
+					GLContext.Filter.NEAREST);
 		}
 
 		Input.setTouchTranslator(this);
@@ -171,17 +168,16 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 
 	@Override
 	public void paint(float alpha) {
-		if (myReadyForUpdates && !mySetupRenderingOnce)
-		{
+		if (myReadyForUpdates && !mySetupRenderingOnce) {
 
 			bufferLayer = graphics().createImmediateLayer(320, 240, this);
 
-			{		
+			{
 				float w = PlayN.graphics().width();
 				float h = PlayN.graphics().height();
 
-				float aspect = w/h;
-				float targetAspect = 320/240;
+				float aspect = w / h;
+				float targetAspect = 320 / 240;
 				float scale = 1.0f;
 
 				float translateX = 0;
@@ -189,33 +185,29 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 
 				if (aspect < targetAspect) {
 					scale = w / 320;
-					translateY = h/2-240*scale/2;
+					translateY = h / 2 - 240 * scale / 2;
 				} else {
 					scale = h / 240;
-					translateX = w/2-320*scale/2;
+					translateX = w / 2 - 320 * scale / 2;
 				}
 
-
-
-				//bufferLayer.setTranslation(translateX, translateY);
+				// bufferLayer.setTranslation(translateX, translateY);
 				bufferLayer.setScale(scale);
 				bufferLayer.setTranslation(translateX, translateY);
 			}
 
 			graphics().rootLayer().add(bufferLayer);
 
-
-			if (GlobalOptions.showTouchControls())
-			{
-				controlLayer = graphics().createImageLayer(PlayN.assets().getImage("data/images/controls.png"));
-
+			if (GlobalOptions.showTouchControls()) {
+				controlLayer = graphics().createImageLayer(
+						PlayN.assets().getImage("data/images/controls.png"));
 
 				{
 					float w = PlayN.graphics().width();
 					float h = PlayN.graphics().height();
 
-					float aspect = w/h;
-					float targetAspect = 960/720;
+					float aspect = w / h;
+					float targetAspect = 960 / 720;
 					float scale = 1.0f;
 
 					float translateX = 0;
@@ -223,10 +215,10 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 
 					if (aspect < targetAspect) {
 						scale = w / 960;
-						translateY = h/2-720*scale/2;
+						translateY = h / 2 - 720 * scale / 2;
 					} else {
 						scale = h / 720;
-						translateX = w/2-960*scale/2;
+						translateX = w / 2 - 960 * scale / 2;
 					}
 
 					controlLayer.setScale(scale);
@@ -254,7 +246,7 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 
 	int fpsCount = 0;
 	int lastFpsCount = 0;
-	
+
 	Map<Integer, String> myFpsStringMap = new HashMap<Integer, String>();
 
 	@Override
@@ -264,26 +256,21 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 		ScreenManager.draw(surface);
 
 		long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
-		if (elapsedTimeMillis > 1000)
-		{
+		if (elapsedTimeMillis > 1000) {
 			startTimeMillis += 1000;
 			lastFpsCount = fpsCount;
 			fpsCount = 0;
+		} else {
+			fpsCount++;
 		}
-		else
-		{
-			fpsCount ++;
-		}
-		
-		if (!myFpsStringMap.containsKey(lastFpsCount))
-		{
+
+		if (!myFpsStringMap.containsKey(lastFpsCount)) {
 			myFpsStringMap.put(lastFpsCount, "fps: " + lastFpsCount);
 		}
 
 		myFont.draw(surface, myFpsStringMap.get(lastFpsCount), 10, 10);
 	}
 
-	
 	@Override
 	public void update(float delta) {
 		if (myReadyForUpdates) {
@@ -293,7 +280,7 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 			myReadyForUpdates = true;
 		}
 
-		if (Input.isPressed(Buttons.ForceQuit) || ScreenManager.isEmpty()) {
+		if (Input.isPressed(Buttons.FORCE_QUIT) || ScreenManager.isEmpty()) {
 			myExitCallback.exit();
 		}
 
@@ -302,7 +289,7 @@ public class GreenGrappler implements Game, Renderer, HitTranslator {
 
 	@Override
 	public int updateRate() {
-		return 1000 / Time.TicksPerSecond;
+		return 1000 / Constants.TICKS_PER_SECOND;
 	}
 
 	@Override

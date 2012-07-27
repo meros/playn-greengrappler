@@ -1,11 +1,13 @@
 package com.meros.playn.core;
 
 import com.meros.playn.core.Constants.Direction;
+import com.meros.playn.core.entities.Boss;
 import com.meros.playn.core.entities.BossFloor;
 import com.meros.playn.core.entities.BossWall;
 import com.meros.playn.core.entities.BreakingHookTile;
 import com.meros.playn.core.entities.Button;
 import com.meros.playn.core.entities.Coin;
+import com.meros.playn.core.entities.Dialogue;
 import com.meros.playn.core.entities.Door;
 import com.meros.playn.core.entities.GroundWalkingMonster;
 import com.meros.playn.core.entities.Hero;
@@ -33,16 +35,14 @@ public class EntityFactory {
 		case 4:
 			return new SpawnPoint();
 		case 5:
-			return new
-					GroundWalkingMonster(GroundWalkingMonster.Type.FLOOR);
+			return new GroundWalkingMonster(GroundWalkingMonster.Type.FLOOR);
 		case 6:
 			return new GroundWalkingMonster(GroundWalkingMonster.Type.ROOF);
 		case 7:
-			return new
-					GroundWalkingMonster(GroundWalkingMonster.Type.LEFT_WALL);
+			return new GroundWalkingMonster(GroundWalkingMonster.Type.LEFT_WALL);
 		case 8:
-			return new
-					GroundWalkingMonster(GroundWalkingMonster.Type.RIGHT_WALL);
+			return new GroundWalkingMonster(
+					GroundWalkingMonster.Type.RIGHT_WALL);
 		case 9:
 			return new SimpleWalkingMonster();
 		case 10:

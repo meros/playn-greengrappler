@@ -1,4 +1,4 @@
-package com.meros.playn.core;
+package com.meros.playn.core.media;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,10 +7,10 @@ import playn.core.Image;
 import playn.core.Surface;
 
 public class Font {
-	
+
 	Map<Character, Image> myGlyphToBitmap = new HashMap<Character, Image>();
 	int myHeight = 0;
-	
+
 	public Font(Image aGlyphImage, char aStartChar, char aEndChar) {
 		String glyphs = "";
 		for (char theChar = aStartChar; theChar <= aEndChar; theChar++) {

@@ -12,7 +12,7 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 
-import com.meros.playn.core.Music.AbstractSong;
+import com.meros.playn.core.media.Music.AbstractSong;
 import com.meros.playn.core.micromod.IBXM;
 import com.meros.playn.core.micromod.Module;
 

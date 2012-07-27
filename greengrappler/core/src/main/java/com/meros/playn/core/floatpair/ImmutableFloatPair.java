@@ -1,6 +1,6 @@
-package com.meros.playn.core;
+package com.meros.playn.core.floatpair;
 
-public class ImmutableFloatPair extends AbstractFloatPair   {
+public class ImmutableFloatPair extends AbstractFloatPair {
 	private final float x;
 	private final float y;
 
@@ -13,22 +13,22 @@ public class ImmutableFloatPair extends AbstractFloatPair   {
 		x = aOther.getX();
 		y = aOther.getY();
 	}
-	
+
 	public ImmutableFloatPair(float aX, float aY) {
 		x = aX;
 		y = aY;
 	}
-	
+
 	public ImmutableFloatPair add(AbstractFloatPair other) {
-		return new ImmutableFloatPair(x+other.getX(), y+other.getY());
+		return new ImmutableFloatPair(x + other.getX(), y + other.getY());
 	}
 
 	public ImmutableFloatPair divide(float divider) {
-		return new ImmutableFloatPair(x/divider, y/divider);
+		return new ImmutableFloatPair(x / divider, y / divider);
 	}
 
 	public ImmutableFloatPair multiply(float factor) {
-		return new ImmutableFloatPair(x*factor, y*factor);
+		return new ImmutableFloatPair(x * factor, y * factor);
 	}
 
 	public ImmutableFloatPair normalize() {
@@ -36,7 +36,7 @@ public class ImmutableFloatPair extends AbstractFloatPair   {
 	}
 
 	public ImmutableFloatPair subtract(AbstractFloatPair other) {
-		return new ImmutableFloatPair(x-other.getX(), y-other.getY());
+		return new ImmutableFloatPair(x - other.getX(), y - other.getY());
 	}
 
 	@Override

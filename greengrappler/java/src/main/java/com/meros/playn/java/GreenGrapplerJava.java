@@ -8,9 +8,9 @@ import playn.core.PlayN;
 import playn.java.JavaPlatform;
 
 import com.meros.playn.core.GreenGrappler;
-import com.meros.playn.core.Music;
-import com.meros.playn.core.Music.AbstractSong;
-import com.meros.playn.core.Music.SongFactory;
+import com.meros.playn.core.media.Music;
+import com.meros.playn.core.media.Music.AbstractSong;
+import com.meros.playn.core.media.Music.SongFactory;
 
 public class GreenGrapplerJava {
 

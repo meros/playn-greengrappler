@@ -2,24 +2,23 @@ package com.meros.playn.core.screens;
 
 import java.util.ArrayList;
 
-import playn.core.Surface;
 import playn.core.Color;
+import playn.core.Surface;
 
-import com.meros.playn.core.Animation;
-import com.meros.playn.core.Dialogue;
-import com.meros.playn.core.Font;
+import com.meros.playn.core.Constants.Buttons;
 import com.meros.playn.core.GameState;
-import com.meros.playn.core.GlobalOptions;
 import com.meros.playn.core.GreenGrappler;
 import com.meros.playn.core.Input;
 import com.meros.playn.core.LevelDescription;
-import com.meros.playn.core.Music;
 import com.meros.playn.core.Resource;
 import com.meros.playn.core.Screen;
 import com.meros.playn.core.ScreenManager;
-import com.meros.playn.core.Sound;
-import com.meros.playn.core.Constants.Buttons;
-import com.meros.playn.core.GlobalOptions.VibrationType;
+import com.meros.playn.core.UtilMethods;
+import com.meros.playn.core.entities.Dialogue;
+import com.meros.playn.core.media.Animation;
+import com.meros.playn.core.media.Font;
+import com.meros.playn.core.media.Music;
+import com.meros.playn.core.media.Sound;
 
 public class LevelSelectScreen extends Screen {
 
@@ -233,7 +232,7 @@ public class LevelSelectScreen extends Screen {
 	@Override
 	public void onEntered() {
 		GreenGrappler.showTouchControls(true);
-		
+
 		GameState.saveToFile();
 
 		myBossLevelUnlocked = true;
@@ -302,56 +301,48 @@ public class LevelSelectScreen extends Screen {
 			return;
 		}
 
-		if (Input.isPressed(Buttons.Exit)) {
+		if (Input.isPressed(Buttons.EXIT)) {
 			exit();
-			Sound.playSample("data/sounds/select");
+			UtilMethods.selectFeedback();
 		}
 
-		if (Input.isPressed(Buttons.Left)) {
+		if (Input.isPressed(Buttons.LEFT)) {
 			mySelectedX--;
 			if (mySelectedX < 0)
 				mySelectedX = 0;
-			else
-			{
-				GlobalOptions.Vibrate(50, VibrationType.SIMPLE);
-				Sound.playSample("data/sounds/select");
+			else {
+				UtilMethods.selectFeedback();
 			}
 		}
 
-		if (Input.isPressed(Buttons.Right)) {
+		if (Input.isPressed(Buttons.RIGHT)) {
 			mySelectedX++;
 			if (mySelectedX > 2)
 				mySelectedX = 2;
-			else
-			{
-				GlobalOptions.Vibrate(50, VibrationType.SIMPLE);
-				Sound.playSample("data/sounds/select");
+			else {
+				UtilMethods.selectFeedback();
 			}
 		}
 
-		if (Input.isPressed(Buttons.Up)) {
+		if (Input.isPressed(Buttons.UP)) {
 			mySelectedY--;
 			if (mySelectedY < 0)
 				mySelectedY = 0;
-			else
-			{
-				GlobalOptions.Vibrate(50, VibrationType.SIMPLE);
-				Sound.playSample("data/sounds/select");
+			else {
+				UtilMethods.selectFeedback();
 			}
 		}
 
-		if (Input.isPressed(Buttons.Down)) {
+		if (Input.isPressed(Buttons.DOWN)) {
 			mySelectedY++;
 			if (mySelectedY > 2)
 				mySelectedY = 2;
-			else
-			{
-				GlobalOptions.Vibrate(50, VibrationType.SIMPLE);
-				Sound.playSample("data/sounds/select");
+			else {
+				UtilMethods.selectFeedback();
 			}
 		}
 
-		if (Input.isPressed(Buttons.Fire)) {
+		if (Input.isPressed(Buttons.FIRE)) {
 			int index = mySelectedY * 3 + mySelectedX;
 			if (index == 4 && myBossLevelUnlocked || index != 4) {
 				Music.stop();

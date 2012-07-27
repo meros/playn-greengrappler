@@ -4,16 +4,16 @@ import java.util.EnumSet;
 
 import playn.core.Surface;
 
-import com.meros.playn.core.AbstractFloatPair;
-import com.meros.playn.core.Animation;
 import com.meros.playn.core.Constants.Direction;
 import com.meros.playn.core.Entity;
-import com.meros.playn.core.ImmutableFloatPair;
 import com.meros.playn.core.PlayerSkill;
 import com.meros.playn.core.Resource;
 import com.meros.playn.core.Room;
-import com.meros.playn.core.Sound;
 import com.meros.playn.core.UtilMethods;
+import com.meros.playn.core.floatpair.AbstractFloatPair;
+import com.meros.playn.core.floatpair.ImmutableFloatPair;
+import com.meros.playn.core.media.Animation;
+import com.meros.playn.core.media.Sound;
 
 public class Coin extends Entity {
 
@@ -38,7 +38,8 @@ public class Coin extends Entity {
 
 			ImmutableFloatPair velocity = UtilMethods.sincos(3.1415 * (i + 1)
 					/ (aNumberOfCoins + 1));
-			velocity = new ImmutableFloatPair(velocity.getX() * 100, velocity.getY() * -200);
+			velocity = new ImmutableFloatPair(velocity.getX() * 100,
+					velocity.getY() * -200);
 
 			Coin coin = new Coin();
 			coin.setLifeTime(aLifeTime);
@@ -68,8 +69,8 @@ public class Coin extends Entity {
 				myFrame = 0;
 			}
 
-			myAnimationCoin.drawFrame(aBuffer, (myFrame < 5 * 4) ? myFrame / 5 : 0,
-					(int) x, (int) y, false, false);
+			myAnimationCoin.drawFrame(aBuffer, (myFrame < 5 * 4) ? myFrame / 5
+					: 0, (int) x, (int) y, false, false);
 		}
 	}
 
@@ -97,46 +98,44 @@ public class Coin extends Entity {
 	@Override
 	public void update() {
 		if (myType == Type.DYNAMIC) {
-			if (mRoom.getHero().Collides(this))
-			{
+			if (myRoom.getHero().Collides(this)) {
 				setCollides();
 			}
-			
+
 			if (myTemporary && myLifeTime == 0) {
 				remove();
 			} else {
-				mVelocity.add(0.0f, 6.0f);
+				myVelocity.add(0.0f, 6.0f);
 
 				EnumSet<Direction> bumps = moveWithCollision();
 
 				if (bumps.contains(Direction.LEFT)
 						|| bumps.contains(Direction.RIGHT)) {
-					if (Math.abs(mVelocity.getX()) > 10) {
+					if (Math.abs(myVelocity.getX()) > 10) {
 						Sound.playSample("data/sounds/coin");
 					}
 
-					mVelocity.set(mVelocity.getX() * -0.5f, mVelocity.getY());
+					myVelocity.set(myVelocity.getX() * -0.5f, myVelocity.getY());
 				}
 
 				if (bumps.contains(Direction.UP)
 						|| bumps.contains(Direction.DOWN)) {
-					if (Math.abs(mVelocity.getY()) > 10) {
+					if (Math.abs(myVelocity.getY()) > 10) {
 						Sound.playSample("data/sounds/coin");
 					}
 
-					mVelocity.set(mVelocity.getX(), mVelocity.getY()*-0.2f);
+					myVelocity.set(myVelocity.getX(), myVelocity.getY() * -0.2f);
 				}
 
 				myLifeTime--;
 			}
 		}
 
-		if (mCollides)
-		{
-			if (mRoom.getHero().gotCoin()) {
+		if (mCollides) {
+			if (myRoom.getHero().gotCoin()) {
 				PlayerSkill.playerDidSomethingClever(0.3f, 0.05f);
 				Sound.playSample("data/sounds/coin");
-				remove();			
+				remove();
 			}
 		}
 

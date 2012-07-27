@@ -8,7 +8,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
-import com.meros.playn.core.Music.AbstractSong;
+import com.meros.playn.core.media.Music.AbstractSong;
 import com.meros.playn.core.micromod.IBXM;
 import com.meros.playn.core.micromod.Module;
 

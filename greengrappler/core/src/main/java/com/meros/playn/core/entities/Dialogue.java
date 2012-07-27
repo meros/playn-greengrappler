@@ -1,8 +1,17 @@
-package com.meros.playn.core;
+package com.meros.playn.core.entities;
 
 import java.util.ArrayList;
 
 import playn.core.Surface;
+
+import com.meros.playn.core.Entity;
+import com.meros.playn.core.GameState;
+import com.meros.playn.core.GlobalOptions;
+import com.meros.playn.core.Resource;
+import com.meros.playn.core.floatpair.ImmutableFloatPair;
+import com.meros.playn.core.media.Animation;
+import com.meros.playn.core.media.Font;
+import com.meros.playn.core.media.Sound;
 
 public class Dialogue extends Entity {
 
@@ -69,33 +78,34 @@ public class Dialogue extends Entity {
 
 		if (!myRunning)
 			return;
-		
+
 		int position = 240 - myBackground.getFrameHeight();
-		
-		if (GlobalOptions.dialogueAtTop())
-		{
+
+		if (GlobalOptions.dialogueAtTop()) {
 			position = 10;
 		}
 
-		myBackground.drawFrame(aBuffer, 0, 0, position, false, GlobalOptions.dialogueAtTop());
+		myBackground.drawFrame(aBuffer, 0, 0, position, false,
+				GlobalOptions.dialogueAtTop());
 		CharacterPortrait portrait = myLines.get(myCurrentLine).myPortrait;
 		String line = myLines.get(myCurrentLine).myLine;
 
 		int pX = 4;
-		int pY = position + myBackground.getFrameHeight() - myTedPortrait.getFrameHeight() - 3;
-		
+		int pY = position + myBackground.getFrameHeight()
+				- myTedPortrait.getFrameHeight() - 3;
+
 		if (portrait == CharacterPortrait.Ted)
 			myTedPortrait.drawFrame(aBuffer, 0, pX, pY);
 		if (portrait == CharacterPortrait.DoctorGreen)
 			myDoctorGreenPortrait.drawFrame(aBuffer, 0, pX, pY);
-		
+
 		int fontPosition = position + myBackground.getFrameHeight() - 16;
-		if (GlobalOptions.dialogueAtTop())
-		{
+		if (GlobalOptions.dialogueAtTop()) {
 			fontPosition = position + 5;
 		}
 
-		myFont.drawWrap(aBuffer, line, 55, fontPosition, 300, myCurrentCharacter);
+		myFont.drawWrap(aBuffer, line, 55, fontPosition, 300,
+				myCurrentCharacter);
 	}
 
 	@Override
@@ -114,7 +124,7 @@ public class Dialogue extends Entity {
 			return;
 
 		if (!myRunWithoutHero) {
-			if (mRoom.getHero().Collides(this)) {
+			if (myRoom.getHero().Collides(this)) {
 				myRunning = true;
 			}
 		}

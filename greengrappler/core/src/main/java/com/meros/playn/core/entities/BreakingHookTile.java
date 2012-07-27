@@ -2,13 +2,13 @@ package com.meros.playn.core.entities;
 
 import playn.core.Surface;
 
-import com.meros.playn.core.Animation;
 import com.meros.playn.core.Entity;
 import com.meros.playn.core.PlayerSkill;
 import com.meros.playn.core.Resource;
 import com.meros.playn.core.Room;
 import com.meros.playn.core.UtilMethods;
-import com.meros.playn.core.ImmutableFloatPair;
+import com.meros.playn.core.floatpair.ImmutableFloatPair;
+import com.meros.playn.core.media.Animation;
 
 public class BreakingHookTile extends Entity {
 
@@ -24,7 +24,8 @@ public class BreakingHookTile extends Entity {
 	private int myTileY;
 
 	public BreakingHookTile() {
-		setSize(new ImmutableFloatPair(mySprite.getFrameWidth(), mySprite.getFrameHeight()));
+		setSize(new ImmutableFloatPair(mySprite.getFrameWidth(),
+				mySprite.getFrameHeight()));
 	}
 
 	@Override
@@ -48,10 +49,10 @@ public class BreakingHookTile extends Entity {
 
 	@Override
 	public void onRespawn() {
-		myTileX = (int) (getPosition().getX() / mRoom.getTileWidth());
-		myTileY = (int) (getPosition().getY() / mRoom.getTileHeight());
-		mRoom.setHookable(myTileX, myTileY, true);
-		mRoom.setCollidable(myTileX, myTileY, true);
+		myTileX = (int) (getPosition().getX() / myRoom.getTileWidth());
+		myTileY = (int) (getPosition().getY() / myRoom.getTileHeight());
+		myRoom.setHookable(myTileX, myTileY, true);
+		myRoom.setCollidable(myTileX, myTileY, true);
 		myBreakCounter = 0;
 		myBreaking = false;
 		myDestroyed = false;
@@ -74,31 +75,31 @@ public class BreakingHookTile extends Entity {
 			int breakFrames = UtilMethods.lerp(MAX_BREAK_FRAMES,
 					MIN_BREAK_FRAMES, PlayerSkill.get());
 
-			if (mRoom.getHero().getRopeState() != Hero.RopeState.Attached) {
+			if (myRoom.getHero().getRopeState() != Hero.RopeState.Attached) {
 				breakFrames = -1;
 			}
 
 			if (myBreakCounter >= breakFrames) {
 				myDestroyed = true;
-				mRoom.setHookable(myTileX, myTileY, false);
-				mRoom.setCollidable(myTileX, myTileY, false);
+				myRoom.setHookable(myTileX, myTileY, false);
+				myRoom.setCollidable(myTileX, myTileY, false);
 
 				ParticleSystem ps = new ParticleSystem(Resource.getAnimation(
 						"data/images/debris.bmp", 4), 10, 50, 20, 1, 50, 2,
 						new ImmutableFloatPair(0.0f, -30.0f), 2.0f);
 				ps.setPosition(getPosition(), 2.0f, false);
-				mRoom.addEntity(ps);
+				myRoom.addEntity(ps);
 
 			}
 		}
 
-		Hero hero = mRoom.getHero();
+		Hero hero = myRoom.getHero();
 
 		if (hero != null) {
 			if (hero.getRopeState() == Hero.RopeState.Attached) {
-				int ropeTileX = (int) (hero.getRopePosition().getX() / mRoom
+				int ropeTileX = (int) (hero.getRopePosition().getX() / myRoom
 						.getTileWidth());
-				int ropeTileY = (int) (hero.getRopePosition().getY() / mRoom
+				int ropeTileY = (int) (hero.getRopePosition().getY() / myRoom
 						.getTileWidth());
 				if (ropeTileX == myTileX && ropeTileY == myTileY) {
 					myBreaking = true;

@@ -9,18 +9,15 @@ public class ScreenManager {
 	static Screen myScreenToExit = null;
 	static ArrayList<Screen> myStack = new ArrayList<Screen>();
 
-	// static void add(Screen* screen);
 	public static void add(Screen screen) {
 		myStack.add(screen);
 		myScreenToEnter = screen;
 	}
 
-	// static void destroy();
 	public static void destroy() {
 		myStack.clear();
 	}
 
-	// static void draw(BITMAP* buffer);
 	public static void draw(Surface buffer) {
 		if (myScreenToExit == null && myScreenToEnter == null) {
 			Screen screen = getTop();
@@ -82,14 +79,6 @@ public class ScreenManager {
 		myScreenToExit = screen;
 	}
 
-	//
-	// private:
-	// ScreenManager();
-	// static std::vector<Screen*> myStack;
-	// static Screen* myScreenToExit;
-	// static Screen* myScreenToEnter;
-
-	// static Screen* getTop();
 	public static Screen getTop() {
 		if (myStack.size() == 0)
 			return null;
@@ -97,17 +86,14 @@ public class ScreenManager {
 		return myStack.get(myStack.size() - 1);
 	}
 
-	// static void init();
 	public static void init() {
 
 	}
 
-	// static bool isEmpty();
 	public static boolean isEmpty() {
 		return myStack.isEmpty();
 	}
 
-	// static void onLogic();
 	public static void onLogic() {
 		if (myScreenToExit == null && myScreenToEnter == null) {
 			Screen screen = getTop();

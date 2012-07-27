@@ -2,18 +2,19 @@ package com.meros.playn.core.screens;
 
 import playn.core.Surface;
 
-import com.meros.playn.core.Animation;
 import com.meros.playn.core.Constants.Buttons;
-import com.meros.playn.core.Font;
 import com.meros.playn.core.GameState;
 import com.meros.playn.core.GreenGrappler;
 import com.meros.playn.core.Input;
 import com.meros.playn.core.LevelDescription;
-import com.meros.playn.core.Music;
 import com.meros.playn.core.Resource;
 import com.meros.playn.core.Screen;
 import com.meros.playn.core.ScreenManager;
-import com.meros.playn.core.Sound;
+import com.meros.playn.core.UtilMethods;
+import com.meros.playn.core.media.Animation;
+import com.meros.playn.core.media.Font;
+import com.meros.playn.core.media.Music;
+import com.meros.playn.core.media.Sound;
 
 public class TitleScreen extends Screen {
 
@@ -64,7 +65,7 @@ public class TitleScreen extends Screen {
 	@Override
 	public void onEntered() {
 		GreenGrappler.showTouchControls(true);
-		
+
 		myGameStart = false;
 		Music.playSong("data/music/intro2.xm");
 
@@ -92,29 +93,29 @@ public class TitleScreen extends Screen {
 			return;
 		}
 
-		if (Input.isPressed(Buttons.Down)) {
+		if (Input.isPressed(Buttons.DOWN)) {
 			mySelected++;
 			if (mySelected > 1 && !myContinue)
 				mySelected = 1;
 			else if (mySelected > 2)
 				mySelected = 2;
 			else
-				Sound.playSample("data/sounds/select");
+				UtilMethods.selectFeedback();
 		}
 
-		if (Input.isPressed(Buttons.Up)) {
+		if (Input.isPressed(Buttons.UP)) {
 			mySelected--;
 			if (mySelected < 0)
 				mySelected = 0;
 			else
-				Sound.playSample("data/sounds/select");
+				UtilMethods.selectFeedback();
 		}
-		
-		if (Input.isPressed(Buttons.Exit)) {
+
+		if (Input.isPressed(Buttons.EXIT)) {
 			exit();
 		}
 
-		if (Input.isPressed(Buttons.Fire)) {
+		if (Input.isPressed(Buttons.FIRE)) {
 			if (mySelected == 0) {
 				myGameStart = true;
 				myFrameCounter = 0;

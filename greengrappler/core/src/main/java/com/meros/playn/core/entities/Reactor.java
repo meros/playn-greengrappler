@@ -4,12 +4,12 @@ import java.util.Random;
 
 import playn.core.Surface;
 
-import com.meros.playn.core.Animation;
 import com.meros.playn.core.Entity;
-import com.meros.playn.core.ImmutableFloatPair;
 import com.meros.playn.core.Resource;
 import com.meros.playn.core.Room;
-import com.meros.playn.core.Sound;
+import com.meros.playn.core.floatpair.ImmutableFloatPair;
+import com.meros.playn.core.media.Animation;
+import com.meros.playn.core.media.Sound;
 
 public class Reactor extends Entity {
 
@@ -35,33 +35,31 @@ public class Reactor extends Entity {
 
 		if (myDamage >= DAMAGE_MAX)
 			myShell.drawFrame(buffer, myDamage / FRAME_PER_DAMAGE - 1, x
-					- (int) getSize().getX() / 2, y - (int) getSize().getY() / 2);
+					- (int) getSize().getX() / 2, y - (int) getSize().getY()
+					/ 2);
 		else
 			myShell.drawFrame(buffer, myDamage / FRAME_PER_DAMAGE, x
-					- (int) getSize().getX() / 2, y - (int) getSize().getY() / 2);
-	}
-	
-	@Override
-	public float getCollideTop()
-	{
-		return getPosition().getY() - getHalfSize().getY() - 2;				
-	}
-	
-	@Override
-	public float getCollideLeft()
-	{
-		return getPosition().getX() - getHalfSize().getX() - 2;		
+					- (int) getSize().getX() / 2, y - (int) getSize().getY()
+					/ 2);
 	}
 
 	@Override
-	public float getCollideBottom()
-	{
-		return getPosition().getY() + getHalfSize().getY() + 2;						
+	public float getCollideTop() {
+		return getPosition().getY() - getHalfSize().getY() - 2;
 	}
 
 	@Override
-	public float getCollideRight()
-	{
+	public float getCollideLeft() {
+		return getPosition().getX() - getHalfSize().getX() - 2;
+	}
+
+	@Override
+	public float getCollideBottom() {
+		return getPosition().getY() + getHalfSize().getY() + 2;
+	}
+
+	@Override
+	public float getCollideRight() {
 		return getPosition().getX() + getHalfSize().getX() + 2;
 	}
 
@@ -95,7 +93,7 @@ public class Reactor extends Entity {
 				"data/images/debris.bmp", 4), 10, 40, 10, 1, 50, numPs,
 				new ImmutableFloatPair(0.0f, -20.0f), 2.0f);
 		ps.setPosition(getPosition(), 10.0f, false);
-		mRoom.addEntity(ps);
+		myRoom.addEntity(ps);
 
 		myDamage++;
 		if (myDamage == DAMAGE_MAX) {
@@ -103,10 +101,10 @@ public class Reactor extends Entity {
 			myAboutToBlow = true;
 
 			Sound.playSample("data/sounds/damage");
-			mRoom.getCamera().addShake(4.0f, BLOW_TIME);
+			myRoom.getCamera().addShake(4.0f, BLOW_TIME);
 		} else {
 			Sound.playSample("data/sounds/damage");
-			mRoom.getCamera().addShake(1.0f, 20);
+			myRoom.getCamera().addShake(1.0f, 20);
 		}
 	}
 
@@ -128,7 +126,7 @@ public class Reactor extends Entity {
 
 		for (int x = sx; x < sx + 3; x++)
 			for (int y = sy; y < sy + 4; y++)
-				mRoom.setCollidable(x, y, aCollidable);
+				myRoom.setCollidable(x, y, aCollidable);
 	}
 
 	@Override
@@ -146,7 +144,7 @@ public class Reactor extends Entity {
 					"data/images/debris.bmp", 4), 10, 40, 10, 1, 50, numPs,
 					new ImmutableFloatPair(0.0f, -20.0f), 2.0f);
 			ps.setPosition(getPosition(), 10.0f, false);
-			mRoom.addEntity(ps);
+			myRoom.addEntity(ps);
 		}
 
 		if (myAboutToBlow && myFrameCounter >= BLOW_TIME) {
@@ -156,14 +154,14 @@ public class Reactor extends Entity {
 					"data/images/debris.bmp", 4), 20, 200, 20, 1, 50, 50,
 					new ImmutableFloatPair(0.0f, -150.0f), 5.0f);
 			ps.setPosition(getPosition(), 10.0f, false);
-			mRoom.addEntity(ps);
+			myRoom.addEntity(ps);
 
 			// Coin::SpawnDeathCoins(10, getPosition(), 0, mRoom);
 
 			ReactorCore core = new ReactorCore();
 			core.setPosition(getPosition());
 			core.setVelocity(new ImmutableFloatPair(0, -50));
-			mRoom.addEntity(core);
+			myRoom.addEntity(core);
 
 			setTilesCollidable(false);
 			remove();

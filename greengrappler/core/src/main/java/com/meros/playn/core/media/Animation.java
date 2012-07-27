@@ -1,7 +1,9 @@
-package com.meros.playn.core;
+package com.meros.playn.core.media;
 
-import playn.core.Surface;
 import playn.core.Image;
+import playn.core.Surface;
+
+import com.meros.playn.core.Resource;
 
 public class Animation {
 	int myFrameHeight;
@@ -37,23 +39,24 @@ public class Animation {
 
 	// void drawFrame(BITMAP *aBuffer, int aFrame, int aX, int aY, bool aHFlip =
 	// false, bool aVFlip = false, Blending aBlending = Blending_None) const;
-	public void drawFrame(Surface aBuffer, int aFrame, int aX, int aY, boolean aHFlip,
-			boolean aVFlip) {
+	public void drawFrame(Surface aBuffer, int aFrame, int aX, int aY,
+			boolean aHFlip, boolean aVFlip) {
 
-		if (aX > aBuffer.width() || aY > aBuffer.height() || aX + myFrameWidth < 0 || aY + myFrameHeight < 0)
+		if (aX > aBuffer.width() || aY > aBuffer.height()
+				|| aX + myFrameWidth < 0 || aY + myFrameHeight < 0)
 			return;
 
 		boolean needTransform = aHFlip || aVFlip;
 		if (needTransform)
 			aBuffer.save();
-		
+
 		if (aHFlip)
 			aBuffer.transform(-1, 0, 0, 1, getFrameWidth() + aX * 2, 0);
 		if (aVFlip)
 			aBuffer.transform(1, 0, 0, -1, 0, getFrameHeight() + aY * 2);
 
 		aBuffer.drawImage(getFrame(aFrame), aX, aY);
-		
+
 		if (needTransform)
 			aBuffer.restore();
 	}

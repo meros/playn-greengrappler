@@ -14,6 +14,11 @@ import playn.core.Surface;
 import com.meros.playn.core.entities.Coin;
 import com.meros.playn.core.entities.Hero;
 import com.meros.playn.core.entities.ParticleSystem;
+import com.meros.playn.core.floatpair.AbstractFloatPair;
+import com.meros.playn.core.floatpair.FloatPair;
+import com.meros.playn.core.floatpair.ImmutableFloatPair;
+import com.meros.playn.core.media.Font;
+import com.meros.playn.core.media.Music;
 
 public class Room {
 	private final Camera mCamera;
@@ -50,35 +55,32 @@ public class Room {
 			if (aEnt1.getLayer() != aEnt2.getLayer())
 				return aEnt1.getLayer() - aEnt2.getLayer();
 
-			return aEnt1.getClass().getName().compareTo(aEnt2.getClass().getName());
+			return aEnt1.getClass().getName()
+					.compareTo(aEnt2.getClass().getName());
 		}
 	};
 
-	public Room(
-			Layer aBackgroundLayer, 
-			Layer aMiddleLayer,
-			Layer aForegroundLayer,
-			Camera aCamera) {
+	public Room(Layer aBackgroundLayer, Layer aMiddleLayer,
+			Layer aForegroundLayer, Camera aCamera) {
 
 		myBackgroundLayer = aBackgroundLayer;
 		myMiddleLayer = aMiddleLayer;
 		myForegroundLayer = aForegroundLayer;
 
-		myBgLayers = new Layer[]{myMiddleLayer, myForegroundLayer};
-		myMidLayers = new Layer[]{myForegroundLayer};
-		myFgLayers = new Layer[]{};
+		myBgLayers = new Layer[] { myMiddleLayer, myForegroundLayer };
+		myMidLayers = new Layer[] { myForegroundLayer };
+		myFgLayers = new Layer[] {};
 
 		mCamera = aCamera;
 
 		myHookableArray = new boolean[getWidthInTiles()][getHeightInTiles()];
 		myCollidableArray = new boolean[getWidthInTiles()][getHeightInTiles()];
 
-		for (int x = 0; x < getWidthInTiles(); x++)
-		{
-			for (int y = 0; y < getHeightInTiles(); y++)
-			{
+		for (int x = 0; x < getWidthInTiles(); x++) {
+			for (int y = 0; y < getHeightInTiles(); y++) {
 				myHookableArray[x][y] = myMiddleLayer.getTile(x, y).getHook();
-				myCollidableArray[x][y] = myMiddleLayer.getTile(x, y).getCollide();
+				myCollidableArray[x][y] = myMiddleLayer.getTile(x, y)
+						.getCollide();
 			}
 		}
 	}
@@ -87,31 +89,31 @@ public class Room {
 		if (aEntity instanceof Hero) {
 			mHero = (Hero) aEntity;
 		}
-		
+
 		aEntity.setRoom(this);
 		mEntitiesToAdd.add(aEntity);
 	}
 
 	public void broadcastBoosFloorActivate() {
-		for (int i = 0; i < mEntities.size(); i++){
+		for (int i = 0; i < mEntities.size(); i++) {
 			Entity entity = mEntities.get(i);
-			
+
 			entity.onBossFloorActivate();
 		}
 	}
 
 	public void broadcastBoosWallActivate() {
-		for (int i = 0; i < mEntities.size(); i++){
+		for (int i = 0; i < mEntities.size(); i++) {
 			Entity entity = mEntities.get(i);
-			
+
 			entity.onBossWallActivate();
 		}
 	}
 
 	public void broadcastBoosWallDectivate() {
-		for (int i = 0; i < mEntities.size(); i++){
+		for (int i = 0; i < mEntities.size(); i++) {
 			Entity entity = mEntities.get(i);
-			
+
 			entity.onBossWallDeactivate();
 		}
 	}
@@ -123,7 +125,7 @@ public class Room {
 
 	public boolean damageDone(int aX, int aY) {
 		for (Entity entity : mDamagableEntities) {
-			if (CollisionMethods.Collides(entity, aX, aY, aX+1, aY+1)) {
+			if (Collision.Collides(entity, aX, aY, aX + 1, aY + 1)) {
 				entity.onDamage();
 				return true;
 			}
@@ -133,10 +135,13 @@ public class Room {
 	}
 
 	public Entity findHookableEntity(ImmutableFloatPair position) {
-		for (Entity entity : mHookableEntities)
-		{
-			findHookableEntityToPos.set(entity.getPosition()).subtract(position);
-			if (Math.abs(findHookableEntityToPos.getX()) < entity.getHalfSize().getX() && Math.abs(findHookableEntityToPos.getY()) < entity.getHalfSize().getY()) {
+		for (Entity entity : mHookableEntities) {
+			findHookableEntityToPos.set(entity.getPosition())
+					.subtract(position);
+			if (Math.abs(findHookableEntityToPos.getX()) < entity.getHalfSize()
+					.getX()
+					&& Math.abs(findHookableEntityToPos.getY()) < entity
+							.getHalfSize().getY()) {
 				return entity;
 			}
 		}
@@ -177,7 +182,8 @@ public class Room {
 	}
 
 	public boolean isCollidable(int aX, int aY) {
-		if (aX < 0 || aX >= myCollidableArray.length || aY < 0 || aY >= myCollidableArray[aX].length)
+		if (aX < 0 || aX >= myCollidableArray.length || aY < 0
+				|| aY >= myCollidableArray[aX].length)
 			return false;
 
 		if (aX < myDestroyedToTileRow)
@@ -197,7 +203,8 @@ public class Room {
 	}
 
 	public boolean isHookable(int aX, int aY) {
-		if (aX < 0 || aX >= myHookableArray.length || aY < 0 || aY >= myHookableArray[aX].length)
+		if (aX < 0 || aX >= myHookableArray.length || aY < 0
+				|| aY >= myHookableArray[aX].length)
 			return false;
 
 		if (aX < myDestroyedToTileRow)
@@ -217,23 +224,22 @@ public class Room {
 			aBuffer.fillRect(0, 0, 320, 240);
 
 			if (myFrameCounter < 60)
-				mHero.draw(aBuffer, (int) mCamera.getOffsetX(),
-						(int) mCamera.getOffsetY(), 0);
+				mHero.draw(aBuffer, mCamera.getOffsetX(), mCamera.getOffsetY(),
+						0);
 			return;
 		}
 
-		myBackgroundLayer.draw(aBuffer, (int) mCamera.getOffsetX(),
-				(int) mCamera.getOffsetY(), myBgLayers);
-		myMiddleLayer.draw(aBuffer, (int) mCamera.getOffsetX(),
-				(int) mCamera.getOffsetY(), myMidLayers);
+		myBackgroundLayer.draw(aBuffer, mCamera.getOffsetX(),
+				mCamera.getOffsetY(), myBgLayers);
+		myMiddleLayer.draw(aBuffer, mCamera.getOffsetX(), mCamera.getOffsetY(),
+				myMidLayers);
 
-		for (Entity entity: mEntities) {
-			entity.draw(aBuffer, (int) mCamera.getOffsetX(),
-					(int) mCamera.getOffsetY(), 0);
+		for (Entity entity : mEntities) {
+			entity.draw(aBuffer, mCamera.getOffsetX(), mCamera.getOffsetY(), 0);
 		}
 
-		myForegroundLayer.draw(aBuffer, (int) mCamera.getOffsetX(),
-				(int) mCamera.getOffsetY(), myFgLayers);
+		myForegroundLayer.draw(aBuffer, mCamera.getOffsetX(),
+				mCamera.getOffsetY(), myFgLayers);
 
 		if (myIsCompleted) {
 			myFont.drawCenter(aBuffer, "LEVEL COMPLETED!", 0, 0, 320, 240);
@@ -243,35 +249,33 @@ public class Room {
 	public void onLogic() {
 		myFrameCounter++;
 
-		if (mEntitiesToAdd.size() > 0)
-		{
-			for (Entity entity : mEntitiesToAdd)
-			{
+		if (mEntitiesToAdd.size() > 0) {
+			for (Entity entity : mEntitiesToAdd) {
 				if (entity.isDamagable())
 					mDamagableEntities.add(entity);
 
 				if (entity.isHookable())
 					mHookableEntities.add(entity);
 
-				if (entity instanceof Coin)
-				{
-					if (!((Coin)entity).isDynamic())
-					{
-						SortedMap<Integer, Coin> yMap = mSortedCoins.get((int) entity.getPosition().getX());
+				if (entity instanceof Coin) {
+					if (!((Coin) entity).isDynamic()) {
+						SortedMap<Integer, Coin> yMap = mSortedCoins
+								.get((int) entity.getPosition().getX());
 
-						if (yMap == null)
-						{
+						if (yMap == null) {
 							yMap = new TreeMap<Integer, Coin>();
-							mSortedCoins.put((int) entity.getPosition().getX(), yMap);
+							mSortedCoins.put((int) entity.getPosition().getX(),
+									yMap);
 						}
 
-						yMap.put((int) entity.getPosition().getY(), (Coin)entity);
+						yMap.put((int) entity.getPosition().getY(),
+								(Coin) entity);
 					}
 				}
 			}
 			mEntities.addAll(mEntitiesToAdd);
 
-			//Sort to draw order
+			// Sort to draw order
 			Collections.sort(mEntities, myDrawOrderComperator);
 
 			mEntitiesToAdd.clear();
@@ -303,8 +307,7 @@ public class Room {
 			return;
 		}
 
-		for(int i = 0; i < mEntities.size(); i++)
-		{
+		for (int i = 0; i < mEntities.size(); i++) {
 			Entity entity = mEntities.get(i);
 			if (entity.isRemoved()) {
 
@@ -316,9 +319,9 @@ public class Room {
 			}
 		}
 
-		for (int i = 0; i < mEntities.size(); i++){
+		for (int i = 0; i < mEntities.size(); i++) {
 			Entity entity = mEntities.get(i);
-			
+
 			if (mHero.isDead())
 				break;
 
@@ -326,38 +329,44 @@ public class Room {
 				entity.update();
 		}
 
-		//Update hero
+		// Update hero
 		mHero.update();
 
-		//Coins
-		Collection<SortedMap<Integer, Coin>> yMaps = mSortedCoins.subMap(
-				(int)(mHero.getPosition().getX() - mHero.getHalfSize().getX() - Coin.COIN_SIZE/2),
-				(int)(mHero.getPosition().getX() + mHero.getHalfSize().getX() + Coin.COIN_SIZE/2)).values();
+		// Coins
+		Collection<SortedMap<Integer, Coin>> yMaps = mSortedCoins
+				.subMap((int) (mHero.getPosition().getX()
+						- mHero.getHalfSize().getX() - Coin.COIN_SIZE / 2),
+						(int) (mHero.getPosition().getX()
+								+ mHero.getHalfSize().getX() + Coin.COIN_SIZE / 2))
+				.values();
 
-		for (SortedMap<Integer, Coin> yMap : yMaps)
-		{
+		for (SortedMap<Integer, Coin> yMap : yMaps) {
 			Collection<Coin> coins = yMap.subMap(
-					(int)(mHero.getPosition().getY() - mHero.getHalfSize().getY() - Coin.COIN_SIZE/2),
-					(int)(mHero.getPosition().getY() + mHero.getHalfSize().getY() + Coin.COIN_SIZE/2)).values();
+					(int) (mHero.getPosition().getY()
+							- mHero.getHalfSize().getY() - Coin.COIN_SIZE / 2),
+					(int) (mHero.getPosition().getY()
+							+ mHero.getHalfSize().getY() + Coin.COIN_SIZE / 2))
+					.values();
 
-			for(Coin coin : coins)
-			{
-				if (coin.Collides(mHero))
-				{
+			for (Coin coin : coins) {
+				if (coin.Collides(mHero)) {
 					coin.setCollides();
 				}
 			}
 		}
 
-		for (int i = 0; i < mEntities.size(); i++){
+		for (int i = 0; i < mEntities.size(); i++) {
 			Entity entity = mEntities.get(i);
-			
+
 			if (entity.getPosition().getX() - entity.getHalfSize().getX() > getWidthInTiles()
 					* getTileWidth()
-					|| entity.getPosition().getY() - entity.getHalfSize().getY() > getHeightInTiles()
-					* getTileHeight()
-					|| entity.getPosition().getX() + entity.getHalfSize().getX() < 0
-					|| entity.getPosition().getY() + entity.getHalfSize().getY() < 0) {
+					|| entity.getPosition().getY()
+							- entity.getHalfSize().getY() > getHeightInTiles()
+							* getTileHeight()
+					|| entity.getPosition().getX()
+							+ entity.getHalfSize().getX() < 0
+					|| entity.getPosition().getY()
+							+ entity.getHalfSize().getY() < 0) {
 				entity.remove();
 			}
 
@@ -366,13 +375,13 @@ public class Room {
 		getCamera().update(getHero());
 	}
 
-	public class OutInt
-	{
+	public class OutInt {
 		public int myInt;
 	}
 
-	public boolean rayCast(AbstractFloatPair origin, AbstractFloatPair direction,
-			boolean cullBeyondDirection, OutInt aOutX, OutInt aOutY) {
+	public boolean rayCast(AbstractFloatPair origin,
+			AbstractFloatPair direction, boolean cullBeyondDirection,
+			OutInt aOutX, OutInt aOutY) {
 		if (direction.isZero()) {
 			return false;
 		}
@@ -391,20 +400,20 @@ public class Room {
 		if (cullBeyondDirection) {
 			minX = Math.max(minX,
 					ix
-					+ (int) (Math.min(0.0f, direction.getX())
-							/ getTileWidth() - 1.0f));
+							+ (int) (Math.min(0.0f, direction.getX())
+									/ getTileWidth() - 1.0f));
 			maxX = Math.min(maxX,
 					ix
-					+ (int) (Math.max(0.0f, direction.getX())
-							/ getTileWidth() + 2.0f));
+							+ (int) (Math.max(0.0f, direction.getX())
+									/ getTileWidth() + 2.0f));
 			minY = Math.max(minY,
 					iy
-					+ (int) (Math.min(0.0f, direction.getY())
-							/ getTileHeight() - 1.0f));
+							+ (int) (Math.min(0.0f, direction.getY())
+									/ getTileHeight() - 1.0f));
 			maxY = Math.min(maxY,
 					iy
-					+ (int) (Math.max(0.0f, direction.getY())
-							/ getTileHeight() + 2.0f));
+							+ (int) (Math.max(0.0f, direction.getY())
+									/ getTileHeight() + 2.0f));
 		}
 		boolean hit = false;
 		while (ix >= minX && ix < maxX && iy >= minY && iy < maxY) {
@@ -438,8 +447,9 @@ public class Room {
 		if (hit) {
 			aOutX.myInt = ix;
 			aOutY.myInt = iy;
-			ImmutableFloatPair tileCenter = new ImmutableFloatPair(ix * getTileWidth() + getTileWidth()
-					/ 2, iy * getTileHeight() + getTileHeight() / 2);
+			ImmutableFloatPair tileCenter = new ImmutableFloatPair(ix
+					* getTileWidth() + getTileWidth() / 2, iy * getTileHeight()
+					+ getTileHeight() / 2);
 			myRayCastLengthCompareFloatPair.set(origin).subtract(tileCenter);
 			if (cullBeyondDirection
 					&& myRayCastLengthCompareFloatPair.lengthCompare(direction) > 0) {
@@ -452,16 +462,17 @@ public class Room {
 	}
 
 	public void setCollidable(int aX, int aY, boolean aCollide) {
-		if (aX < 0 || aX >= myCollidableArray.length || aY < 0 || aY >= myCollidableArray[aX].length)
+		if (aX < 0 || aX >= myCollidableArray.length || aY < 0
+				|| aY >= myCollidableArray[aX].length)
 			return;
 
 		myCollidableArray[aX][aY] = aCollide;
 	}
 
 	public void setCompleted() {
-		for (int i = 0; i < mEntities.size(); i++){
+		for (int i = 0; i < mEntities.size(); i++) {
 			Entity entity = mEntities.get(i);
-			
+
 			entity.onLevelComplete();
 		}
 
@@ -473,22 +484,21 @@ public class Room {
 	}
 
 	public void setHookable(int aX, int aY, boolean aHook) {
-		if (aX < 0 || aX >= myHookableArray.length || aY < 0 || aY >= myHookableArray[aX].length)
+		if (aX < 0 || aX >= myHookableArray.length || aY < 0
+				|| aY >= myHookableArray[aX].length)
 			return;
 
 		myHookableArray[aX][aY] = aHook;
 	}
 
 	public void broadcastButtonUp(int aId) {
-		for (Entity entity : mEntities)
-		{
+		for (Entity entity : mEntities) {
 			entity.onButtonUp(aId);
 		}
 	}
 
 	public void broadcastButtonDown(int aId) {
-		for (Entity entity : mEntities)
-		{
+		for (Entity entity : mEntities) {
 			entity.onButtonDown(aId);
 		}
 	}
@@ -496,21 +506,15 @@ public class Room {
 	public void destroyToTileRow(int aX) {
 		myDestroyedToTileRow = aX;
 
-		for (int y = 0; y < myMiddleLayer.getHeight(); y++)
-		{
+		for (int y = 0; y < myMiddleLayer.getHeight(); y++) {
 			boolean spawnDebris = myMiddleLayer.getTile(aX, y).getCollide();
 			if (spawnDebris) {
-			ParticleSystem ps = new ParticleSystem(
-					Resource.getAnimation("data/images/debris.bmp", 4), 
-					20, 
-					30, 
-					10, 
-					15, 
-					40, 
-					3, 
-					new ImmutableFloatPair(0.0f, -50.0f),
-					5.0f);
-				ps.setPosition(new ImmutableFloatPair(aX * getTileWidth() + getTileWidth() * 0.75f, y * getTileHeight() + getTileHeight() * 0.75f));
+				ParticleSystem ps = new ParticleSystem(Resource.getAnimation(
+						"data/images/debris.bmp", 4), 20, 30, 10, 15, 40, 3,
+						new ImmutableFloatPair(0.0f, -50.0f), 5.0f);
+				ps.setPosition(new ImmutableFloatPair(aX * getTileWidth()
+						+ getTileWidth() * 0.75f, y * getTileHeight()
+						+ getTileHeight() * 0.75f));
 				addEntity(ps);
 			}
 		}

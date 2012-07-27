@@ -9,7 +9,7 @@ public class Tile {
 	private final boolean myHook;
 	private final Image myTileImage;
 	private final Pattern myTilePattern;
-	
+
 	public Tile() {
 		myTileImage = null;
 		myTilePattern = null;
@@ -17,10 +17,11 @@ public class Tile {
 		myCollide = false;
 	}
 
-	public Tile(Image aTilemap, int aX, int aY, int aW, int aH, boolean aHookable, boolean aCollidable) {
+	public Tile(Image aTilemap, int aX, int aY, int aW, int aH,
+			boolean aHookable, boolean aCollidable) {
 		myTileImage = aTilemap.subImage(aX, aY, aW, aH);
 		myTilePattern = myTileImage.toPattern();
-				
+
 		myHook = aHookable;
 		myCollide = aCollidable;
 	}
@@ -48,7 +49,7 @@ public class Tile {
 	public Pattern getPattern() {
 		return myTilePattern;
 	}
-	
+
 	public boolean isOpaque() {
 		return myTileImage != null;
 	}

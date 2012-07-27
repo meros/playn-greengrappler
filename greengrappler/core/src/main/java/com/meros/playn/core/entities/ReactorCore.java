@@ -4,12 +4,12 @@ import java.util.EnumSet;
 
 import playn.core.Surface;
 
-import com.meros.playn.core.Animation;
 import com.meros.playn.core.Constants.Direction;
 import com.meros.playn.core.Entity;
 import com.meros.playn.core.PlayerSkill;
 import com.meros.playn.core.Resource;
-import com.meros.playn.core.ImmutableFloatPair;
+import com.meros.playn.core.floatpair.ImmutableFloatPair;
+import com.meros.playn.core.media.Animation;
 
 public class ReactorCore extends Entity {
 
@@ -24,11 +24,12 @@ public class ReactorCore extends Entity {
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer) {
 		// Entity::draw(buffer, offsetX, offsetY, layer);
 		ImmutableFloatPair pos = new ImmutableFloatPair(getPosition());
-		pos = pos.subtract(new ImmutableFloatPair(mAnimation.getFrameWidth(), mAnimation
-				.getFrameHeight()).divide(2));
+		pos = pos.subtract(new ImmutableFloatPair(mAnimation.getFrameWidth(),
+				mAnimation.getFrameHeight()).divide(2));
 		pos = pos.add(new ImmutableFloatPair(offsetX, offsetY));
 
-		mAnimation.drawFrame(buffer, mFrame / 5, (int) pos.getX(), (int) pos.getY());
+		mAnimation.drawFrame(buffer, mFrame / 5, (int) pos.getX(),
+				(int) pos.getY());
 	}
 
 	@Override
@@ -38,20 +39,20 @@ public class ReactorCore extends Entity {
 
 	@Override
 	public void update() {
-		Hero hero = mRoom.getHero();
+		Hero hero = myRoom.getHero();
 
-		mVelocity.set(0, mVelocity.getY() + 6.0f);
+		myVelocity.set(0, myVelocity.getY() + 6.0f);
 
 		EnumSet<Direction> bumps = moveWithCollision();
 
 		if (bumps.contains(Direction.UP) || bumps.contains(Direction.DOWN)) {
-			mVelocity.set(mVelocity.getX(), mVelocity.getY()*0.8f);
+			myVelocity.set(myVelocity.getX(), myVelocity.getY() * 0.8f);
 		}
 
 		if (hero.Collides(this)) {
 			if (hero.gotCore()) {
 				PlayerSkill.playerDidSomethingClever(1.0f, 0.75f);
-				mRoom.setCompleted();
+				myRoom.setCompleted();
 				remove();
 			}
 		}

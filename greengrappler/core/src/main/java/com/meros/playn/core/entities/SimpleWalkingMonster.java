@@ -4,13 +4,13 @@ import java.util.EnumSet;
 
 import playn.core.Surface;
 
-import com.meros.playn.core.Animation;
 import com.meros.playn.core.Constants.Direction;
 import com.meros.playn.core.Entity;
 import com.meros.playn.core.PlayerSkill;
 import com.meros.playn.core.Resource;
-import com.meros.playn.core.Sound;
-import com.meros.playn.core.ImmutableFloatPair;
+import com.meros.playn.core.floatpair.ImmutableFloatPair;
+import com.meros.playn.core.media.Animation;
+import com.meros.playn.core.media.Sound;
 
 public class SimpleWalkingMonster extends Entity {
 
@@ -44,17 +44,19 @@ public class SimpleWalkingMonster extends Entity {
 		Sound.playSample("data/sounds/damage");
 
 		ParticleSystem ps = new ParticleSystem(Resource.getAnimation(
-				"data/images/debris.bmp", 4), 10, 30, 10, 1, 50, 5, new ImmutableFloatPair(
-				0.0f, -30.0f), 2.0f);
+				"data/images/debris.bmp", 4), 10, 30, 10, 1, 50, 5,
+				new ImmutableFloatPair(0.0f, -30.0f), 2.0f);
 		ps.setPosition(getPosition(), 5.0f, false);
-		mRoom.addEntity(ps);
+		myRoom.addEntity(ps);
 		remove();
 	}
 
 	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer) {
-		float x = getPosition().getX() - myAnimation.getFrameWidth()/2 + offsetX;
-		float y = getPosition().getY() - myAnimation.getFrameHeight()/2 + offsetY;
+		float x = getPosition().getX() - myAnimation.getFrameWidth() / 2
+				+ offsetX;
+		float y = getPosition().getY() - myAnimation.getFrameHeight() / 2
+				+ offsetY;
 
 		myAnimation.drawFrame(buffer, myFrame / 15, (int) x, (int) y,
 				myFacing == Facing.RIGHT, false);
@@ -80,16 +82,15 @@ public class SimpleWalkingMonster extends Entity {
 	public void update() {
 		switch (myState) {
 		case WALKING: {
-			
-			mVelocity.set(
-					20.0f * ((myFacing == Facing.LEFT) ? -1 : 1),
-					mVelocity.getY() + 6.0f);
 
-			setVelocity(mVelocity);
+			myVelocity.set(20.0f * ((myFacing == Facing.LEFT) ? -1 : 1),
+					myVelocity.getY() + 6.0f);
+
+			setVelocity(myVelocity);
 			EnumSet<Direction> bumps = moveWithCollision();
 
 			if (bumps.contains(Direction.UP) || bumps.contains(Direction.DOWN)) {
-				mVelocity.set(mVelocity.getX(), 0);
+				myVelocity.set(myVelocity.getX(), 0);
 			}
 
 			if (bumps.contains(Direction.LEFT)) {
@@ -100,14 +101,16 @@ public class SimpleWalkingMonster extends Entity {
 				myFacing = Facing.LEFT;
 			}
 
-			int offsetX = (int) ((myFacing == Facing.RIGHT) ? -getHalfSize().getX() - 2
-					: getHalfSize().getX() + 2);
+			int offsetX = (int) ((myFacing == Facing.RIGHT) ? -getHalfSize()
+					.getX() - 2 : getHalfSize().getX() + 2);
 			int offsetY = (int) (getHalfSize().getY() + 2);
 
-			int x = (int) ((getPosition().getX() + offsetX) / mRoom.getTileWidth());
-			int y = (int) ((getPosition().getY() + offsetY) / mRoom.getTileHeight());
+			int x = (int) ((getPosition().getX() + offsetX) / myRoom
+					.getTileWidth());
+			int y = (int) ((getPosition().getY() + offsetY) / myRoom
+					.getTileHeight());
 
-			if (!mRoom.isCollidable(x, y)) {
+			if (!myRoom.isCollidable(x, y)) {
 				if (myFacing == Facing.LEFT) {
 					myFacing = Facing.RIGHT;
 				} else {
@@ -135,7 +138,7 @@ public class SimpleWalkingMonster extends Entity {
 			break;
 		}
 
-		Hero hero = mRoom.getHero();
+		Hero hero = myRoom.getHero();
 		if (hero.Collides(this)) {
 			hero.kill();
 		}

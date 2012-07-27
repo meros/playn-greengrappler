@@ -1,5 +1,7 @@
 package com.meros.playn.core;
 
+import com.meros.playn.core.floatpair.ImmutableFloatPair;
+
 public class RoomLoader {
 
 	public static Room LoadRoom(String myLevelFile) {
@@ -25,9 +27,10 @@ public class RoomLoader {
 			boolean collide = Integer.parseInt(data[curri++]) == 1;
 			boolean hookable = Integer.parseInt(data[curri++]) == 1;
 
-			tiles[i] = new Tile(Resource.getBitmap(filename), x, y, w, h, hookable, collide);
-			//tiles[i].setHook(hookable);
-			//tiles[i].setCollide(collide);
+			tiles[i] = new Tile(Resource.getBitmap(filename), x, y, w, h,
+					hookable, collide);
+			// tiles[i].setHook(hookable);
+			// tiles[i].setCollide(collide);
 		}
 
 		// Layer bg
@@ -75,9 +78,11 @@ public class RoomLoader {
 			}
 		}
 
-		Room room = new Room(backgroundLayer, middleLayer, foregroundLayer, new Camera(new ImmutableFloatPair(0,0), new ImmutableFloatPair(
-				middleLayer.getWidth() * 10, middleLayer.getHeight() * 10)));
-		
+		Room room = new Room(backgroundLayer, middleLayer, foregroundLayer,
+				new Camera(new ImmutableFloatPair(0, 0),
+						new ImmutableFloatPair(middleLayer.getWidth() * 10,
+								middleLayer.getHeight() * 10)));
+
 		// Entities
 		width = Integer.parseInt(data[curri++]);
 		height = Integer.parseInt(data[curri++]);
@@ -91,29 +96,26 @@ public class RoomLoader {
 						continue;
 					}
 
-					ImmutableFloatPair pos = 
-							new ImmutableFloatPair(
-									10 * x + 10 / 2, 
-									(10 * (y + 1))-entity.getHalfSize().getY());
+					ImmutableFloatPair pos = new ImmutableFloatPair(
+							10 * x + 10 / 2, (10 * (y + 1))
+									- entity.getHalfSize().getY());
 
 					entity.setPosition(pos);
 					room.addEntity(entity);
 				}
 			}
 		}
-		
+
 		int cameraRectCount = Integer.parseInt(data[curri++]);
-		
-		for (int i = 0; i < cameraRectCount; i++)
-		{
+
+		for (int i = 0; i < cameraRectCount; i++) {
 			int x = Integer.parseInt(data[curri++]);
 			int y = Integer.parseInt(data[curri++]);
 			int w = Integer.parseInt(data[curri++]);
 			int h = Integer.parseInt(data[curri++]);
-			
+
 			room.getCamera().addRect(x, y, w, h);
 		}
-		
 
 		return room;
 	}

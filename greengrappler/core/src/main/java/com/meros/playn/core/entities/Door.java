@@ -4,10 +4,10 @@ package com.meros.playn.core.entities;
 
 import playn.core.Surface;
 
-import com.meros.playn.core.Animation;
 import com.meros.playn.core.Entity;
 import com.meros.playn.core.Resource;
-import com.meros.playn.core.ImmutableFloatPair;
+import com.meros.playn.core.floatpair.ImmutableFloatPair;
+import com.meros.playn.core.media.Animation;
 
 public class Door extends Entity {
 
@@ -16,68 +16,56 @@ public class Door extends Entity {
 	private boolean myClosing = false;
 	private int myDoorHeight = 40;
 	private int myFrameCounter = 0;
-	
+
 	private Animation myDoor = Resource.getAnimation("data/images/door.bmp", 1);
-	
-	public Door(int aId)
-	{
+
+	public Door(int aId) {
 		myId = aId;
 		setSize(new ImmutableFloatPair(10, 40));
 	}
 
 	@Override
-	public void draw(Surface buffer, int offsetX, int offsetY, int layer )
-	{
+	public void draw(Surface buffer, int offsetX, int offsetY, int layer) {
 		int x = (int) (getDrawPositionX() + offsetX - getSize().getX() / 2);
 		int y = (int) (getDrawPositionY() + offsetY - getSize().getY() / 2);
 
-		buffer.drawImage(myDoor.getFrame(0), x, y, 10, myDoorHeight, 0, 0 , 10, myDoorHeight);
+		buffer.drawImage(myDoor.getFrame(0), x, y, 10, myDoorHeight, 0, 0, 10,
+				myDoorHeight);
 	}
 
 	@Override
-	public void update()
-	{
+	public void update() {
 
 		myFrameCounter++;
-		
-		if (myDoorHeight < 4)
-		{
+
+		if (myDoorHeight < 4) {
 			myDoorHeight = 4;
 		}
 
-		if (myOpening && myDoorHeight != 4)
-		{
-			myDoorHeight-=2;
-		}
-		else if (myOpening)
-		{
+		if (myOpening && myDoorHeight != 4) {
+			myDoorHeight -= 2;
+		} else if (myOpening) {
 			myFrameCounter = 0;
 		}
 
-		if (myClosing && myFrameCounter % 5 == 0 &&  myDoorHeight != 40)
-		{
+		if (myClosing && myFrameCounter % 5 == 0 && myDoorHeight != 40) {
 			myDoorHeight++;
 		}
 
-		int tileX = (int)(getPosition().getX() - getSize().getX() / 2) / 10;
-		int tileY = (int)(getPosition().getY() - getSize().getY() / 2) / 10;
+		int tileX = (int) (getPosition().getX() - getSize().getX() / 2) / 10;
+		int tileY = (int) (getPosition().getY() - getSize().getY() / 2) / 10;
 
-		for (int i = 0; i < 4; i++)
-		{
-			if (i > myDoorHeight / 10)
-			{
-				mRoom.setCollidable(tileX, tileY + i, false);
-			}
-			else
-			{
-				mRoom.setCollidable(tileX, tileY + i, true);
+		for (int i = 0; i < 4; i++) {
+			if (i > myDoorHeight / 10) {
+				myRoom.setCollidable(tileX, tileY + i, false);
+			} else {
+				myRoom.setCollidable(tileX, tileY + i, true);
 			}
 		}
 	}
 
 	@Override
-	public void onButtonDown( int aId )
-	{
+	public void onButtonDown(int aId) {
 		if (myId != aId)
 			return;
 
@@ -87,8 +75,7 @@ public class Door extends Entity {
 	}
 
 	@Override
-	public void onButtonUp( int aId )
-	{
+	public void onButtonUp(int aId) {
 		if (myId != aId)
 			return;
 
@@ -98,13 +85,11 @@ public class Door extends Entity {
 	}
 
 	@Override
-	public void onRespawn()
-	{
+	public void onRespawn() {
 		myOpening = false;
 		myClosing = false;
 		myDoorHeight = 40;
 	}
-
 
 	@Override
 	public int getLayer() {

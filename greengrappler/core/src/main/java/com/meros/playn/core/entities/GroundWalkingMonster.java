@@ -4,14 +4,14 @@ import java.util.EnumSet;
 
 import playn.core.Surface;
 
-import com.meros.playn.core.Animation;
 import com.meros.playn.core.Constants.Direction;
 import com.meros.playn.core.Entity;
-import com.meros.playn.core.ImmutableFloatPair;
 import com.meros.playn.core.PlayerSkill;
 import com.meros.playn.core.Resource;
-import com.meros.playn.core.Sound;
 import com.meros.playn.core.UtilMethods;
+import com.meros.playn.core.floatpair.ImmutableFloatPair;
+import com.meros.playn.core.media.Animation;
+import com.meros.playn.core.media.Sound;
 
 public class GroundWalkingMonster extends Entity {
 
@@ -41,8 +41,10 @@ public class GroundWalkingMonster extends Entity {
 
 	@Override
 	public void draw(Surface buffer, int offsetX, int offsetY, int layer) {
-		float x = getPosition().getX() - myAnimation.getFrameWidth()/2 + offsetX;
-		float y = getPosition().getY() - myAnimation.getFrameHeight()/2 + offsetY;
+		float x = getPosition().getX() - myAnimation.getFrameWidth() / 2
+				+ offsetX;
+		float y = getPosition().getY() - myAnimation.getFrameHeight() / 2
+				+ offsetY;
 
 		myAnimation.drawFrame(buffer, myFrame / 3, (int) x, (int) y);
 	}
@@ -54,7 +56,7 @@ public class GroundWalkingMonster extends Entity {
 
 	@Override
 	public void update() {
-		Hero hero = mRoom.getHero();
+		Hero hero = myRoom.getHero();
 
 		float adjustedSpeed = UtilMethods.lerp(MIN_WALKING_SPEED,
 				MAX_WALKING_SPEED, PlayerSkill.get());
@@ -85,23 +87,21 @@ public class GroundWalkingMonster extends Entity {
 		int offsetY;
 
 		if (myType == Type.FLOOR || myType == Type.ROOF) {
-			offsetX = (int) ((myFacing == Facing.LEFT_UP) ? -getHalfSize().getX() - 2
-					: getHalfSize().getX() + 2);
+			offsetX = (int) ((myFacing == Facing.LEFT_UP) ? -getHalfSize()
+					.getX() - 2 : getHalfSize().getX() + 2);
 			offsetY = (int) ((myType == Type.FLOOR) ? getHalfSize().getY() + 2
 					: -getHalfSize().getY() - 2);
 		} else {
 			offsetX = (int) ((myType == Type.LEFT_WALL) ? -getHalfSize().getX() - 2
 					: getHalfSize().getX() + 2);
-			offsetY = (int) ((myFacing == Facing.RIGHT_DOWN) ? getHalfSize().getY() + 2
-					: -getHalfSize().getY() - 2);
+			offsetY = (int) ((myFacing == Facing.RIGHT_DOWN) ? getHalfSize()
+					.getY() + 2 : -getHalfSize().getY() - 2);
 		}
 
-		
+		int x = (int) ((getPosition().getX() + offsetX) / myRoom.getTileWidth());
+		int y = (int) ((getPosition().getY() + offsetY) / myRoom.getTileHeight());
 
-		int x = (int) ((getPosition().getX() + offsetX) / mRoom.getTileWidth());
-		int y = (int) ((getPosition().getY() + offsetY) / mRoom.getTileHeight());
-
-		if (!mRoom.isCollidable(x, y)) {
+		if (!myRoom.isCollidable(x, y)) {
 			if (myFacing == Facing.LEFT_UP) {
 				myFacing = Facing.RIGHT_DOWN;
 			} else {
@@ -113,8 +113,7 @@ public class GroundWalkingMonster extends Entity {
 			hero.kill();
 		}
 
-		if (hero.hasHook()
-				&& Collides(hero.getHookCollidable())) {
+		if (hero.hasHook() && Collides(hero.getHookCollidable())) {
 			Sound.playSample("data/sounds/hook");
 			hero.detachHook();
 		}
