@@ -255,20 +255,24 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 			return;
 		ScreenManager.draw(surface);
 
-		long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
-		if (elapsedTimeMillis > 1000) {
-			startTimeMillis += 1000;
-			lastFpsCount = fpsCount;
-			fpsCount = 0;
-		} else {
-			fpsCount++;
-		}
+		if (GlobalOptions.showFps())
+		{
 
-		if (!myFpsStringMap.containsKey(lastFpsCount)) {
-			myFpsStringMap.put(lastFpsCount, "fps: " + lastFpsCount);
-		}
+			long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
+			if (elapsedTimeMillis > 1000) {
+				startTimeMillis += 1000;
+				lastFpsCount = fpsCount;
+				fpsCount = 0;
+			} else {
+				fpsCount++;
+			}
 
-		myFont.draw(surface, myFpsStringMap.get(lastFpsCount), 10, 10);
+			if (!myFpsStringMap.containsKey(lastFpsCount)) {
+				myFpsStringMap.put(lastFpsCount, "fps: " + lastFpsCount);
+			}
+
+			myFont.draw(surface, myFpsStringMap.get(lastFpsCount), 10, 10);
+		}
 	}
 
 	@Override

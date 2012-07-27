@@ -37,4 +37,8 @@ public class GlobalOptions {
 	public static boolean getPaused() {
 		return mPaused;
 	}
+
+	public static boolean showFps() {
+		return false;
+	}
 }
