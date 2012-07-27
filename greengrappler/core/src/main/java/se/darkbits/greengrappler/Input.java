@@ -28,7 +28,7 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 
 	// Touch
 	public interface AbstractHitTranslator {
-		public abstract void translateHit(Point aHitpoint);
+		public abstract boolean translateHit(Point aHitpoint);
 	}
 
 	private static AbstractHitTranslator myHitTranslator;
@@ -99,19 +99,20 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 
 		public void onTouchMove(float aX, float aY) {
 			Point p = new Point(aX, aY);
-			myHitTranslator.translateHit(p);
-
-			Set<TouchArea> actives = new HashSet<TouchArea>();
-			actives.addAll(myActiveAreas);
-			for (TouchArea area : actives) {
-				if (!area.hits((int) p.x, (int) p.y)) {
-					exit(area);
+			if (myHitTranslator.translateHit(p))
+			{
+				Set<TouchArea> actives = new HashSet<TouchArea>();
+				actives.addAll(myActiveAreas);
+				for (TouchArea area : actives) {
+					if (!area.hits((int) p.x, (int) p.y)) {
+						exit(area);
+					}
 				}
-			}
 
-			for (TouchArea area : myTouchAreas) {
-				if (area.hits((int) p.x, (int) p.y)) {
-					enter(area);
+				for (TouchArea area : myTouchAreas) {
+					if (area.hits((int) p.x, (int) p.y)) {
+						enter(area);
+					}
 				}
 			}
 		}
@@ -146,7 +147,7 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 		myTouchAreas.add(input.new TouchArea(
 				(int) (dpadCenter.getX() - largeWidth / 2), (int) (dpadCenter
 						.getY() - largeWidth / 2), smallWidth, largeWidth,
-				Buttons.LEFT, false));
+						Buttons.LEFT, false));
 		myTouchAreas.add(input.new TouchArea((int) (dpadCenter.getX()
 				+ largeWidth / 2 - smallWidth),
 				(int) (dpadCenter.getY() - largeWidth / 2), smallWidth,
@@ -154,11 +155,11 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 		myTouchAreas.add(input.new TouchArea(
 				(int) (dpadCenter.getX() - largeWidth / 2), (int) (dpadCenter
 						.getY() - largeWidth / 2), largeWidth, smallWidth,
-				Buttons.UP, false));
+						Buttons.UP, false));
 		myTouchAreas.add(input.new TouchArea(
 				(int) (dpadCenter.getX() - largeWidth / 2), (int) (dpadCenter
 						.getY() + largeWidth / 2 - smallWidth), largeWidth,
-				smallWidth, Buttons.DOWN, false));
+						smallWidth, Buttons.DOWN, false));
 
 		int pauseAreaSize = 100;
 		myTouchAreas.add(input.new TouchArea((960 - pauseAreaSize), (0),

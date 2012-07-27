@@ -257,7 +257,6 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 
 		if (GlobalOptions.showFps())
 		{
-
 			long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
 			if (elapsedTimeMillis > 1000) {
 				startTimeMillis += 1000;
@@ -297,7 +296,11 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 	}
 
 	@Override
-	public void translateHit(Point aHitpoint) {
+	public boolean translateHit(Point aHitpoint) {
+		if (controlLayer == null)
+			return false;
+		
 		controlLayer.transform().inverseTransform(aHitpoint, aHitpoint);
+		return true;
 	}
 }
