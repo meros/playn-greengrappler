@@ -347,6 +347,7 @@ public class LevelSelectScreen extends Screen {
 			if (index == 4 && myBossLevelUnlocked || index != 4) {
 				Music.stop();
 				Sound.playSample("data/sounds/start");
+				UtilMethods.selectVibration();
 				myLevelSelected = true;
 				myLevelSelectedCounter = 0;
 			}

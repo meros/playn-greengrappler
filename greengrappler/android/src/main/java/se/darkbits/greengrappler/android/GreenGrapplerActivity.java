@@ -26,7 +26,7 @@ public class GreenGrapplerActivity extends GameActivity {
 			@Override
 			public AbstractSong getSong(String resource) {
 				try {
-					return new Song(getClass().getClassLoader().getResourceAsStream("com/meros/playn/resources/" + resource));
+					return new Song(getClass().getClassLoader().getResourceAsStream("se/darkbits/greengrappler/resources/" + resource));
 				} catch (IOException e) {
 					return null;
 				}

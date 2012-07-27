@@ -6,6 +6,7 @@ import playn.core.Surface;
 import se.darkbits.greengrappler.Constants;
 import se.darkbits.greengrappler.Entity;
 import se.darkbits.greengrappler.GameState;
+import se.darkbits.greengrappler.GlobalOptions;
 import se.darkbits.greengrappler.Input;
 import se.darkbits.greengrappler.PlayerSkill;
 import se.darkbits.greengrappler.Room;
@@ -156,6 +157,7 @@ public class Hero extends Entity {
 	}
 
 	private void die() {
+		GlobalOptions.Vibrate(75, GlobalOptions.VibrationType.SIMPLE);
 		mRopeState = RopeState.Retracted;
 		mHookedEntity = null;
 		myIsDead = true;
@@ -324,6 +326,7 @@ public class Hero extends Entity {
 			return;
 
 		if (mBlinkingTicksLeft == 0) {
+			GlobalOptions.Vibrate(75, GlobalOptions.VibrationType.SIMPLE);
 			PlayerSkill.playerDidSomethingStupid(0.0f, 0.1f);
 			detachHook();
 

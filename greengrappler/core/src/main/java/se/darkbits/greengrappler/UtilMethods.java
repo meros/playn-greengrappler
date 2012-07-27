@@ -27,7 +27,12 @@ public class UtilMethods {
 	}
 
 	public static void selectFeedback() {
-		GlobalOptions.Vibrate(25, VibrationType.SIMPLE);
+		selectVibration();
 		Sound.playSample("data/sounds/select");
 	}
+
+	public static void selectVibration() {
+		GlobalOptions.Vibrate(25, VibrationType.SIMPLE);
+	}
+
 }

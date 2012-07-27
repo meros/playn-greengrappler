@@ -121,6 +121,7 @@ public class TitleScreen extends Screen {
 				myFrameCounter = 0;
 				Music.stop();
 				Sound.playSample("data/sounds/start");
+				UtilMethods.selectVibration();
 				GameState.clear();
 			}
 			if (mySelected == 1 && myContinue) {
@@ -128,6 +129,7 @@ public class TitleScreen extends Screen {
 				myFrameCounter = 0;
 				Music.stop();
 				Sound.playSample("data/sounds/start");
+				UtilMethods.selectVibration();
 				GameState.loadFromFile();
 			}
 
