@@ -1,4 +1,4 @@
-package se.darkbits.greengrappler.micromod;
+package se.darkbits.greengrappler.ibxm;
 
 public class Sample {
 	public static final int FP_SHIFT = 15, FP_ONE = 1 << FP_SHIFT,

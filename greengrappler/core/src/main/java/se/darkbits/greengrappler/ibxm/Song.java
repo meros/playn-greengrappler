@@ -1,4 +1,4 @@
-package se.darkbits.greengrappler.micromod;
+package se.darkbits.greengrappler.ibxm;
 
 import java.io.IOException;
 import java.io.InputStream;

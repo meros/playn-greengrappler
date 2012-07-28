@@ -1,4 +1,4 @@
-package se.darkbits.greengrappler.micromod;
+package se.darkbits.greengrappler.ibxm;
 
 public class Module {
 	public String songName = "Blank";

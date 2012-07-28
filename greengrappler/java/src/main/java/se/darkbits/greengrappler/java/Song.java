@@ -8,9 +8,9 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
+import se.darkbits.greengrappler.ibxm.IBXM;
+import se.darkbits.greengrappler.ibxm.Module;
 import se.darkbits.greengrappler.media.Music.AbstractSong;
-import se.darkbits.greengrappler.micromod.IBXM;
-import se.darkbits.greengrappler.micromod.Module;
 
 
 public class Song implements AbstractSong

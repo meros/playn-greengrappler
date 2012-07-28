@@ -1,4 +1,4 @@
-package se.darkbits.greengrappler.micromod;
+package se.darkbits.greengrappler.ibxm;
 
 public class GlobalVol {
 	public int volume;

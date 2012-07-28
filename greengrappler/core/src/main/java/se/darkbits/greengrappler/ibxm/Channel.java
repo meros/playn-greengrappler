@@ -1,4 +1,4 @@
-package se.darkbits.greengrappler.micromod;
+package se.darkbits.greengrappler.ibxm;
 
 public class Channel {
 	public static final int NEAREST = 0, LINEAR = 1, SINC = 2;

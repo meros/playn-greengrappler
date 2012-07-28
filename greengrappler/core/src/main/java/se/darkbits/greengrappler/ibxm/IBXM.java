@@ -1,4 +1,4 @@
-package se.darkbits.greengrappler.micromod;
+package se.darkbits.greengrappler.ibxm;
 
 /*
  ProTracker, Scream Tracker 3, FastTracker 2 Replay (c)2011 mumart@gmail.com

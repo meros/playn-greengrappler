@@ -8,9 +8,9 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import se.darkbits.greengrappler.ibxm.IBXM;
+import se.darkbits.greengrappler.ibxm.Module;
 import se.darkbits.greengrappler.media.Music.AbstractSong;
-import se.darkbits.greengrappler.micromod.IBXM;
-import se.darkbits.greengrappler.micromod.Module;
 
 import android.media.AudioFormat;
 import android.media.AudioManager;
