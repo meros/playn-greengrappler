@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="com.meros.playn.android"
       android:screenOrientation="landscape"
-      android:versionCode="7"
-      android:versionName="Beta 7">
+      android:versionCode="8"
+      android:versionName="Beta 8">
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-sdk android:minSdkVersion="6" android:targetSdkVersion="11" />
     <application android:icon="@drawable/icon" android:label="@string/app_name" android:debuggable="true">
