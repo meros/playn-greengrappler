@@ -2,11 +2,10 @@ package se.darkbits.greengrappler.screens;
 
 import playn.core.Color;
 import playn.core.Surface;
-import se.darkbits.greengrappler.GreenGrappler;
+import se.darkbits.greengrappler.Constants.Buttons;
 import se.darkbits.greengrappler.Input;
 import se.darkbits.greengrappler.Resource;
 import se.darkbits.greengrappler.Screen;
-import se.darkbits.greengrappler.Constants.Buttons;
 import se.darkbits.greengrappler.media.Font;
 import se.darkbits.greengrappler.media.Music;
 import se.darkbits.greengrappler.media.Sound;
@@ -22,7 +21,6 @@ public class EndScreen extends Screen {
 
 	@Override
 	public void onEntered() {
-		GreenGrappler.showTouchControls(false);
 	}
 
 	@Override

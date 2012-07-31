@@ -1,15 +1,14 @@
 package se.darkbits.greengrappler.screens;
 
 import playn.core.Surface;
+import se.darkbits.greengrappler.Constants.Buttons;
 import se.darkbits.greengrappler.GameState;
-import se.darkbits.greengrappler.GreenGrappler;
 import se.darkbits.greengrappler.Input;
 import se.darkbits.greengrappler.LevelDescription;
 import se.darkbits.greengrappler.Resource;
 import se.darkbits.greengrappler.Screen;
 import se.darkbits.greengrappler.ScreenManager;
 import se.darkbits.greengrappler.UtilMethods;
-import se.darkbits.greengrappler.Constants.Buttons;
 import se.darkbits.greengrappler.media.Animation;
 import se.darkbits.greengrappler.media.Font;
 import se.darkbits.greengrappler.media.Music;
@@ -64,8 +63,6 @@ public class TitleScreen extends Screen {
 
 	@Override
 	public void onEntered() {
-		GreenGrappler.showTouchControls(true);
-
 		myGameStart = false;
 		Music.playSong("data/music/intro2.xm");
 

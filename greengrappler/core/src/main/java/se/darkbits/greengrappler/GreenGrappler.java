@@ -41,18 +41,6 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 
 	private static ImageLayer controlLayer = null;
 
-	public static void showTouchControls(boolean aShowTouchControls) {
-		if (controlLayer == null) {
-			return;
-		}
-
-		if (aShowTouchControls) {
-			controlLayer.setAlpha(0.7f);
-		} else {
-			controlLayer.setAlpha(0);
-		}
-	}
-
 	long startTimeMillis = System.currentTimeMillis();
 
 	private ImmediateLayer bufferLayer;
@@ -238,6 +226,8 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 		ScreenManager.add(new SplashScreen());
 		myFont = Resource.getFont("data/images/font.bmp");
 	}
+	
+	int myTouchedLast = 100;
 
 	void postPreloadUpdate() {
 		ScreenManager.onLogic();
@@ -254,7 +244,6 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 		if (!myReadyForUpdates)
 			return;
 		ScreenManager.draw(surface);
-
 		if (GlobalOptions.showFps())
 		{
 			long elapsedTimeMillis = System.currentTimeMillis() - startTimeMillis;
@@ -271,6 +260,21 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 			}
 
 			myFont.draw(surface, myFpsStringMap.get(lastFpsCount), 10, 10);
+		}
+		
+		myTouchedLast++;
+		if (Input.hasTouch())
+		{
+			myTouchedLast = 0;
+		}
+		
+		if (myTouchedLast < 60)
+		{
+			controlLayer.setAlpha((60-myTouchedLast)/60.0f);
+		}
+		else
+		{
+			controlLayer.setAlpha(0);
 		}
 	}
 

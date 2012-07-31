@@ -134,6 +134,14 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 		myKeyMap.put(Key.P, Buttons.EXIT);
 		myKeyMap.put(Key.BACK, Buttons.EXIT);
 
+		myKeyMap.put(Key.DPAD_DOWN, Buttons.DOWN);
+		myKeyMap.put(Key.DPAD_UP, Buttons.UP);
+		myKeyMap.put(Key.DPAD_LEFT, Buttons.LEFT);
+		myKeyMap.put(Key.DPAD_RIGHT, Buttons.RIGHT);
+		myKeyMap.put(Key.DPAD_CENTER, Buttons.FIRE);
+		myKeyMap.put(Key.BUTTON_X, Buttons.JUMP);
+		myKeyMap.put(Key.BUTTON_START, Buttons.EXIT);
+		
 		Input input = new Input();
 		myTouchAreas.add(input.new TouchArea(616 + 172, 465, 172, 234,
 				Buttons.FIRE, true));
@@ -266,5 +274,9 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 
 	public static void disable() {
 		myEnabled = false;
+	}
+
+	public static boolean hasTouch() {
+		return myTouches.size() != 0;
 	}
 }

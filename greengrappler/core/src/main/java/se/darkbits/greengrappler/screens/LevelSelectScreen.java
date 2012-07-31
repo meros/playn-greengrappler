@@ -4,15 +4,14 @@ import java.util.ArrayList;
 
 import playn.core.Color;
 import playn.core.Surface;
+import se.darkbits.greengrappler.Constants.Buttons;
 import se.darkbits.greengrappler.GameState;
-import se.darkbits.greengrappler.GreenGrappler;
 import se.darkbits.greengrappler.Input;
 import se.darkbits.greengrappler.LevelDescription;
 import se.darkbits.greengrappler.Resource;
 import se.darkbits.greengrappler.Screen;
 import se.darkbits.greengrappler.ScreenManager;
 import se.darkbits.greengrappler.UtilMethods;
-import se.darkbits.greengrappler.Constants.Buttons;
 import se.darkbits.greengrappler.entities.Dialogue;
 import se.darkbits.greengrappler.media.Animation;
 import se.darkbits.greengrappler.media.Font;
@@ -231,8 +230,6 @@ public class LevelSelectScreen extends Screen {
 
 	@Override
 	public void onEntered() {
-		GreenGrappler.showTouchControls(true);
-
 		GameState.saveToFile();
 
 		myBossLevelUnlocked = true;
