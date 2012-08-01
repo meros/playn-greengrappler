@@ -123,6 +123,7 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 		PlayN.keyboard().setListener(new Input());
 		PlayN.touch().setListener(new Input());
 
+		//Desktop keys
 		myKeyMap.put(Key.DOWN, Buttons.DOWN);
 		myKeyMap.put(Key.UP, Buttons.UP);
 		myKeyMap.put(Key.LEFT, Buttons.LEFT);
@@ -132,13 +133,18 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 		myKeyMap.put(Key.ESCAPE, Buttons.FORCE_QUIT);
 		myKeyMap.put(Key.A, Buttons.JUMP);
 		myKeyMap.put(Key.P, Buttons.EXIT);
+		
+		//Android phones (TODO: Xperia phones send BACK + Alt for Circle button)
 		myKeyMap.put(Key.BACK, Buttons.EXIT);
 
+		//Xperia phones (TODO: swapped layout in japan etc)
 		myKeyMap.put(Key.DPAD_DOWN, Buttons.DOWN);
 		myKeyMap.put(Key.DPAD_UP, Buttons.UP);
 		myKeyMap.put(Key.DPAD_LEFT, Buttons.LEFT);
 		myKeyMap.put(Key.DPAD_RIGHT, Buttons.RIGHT);
+		//This corresponds to X-button
 		myKeyMap.put(Key.DPAD_CENTER, Buttons.FIRE);
+		//This corresponds to Square button
 		myKeyMap.put(Key.BUTTON_X, Buttons.JUMP);
 		myKeyMap.put(Key.BUTTON_START, Buttons.EXIT);
 		
