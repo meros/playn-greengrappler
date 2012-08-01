@@ -226,8 +226,6 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 		ScreenManager.add(new SplashScreen());
 		myFont = Resource.getFont("data/images/font.bmp");
 	}
-	
-	int myTouchedLast = 100;
 
 	void postPreloadUpdate() {
 		ScreenManager.onLogic();
@@ -238,6 +236,10 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 	int lastFpsCount = 0;
 
 	Map<Integer, String> myFpsStringMap = new HashMap<Integer, String>();
+
+	final int myTouchFadeOutTime = Constants.TICKS_PER_SECOND * 3;
+	final int myTouchStayTime = Constants.TICKS_PER_SECOND * 2;
+	int myTouchedLast = myTouchFadeOutTime + myTouchStayTime;
 
 	@Override
 	public void render(Surface surface) {
@@ -261,16 +263,25 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 
 			myFont.draw(surface, myFpsStringMap.get(lastFpsCount), 10, 10);
 		}
-		
+
 		myTouchedLast++;
 		if (Input.hasTouch())
 		{
 			myTouchedLast = 0;
 		}
-		
-		if (myTouchedLast < 60)
+
+		if (myTouchedLast < myTouchFadeOutTime + myTouchStayTime)
 		{
-			controlLayer.setAlpha((60-myTouchedLast)/60.0f);
+			if (myTouchedLast <= myTouchStayTime)
+			{
+				controlLayer.setAlpha(0.6f);
+			}
+			else
+			{
+				float alpha = 
+						(float)(myTouchFadeOutTime - (myTouchedLast - myTouchStayTime))/(float)myTouchFadeOutTime;
+				controlLayer.setAlpha(alpha * 0.6f);
+			}
 		}
 		else
 		{
@@ -303,7 +314,7 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 	public boolean translateHit(Point aHitpoint) {
 		if (controlLayer == null)
 			return false;
-		
+
 		controlLayer.transform().inverseTransform(aHitpoint, aHitpoint);
 		return true;
 	}
