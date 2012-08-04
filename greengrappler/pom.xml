@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.googlecode.playn</groupId>
     <artifactId>playn-project</artifactId>
-    <version>1.5-SNAPSHOT</version>
+    <version>1.4</version>
   </parent>
 
   <groupId>se.darkbits.greengrappler</groupId>
@@ -14,7 +14,7 @@
   <name>GreenGrappler Metaproject</name>
 
   <properties>
-    <playn.version>1.5-SNAPSHOT</playn.version>
+    <playn.version>1.4</playn.version>
   </properties>
 
   <profiles>
