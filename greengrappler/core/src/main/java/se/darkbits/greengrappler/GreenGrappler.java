@@ -6,8 +6,6 @@ import static playn.core.PlayN.log;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.omg.CORBA.REBIND;
-
 import playn.core.Game;
 import playn.core.ImageLayer;
 import playn.core.ImmediateLayer;
@@ -145,10 +143,13 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 	@Override
 	public void paint(float alpha) {
 
-		if (myFullScreen &&
-				myScreenSizeX != PlayN.graphics().screenWidth() ||
-				myScreenSizeY != PlayN.graphics().screenHeight())
+		if (myFullScreen && 
+				(myScreenSizeX != PlayN.graphics().screenWidth() ||
+				myScreenSizeY != PlayN.graphics().screenHeight()))
 		{
+			myScreenSizeX = PlayN.graphics().screenWidth();
+			myScreenSizeY = PlayN.graphics().screenHeight();
+
 			graphics().setSize(
 					graphics().screenWidth(),
 					graphics().screenHeight());
@@ -159,8 +160,6 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 
 		if (myReadyForUpdates && myRebuildLayers) {
 			myRebuildLayers = false;
-			myScreenSizeX = PlayN.graphics().width();
-			myScreenSizeY = PlayN.graphics().height();
 
 			graphics().rootLayer().clear();
 
