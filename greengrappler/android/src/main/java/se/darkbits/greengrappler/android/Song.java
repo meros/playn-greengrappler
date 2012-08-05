@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 import se.darkbits.greengrappler.ibxm.IBXM;
 import se.darkbits.greengrappler.ibxm.Module;
 import se.darkbits.greengrappler.media.Music.AbstractSong;
-
 import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
@@ -38,13 +37,13 @@ public class Song implements AbstractSong
 				8 *
 				AudioTrack.getMinBufferSize( 
 						SAMPLE_RATE, 
-						AudioFormat.CHANNEL_CONFIGURATION_STEREO, 
+						AudioFormat.CHANNEL_OUT_STEREO, 
 						AudioFormat.ENCODING_PCM_16BIT );     
 		
 		myAudioTrack = new AudioTrack(
 				AudioManager.STREAM_MUSIC, 
 				SAMPLE_RATE,
-				AudioFormat.CHANNEL_CONFIGURATION_STEREO,
+				AudioFormat.CHANNEL_OUT_STEREO,
 				AudioFormat.ENCODING_PCM_16BIT,
 				myBufferSize,
 				AudioTrack.MODE_STREAM);

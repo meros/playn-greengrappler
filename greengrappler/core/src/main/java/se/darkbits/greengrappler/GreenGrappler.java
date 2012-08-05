@@ -6,6 +6,8 @@ import static playn.core.PlayN.log;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.omg.CORBA.REBIND;
+
 import playn.core.Game;
 import playn.core.ImageLayer;
 import playn.core.ImmediateLayer;
@@ -50,17 +52,12 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 		GameState.loadFromFile();
 
 		// create and add background image layer
-		// graphics().setSize(1280, 720);
 		if (graphics().ctx() != null) {
 			graphics().ctx().setTextureFilter(GLContext.Filter.NEAREST,
 					GLContext.Filter.NEAREST);
 		}
 
 		Input.setTouchTranslator(this);
-
-		if (myFullScreen)
-			graphics().setSize(graphics().screenWidth(),
-					graphics().screenHeight());
 
 		Resource.preLoad("data/images/boss.bmp");
 		Resource.preLoad("data/images/breakinghooktile.bmp");
@@ -133,7 +130,7 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 		Resource.preLoadSound("data/sounds/hook");
 		Resource.preLoadSound("data/sounds/hurt");
 		Resource.preLoadSound("data/sounds/jump");
-		Resource.preLoadSound("data/sounds/land");
+		//TODO: buggy sound Resource.preLoadSound("data/sounds/land");
 		Resource.preLoadSound("data/sounds/no_hook");
 		Resource.preLoadSound("data/sounds/reactor_explosion");
 		Resource.preLoadSound("data/sounds/rope");
@@ -147,9 +144,24 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 
 	@Override
 	public void paint(float alpha) {
+
+		if (myFullScreen &&
+				myScreenSizeX != PlayN.graphics().screenWidth() ||
+				myScreenSizeY != PlayN.graphics().screenHeight())
+		{
+			graphics().setSize(
+					graphics().screenWidth(),
+					graphics().screenHeight());
+
+			screenSizeChanged();
+		}
+
+
 		if (myReadyForUpdates && myRebuildLayers) {
 			myRebuildLayers = false;
-			
+			myScreenSizeX = PlayN.graphics().width();
+			myScreenSizeY = PlayN.graphics().height();
+
 			graphics().rootLayer().clear();
 
 			bufferLayer = graphics().createImmediateLayer(320, 240, this);
@@ -233,7 +245,9 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 	final int myTouchStayTime = Constants.TICKS_PER_SECOND * 2;
 	int myTouchedLast = myTouchFadeOutTime + myTouchStayTime;
 
-	private boolean myRebuildLayers = true;;
+	private boolean myRebuildLayers = true;
+	private int myScreenSizeX = 0;
+	private int myScreenSizeY = 0;
 
 	@Override
 	public void render(Surface surface) {
@@ -314,6 +328,7 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 	}
 
 	public void screenSizeChanged() {
+		PlayN.log().debug("Screen size changed, will rebuild layers");
 		myRebuildLayers = true;
 	}
 }
