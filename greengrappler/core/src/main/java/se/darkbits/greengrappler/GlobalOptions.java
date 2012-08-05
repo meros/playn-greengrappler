@@ -41,4 +41,18 @@ public class GlobalOptions {
 	public static boolean showFps() {
 		return false;
 	}
+	
+	public interface ExitCallback {
+		public abstract void exit();
+	}
+	
+	public static ExitCallback myExitCallback = null;
+	
+	public static void exit()
+	{
+		if(myExitCallback != null)
+		{
+			myExitCallback.exit();
+		}
+	}
 }

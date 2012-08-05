@@ -24,15 +24,10 @@ import se.darkbits.greengrappler.screens.TitleScreen;
 
 public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 
-	public interface ExitCallback {
-		public abstract void exit();
-	}
-
 	float fps = 0.0f;
 
 	int frame = 0;
 
-	ExitCallback myExitCallback;
 	Font myFont = null;
 
 	boolean myFullScreen = false;
@@ -40,17 +35,13 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 	boolean myReadyForUpdates = false;
 
 	private static ImageLayer controlLayer = null;
+	private ImmediateLayer bufferLayer;
 
 	long startTimeMillis = System.currentTimeMillis();
 
-	private ImmediateLayer bufferLayer;
-
-	public GreenGrappler(boolean aFullScreen, ExitCallback exitCallback) {
+	public GreenGrappler(boolean aFullScreen) {
 		myFullScreen = aFullScreen;
-		myExitCallback = exitCallback;
 	}
-
-	boolean mySetupRenderingOnce = false;
 
 	@Override
 	public void init() {
@@ -156,7 +147,8 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 
 	@Override
 	public void paint(float alpha) {
-		if (myReadyForUpdates && !mySetupRenderingOnce) {
+		if (myReadyForUpdates && myRebuildLayers) {
+			myRebuildLayers = false;
 
 			bufferLayer = graphics().createImmediateLayer(320, 240, this);
 
@@ -216,8 +208,6 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 
 				graphics().rootLayer().add(controlLayer);
 			}
-
-			mySetupRenderingOnce = true;
 		}
 	}
 
@@ -240,6 +230,8 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 	final int myTouchFadeOutTime = Constants.TICKS_PER_SECOND * 3;
 	final int myTouchStayTime = Constants.TICKS_PER_SECOND * 2;
 	int myTouchedLast = myTouchFadeOutTime + myTouchStayTime;
+
+	private boolean myRebuildLayers = true;;
 
 	@Override
 	public void render(Surface surface) {
@@ -299,7 +291,7 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 		}
 
 		if (Input.isPressed(Buttons.FORCE_QUIT) || ScreenManager.isEmpty()) {
-			myExitCallback.exit();
+			GlobalOptions.exit();
 		}
 
 		Input.update();
@@ -317,5 +309,9 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 
 		controlLayer.transform().inverseTransform(aHitpoint, aHitpoint);
 		return true;
+	}
+
+	public void screenSizeChanged() {
+		myRebuildLayers = true;
 	}
 }

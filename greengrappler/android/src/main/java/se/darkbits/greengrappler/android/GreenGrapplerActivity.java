@@ -12,11 +12,14 @@ import se.darkbits.greengrappler.GlobalOptions.VibrationType;
 import se.darkbits.greengrappler.media.Music;
 import se.darkbits.greengrappler.media.Music.AbstractSong;
 import se.darkbits.greengrappler.media.Music.SongFactory;
+import android.content.res.Configuration;
 import android.os.Vibrator;
 import android.view.KeyEvent;
 
 
 public class GreenGrapplerActivity extends GameActivity {
+
+	private GreenGrappler myGreenGrappler = null;
 
 	@Override
 	public void main(){
@@ -56,6 +59,15 @@ public class GreenGrapplerActivity extends GameActivity {
 				}
 			}
 		};
+		
+		GlobalOptions.myExitCallback = new GlobalOptions.ExitCallback() {
+
+			@Override
+			public void exit() {
+				//I know this goes agains the android way - but I don't care!
+				android.os.Process.killProcess(android.os.Process.myPid());
+			}
+		};
 
 		platform().assets().setPathPrefix("se/darkbits/greengrappler/resources");
 		PlayN.setLifecycleListener(new LifecycleListener() {
@@ -83,20 +95,30 @@ public class GreenGrapplerActivity extends GameActivity {
 			public void onExit() {
 			}
 		});
-
-		PlayN.run(new GreenGrappler(true, new GreenGrappler.ExitCallback() {
-
-			@Override
-			public void exit() {
-				//I know this goes agains the android way - but I don't care!
-				android.os.Process.killProcess(android.os.Process.myPid());
-			}
-		}));
+		
+		synchronized(this)
+		{
+			myGreenGrappler = new GreenGrappler(true);
+		}
+		
+		PlayN.run(myGreenGrappler);
 	}
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent nativeEvent) {
 		
 		return super.onKeyDown(keyCode, nativeEvent);
+	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		
+		synchronized(this){
+			if (myGreenGrappler != null)
+			{
+				myGreenGrappler.screenSizeChanged();
+			}
+		}
 	}
 }
