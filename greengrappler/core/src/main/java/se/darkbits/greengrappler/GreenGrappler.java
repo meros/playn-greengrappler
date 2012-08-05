@@ -149,6 +149,8 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 	public void paint(float alpha) {
 		if (myReadyForUpdates && myRebuildLayers) {
 			myRebuildLayers = false;
+			
+			graphics().rootLayer().clear();
 
 			bufferLayer = graphics().createImmediateLayer(320, 240, this);
 
