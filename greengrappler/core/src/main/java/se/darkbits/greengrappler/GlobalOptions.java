@@ -1,5 +1,8 @@
 package se.darkbits.greengrappler;
 
+import playn.core.PlayN;
+
+
 public class GlobalOptions {
 
 	public enum VibrationType {
@@ -50,6 +53,8 @@ public class GlobalOptions {
 	
 	public static void exit()
 	{
+		PlayN.log().debug("Exit called");
+		
 		if(myExitCallback != null)
 		{
 			myExitCallback.exit();

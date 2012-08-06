@@ -151,8 +151,8 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 			myScreenSizeY = PlayN.graphics().screenHeight();
 
 			graphics().setSize(
-					graphics().screenWidth(),
-					graphics().screenHeight());
+					myScreenSizeX,
+					myScreenSizeY);
 
 			screenSizeChanged();
 		}
@@ -233,6 +233,10 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 	void postPreloadUpdate() {
 		ScreenManager.onLogic();
 		Music.update();
+		
+		if (Input.isPressed(Buttons.FORCE_QUIT) || ScreenManager.isEmpty()) {
+			GlobalOptions.exit();
+		}
 	}
 
 	int fpsCount = 0;
@@ -303,10 +307,6 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 		} else if (Resource.isDonePreloading()) {
 			postPreloadInit();
 			myReadyForUpdates = true;
-		}
-
-		if (Input.isPressed(Buttons.FORCE_QUIT) || ScreenManager.isEmpty()) {
-			GlobalOptions.exit();
 		}
 
 		Input.update();
