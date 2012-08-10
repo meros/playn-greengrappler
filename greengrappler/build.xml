@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <project name="greengrappler" default="run-java" xmlns:artifact="urn:maven-artifact-ant">
   <!-- Define your project information here -->
-  <property name="java.classname" value="com.meros.playn.java.GreenGrapplerJava"/>
-  <property name="html.classname" value="com.meros.playn.GreenGrappler"/>
+  <property name="java.classname" value="se.darkbits.greengrappler.java.GreenGrapplerJava"/>
+  <property name="html.classname" value="se.darkbits.greengrappler.GreenGrappler"/>
   <property name="html.index" value="GreenGrappler.html"/>
 
   <!-- Everything below here shouldn't need to be modified -->

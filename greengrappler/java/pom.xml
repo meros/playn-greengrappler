@@ -56,7 +56,7 @@
     <configuration>
         <archive>
             <manifest>
-                <mainClass>com.meros.playn.java.GreenGrapplerJava</mainClass>
+                <mainClass>se.darkbits.greengrappler.java.GreenGrapplerJava</mainClass>
             </manifest>
         </archive>
     </configuration>

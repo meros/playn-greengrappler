@@ -9,7 +9,7 @@
 		<string>touch-icon-57x57.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>com.meros.playn.greengrappler</string>
+	<string>se.darkbits.greengrappler</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>UIDeviceFamily</key>

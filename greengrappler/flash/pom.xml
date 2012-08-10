@@ -4,7 +4,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.meros.playn</groupId>
+    <groupId>se.darkbits.greengrappler</groupId>
     <artifactId>greengrappler</artifactId>
     <version>0.1</version>
   </parent>
@@ -14,14 +14,14 @@
   <name>GreenGrappler Flash</name>
 
   <properties>
-    <gwt.module>com.meros.playn.GreenGrapplerFlash</gwt.module>
+    <gwt.module>se.darkbits.greengrappler.GreenGrapplerFlash</gwt.module>
     <gwt.name>greengrapplerflash</gwt.name>
     <flexsdk.dir>${project.build.directory}/flex4sdk</flexsdk.dir>
   </properties>
 
   <dependencies>
     <dependency>
-      <groupId>com.meros.playn</groupId>
+      <groupId>se.darkbits.greengrappler</groupId>
       <artifactId>greengrappler-core</artifactId>
       <version>${project.version}</version>
     </dependency>

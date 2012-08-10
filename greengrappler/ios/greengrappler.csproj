@@ -10,6 +10,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>GreenGrappler</RootNamespace>
     <AssemblyName>GreenGrappler</AssemblyName>
+    <newfilesearch>OnLoadAutoInsert</newfilesearch>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -73,12 +74,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
-    <None Include="..\core\src\main\java\com\meros\playn\resources\data\.DS_Store">
-      <Link>assets\data\.DS_Store</Link>
-    </None>
-    <None Include="..\core\src\main\java\com\meros\playn\resources\data\sounds\.DS_Store">
-      <Link>assets\data\sounds\.DS_Store</Link>
-    </None>
+    <None Include=".DS_Store" />
+    <None Include="greengrappler.userprefs" />
+    <None Include="pom.xml" />
+    <None Include=".settings\org.eclipse.core.resources.prefs" />
+    <None Include=".settings\org.eclipse.m2e.core.prefs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -86,409 +86,311 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Content Include="touch-icon-57x57.png" />
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\music\gameover.xm">
-      <Link>assets\data\music\gameover.xm</Link>
+    <Content Include="assets\data\images\controls.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\dialogues\1-tutorial1.txt">
-      <Link>assets\data\dialogues\1-tutorial1.txt</Link>
+    <Content Include="assets\data\dialogues\1-tutorial1.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\dialogues\2-tutorial2.txt">
-      <Link>assets\data\dialogues\2-tutorial2.txt</Link>
+    <Content Include="assets\data\dialogues\2-tutorial2.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\boss.bmp">
-      <DeployService-Deploy>true</DeployService-Deploy>
-      <DeployService-RelativeDeployPath>data/images/boss.bmp</DeployService-RelativeDeployPath>
-      <Link>assets\data\images\boss.bmp</Link>
+    <Content Include="assets\data\dialogues\boss_unlocked.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\breakinghooktile.bmp">
-      <Link>assets\data\images\breakinghooktile.bmp</Link>
+    <Content Include="assets\data\dialogues\level_select.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\button.bmp">
-      <Link>assets\data\images\button.bmp</Link>
+    <Content Include="assets\data\images\boss.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\checkpoint.bmp">
-      <Link>assets\data\images\checkpoint.bmp</Link>
+    <Content Include="assets\data\images\breakinghooktile.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\coin.bmp">
-      <Link>assets\data\images\coin.bmp</Link>
+    <Content Include="assets\data\images\button.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\completed_level.bmp">
-      <Link>assets\data\images\completed_level.bmp</Link>
+    <Content Include="assets\data\images\checkpoint.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\core.bmp">
-      <Link>assets\data\images\core.bmp</Link>
+    <Content Include="assets\data\images\coin.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\darkbitslogo_blink.bmp">
-      <Link>assets\data\images\darkbitslogo_blink.bmp</Link>
+    <Content Include="assets\data\images\completed_level.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\darken.bmp">
-      <Link>assets\data\images\darken.bmp</Link>
+    <Content Include="assets\data\images\core.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\debris.bmp">
-      <Link>assets\data\images\debris.bmp</Link>
+    <Content Include="assets\data\images\darkbitslogo_blink.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\dialogue.bmp">
-      <Link>assets\data\images\dialogue.bmp</Link>
+    <Content Include="assets\data\images\darken.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\doctor_green_portrait.bmp">
-      <Link>assets\data\images\doctor_green_portrait.bmp</Link>
+    <Content Include="assets\data\images\debris.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\door.bmp">
-      <Link>assets\data\images\door.bmp</Link>
+    <Content Include="assets\data\images\dialogue.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\entities.bmp">
-      <Link>assets\data\images\entities.bmp</Link>
+    <Content Include="assets\data\images\doctor_green_portrait.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\fade.bmp">
-      <Link>assets\data\images\fade.bmp</Link>
+    <Content Include="assets\data\images\door.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\font.bmp">
-      <Link>assets\data\images\font.bmp</Link>
+    <Content Include="assets\data\images\entities.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\hand.bmp">
-      <Link>assets\data\images\hand.bmp</Link>
+    <Content Include="assets\data\images\fade.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\hero_fall.bmp">
-      <Link>assets\data\images\hero_fall.bmp</Link>
+    <Content Include="assets\data\images\font.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\hero_hurt.bmp">
-      <Link>assets\data\images\hero_hurt.bmp</Link>
+    <Content Include="assets\data\images\hand.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\hero_jump.bmp">
-      <Link>assets\data\images\hero_jump.bmp</Link>
+    <Content Include="assets\data\images\hero_fall.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\hero_run.bmp">
-      <Link>assets\data\images\hero_run.bmp</Link>
+    <Content Include="assets\data\images\hero_hurt.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\hook.bmp">
-      <Link>assets\data\images\hook.bmp</Link>
+    <Content Include="assets\data\images\hero_jump.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\icons.bmp">
-      <Link>assets\data\images\icons.bmp</Link>
+    <Content Include="assets\data\images\hero_run.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\lavafill.bmp">
-      <Link>assets\data\images\lavafill.bmp</Link>
+    <Content Include="assets\data\images\hook.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\lavatop.bmp">
-      <Link>assets\data\images\lavatop.bmp</Link>
+    <Content Include="assets\data\images\icons.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\level_exit_background.bmp">
-      <Link>assets\data\images\level_exit_background.bmp</Link>
+    <Content Include="assets\data\images\lavafill.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\level_select.bmp">
-      <Link>assets\data\images\level_select.bmp</Link>
+    <Content Include="assets\data\images\lavatop copy.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\logo.bmp">
-      <Link>assets\data\images\logo.bmp</Link>
+    <Content Include="assets\data\images\lavatop.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\movinghooktile.bmp">
-      <Link>assets\data\images\movinghooktile.bmp</Link>
+    <Content Include="assets\data\images\lavatop.psd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\particles.bmp">
-      <Link>assets\data\images\particles.bmp</Link>
+    <Content Include="assets\data\images\level_exit_background.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\reactor_shell.bmp">
-      <Link>assets\data\images\reactor_shell.bmp</Link>
+    <Content Include="assets\data\images\level_select.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\robot.bmp">
-      <Link>assets\data\images\robot.bmp</Link>
+    <Content Include="assets\data\images\logo.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\rope.bmp">
-      <Link>assets\data\images\rope.bmp</Link>
+    <Content Include="assets\data\images\movinghooktile.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\saw.bmp">
-      <Link>assets\data\images\saw.bmp</Link>
+    <Content Include="assets\data\images\particles.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\selected_level_background.bmp">
-      <Link>assets\data\images\selected_level_background.bmp</Link>
+    <Content Include="assets\data\images\reactor_shell.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\software.bmp">
-      <Link>assets\data\images\software.bmp</Link>
+    <Content Include="assets\data\images\robot.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\ted_portrait.bmp">
-      <Link>assets\data\images\ted_portrait.bmp</Link>
+    <Content Include="assets\data\images\rope.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\tileset1.bmp">
-      <Link>assets\data\images\tileset1.bmp</Link>
+    <Content Include="assets\data\images\saw.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\title.bmp">
-      <Link>assets\data\images\title.bmp</Link>
+    <Content Include="assets\data\images\selected_level_background.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\unselected_level_background.bmp">
-      <Link>assets\data\images\unselected_level_background.bmp</Link>
+    <Content Include="assets\data\images\software.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\wall.bmp">
-      <Link>assets\data\images\wall.bmp</Link>
+    <Content Include="assets\data\images\ted_portrait.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\images\z_coin.bmp">
-      <Link>assets\data\images\z_coin.bmp</Link>
+    <Content Include="assets\data\images\tileset1.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\music\hiscore.xm">
-      <Link>assets\data\music\hiscore.xm</Link>
+    <Content Include="assets\data\images\title.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\music\intro2.xm">
-      <Link>assets\data\music\intro2.xm</Link>
+    <Content Include="assets\data\images\unselected_level_background.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\music\level_completed.xm">
-      <Link>assets\data\music\level_completed.xm</Link>
+    <Content Include="assets\data\images\wall.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\music\level_select.xm">
-      <Link>assets\data\music\level_select.xm</Link>
+    <Content Include="assets\data\images\z_coin.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\music\olof12.xm">
-      <Link>assets\data\music\olof12.xm</Link>
+    <Content Include="assets\data\music\gameover.xm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\music\olof2-rmx.xm">
-      <Link>assets\data\music\olof2-rmx.xm</Link>
+    <Content Include="assets\data\music\hiscore.xm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\music\olof3.xm">
-      <Link>assets\data\music\olof3.xm</Link>
+    <Content Include="assets\data\music\intro2.xm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\music\olof8.xm">
-      <Link>assets\data\music\olof8.xm</Link>
+    <Content Include="assets\data\music\level_completed.xm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\music\olof9.xm">
-      <Link>assets\data\music\olof9.xm</Link>
+    <Content Include="assets\data\music\level_select.xm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\music\spooky.xm">
-      <Link>assets\data\music\spooky.xm</Link>
+    <Content Include="assets\data\music\olof12.xm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\.DS_Store">
-      <Link>assets\data\rooms\.DS_Store</Link>
+    <Content Include="assets\data\music\olof2-rmx.xm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\data\music\olof3.xm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="assets\data\music\olof8.xm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\breaktilelevel.tmx">
-      <Link>assets\data\rooms\breaktilelevel.tmx</Link>
+    <Content Include="assets\data\music\olof9.xm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\breaktilelevel.txt">
-      <Link>assets\data\rooms\breaktilelevel.txt</Link>
+    <Content Include="assets\data\music\spooky.xm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\level1.tmx">
-      <Link>assets\data\rooms\level1.tmx</Link>
+    <Content Include="assets\data\rooms\breaktilelevel.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\level1.txt">
-      <Link>assets\data\rooms\level1.txt</Link>
+    <Content Include="assets\data\rooms\breaktilelevel.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\levellava.tmx">
-      <Link>assets\data\rooms\levellava.tmx</Link>
+    <Content Include="assets\data\rooms\level1.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\levellava.txt">
-      <Link>assets\data\rooms\levellava.txt</Link>
+    <Content Include="assets\data\rooms\level1.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\olof.tmx">
-      <Link>assets\data\rooms\olof.tmx</Link>
+    <Content Include="assets\data\rooms\levellava.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\olof.txt">
-      <Link>assets\data\rooms\olof.txt</Link>
+    <Content Include="assets\data\rooms\levellava.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\olof2.tmx">
-      <Link>assets\data\rooms\olof2.tmx</Link>
+    <Content Include="assets\data\rooms\olof.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\olof2.txt">
-      <Link>assets\data\rooms\olof2.txt</Link>
+    <Content Include="assets\data\rooms\olof.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\per1.tmx">
-      <Link>assets\data\rooms\per1.tmx</Link>
+    <Content Include="assets\data\rooms\olof2.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\per1.txt">
-      <Link>assets\data\rooms\per1.txt</Link>
+    <Content Include="assets\data\rooms\olof2.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\per2.tmx">
-      <Link>assets\data\rooms\per2.tmx</Link>
+    <Content Include="assets\data\rooms\per1.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\per2.txt">
-      <Link>assets\data\rooms\per2.txt</Link>
+    <Content Include="assets\data\rooms\per1.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\per3.tmx">
-      <Link>assets\data\rooms\per3.tmx</Link>
+    <Content Include="assets\data\rooms\per2.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\per3.txt">
-      <Link>assets\data\rooms\per3.txt</Link>
+    <Content Include="assets\data\rooms\per2.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\per4.tmx">
-      <Link>assets\data\rooms\per4.tmx</Link>
+    <Content Include="assets\data\rooms\per3.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\per4.txt">
-      <Link>assets\data\rooms\per4.txt</Link>
+    <Content Include="assets\data\rooms\per3.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\smalltestroom.tmx">
-      <Link>assets\data\rooms\smalltestroom.tmx</Link>
+    <Content Include="assets\data\rooms\per4.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\smalltestroom.txt">
-      <Link>assets\data\rooms\smalltestroom.txt</Link>
+    <Content Include="assets\data\rooms\per4.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\test.tmx">
-      <Link>assets\data\rooms\test.tmx</Link>
+    <Content Include="assets\data\rooms\smalltestroom.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\test.txt">
-      <Link>assets\data\rooms\test.txt</Link>
+    <Content Include="assets\data\rooms\smalltestroom.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\tutorial.tmx">
-      <Link>assets\data\rooms\tutorial.tmx</Link>
+    <Content Include="assets\data\rooms\test.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\rooms\tutorial.txt">
-      <Link>assets\data\rooms\tutorial.txt</Link>
+    <Content Include="assets\data\rooms\test.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\sounds\alarm.mp3">
-      <Link>assets\data\sounds\alarm.mp3</Link>
+    <Content Include="assets\data\rooms\tutorial.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\sounds\beep.mp3">
-      <Link>assets\data\sounds\beep.mp3</Link>
+    <Content Include="assets\data\rooms\tutorial.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\sounds\boot.mp3">
-      <Link>assets\data\sounds\boot.mp3</Link>
+    <Content Include="assets\data\sounds\alarm.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\sounds\boss_saw.mp3">
-      <Link>assets\data\sounds\boss_saw.mp3</Link>
+    <Content Include="assets\data\sounds\beep.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\sounds\coin.mp3">
-      <Link>assets\data\sounds\coin.mp3</Link>
+    <Content Include="assets\data\sounds\boot.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\sounds\damage.mp3">
-      <Link>assets\data\sounds\damage.mp3</Link>
+    <Content Include="assets\data\sounds\boss_saw.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\sounds\green_peace.mp3">
-      <Link>assets\data\sounds\green_peace.mp3</Link>
+    <Content Include="assets\data\sounds\coin.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\sounds\hook.mp3">
-      <Link>assets\data\sounds\hook.mp3</Link>
+    <Content Include="assets\data\sounds\damage.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\sounds\hurt.mp3">
-      <Link>assets\data\sounds\hurt.mp3</Link>
+    <Content Include="assets\data\sounds\green_peace.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\sounds\jump.mp3">
-      <Link>assets\data\sounds\jump.mp3</Link>
+    <Content Include="assets\data\sounds\hook.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\sounds\land.mp3">
-      <Link>assets\data\sounds\land.mp3</Link>
+    <Content Include="assets\data\sounds\hurt.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\sounds\no_hook.mp3">
-      <Link>assets\data\sounds\no_hook.mp3</Link>
+    <Content Include="assets\data\sounds\jump.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\sounds\reactor_explosion.mp3">
-      <Link>assets\data\sounds\reactor_explosion.mp3</Link>
+    <Content Include="assets\data\sounds\land.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\sounds\rope.mp3">
-      <Link>assets\data\sounds\rope.mp3</Link>
+    <Content Include="assets\data\sounds\no_hook.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\sounds\select.mp3">
-      <Link>assets\data\sounds\select.mp3</Link>
+    <Content Include="assets\data\sounds\reactor_explosion.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\sounds\start.mp3">
-      <Link>assets\data\sounds\start.mp3</Link>
+    <Content Include="assets\data\sounds\rope.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\sounds\time.mp3">
-      <Link>assets\data\sounds\time.mp3</Link>
+    <Content Include="assets\data\sounds\select.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\sounds\timeout.mp3">
-      <Link>assets\data\sounds\timeout.mp3</Link>
+    <Content Include="assets\data\sounds\start.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\dialogues\level_select.txt">
-      <Link>assets\data\dialogues\level_select.txt</Link>
+    <Content Include="assets\data\sounds\time.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\core\src\main\java\com\meros\playn\resources\data\dialogues\boss_unlocked.txt">
-      <Link>assets\data\dialogues\boss_unlocked.txt</Link>
+    <Content Include="assets\data\sounds\timeout.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="assets\" />
   </ItemGroup>
 </Project>
