@@ -12,7 +12,7 @@ namespace com.meros.playn
   public partial class AppDelegate : UIApplicationDelegate {
     public override bool FinishedLaunching (UIApplication app, NSDictionary options) {
       app.SetStatusBarHidden(true, true);
-      var pf = IOSPlatform.register(app, IOSPlatform.SupportedOrients.PORTRAITS);
+      var pf = IOSPlatform.register(app, IOSPlatform.SupportedOrients.LANDSCAPES);
       pf.assets().setPathPrefix("assets");
       PlayN.run(
 		new GreenGrappler(
