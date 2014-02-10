@@ -218,26 +218,30 @@ public class Input implements Keyboard.Listener, playn.core.Touch.Listener {
 	}
 
 	@Override
-	public void onKeyDown(Event event) {
+	public void onKeyDown(playn.core.Keyboard.Event event) {		
 		if (myKeyMap.containsKey(event.key())) {
 			if (!myIsHeld.contains(myKeyMap.get(event.key()))) {
-				event.setPreventDefault(true);
+				event.flags().setPreventDefault(true);
 				onButtonDown(myKeyMap.get(event.key()));
 			}
 		}
 	}
 
 	@Override
-	public void onKeyTyped(TypedEvent event) {
+	public void onKeyTyped(playn.core.Keyboard.TypedEvent event) {
 		// Do nothing
 	}
 
 	@Override
 	public void onKeyUp(Event event) {
 		if (myKeyMap.containsKey(event.key())) {
-			event.setPreventDefault(true);
+			event.flags().setPreventDefault(true);
 			onButtonUp(myKeyMap.get(event.key()));
 		}
+	}
+
+	@Override
+	public void onTouchCancel(playn.core.Touch.Event[] touches) {
 	}
 
 	@Override

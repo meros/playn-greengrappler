@@ -11,7 +11,8 @@ import playn.core.CanvasImage;
 import playn.core.Color;
 import playn.core.Image;
 import playn.core.PlayN;
-import playn.core.ResourceCallback;
+import playn.core.WatchedAssets;
+import playn.core.util.Callback;
 import se.darkbits.greengrappler.media.Animation;
 import se.darkbits.greengrappler.media.Font;
 
@@ -136,7 +137,8 @@ public class Resource {
 	}
 
 	public static boolean isDonePreloading() {
-		return assets().getPendingRequestCount() == 0;
+		WatchedAssets wa = new WatchedAssets(assets());
+		return wa.getPendingRequestCount() == 0;
 	}
 
 	public static void preLoad(String filename) {
@@ -149,15 +151,15 @@ public class Resource {
 	}
 
 	public static void preLoadText(final String filename) {
-		assets().getText(filename, new ResourceCallback<String>() {
-
+		WatchedAssets wa = new WatchedAssets(assets());
+		wa.getText(filename, new Callback<String>() {
 			@Override
-			public void done(String resource) {
-				Resource.injectText(filename, resource);
+			public void onSuccess(String result) {		
+				Resource.injectText(filename, result);
 			}
 
 			@Override
-			public void error(Throwable err) {
+			public void onFailure(Throwable cause) {			
 			}
 
 		});

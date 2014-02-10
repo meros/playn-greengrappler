@@ -22,7 +22,7 @@ import se.darkbits.greengrappler.screens.SplashScreen;
 import se.darkbits.greengrappler.screens.TitleScreen;
 
 
-public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
+public class GreenGrappler extends Game.Default implements Renderer, AbstractHitTranslator {
 
 	float fps = 0.0f;
 
@@ -40,6 +40,7 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 	long startTimeMillis = System.currentTimeMillis();
 
 	public GreenGrappler(boolean aFullScreen) {
+		super(1000 / Constants.TICKS_PER_SECOND);
 		myFullScreen = aFullScreen;
 	}
 
@@ -150,9 +151,9 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 			myScreenSizeX = PlayN.graphics().screenWidth();
 			myScreenSizeY = PlayN.graphics().screenHeight();
 
-			graphics().setSize(
-					myScreenSizeX,
-					myScreenSizeY);
+			//graphics().setSize(
+				//	myScreenSizeX,
+					//myScreenSizeY);
 
 			screenSizeChanged();
 		}
@@ -301,7 +302,7 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 	}
 
 	@Override
-	public void update(float delta) {
+	public void update(int delta) {
 		if (myReadyForUpdates) {
 			postPreloadUpdate();
 		} else if (Resource.isDonePreloading()) {
@@ -310,11 +311,6 @@ public class GreenGrappler implements Game, Renderer, AbstractHitTranslator {
 		}
 
 		Input.update();
-	}
-
-	@Override
-	public int updateRate() {
-		return 1000 / Constants.TICKS_PER_SECOND;
 	}
 
 	@Override
