@@ -7,6 +7,7 @@ import static playn.core.PlayN.log;
 import java.util.HashMap;
 import java.util.Map;
 
+import playn.core.AssetWatcher;
 import playn.core.CanvasImage;
 import playn.core.Color;
 import playn.core.Image;
@@ -137,22 +138,23 @@ public class Resource {
 	}
 
 	public static boolean isDonePreloading() {
-		WatchedAssets wa = new WatchedAssets(assets());
-		return wa.getPendingRequestCount() == 0;
+		return aw.isDone();
 	}
 
 	public static void preLoad(String filename) {
-		mPreloadedImages.put(filename, assets().getImage(filename));
+		PlayN.log().debug("Preloading " + filename);
+		Image image = assets().getImage(filename);
+		aw.add(image);
+		mPreloadedImages.put(filename, image);
 	}
 
 	public static void preLoadSound(String sound) {
 		PlayN.log().debug("Preloading " + sound);
-		assets().getSound(sound);
+		aw.add(assets().getSound(sound));
 	}
 
 	public static void preLoadText(final String filename) {
-		WatchedAssets wa = new WatchedAssets(assets());
-		wa.getText(filename, new Callback<String>() {
+		assets().getText(filename, new Callback<String>() {
 			@Override
 			public void onSuccess(String result) {		
 				Resource.injectText(filename, result);
@@ -164,6 +166,8 @@ public class Resource {
 
 		});
 	}
+	
+	static AssetWatcher aw = new AssetWatcher();
 
 	// static BITMAP* getBitmap(const std::string& filename, unsigned int
 	// color);

@@ -69,7 +69,6 @@ public class GreenGrapplerActivity extends GameActivity {
 			}
 		};
 
-		platform().assets().setPathPrefix("se/darkbits/greengrappler/resources");
 		PlayN.setLifecycleListener(new LifecycleListener() {
 
 			@Override
